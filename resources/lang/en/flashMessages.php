@@ -44,6 +44,8 @@ return [
     'publisher_created' => 'Publisher created successfully.',
     'publisher_deleted' => 'Publisher deleted successfully.',
     'publisher_updated' => 'Publisher updated successfully.',
+
+    // Report Mails
     'reportmail_created' => 'Reporting mail added successfully.',
     'reportmail_deleted' => 'Reporting mail deleted successfully.',
 

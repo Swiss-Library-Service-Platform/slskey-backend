@@ -144,7 +144,7 @@ class SlskeyGroup extends Model
             $permittedSlskeyGroups = $permittedSlskeyGroups->where('alma_iz', $almaIz);
         }
 
-        return $permittedSlskeyGroups  
+        return $permittedSlskeyGroups
             ->get()->map(function ($slskeyGroup) use ($slskeyUser) {
                 $activation = $slskeyUser ? $slskeyUser->slskeyActivations->where('slskey_group_id', $slskeyGroup->id)->first() : null;
 

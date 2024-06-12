@@ -31,8 +31,6 @@ class User extends Authenticatable
         'user_identifier', // either edu-ID primary ID or Username
         'display_name',
         'is_edu_id',
-        'alma_username',
-        'alma_institution',
         'password',
     ];
 

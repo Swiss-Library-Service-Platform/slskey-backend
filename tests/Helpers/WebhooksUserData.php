@@ -51,6 +51,7 @@ function getDeletedUserData(string $primaryId)
 function getUpdatedUserData(string $primaryId, string $status)
 {
     $user = getAlmaUserData($primaryId, $status);
+
     return [
         'event' => ['value' => AlmaEnums::EVENT_UPDATED],
         'institution' => ['value' => test()->almaInst],

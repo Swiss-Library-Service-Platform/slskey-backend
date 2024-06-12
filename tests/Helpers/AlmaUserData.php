@@ -36,6 +36,5 @@ function getAlmaUserData(string $primaryId, ?string $status = null)
                 'parameter' => []
             ]
         ],
-
     ];
 }

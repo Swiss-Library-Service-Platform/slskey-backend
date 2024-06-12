@@ -85,8 +85,6 @@ class AdminUsersController extends Controller
             'is_slsp_admin' => ['required', 'numeric'],
             'user_identifier' => ['required', 'max:255'],
             'display_name' => ['required', 'max:255'],
-            'alma_institution' => ['max:255'],
-            'alma_username' => ['max:255'],
         ]);
 
         // Check if is_edu_id is 0
@@ -130,8 +128,6 @@ class AdminUsersController extends Controller
             'is_slsp_admin' => ['required', 'numeric'],
             'user_identifier' => ['required', 'max:255'],
             'display_name' => ['required', 'max:255'],
-            'alma_institution' => ['max:255'],
-            'alma_username' => ['max:255'],
         ]));
 
         $this->managePermissions($adminUser);

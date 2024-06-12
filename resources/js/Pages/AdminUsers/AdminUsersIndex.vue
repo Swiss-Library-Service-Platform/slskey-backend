@@ -12,8 +12,6 @@
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.user_identifier') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.display_name') }} </th>
-                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.alma_username') }} </th>
-                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.alma_institution') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.permissions') }} </th>
                     </tr>
                 </thead>
@@ -30,16 +28,6 @@
                             <td class="align-top">
                                 <div class="flex px-6 py-3 whitespace-nowrap">
                                     {{ user.display_name }}
-                                </div>
-                            </td>
-                            <td class="align-top">
-                                <div class="flex px-6 py-3 whitespace-nowrap">
-                                    {{ user.alma_username }}
-                                </div>
-                            </td>
-                            <td class="align-top">
-                                <div class="flex px-6 py-3 whitespace-nowrap">
-                                    {{ user.alma_institution }}
                                 </div>
                             </td>
                             <td class="align-top">

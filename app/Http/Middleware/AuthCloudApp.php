@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthCloudApp
 {
-
     protected $almaApiService;
 
     /**
@@ -129,11 +128,6 @@ class AuthCloudApp
      */
     protected function findUserFromToken(object $token)
     {
-        /*
-        return User::where('alma_username', $token->sub)
-            ->where('alma_institution', $token->inst_code)
-            ->first();
-        */
         return User::where('user_identifier', $token->sub)->first();
     }
 
@@ -148,7 +142,7 @@ class AuthCloudApp
         $institution = $token->inst_code;
         $username = $token->sub;
 
-       //TODO: set different key depending on IZ
+        //TODO: set different key depending on IZ
 
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
 
@@ -193,9 +187,6 @@ class AuthCloudApp
      */
     protected function createOrUpdateUserWithPermissionsForSlskeyGroups(object $token, Collection $slskeyGroups)
     {
-        // 'user_identifier' => "Alma-$token->inst_code-$token->sub",
-        // 'alma_username' => $token->sub,
-        // 'alma_institution' => $token->inst_code,
         $user = User::updateOrCreate([
             'user_identifier' => $token->sub,
         ], [

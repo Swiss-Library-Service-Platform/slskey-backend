@@ -50,8 +50,6 @@ export default {
                 user_identifier: this.adminUser.data.user_identifier,
                 display_name: this.adminUser.data.display_name,
                 password: this.adminUser.data.password,
-                alma_institution: this.adminUser.data.alma_institution,
-                alma_username: this.adminUser.data.alma_username,
                 is_slsp_admin: this.adminUser.data.is_slsp_admin,
                 slskeyGroups: this.adminUser.data.slskeyGroups
             })

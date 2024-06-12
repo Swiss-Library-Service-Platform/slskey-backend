@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthCloudApp
 {
-
     protected $almaApiService;
 
     /**
@@ -143,7 +142,7 @@ class AuthCloudApp
         $institution = $token->inst_code;
         $username = $token->sub;
 
-       //TODO: set different key depending on IZ
+        //TODO: set different key depending on IZ
 
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
 

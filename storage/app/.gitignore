@@ -1,0 +1,5 @@
+*
+!public/
+!.gitignore
+!email_domain_lists
+!email_domain_lists/example.txt

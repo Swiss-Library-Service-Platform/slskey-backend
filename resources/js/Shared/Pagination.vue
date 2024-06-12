@@ -5,11 +5,11 @@
             <a :href="pages.links[0].url"
                 :class="pages.links[0].url ? 'hover:bg-gray-50 text-gray-700' : 'disabled text-gray-500'"
                 class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md  bg-white">
-                {{ $t('previous') }} </a>
+                {{ $t('pagination.previous') }} </a>
             <a :href="pages.links[pages.links.length - 1].url"
                 :class="pages.links[pages.links.length - 1].url ? 'hover:bg-gray-50 text-gray-700' : 'disabled text-gray-500'"
                 class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md bg-white">
-                {{ $t('next') }} </a>
+                {{ $t('pagination.next') }} </a>
         </div>
         <div class="hidden grow sm:flex">
             <div class="hidden w-full lg:grid-cols-3 sm:grid sm:grid-cols-4 items-center flex-wrap gap-y-2">
@@ -27,7 +27,7 @@
                             <Link :href="link.url" v-if="index === 0"
                                 class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 "
                                 :class="link.url ? 'hover:bg-gray-50' : 'disabled text-gray-200'">
-                            <span class="sr-only">{{ $t('previous') }}</span>
+                            <span class="sr-only">{{ $t('pagination.previous') }}</span>
                             <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
                             </Link>
                             <Link :href="link.url" v-else-if="index === pages.links.length - 1"

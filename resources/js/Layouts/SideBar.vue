@@ -45,7 +45,7 @@ defineProps({
 						<!-- Logout -->
 						<!--
 						<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
-							{{ $t('logout') }}
+							{{ $t('app_header.logout') }}
 						</NavLink>
 					-->
 
@@ -60,7 +60,7 @@ defineProps({
 						<!-- SLSKey Groups -->
 						<NavLink icon="book-open" :href="route('admin.history.index')"
 							:active="route().current('admin.history.index') || route().current('admin.history.show')">
-							{{ $t('slskey_histories.title') }}
+							{{ $t('history.title') }}
 						</NavLink>
 
 						<!-- Admin Users -->

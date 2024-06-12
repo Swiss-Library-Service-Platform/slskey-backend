@@ -23,7 +23,7 @@
 							<JetDropdownLink href="/logout/eduid">
 								<LogoutIcon class="h-4 w-4 mr-2" />
 								<div class="py-2">
-									{{ $t('logout') }}
+									{{ $t('app_header.logout') }}
 								</div>
 							</JetDropdownLink>
 						</form>

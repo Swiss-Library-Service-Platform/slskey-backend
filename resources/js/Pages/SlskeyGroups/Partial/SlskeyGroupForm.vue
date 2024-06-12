@@ -107,7 +107,7 @@
                                 </td>
 
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('delete')"
+                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('slskey_groups.delete_switch_group')"
                                         @click="removeGroup(switchGroup.id)" />
                                 </td>
                             </tr>
@@ -123,10 +123,10 @@
                 </table>
                 <div class="flex flex-row w-full items-center gap-x-8">
                     <SelectInput class="w-full" v-model="newSwitchGroup" :options="this.availableSwitchGroups.data"
-                        :placeholder="$t('switch_groups.name')">
+                        :placeholder="$t('slskey_groups.switch_groups')">
                     </SelectInput>
                     <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('reporting.settings.add')" />
+                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('slskey_groups.add_switch_group')" />
                 </div>
             </div>
             <div class="border-t border-b border-default-gray"></div>

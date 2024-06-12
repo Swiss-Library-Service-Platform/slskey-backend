@@ -52,7 +52,7 @@ defineProps({
 					class="text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70"
 					:href="$page.props.helpUrl" target="_blank" rel="noopener noreferrer">
 					<MaterialIcon class="mr-2" icon="help" size="18" />
-					{{ $t('help') }}
+					{{ $t('app_header.help') }}
 			</a>
 				<!-- Language Switch  -->
 				<LangSwitch v-if="!modePublic"></LangSwitch>

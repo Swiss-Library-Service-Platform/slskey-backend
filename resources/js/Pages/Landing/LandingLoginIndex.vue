@@ -49,13 +49,13 @@ const submit = () => {
                     <form class="w-full" @submit.prevent="submit">
 
                         <div class="w-full mb-4">
-                            <JetLabel for="user_identifier" value="Username" />
+                            <JetLabel for="user_identifier" :value="$t('landing.username')" />
                             <JetInput id="user_identifier" v-model="form.user_identifier" type="text"
                                 class="mt-1 block w-full" required autofocus />
                         </div>
 
                         <div class="w-full">
-                            <JetLabel for="password" value="Password" />
+                            <JetLabel for="password" :value="$t('landing.password')" />
                             <JetInput id="password" v-model="form.password" type="password" class="mt-1 block w-full"
                                 required autocomplete="current-password" />
                         </div>

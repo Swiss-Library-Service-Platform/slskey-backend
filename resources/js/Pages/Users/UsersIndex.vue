@@ -2,15 +2,14 @@
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
         <div class="flex py-5 items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SearchFilter v-model="form.search" :label="$t('slskey_user.search')" :placeholder="$t('search')" />
+                <SearchFilter v-model="form.search" :label="$t('user_management.search')" :placeholder="$t('user_management.search')" />
                 <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
-                    :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data"
-                    :placeholder="$t('type')" />
+                    :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
                 <SelectFilter v-model="form.status" :label="$t('user_management.status')" :options="getStatusOptions"
                     :placeholder="$t('user_management.status')" />
-                <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('start')"
+                <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_start')"
                     v-model="form.activation_start" />
-                <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('end')"
+                <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_end')"
                     v-model="form.activation_end" />
             </FilterControl>
             <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
@@ -30,7 +29,7 @@
                                 <Icon icon="arrow-up" v-if="form.sortBy === 'primary_id' && form.sortAsc"
                                     class="h-4 w-4" />
                                 <!-- {{ $t('slskey_user.primary_id') }} -->
-                                {{ $t('slskey_user.full_name') }}
+                                {{ $t('user_management.user_full_name') }}
                             </div>
                         </th>
                         <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> {{
@@ -130,12 +129,12 @@
                                     <div v-if="activation.activated && activation.expiration_disabled"
                                         class="italic text-gray-disabled flex flex-row items-center">
                                         <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>
-                                        {{ $t("activation.no_expiry_deactivated") }}
+                                        {{ $t("user_management.no_expiry_deactivated") }}
                                     </div>
                                     <div v-if="activation.activated && !activation.expiration_date && !activation.expiration_disabled"
                                         class="italic text-gray-disabled flex flex-row items-center">
                                         <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>
-                                        {{ $t("activation.no_expiry_webhook") }}
+                                        {{ $t("user_management.no_expiry_webhook") }}
                                     </div>
                                     <div v-else-if="activation.expiration_date && !activation.expiration_disabled"
                                         class="flex flex-row items-center">
@@ -170,7 +169,7 @@
                     </template>
                     <template v-else>
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $t('no_records') }}.</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $t('user_management.no_records') }}.</td>
                         </tr>
                     </template>
                 </tbody>

@@ -5,7 +5,7 @@
             <div class="flex gap-x-16">
                 <FilterControl @reset="reset" v-if="slskeyGroups.data.length > 1">
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
-                        :options="slskeyGroups.data" :placeholder="$t('type')" />
+                        :options="slskeyGroups.data" />
                 </FilterControl>
                 <TabFilter :tab1="$t('reporting.display_tab1')" :tab2="$t('reporting.display_tab2')" icon1="view-list"
                     icon2="chart-square-bar" :label="$t('reporting.display')" v-model="displayTab" />

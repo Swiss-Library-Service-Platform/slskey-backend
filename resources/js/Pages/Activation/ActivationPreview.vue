@@ -24,14 +24,14 @@
 
           <!-- Selection SLSKey Code -->
           <div class="text-2xl w-full flex justify-start">
-            {{ $t('slskey_groups.title') }}
+            {{ $t('activation.slskey_groups') }}
           </div>
 
           <div Xv-if="this.slskeyGroups.length > 1">
             <SelectActivationInput v-model="this.selectedSlskeyCode" :options="this.slskeyGroups" />
           </div>
 
-          <TextAreaInput v-model="inputRemark" :label="$t('user_management.remark_optional')" />
+          <TextAreaInput v-model="inputRemark" :label="$t('activation.remark_optional')" />
 
           <!-- Activation Button -->
           <ActionButton :disabled="!this.almaUser || !this.selectedSlskeyCode" :loading="loading"

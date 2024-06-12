@@ -9,7 +9,7 @@
             <!-- component -->
             <div class="w-full flex justify-between border-b px-8">
                 <ActionButton class="w-fit my-3 mr-8 px-8" @click.prevent="activate()" icon="key" :loading="loading">
-                    {{ $t('activation.new_activation') }}
+                    {{ $t('user_management.new_activation') }}
                 </ActionButton>
                 <ul class="flex flex-row">
                     <template v-for="(tab, index) in tabs" :key="index">
@@ -83,9 +83,9 @@ export default {
             activeTab: 0,
             showUserExlamation: false,
             tabs: [
-                this.$i18n.t('slskey_user.tabs.activation'),
-                this.$i18n.t('slskey_user.tabs.details'),
-                this.$i18n.t('slskey_user.tabs.history'),
+                this.$i18n.t('user_management.tabs.activation'),
+                this.$i18n.t('user_management.tabs.details'),
+                this.$i18n.t('user_management.tabs.history'),
             ]
         }
     },

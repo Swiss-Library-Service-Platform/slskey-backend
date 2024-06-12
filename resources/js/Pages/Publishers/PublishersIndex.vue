@@ -51,7 +51,7 @@
                     </template>
                     <template v-else>
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $t('no_publishers') }}.</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $t('publishers.no_records') }}.</td>
                         </tr>
                     </template>
                 </tbody>

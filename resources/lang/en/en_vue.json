@@ -1,49 +1,45 @@
 {
+	"app_header": {
+		"help": "Help",
+		"logout": "Logout"
+	},
 	"action_chip": {
-		"blocked":"Blocked",
-		"unblocked":"Unblocked",
-		"reactivated":"Reactivated",
-		"extended":"Extended",
-		"activated":"Activated",
-		"deactivated":"Deactivated",
-		"token_sent":"Token sent",
-		"expiration_enabled":"Expiration enabled",
-		"expiration_disabled":"Expiration disabled",
-		"reminded":"User reminded",
-		"notified":"User notified"
+		"blocked": "Blocked",
+		"unblocked": "Unblocked",
+		"reactivated": "Reactivated",
+		"extended": "Extended",
+		"activated": "Activated",
+		"deactivated": "Deactivated",
+		"token_sent": "Token sent",
+		"expiration_enabled": "Expiration enabled",
+		"expiration_disabled": "Expiration disabled",
+		"reminded": "User reminded",
+		"notified": "User notified"
 	},
 	"activation": {
+		"search": "Search",
 		"activate": "Activate",
 		"activate_new": "New User",
 		"activation_start": "Activate User",
 		"activation_start_info": "Search for an identifier in Alma",
-		"block": "Block",
-		"change_remark": "Change remark",
-		"deactivate": "Deactivate",
-		"disable_expiration": "Disable expiration",
-		"enable_expiration": "Enable expiration",
-		"new_activation": "Activate / Extend",
-		"no_expiry_webhook": "Deactivation via Alma",
-		"no_expiry_deactivated": "Expiration disabled",
-		"no_webhook_activation_mail": "Email revoked",
-		"no_remark": "None",
-		"select_group": "Select Group",
-		"title": "Activate",
-		"unblock": "Unblock",
-		"webhook_activation_mail": "Activated E-Mail"
+		"identifier": "User Identifier",
+		"remark_optional": "Remark (optional):",
+		"slskey_groups:": "SLSKey Groups",
+		"title": "Activate"
 	},
 	"admin_users": {
-		"alma_details": "Alma Cloud App User",
+		"add_slskey_group": "Add SLSKey Group",
+		"delete_slskey_group": "Remove SLSKey Group",
 		"cancel": "Cancel",
 		"create_new": "Create New User",
 		"delete": "Delete Admin User",
 		"delete_confirm": "Are you sure that you want to delete this user?",
 		"display_name": "Display Name",
 		"general": "General Details",
-		"give_permissions": "Give Permissions",
 		"initial_password": "Initial Password",
 		"is_edu_id": "Login via Switch edu-ID",
 		"no_slskeygroups": "No Permissions yet",
+		"no_records": "No users found",
 		"user_identifier": "Identifier (Username or edu-ID)",
 		"user_identifier_username": "Username",
 		"user_identifier_eduid": "edu-ID Identifier",
@@ -53,34 +49,28 @@
 		"reset_password": "Reset Password",
 		"save": "Save User",
 		"slsp_admin": "SLSP Admin",
-		"title": "Admin Users",
-		"remove_permissions": "Remove"
+		"title": "Admin Users"
 	},
 	"admin_import": {
 		"title": "Mass Import"
 	},
-	"data_protection": "Data protection",
-	"delete": "Delete",
-	"eduid_status": "Edu-ID Status",
-	"end": "End",
-	"English": "English",
-	"German": "German",
-	"help": "Help",
 	"history": {
 		"action": "Event",
 		"author": "Author",
 		"date": "Date",
 		"no_history": "No history",
 		"message": "Error",
+		"search": "Search",
 		"time": "Time",
 		"trigger": "Trigger",
-		"workflow": "Workflow"
+		"title": "History Log"
 	},
 	"landing": {
 		"login": "Login",
 		"orvia": "or",
 		"service": "a service provided by ",
-		"usernamepassword": "username and password"
+		"username": "Username",
+		"password": "Password"
 	},
 	"languages": {
 		"english": "English",
@@ -88,37 +78,35 @@
 		"german": "German",
 		"italian": "Italian"
 	},
-	"legal_information": "Legal information",
-	"login": {
-		"login": "Login",
-		"back": "Back"
-	},
-	"logout": "Logout",
-	"next": "Next",
-	"no_records": "No users found",
 	"pagination": {
 		"empty": "{0} results",
 		"perPage": "Items per page",
-		"show": "Showing {0} to {1} of {2}"
+		"next": "Next",
+		"show": "Showing {0} to {1} of {2}",
+		"previous": "Previous"
 	},
-	"previous": "Previous",
 	"publishers": {
+		"add_switch_group": "Add Switch Group",
+		"delete_switch_group": "Remove Switch Group",
 		"cancel": "Cancel",
 		"create_new": "Create Publisher",
 		"delete": "Delete Publisher",
-		"delete_confirm":"Are you sure that you want to delete this publisher?",
+		"delete_confirm": "Are you sure that you want to delete this publisher?",
 		"general": "General Details",
 		"internal_note": "Internal Note",
 		"entity_id": "Entity ID",
 		"name": "Publisher",
-		"no_publishers": "No Publishers yet",
+		"no_records": "No Publishers yet",
+		"no_switch_groups": "No Switch Groups affiliated",
 		"protocol": "Protocol",
 		"save": "Save Publisher",
 		"status": "Status",
 		"switch_groups": "Switch Groups",
+		"slskey_groups": "SLSKey Groups",
 		"title": "Publishers"
 	},
 	"reactivation_token": {
+		"title": "Activate",
 		"token_expired": {
 			"headline": "This activation token has expired.",
 			"token_expired_1": "The token for your SLSKey extension has expired after 2 months.",
@@ -143,7 +131,6 @@
 	},
 	"reporting": {
 		"activations": "Activations",
-		"add_recipient": "Add E-Mail Recipient",
 		"blocks": "Blocks",
 		"change_settings": "Mail Report Settings",
 		"date": "Added on",
@@ -163,12 +150,13 @@
 		"reactivations": "Reactivations",
 		"recipients": "Current E-Mail Recipients",
 		"settings": {
-			"add": "Add",
+			"add": "Add Recipient",
 			"delete_recipient": "delete this recipient"
 		}
 	},
-	"search": "Search",
 	"slskey_groups": {
+		"add_switch_group": "Add SLSKey Group",
+		"delete_switch_group": "Remove SLSKey Group",
 		"active_user_count": "# Active Users",
 		"alma_iz": "Alma IZ Code",
 		"cancel": "Cancel",
@@ -176,14 +164,13 @@
 		"days_activation_duration": "Days until Expiration",
 		"days_expiration_reminder": "Reminder Time (Days before Expiry)",
 		"days_expiration_reminder_placeholder": "No reminder",
-		"deactivation_details": "Deactivation Details",
 		"delete": "Delete Group",
 		"delete_confirm": "Are you sure that you want to delete this group?",
 		"expiration_details": "Expiration Details",
 		"general": "General Details",
-		"manual": "Manual",
 		"name": "Name",
 		"no_switch_groups": "No Switch Groups affiliated",
+		"no_records": "No users found",
 		"save": "Update SLSKey Group",
 		"send_activation_mail": "Send Activation Notify Mail",
 		"slskey_code": "SLSKey Code",
@@ -191,7 +178,6 @@
 		"switch_groups": "Switch Groups",
 		"switch_groups_count": "# Switch Groups",
 		"title": "SLSKey Groups",
-		"webhook": "Webhook",
 		"webhook_activation_details": "Activation & Deactivation",
 		"webhook_custom_verifier": "Activate & Deactivate User based on Verifier",
 		"webhook_custom_verifier_class": "Verifier Class",
@@ -205,15 +191,10 @@
 		"webhook_secret": "Webhook Secret",
 		"workflow": "Workflow"
 	},
-	"slskey_histories": {
-		"title": "History Log"
-	},
-	"start": "Start",
 	"switch_groups": {
 		"cancel": "Cancel",
 		"create_new": "Create Switch Group",
 		"general": "General Details",
-		"id": "ID",
 		"members_count": "Number of active edu-ID Accounts",
 		"members_count_title": "Accounts",
 		"name": "Name",
@@ -226,47 +207,49 @@
 		"switch_group_id": "Switch Group ID",
 		"title": "Switch Groups"
 	},
-	"type": "Type",
-	"slskey_user": {
+	"alma_user": {
 		"alma_details": "Alma details",
-		"details": "User information",
 		"email": "E-mail",
 		"first_name": "First name",
-		"full_name": "User Name",
-		"identifier": "User Identifier",
 		"last_name": "Last name",
-		"name": "Name",
 		"not_found": "No user found in Alma",
-		"no_activations": "No activations in SLSKey",
-		"password": "Password",
-		"primary_id": "Primary ID",
-		"preferred_language": "Language",
-		"search": "User Name / Identifier",
-		"tabs": {
-			"activation": "Activations",
-			"details": "User Details",
-			"history": "History"
-		}
+		"preferred_language": "Language"
+	},
+	"slskey_user": {
+		"primary_id": "Primary ID"
 	},
 	"user_management": {
-		"action": "Action",
-		"active": "Activated",
 		"activation": "Activation",
 		"activation_date": "Activation Date",
-		"blocked": "Blocked",
-		"blocked_date": "Blocked",
-		"deactivated": "Deactivated",
-		"deactivation_date": "Deactivated",
+		"activation_end": "End",
+		"activation_start": "Start",
 		"expiration_date": "Expiration Date",
 		"export": "Export List",
+		"no_expiry_webhook": "Deactivation via Alma",
+		"new_activation": "Activate / Extend",
+		"disable_expiration": "Disable expiration",
+		"deactivate": "Deactivate",
+		"block": "Block",
+		"unblock": "Unblock",
+		"no_expiry_deactivated": "Expiration disabled",
+		"no_webhook_activation_mail": "Email revoked",
+		"no_remark": "None",
+		"webhook_activation_mail": "Activated E-Mail",
+		"enable_expiration": "Enable expiration",
 		"remark": "Remark",
-		"remark_optional": "Remark (optional):",
+		"search": "User Name / Identifier",
 		"switch_status": "Switch Status",
 		"switch_status_active": "Active",
 		"switch_status_inactive": "Inactive",
 		"status": "Status",
-		"title": "User Management"
+		"title": "User Management",
+		"no_records": "No users found",
+		"tabs": {
+			"activation": "Activations",
+			"details": "User Details",
+			"history": "History"
+		},
+		"user_full_name": "User Name"
 	},
-	"welcome": "Welcome",
-	"yes": "Yes"
+	"eduid_status": "Edu-ID Status"
 }

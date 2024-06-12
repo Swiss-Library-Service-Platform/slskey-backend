@@ -46,12 +46,13 @@
                         <!-- Dropdown links -->
 
                         <!-- Disable Expiration -->
+                        <!-- TODO: change confirmText in all places!! to i18n -->
                         <DefaultConfirmDropdownLink class="bg-color-deactivated py-1"
                           v-if="activation.activated && !activation.expiration_disabled" :activation="activation"
                           :enterRemark="false" confirmText="disable the automatic expiration of this user"
                           @confirmed="disableExpiration" :disabled="activation.slskey_group.workflow === 'Webhook'">
                           <Icon icon="clock" class="h-4 w-4"></Icon>
-                          {{ $t('activation.disable_expiration') }}
+                          {{ $t('user_management.disable_expiration') }}
                         </DefaultConfirmDropdownLink>
 
                         <!-- Enable Expiration -->
@@ -61,7 +62,7 @@
                             ('The new expiration date will be set to ' + activation.slskey_group.days_activation_duration + ' days in the future.')
                             : ('The user will be deactivated via Alma Webhooks.')" @confirmed="enableExpiration">
                           <Icon icon="clock-solid" class="h-4 w-4"></Icon>
-                          {{ $t('activation.enable_expiration') }}
+                          {{ $t('user_management.enable_expiration') }}
                         </DefaultConfirmDropdownLink>
 
                         <!-- Deactivate User -->
@@ -69,7 +70,7 @@
                           :activation="activation" confirmText="deactivate this user" @confirmed="deactivate"
                           :disabled="activation.slskey_group.workflow === 'Webhook'">
                           <Icon icon="x" class="h-4 w-4"></Icon>
-                          {{ $t('activation.deactivate') }}
+                          {{ $t('user_management.deactivate') }}
                         </DefaultConfirmDropdownLink>
 
                         <!-- Block User -->
@@ -77,14 +78,14 @@
                           :activation="activation" confirmText="block this user" @confirmed="block"
                           confirmText2="The user cannot be activated for this SLSKey group until the block is removed!">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
-                          {{ $t('activation.block') }}
+                          {{ $t('user_management.block') }}
                         </DefaultConfirmDropdownLink>
 
                         <!-- Unblock User -->
                         <DefaultConfirmDropdownLink v-if="!!activation.blocked" class="bg-color-blocked py-1"
                           :activation="activation" confirmText="unblock this user" @confirmed="unblock">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
-                          {{ $t('activation.unblock') }}
+                          {{ $t('user_management.unblock') }}
                         </DefaultConfirmDropdownLink>
                       </template>
                     </JetDropdown>
@@ -104,7 +105,7 @@
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
-                {{ $t("activation.webhook_activation_mail") }}:
+                {{ $t("user_management.webhook_activation_mail") }}:
               </div>
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
@@ -115,7 +116,7 @@
                 <div v-if="activation.slskey_group.webhook_mail_activation && !activation.webhook_activation_mail"
                   class="italic text-gray-disabled flex flex-row items-center">
                   <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
-                  {{ $t("activation.no_webhook_activation_mail") }}
+                  {{ $t("user_management.no_webhook_activation_mail") }}
                 </div>
               </td>
             </template>
@@ -149,11 +150,11 @@
 
               <td class="px-6 py-4">
                 <div v-if="activation.activated && activation.expiration_disabled" class="italic text-gray-disabled">
-                  {{ $t("activation.no_expiry_deactivated") }}
+                  {{ $t("user_management.no_expiry_deactivated") }}
                 </div>
                 <div v-if="activation.activated && !activation.expiration_date && !activation.expiration_disabled"
                   class="italic text-gray-disabled">
-                  {{ $t("activation.no_expiry_webhook") }}
+                  {{ $t("user_management.no_expiry_webhook") }}
                 </div>
                 <div v-else-if="activation.expiration_date && !activation.expiration_disabled">
                   {{ formatDate(activation.expiration_date) }}
@@ -175,7 +176,7 @@
                   {{ activation.remark }}
                 </div>
                 <div v-else class="italic text-gray-disabled">
-                  {{ $t("activation.no_remark") }}
+                  {{ $t("user_management.no_remark") }}
                 </div>
               </td>
             </template>
@@ -206,11 +207,6 @@
 
               </td>
             </template>
-          </tr>
-        </template>
-        <template v-else>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">{{ $t("no_records") }}.</td>
           </tr>
         </template>
       </tbody>

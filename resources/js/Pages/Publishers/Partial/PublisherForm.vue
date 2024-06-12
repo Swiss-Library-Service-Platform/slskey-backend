@@ -5,7 +5,7 @@
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 gap-8">
                 <!-- Name -->
-                <text-input v-model="form.name" :error="form.errors.name" :label="`${$t('slskey_groups.name')} *`" />
+                <text-input v-model="form.name" :error="form.errors.name" :label="`${$t('publishers.slskey_groups')} *`" />
                 <!-- Login Url -->
                 <text-input v-model="form.entity_id" :error="form.errors.entity_id"
                     :label="`${$t('publishers.entity_id')}`" />
@@ -41,14 +41,14 @@
                                 </td>
 
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('delete')"
+                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('publishers.delete_switch_group')"
                                         @click="removeGroup(switchGroup.id)" />
                                 </td>
                             </tr>
                         </template>
                         <template v-else>
                             <tr>
-                                <td class="pl-6 py-2 whitespace-nowrap italic">{{ $t('slskey_groups.no_switch_groups')
+                                <td class="pl-6 py-2 whitespace-nowrap italic">{{ $t('publishers.no_switch_groups')
                                 }}.</td>
                             </tr>
                         </template>
@@ -57,10 +57,10 @@
                 </table>
                 <div class="flex flex-row w-full items-center gap-x-8">
                     <SelectInput class="w-full" v-model="newSwitchGroup" :options="this.availableSwitchGroups.data"
-                        :placeholder="$t('switch_groups.name')">
+                        :placeholder="$t('publishers.switch_groups')">
                     </SelectInput>
                     <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('reporting.settings.add')" />
+                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('publishers.add_switch_group')" />
                 </div>
             </div>
             <div class="border-t border-b border-default-gray"></div>
@@ -168,8 +168,8 @@ export default {
         },
         getWorkflowOptions() {
             return [
-                { value: 'Manual', name: this.$t('slskey_groups.manual') },
-                { value: 'Webhook', name: this.$t('slskey_groups.webhook') }
+                { value: 'Manual', name: 'Manual' },
+                { value: 'Webhook', name: 'Webhook' }
             ]
         },
         removeGroup(id) {

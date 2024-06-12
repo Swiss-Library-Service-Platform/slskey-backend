@@ -14,14 +14,14 @@ TODO: Laravel Octane
       - vllt mit Docker
       - und dann Continous Deployment
 
-________________________________________________________________________
-Improvements:
-
-TODO: Internalization i18n Texts
+_______
 
 TODO: persist selected language
 
-TODO: Participage page: Motiviation / Vorteile aufzählen
+________________________________________________________________________
+Nice to have:
+
+TODO: Participage page: Motivation / Vorteile aufzählen
 
 TODO: Wrap activation in Transaction
       -> mock a transaction for switch service api

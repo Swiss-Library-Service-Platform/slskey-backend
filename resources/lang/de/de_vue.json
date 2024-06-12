@@ -1,3 +1,255 @@
 {
-	"todo": "add later"
+	"activation": {
+		"activate": "Aktivieren",
+		"activate_new": "Neuer Benutzer",
+		"activation_start": "Benutzer aktivieren",
+		"activation_start_info": "Suche nach einem Identifier in Alma",
+		"identifier": "Benutzer Identifier",
+		"remark_optional": "Anmerkung (optional):",
+		"search": "Suche",
+		"slskey_groups:": "SLSKey Gruppen",
+		"title": "Aktivieren"
+	},
+	"action_chip": {
+		"activated": "Aktiviert",
+		"blocked": "Blockiert",
+		"deactivated": "Deaktiviert",
+		"expiration_disabled": "Ablauf deaktiviert",
+		"expiration_enabled": "Ablauf aktiviert",
+		"extended": "Verlängert",
+		"notified": "Benutzer benachrichtigt",
+		"reactivated": "Reaktiviert",
+		"reminded": "Benutzer erinnert",
+		"token_sent": "Token gesendet",
+		"unblocked": "Entblockiert"
+	},
+	"admin_import": {
+		"title": "Massenimport"
+	},
+	"admin_users": {
+		"add_slskey_group": "SLSKey Gruppe hinzufügen",
+		"cancel": "Abbrechen",
+		"create_new": "Neuen Benutzer erstellen",
+		"delete": "Admin-Benutzer löschen",
+		"delete_confirm": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
+		"delete_slskey_group": "SLSKey Gruppe entfernen",
+		"display_name": "Anzeigename",
+		"general": "Allgemeine Details",
+		"initial_password": "Erstes Passwort",
+		"is_edu_id": "Anmeldung über Switch edu-ID",
+		"no_records": "Keine Benutzer gefunden",
+		"no_slskeygroups": "Keine Berechtigungen vorhanden",
+		"permission_groups": "Aktive Berechtigungen",
+		"permission_groups_add": "Berechtigungen hinzufügen",
+		"permissions": "Berechtigungen",
+		"reset_password": "Passwort zurücksetzen",
+		"save": "Benutzer speichern",
+		"slsp_admin": "SLSP Administrator",
+		"title": "Admin-Benutzer",
+		"user_identifier": "Identifier (Benutzername oder edu-ID)",
+		"user_identifier_eduid": "edu-ID Identifier",
+		"user_identifier_username": "Benutzername"
+	},
+	"alma_user": {
+		"alma_details": "Alma Details",
+		"email": "E-Mail",
+		"first_name": "Vorname",
+		"last_name": "Nachname",
+		"not_found": "Kein Benutzer in Alma gefunden",
+		"preferred_language": "Sprache"
+	},
+	"app_header": {
+		"help": "Hilfe",
+		"logout": "Abmelden"
+	},
+	"eduid_status": "Edu-ID Status",
+	"history": {
+		"action": "Ereignis",
+		"author": "Autor",
+		"date": "Datum",
+		"message": "Fehler",
+		"no_history": "Keine Historie",
+		"search": "Suche",
+		"time": "Zeit",
+		"title": "Historie Log",
+		"trigger": "Auslöser"
+	},
+	"landing": {
+		"login": "Anmelden",
+		"orvia": "oder",
+		"password": "Passwort",
+		"service": "ein Service bereitgestellt von ",
+		"username": "Benutzername"
+	},
+	"languages": {
+		"english": "Englisch",
+		"french": "Französisch",
+		"german": "Deutsch",
+		"italian": "Italienisch"
+	},
+	"pagination": {
+		"empty": "{0} Ergebnisse",
+		"next": "Nächste",
+		"perPage": "Elemente pro Seite",
+		"previous": "Vorherige",
+		"show": "Zeige {0} bis {1} von {2}"
+	},
+	"publishers": {
+		"add_switch_group": "Switch Gruppe hinzufügen",
+		"cancel": "Abbrechen",
+		"create_new": "Verleger erstellen",
+		"delete": "Verleger löschen",
+		"delete_confirm": "Sind Sie sicher, dass Sie diesen Verleger löschen möchten?",
+		"delete_switch_group": "Switch Gruppe entfernen",
+		"entity_id": "Entitäts-ID",
+		"general": "Allgemeine Details",
+		"internal_note": "Interne Notiz",
+		"name": "Verleger",
+		"no_records": "Keine Verleger vorhanden",
+		"no_switch_groups": "Keine zugehörigen Switch Gruppen",
+		"protocol": "Protokoll",
+		"save": "Verleger speichern",
+		"slskey_groups": "SLSKey Gruppen",
+		"status": "Status",
+		"switch_groups": "Switch Gruppen",
+		"title": "Verleger"
+	},
+	"reactivation_token": {
+		"title": "Aktivieren",
+		"token_expired": {
+			"headline": "Dieser Aktivierungstoken ist abgelaufen.",
+			"token_expired_1": "Der Token für Ihre SLSKey Verlängerung ist nach 2 Monaten abgelaufen.",
+			"token_expired_2": "Um Ihren SLSKey Zugang zu erneuern, müssen Sie einen neuen Token an Ihre E-Mail-Adresse senden.",
+			"token_expired_link_1": "Klicken Sie hier",
+			"token_expired_link_2": "um einen neuen Verlängerungslink zu senden an"
+		},
+		"token_failed": {
+			"contact": "Bitte kontaktieren Sie Ihre Institution für weitere Unterstützung.",
+			"failed_token": "Fehlgeschlagener Token",
+			"headline": "Die Verlängerung Ihres SLSKey Aktivierung ist fehlgeschlagen."
+		},
+		"token_renewed": {
+			"headline": "Erfolg!",
+			"renewed": "Ein neuer Aktivierungstoken wurde an Ihre E-Mail gesendet."
+		},
+		"token_success": {
+			"headline": "Erfolg!",
+			"success_1": "Ihre SLSKey Aktivierung wurde verlängert.",
+			"success_2": "Ihre Aktivierung ist gültig bis"
+		}
+	},
+	"reporting": {
+		"activations": "Aktivierungen",
+		"blocks": "Blockierungen",
+		"change_settings": "E-Mail Berichtseinstellungen",
+		"date": "Hinzugefügt am",
+		"deactivations": "Deaktivierungen",
+		"display": "Anzeigen",
+		"display_tab1": "Liste",
+		"display_tab2": "Diagramm",
+		"email": "E-Mail-Adresse",
+		"extensions": "Verlängerungen",
+		"info": "E-Mail-Adressen für den monatlichen Bericht:",
+		"month": "Monat",
+		"monthly_change": "Monatliche Änderung",
+		"new_users": "Neue Benutzer",
+		"no_emails": "Keine E-Mail-Empfänger bisher",
+		"recipients": "Aktuelle E-Mail-Empfänger",
+		"settings": {
+			"add": "Empfänger hinzufügen",
+			"delete_recipient": "diesen Empfänger löschen"
+		},
+		"title": "Berichte",
+		"total_activations": "Aktive Benutzer",
+		"reactivations": "Reaktivierungen"
+	},
+	"slskey_groups": {
+		"add_switch_group": "SLSKey Gruppe hinzufügen",
+		"delete_switch_group": "SLSKey Gruppe entfernen",
+		"active_user_count": "# Aktive Benutzer",
+		"alma_iz": "Alma IZ Code",
+		"cancel": "Abbrechen",
+		"create_new": "SLSKey Gruppe erstellen",
+		"days_activation_duration": "Tage bis zum Ablauf",
+		"days_expiration_reminder": "Erinnerungszeit (Tage vor Ablauf)",
+		"days_expiration_reminder_placeholder": "Keine Erinnerung",
+		"delete": "Gruppe löschen",
+		"delete_confirm": "Sind Sie sicher, dass Sie diese Gruppe löschen möchten?",
+		"expiration_details": "Ablaufdetails",
+		"general": "Allgemeine Details",
+		"name": "Name",
+		"no_records": "Keine Benutzer gefunden",
+		"no_switch_groups": "Keine zugehörigen Switch Gruppen",
+		"save": "SLSKey Gruppe aktualisieren",
+		"send_activation_mail": "Aktivierungsbenachrichtigung senden",
+		"slskey_code": "SLSKey Code",
+		"slskey_code_description": "SLSKey Gruppe",
+		"switch_groups": "Switch Gruppen",
+		"switch_groups_count": "# Switch Gruppen",
+		"title": "SLSKey Gruppen",
+		"webhook_activation_details": "Aktivierung & Deaktivierung",
+		"webhook_custom_verifier": "Benutzer basierend auf Verifier aktivieren & deaktivieren",
+		"webhook_custom_verifier_class": "Verifier Klasse",
+		"webhook_custom_verifier_help": "Benutzerdefinierte Verifier sind im Projekt unter App/Helpers/CustomWebhookVerifier gespeichert. Sie können dort neue Verifier hinzufügen.",
+		"webhook_details": "Webhook Details",
+		"webhook_mail_activation": "Benutzer basierend auf E-Mail aktivieren (MBA-Community)",
+		"webhook_mail_activation_days_send_before_expiry": "Token E-Mail Zeit (Tage vor Ablauf)",
+		"webhook_mail_activation_days_token_validity": "Token Gültigkeit in Tagen",
+		"webhook_mail_activation_domains": "Mail Aktivierungs Domains",
+		"webhook_mail_activation_domains_help": "Die in diesem Feld verfügbaren Listen sind im Projekt unter /storage/app/email_domain_lists gespeichert. Sie können dort neue Listen hinzufügen.",
+		"webhook_secret": "Webhook Secret",
+		"workflow": "Workflow"
+	},
+	"slskey_user": {
+		"primary_id": "Primäre ID"
+	},
+	"switch_groups": {
+		"cancel": "Abbrechen",
+		"create_new": "Switch Gruppe erstellen",
+		"general": "Allgemeine Details",
+		"members_count": "Anzahl aktiver edu-ID Konten",
+		"members_count_title": "Konten",
+		"name": "Name",
+		"no_records": "Keine Switch Gruppen gefunden",
+		"publishers": "Verleger (Semikolon getrennt)",
+		"publishers_title": "Verleger",
+		"save": "Switch Gruppe speichern",
+		"slskey_groups": "SLSKey Gruppen",
+		"slskey_groups_count": "# SLSKey Gruppen",
+		"switch_group_id": "Switch Gruppen ID",
+		"title": "Switch Gruppen"
+	},
+	"user_management": {
+		"activation": "Aktivierung",
+		"activation_date": "Aktivierungsdatum",
+		"activation_end": "Ende",
+		"activation_start": "Start",
+		"block": "Blockieren",
+		"deactivate": "Deaktivieren",
+		"disable_expiration": "Ablauf deaktivieren",
+		"enable_expiration": "Ablauf aktivieren",
+		"expiration_date": "Ablaufdatum",
+		"export": "Liste exportieren",
+		"new_activation": "Aktivieren / Verlängern",
+		"no_expiry_deactivated": "Ablauf deaktiviert",
+		"no_expiry_webhook": "Deaktivierung über Alma",
+		"no_records": "Keine Benutzer gefunden",
+		"no_remark": "Keine",
+		"no_webhook_activation_mail": "E-Mail widerrufen",
+		"remark": "Anmerkung",
+		"search": "Benutzername / Identifier",
+		"status": "Status",
+		"switch_status": "Switch Status",
+		"switch_status_active": "Aktiv",
+		"switch_status_inactive": "Inaktiv",
+		"tabs": {
+			"activation": "Aktivierungen",
+			"details": "Benutzer Details",
+			"history": "Verlauf"
+		},
+		"title": "Benutzerverwaltung",
+		"unblock": "Entblockieren",
+		"user_full_name": "Benutzername",
+		"webhook_activation_mail": "Aktivierte E-Mail"
+	}
 }

@@ -14,7 +14,7 @@ it('fails renewing when token is not found', function () {
     $response->assertInertia(
         fn (AssertableInertia $page) => $page
         ->component('ReactivationToken/ReactivationError')
-        ->where('error', __('flashMessages.token_not_found'))
+        ->where('error', __('flashMessages.errors.tokens.not_found'))
         ->where('token', 'invalid-token')
     );
 });
@@ -35,7 +35,7 @@ it('fails renewing when token is not expired', function () {
     $response = $this->get("/reactivate/{$response->token}/renew");
     $response->assertInertia(function (AssertableInertia $page) {
         $page->component('ReactivationToken/ReactivationError')
-            ->where('error', __('flashMessages.token_not_expired'));
+            ->where('error', __('flashMessages.errors.tokens.not_expired'));
     });
 });
 
@@ -58,7 +58,7 @@ it('fails renewing when token activation mail is revoked', function () {
     $response = $this->get("/reactivate/{$response->token}/renew");
     $response->assertInertia(function (AssertableInertia $page) {
         $page->component('ReactivationToken/ReactivationError')
-            ->where('error', __('flashMessages.token_activation_mail_revoked'));
+            ->where('error', __('flashMessages.errors.tokens.activation_mail_revoked'));
     });
 });
 

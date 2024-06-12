@@ -19,10 +19,6 @@ Improvements:
 
 TODO: Internalization i18n Texts
 
-TODO: Success Message for activation:
-      - ausblenden oder einblenden?
-      - wie sieht man dann seine gruppen?
-
 TODO: Participage page: Motiviation / Vorteile aufzählen
 
 TODO: Wrap activation in Transaction

@@ -16,7 +16,7 @@ it('fails reactivation when token is not found', function () {
 
     $response->assertInertia(function (AssertableInertia $page) {
         $page->component('ReactivationToken/ReactivationError')
-            ->where('error', __('flashMessages.token_not_found'));
+            ->where('error', __('flashMessages.errors.tokens.not_found'));
     });
 });
 
@@ -93,7 +93,7 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
     $response = $this->get($responseTokenService->reactivationLink);
     $response->assertInertia(function (AssertableInertia $page) {
         $page->component('ReactivationToken/ReactivationError')
-            ->where('error', __('flashMessages.token_already_used'));
+            ->where('error', __('flashMessages.errors.tokens.already_used'));
     });
     assertUserActivationDeactivated($slskeyUser->primary_id, $slskeyGroup->slskey_code);
 });

@@ -143,7 +143,7 @@ class AuthCloudApp
         $username = $token->sub;
 
         //TODO: set different key depending on IZ
-
+        $this->almaApiService->setApiKey('XXX');
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
 
         if (!$almaServiceResponse->success) {

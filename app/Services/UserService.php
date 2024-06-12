@@ -682,7 +682,7 @@ class UserService
      */
     private function logAndReturnError(string $errorMessage, SlskeyHistory $slskeyHistory): UserServiceResponse
     {
-        $logMessage = __('flashMessages.errors.' . $errorMessage);
+        $logMessage = __('flashMessages.errors.activations.' . $errorMessage);
         $slskeyHistory->setErrorMessage($logMessage);
 
         // return new UserServiceResponse(false, $errorMessage);

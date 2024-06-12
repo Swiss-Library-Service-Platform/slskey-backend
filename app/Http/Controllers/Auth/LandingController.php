@@ -133,7 +133,7 @@ class LandingController extends Controller
         Session::flush();
 
         return Inertia::render('Landing/LandingLoginIndex', [
-            'flash.error' => 'You have no permissions. Please contact SLSP.',
+            'flash.error' => __('flashMessages.errors.permissions_missing'),
         ]);
     }
 

@@ -67,7 +67,7 @@ it('fails the activation, because primary is is not an edu id', function () {
     ]);
 
     $response->assertStatus(400);
-    $response->assertSeeText('Error: '.__('flashMessages.errors.no_edu_id'));
+    $response->assertSeeText('Error: '.__('flashMessages.errors.activations.no_edu_id'));
 });
 
 it('succeeds the activation & extension', function () {

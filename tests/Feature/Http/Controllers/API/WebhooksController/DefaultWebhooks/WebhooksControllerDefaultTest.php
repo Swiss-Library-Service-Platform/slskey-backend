@@ -51,7 +51,7 @@ it('fails webhook because of Activating a blocked user', function () {
     // Activate blocked user
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", getUpdatedUserData($slskeyUser->primary_id, AlmaEnums::USER_STATUS_ACTIVE));
     $response->assertStatus(400);
-    $response->assertSeeText('Activation Error: '.__('flashMessages.errors.user_blocked'));
+    $response->assertSeeText('Activation Error: '.__('flashMessages.errors.activations.user_blocked'));
     assertUserActivationBlocked($slskeyUser->primary_id, $this->slskeyCode);
 });
 

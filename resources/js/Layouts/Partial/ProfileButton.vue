@@ -2,7 +2,7 @@
     <Menu as="div" class="relative inline-block text-left">
         <div>
             <MenuButton v-on:pointerenter="isShowing = true" v-on:pointerleave="isShowing = false"
-                class="gtouch-none text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
+                class="gtouch-none whitespace-nowrap text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
                 <Icon icon="user-circle" class="w-6 mr-2"></Icon>
 
                 {{ $page.props.user.display_name }}

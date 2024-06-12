@@ -497,7 +497,7 @@ class SwitchAPIService implements SwitchAPIInterface
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Users?filter=externalID eq '.$externalId);
         if ($statusCode != 200) {
-            throw new \Exception("switch_user_not_found");
+            throw new \Exception();
         }
 
         return $responseBody;

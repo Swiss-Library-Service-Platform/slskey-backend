@@ -72,7 +72,7 @@ class AlmaAPIService implements AlmaAPIInterface
             if ($response instanceof DOMDocument) {
                 $errorText = $response->getElementsByTagName('errorMessage')->item(0)->nodeValue;
             } elseif ($response->errorsExist) {
-                $errorText = $response->errorList->error->errorMessage;
+                $errorText = $response->errorList->error[0]->errorMessage;
             }
 
             return new AlmaServiceResponse(false, $statusCode, null, $errorText);

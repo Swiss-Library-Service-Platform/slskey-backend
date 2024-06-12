@@ -199,7 +199,9 @@ class UserService
         }
 
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
-        $message = __("flashMessages.$messageCode") . ' ' . $successMessage;
+
+        // $message = __("flashMessages.$messageCode") . ': ' . $successMessage;
+        $message = __("flashMessages.$messageCode");
 
         return new UserServiceResponse(true, $message);
     }

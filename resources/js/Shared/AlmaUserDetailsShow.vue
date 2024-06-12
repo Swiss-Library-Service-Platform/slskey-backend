@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="!loading">
-      <div class="flex flex-row">
+      <div v-if="this.almaUser" class="flex flex-row">
         <div class="flex flex-col text-left mr-8">
           <span>{{ $t("slskey_user.first_name") }}:</span>
           <span>{{ $t("slskey_user.last_name") }}:</span>

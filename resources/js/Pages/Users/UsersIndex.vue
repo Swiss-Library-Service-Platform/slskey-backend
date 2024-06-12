@@ -1,4 +1,3 @@
-
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
         <div class="flex py-5 items-end justify-between flex-wrap">
@@ -28,18 +27,20 @@
                             <div class="flex flex-row items-center">
                                 <Icon icon="arrow-down" v-if="form.sortBy === 'primary_id' && !form.sortAsc"
                                     class="h-4 w-4" />
-                                <Icon icon="arrow-up" v-if="form.sortBy === 'primary_id' && form.sortAsc" class="h-4 w-4" />
+                                <Icon icon="arrow-up" v-if="form.sortBy === 'primary_id' && form.sortAsc"
+                                    class="h-4 w-4" />
                                 <!-- {{ $t('slskey_user.primary_id') }} -->
                                 {{ $t('slskey_user.full_name') }}
                             </div>
-                        </th>                          
+                        </th>
                         <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> {{
                             $t('slskey_groups.slskey_code_description') }} </th>
                         <!-- Mode: Webhook / Manual -->
                         <!--
                         <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> Mode </th>
                         -->
-                        <th @click="sort('activation_date')" class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
+                        <th @click="sort('activation_date')"
+                            class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
                             <div class="flex flex-row items-center">
                                 <Icon icon="arrow-down" v-if="form.sortBy === 'activation_date' && !form.sortAsc"
                                     class="h-4 w-4" />
@@ -48,7 +49,8 @@
                                 {{ $t('user_management.activation_date') }}
                             </div>
                         </th>
-                        <th @click="sort('expiration_date')" class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
+                        <th @click="sort('expiration_date')"
+                            class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
                             <div class="flex flex-row items-center">
                                 <Icon icon="arrow-down" v-if="form.sortBy === 'expiration_date' && !form.sortAsc"
                                     class="h-4 w-4" />
@@ -64,8 +66,7 @@
                     <template v-if="slskeyUsers.data.length > 0">
                         <template v-for="user, userIndex in slskeyUsers.data" :key="'user' + user.id">
 
-                            <tr @click="navigateTo(user.primary_id)"
-                                class="focus-within:bg-gray-100 cursor-pointer"
+                            <tr @click="navigateTo(user.primary_id)" class="focus-within:bg-gray-100 cursor-pointer"
                                 v-for="activation, index in user.slskey_activations" :key="activation.id" :class="{
                                     'border-b border-b-gray-table': index === user.slskey_activations.length - 1,
                                     'bg-gray-100': isHighlighted(userIndex)
@@ -79,15 +80,18 @@
                                 -->
 
                                 <!-- Full Name -->
-                                <td class="px-6 py-3" v-if="index == 0">
+                                <td v-if="index == 0" class="px-6"
+                                    :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     {{ user.full_name }}
                                 </td>
                                 <td class="px-6 py-3" v-else></td>
 
                                 <!-- SLSKey Code -->
-                                <td class="px-6 py-3" v-if="slskeyGroups.data.length > 1">
+                                <td v-if="slskeyGroups.data.length > 1" class="px-6"
+                                    :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div class="flex flex-row">
-                                        <SlskeyGroupNameAndIcon  :workflow="activation.slskey_group.workflow" :slskeyGroupName="activation.slskey_group.name" />
+                                        <SlskeyGroupNameAndIcon :workflow="activation.slskey_group.workflow"
+                                            :slskeyGroupName="activation.slskey_group.name" />
                                     </div>
                                 </td>
 
@@ -108,7 +112,7 @@
                                 -->
 
                                 <!-- Activation Date -->
-                                <td class="px-6 py-3">
+                                <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div v-if="activation.activation_date" class="flex flex-row items-center">
                                         <!--
                                         <Icon v-if="activation.slskey_group.workflow == 'Manual'" icon="check"
@@ -122,7 +126,7 @@
                                 </td>
 
                                 <!-- Expiration Date -->
-                                <td class="px-6 py-3">
+                                <td class="px-6"  :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div v-if="activation.activated && activation.expiration_disabled"
                                         class="italic text-gray-disabled flex flex-row items-center">
                                         <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>
@@ -141,7 +145,7 @@
                                 </td>
 
                                 <!-- Status -->
-                                <td class="px-6 py-3">
+                                <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <UserStatusChip :activation="activation" />
                                 </td>
 
@@ -158,9 +162,9 @@
                                 <template v-for="activation in user.activations" :key="activation.id">
                                     <UserStatusChip :activation="activation"/>
                                 </template>
-                                </Link>
-                            </td>
-                            -->
+</Link>
+</td>
+-->
                             </tr>
                         </template>
                     </template>
@@ -205,22 +209,22 @@ import SlskeyGroupNameAndIcon from '../../Shared/SlskeyGroupNameAndIcon.vue';
 
 export default {
     components: {
-    AppLayout,
-    Pagination,
-    Datepicker,
-    SearchFilter,
-    DatePickerFilter,
-    BreadCrumb,
-    FilterControl,
-    BoolFilter,
-    BoolBothFilter,
-    UserStatusChip,
-    SelectFilter,
-    Icon,
-    DefaultButton,
-    LetterIcon,
-    SlskeyGroupNameAndIcon
-},
+        AppLayout,
+        Pagination,
+        Datepicker,
+        SearchFilter,
+        DatePickerFilter,
+        BreadCrumb,
+        FilterControl,
+        BoolFilter,
+        BoolBothFilter,
+        UserStatusChip,
+        SelectFilter,
+        Icon,
+        DefaultButton,
+        LetterIcon,
+        SlskeyGroupNameAndIcon
+    },
     props: {
         perPage: Number,
         slskeyUsers: Object,
@@ -310,6 +314,10 @@ export default {
         formatDate(date) {
             return this.$moment(date).format('ll')
         },
+        getVerticalPadding(activationsCount, index) {
+            return activationsCount == 1 ? 'py-3' :
+                index == 0 ? 'pt-3 pb-1' : index == activationsCount - 1 ? 'pt-1 pb-3' : 'py-3';
+        }
     },
     computed: {
         getStatusOptions() {
@@ -327,7 +335,8 @@ export default {
                     'value': 'BLOCKED'
                 }
             ];
-        }
+        },
+
     },
     watch: {
         form: {

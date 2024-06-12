@@ -42,8 +42,6 @@ export default {
                 user_identifier: "",
                 display_name: "",
                 password: "",
-                alma_institution: "",
-                alma_username: "",
                 is_slsp_admin: 0,
                 slskeyGroups: []
             })

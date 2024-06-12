@@ -17,14 +17,6 @@
                 <TextInput v-if="isCreating && !form.is_edu_id" :label="`${$t('admin_users.initial_password')} *`"
                     v-model="form.password" :error="form.errors.password" />
             </div>
-            <!-- Alma Cloud App Details -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('admin_users.alma_details')
-            }}</h3>
-            <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
-                <TextInput :label="`${$t('admin_users.alma_institution')}`" v-model="form.alma_institution" />
-                <TextInput :label="`${$t('admin_users.alma_username')}`" v-model="form.alma_username" />
-            </div>
             <!-- Permissions SLSKey Groups -->
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('admin_users.permissions')

@@ -34,8 +34,6 @@
 	},
 	"admin_users": {
 		"alma_details": "Alma Cloud App User",
-		"alma_institution": "Alma Institution",
-		"alma_username": "Alma Username",
 		"cancel": "Cancel",
 		"create_new": "Create New User",
 		"delete": "Delete Admin User",

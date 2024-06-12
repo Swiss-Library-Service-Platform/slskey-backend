@@ -129,11 +129,6 @@ class AuthCloudApp
      */
     protected function findUserFromToken(object $token)
     {
-        /*
-        return User::where('alma_username', $token->sub)
-            ->where('alma_institution', $token->inst_code)
-            ->first();
-        */
         return User::where('user_identifier', $token->sub)->first();
     }
 
@@ -193,9 +188,6 @@ class AuthCloudApp
      */
     protected function createOrUpdateUserWithPermissionsForSlskeyGroups(object $token, Collection $slskeyGroups)
     {
-        // 'user_identifier' => "Alma-$token->inst_code-$token->sub",
-        // 'alma_username' => $token->sub,
-        // 'alma_institution' => $token->inst_code,
         $user = User::updateOrCreate([
             'user_identifier' => $token->sub,
         ], [

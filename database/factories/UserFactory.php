@@ -24,8 +24,6 @@ class UserFactory extends Factory
             'user_identifier' => $this->faker->uuid(),
             'display_name' => $this->faker->name(),
             'is_edu_id' => $this->faker->boolean(),
-            'alma_username' => $this->faker->userName(),
-            'alma_institution' => $this->faker->company(),
             'password' => $this->faker->password(),
             'password_change_at' => $this->faker->dateTime(),
         ];
@@ -83,15 +81,6 @@ class UserFactory extends Factory
             foreach ($permissions as $perm) {
                 $user->givePermissions($perm->slug);
             }
-        });
-    }
-
-    public function withAlmaPermissions(string $almaUsername, string $almaInstitution)
-    {
-        return $this->afterCreating(function (User $user) use ($almaUsername, $almaInstitution) {
-            $user->alma_username = $almaUsername;
-            $user->alma_institution = $almaInstitution;
-            $user->save();
         });
     }
 }

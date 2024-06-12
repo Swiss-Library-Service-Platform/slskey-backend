@@ -19,6 +19,8 @@ Improvements:
 
 TODO: Internalization i18n Texts
 
+TODO: persist selected language
+
 TODO: Participage page: Motiviation / Vorteile aufzählen
 
 TODO: Wrap activation in Transaction

@@ -17,10 +17,10 @@
     <div class="mt-5 mb-10 flex flex-row items-start gap-x-8">
 
       <div
-        class="w-36remXXX justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-md gap-y-8 px-8 shadow-md">
+        class="justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-md gap-y-8 px-8 shadow-md">
 
 
-        <div class="w-32remXXX flex flex-col justify-between gap-y-8">
+        <div class="flex flex-col justify-between gap-y-8" style="min-width: 450px;"> <!-- Workaround: for some reason tailwinds "min-w-80" is not working -->
 
           <!-- Selection SLSKey Code -->
           <div class="text-2xl w-full flex justify-start">

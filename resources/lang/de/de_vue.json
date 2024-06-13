@@ -62,6 +62,11 @@
 		"help": "Hilfe",
 		"logout": "Abmelden"
 	},
+	"confirm_dialog": {
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen",
+        "title": "Bestätigung"
+    },
 	"eduid_status": "Edu-ID Status",
 	"history": {
 		"action": "Ereignis",
@@ -225,6 +230,15 @@
 		"activation_end": "Ende",
 		"activation_start": "Start",
 		"block": "Blockieren",
+		"confirm_block_user": "diesen Benutzer sperren",
+		"confirm_block_user_2": "Der Benutzer kann für diese SLSKey-Gruppe erst aktiviert werden, wenn die Sperre aufgehoben ist!",
+		"confirm_deactivate_user": "diesen Benutzer deaktivieren",
+		"confirm_disable_expiration": "die automatische Ablauffrist dieses Benutzers deaktivieren",
+		"confirm_enable_expiration": "die automatische Ablauffrist dieses Benutzers aktivieren",
+		"confirm_enable_expiration_2": "Das neue Ablaufdatum wird auf ",
+		"confirm_enable_expiration_3": " Tage in der Zukunft gesetzt.",
+		"confirm_start": "Wollen Sie",
+		"confirm_unblock_user": "diesen Benutzer entsperren",
 		"deactivate": "Deaktivieren",
 		"disable_expiration": "Ablauf deaktivieren",
 		"enable_expiration": "Ablauf aktivieren",

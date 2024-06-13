@@ -1,17 +1,18 @@
 <template>
     <DialogModal :confirmText="this.confirmText" :closeable="false" :show="this.showConfirmModal">
         <template #title>
-            Confirmation
+            {{ $t('confirm_dialog.title') }}
         </template>
         <template #content>
             <p>
-                Do you want to {{ this.confirmText }}?
+                {{ $t('user_management.confirm_start') }} {{ this.confirmText }}?
             </p>
             <p v-if="this.confirmText2" class="mt-6">
                 {{ this.confirmText2 }}
             </p>
 
-            <TextAreaInput v-if="this.enterRemark" class="mt-6" v-model="remark" :label="$t('user_management.remark')" />
+            <TextAreaInput v-if="this.enterRemark" class="mt-6" v-model="remark"
+                :label="$t('user_management.remark')" />
 
             <div class="flex justify-between mt-6 gap-x-8">
                 <div class=" w-28 flex items-center">
@@ -32,7 +33,7 @@
                         ">
                         <Icon icon="x" class="text-white h-4 w-4 mr-2" />
 
-                        Cancel
+                        {{ $t('confirm_dialog.cancel') }}
                     </button>
                 </div>
 
@@ -55,7 +56,7 @@
                                     ">
                         <Icon icon="check" class="text-white h-4 w-4 mr-2" />
 
-                        Confirm
+                        {{ $t('confirm_dialog.confirm') }}
                     </button>
                 </div>
             </div>

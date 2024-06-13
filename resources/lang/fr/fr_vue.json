@@ -62,6 +62,11 @@
         "help": "Aide",
         "logout": "Déconnexion"
     },
+    "confirm_dialog": {
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "title": "Confirmation"
+    },
     "eduid_status": "Statut Edu-ID",
     "history": {
         "action": "Événement",
@@ -225,6 +230,15 @@
         "activation_end": "Fin",
         "activation_start": "Début",
         "block": "Bloquer",
+        "confirm_block_user": "bloquer cet utilisateur",
+        "confirm_block_user_2": "L'utilisateur ne peut pas être activé pour ce groupe SLSKey tant que le blocage n'est pas levé !",
+        "confirm_deactivate_user": "désactiver cet utilisateur",
+        "confirm_disable_expiration": "désactiver l'expiration automatique de cet utilisateur",
+        "confirm_enable_expiration": "activer l'expiration automatique de cet utilisateur",
+        "confirm_enable_expiration_2": "La nouvelle date d'expiration sera fixée à ",
+        "confirm_enable_expiration_3": " jours dans le futur.",
+        "confirm_start": "Voulez-vous",
+        "confirm_unblock_user": "débloquer cet utilisateur",
         "deactivate": "Désactiver",
         "disable_expiration": "Désactiver l'expiration",
         "enable_expiration": "Activer l'expiration",

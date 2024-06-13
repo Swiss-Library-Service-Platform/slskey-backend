@@ -18,6 +18,8 @@ _______
 
 TODO: persist selected language
 
+TODO: wie der ZHDK zeigen welche Publisher sie nutzen (nur für sie relevant, oder?)
+
 ________________________________________________________________________
 Nice to have:
 

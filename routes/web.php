@@ -12,6 +12,8 @@ use App\Http\Controllers\Main\ReportingController;
 use App\Http\Controllers\Main\UsersController;
 use App\Http\Controllers\Patrons\ReactivationTokenController;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -192,7 +194,8 @@ Route::middleware([
         if (!in_array($locale, ['de', 'fr', 'it', 'en'])) {
             abort(400);
         }
-        Session::put('locale', $locale);
+        $cookie = Cookie::forever('language', $locale);
         App::setLocale($locale);
+        return Response::json(['message' => 'Language set successfully'], 200)->cookie($cookie);
     })->name('changeLocale');
 });

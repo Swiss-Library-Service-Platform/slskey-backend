@@ -16,6 +16,8 @@ TODO: Laravel Octane
 
 TODO: wie der ZHDK zeigen welche Publisher sie nutzen (nur für sie relevant, oder?)
 
+TODO: Was ist mit edu-ID Login
+
 ________________________________________________________________________
 Nice to have:
 

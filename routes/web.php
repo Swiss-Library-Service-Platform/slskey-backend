@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -196,6 +195,7 @@ Route::middleware([
         }
         $cookie = Cookie::forever('language', $locale);
         App::setLocale($locale);
+
         return Response::json(['message' => 'Language set successfully'], 200)->cookie($cookie);
     })->name('changeLocale');
 });

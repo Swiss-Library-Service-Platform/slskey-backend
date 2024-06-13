@@ -16,7 +16,6 @@ return [
 
     // Errors
     'errors' => [
-
         // Errors: Activations
         'activations' => [
             'no_activation' => 'No activation found.',

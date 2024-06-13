@@ -2,12 +2,14 @@
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
         <div class="flex py-5 items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SearchFilter v-model="form.search" :label="$t('user_management.search')" :placeholder="$t('user_management.search')" />
+                <SearchFilter v-model="form.search" :label="$t('user_management.search')"
+                    :placeholder="$t('user_management.search')" />
                 <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
                     :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
                 <SelectFilter v-model="form.status" :label="$t('user_management.status')" :options="getStatusOptions"
                     :placeholder="$t('user_management.status')" />
-                <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_start')"
+                <DatePickerFilter
+                    :label="$t('user_management.activation') + ' ' + $t('user_management.activation_start')"
                     v-model="form.activation_start" />
                 <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_end')"
                     v-model="form.activation_end" />
@@ -38,6 +40,9 @@
                         <!--
                         <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> Mode </th>
                         -->
+
+                        <!-- Activation Date -->
+                        <!--
                         <th @click="sort('activation_date')"
                             class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
                             <div class="flex flex-row items-center">
@@ -48,6 +53,8 @@
                                 {{ $t('user_management.activation_date') }}
                             </div>
                         </th>
+                         -->
+                        <!-- Expiration Date -->
                         <th @click="sort('expiration_date')"
                             class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
                             <div class="flex flex-row items-center">
@@ -58,6 +65,7 @@
                                 {{ $t('user_management.expiration_date') }}
                             </div>
                         </th>
+                        <!-- Status -->
                         <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('user_management.status') }} </th>
                     </tr>
                 </thead>
@@ -111,21 +119,17 @@
                                 -->
 
                                 <!-- Activation Date -->
+                                <!-- 
                                 <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div v-if="activation.activation_date" class="flex flex-row items-center">
-                                        <!--
-                                        <Icon v-if="activation.slskey_group.workflow == 'Manual'" icon="check"
-                                            class="h-4 w-4 mr-2"></Icon>
-                                        <Icon v-if="activation.slskey_group.workflow == 'Webhook'" icon="arrow-circle-right"
-                                            class="h-4 w-4 mr-2"></Icon>
-                                        -->
                                         <Icon icon="key" class="h-4 w-4 mr-2"></Icon>
                                         {{ formatDate(activation.activation_date) }}
                                     </div>
                                 </td>
+                                -->
 
                                 <!-- Expiration Date -->
-                                <td class="px-6"  :class="getVerticalPadding(user.slskey_activations.length, index)">
+                                <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div v-if="activation.activated && activation.expiration_disabled"
                                         class="italic text-gray-disabled flex flex-row items-center">
                                         <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>

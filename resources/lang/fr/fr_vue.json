@@ -251,5 +251,11 @@
         "unblock": "Débloquer",
         "user_full_name": "Nom d'utilisateur complet",
         "webhook_activation_mail": "E-mail activé"
+    },
+    "user_status_chip": {
+        "activated": "Activé",
+        "blocked": "Bloqué",
+        "deactivated": "Inactif",
+        "no_status": "Aucun statut"
     }
 }

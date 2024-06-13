@@ -14,10 +14,6 @@ TODO: Laravel Octane
       - vllt mit Docker
       - und dann Continous Deployment
 
-_______
-
-TODO: persist selected language
-
 TODO: wie der ZHDK zeigen welche Publisher sie nutzen (nur für sie relevant, oder?)
 
 ________________________________________________________________________

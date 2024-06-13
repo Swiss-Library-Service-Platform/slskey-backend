@@ -5,7 +5,7 @@
                 class="gtouch-none whitespace-nowrap text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
                 <Icon icon="user-circle" class="w-6 mr-2"></Icon>
 
-                {{ $page.props.user.display_name }}
+                {{ $page.props.auth.user?.display_name }}
 
             </MenuButton>
         </div>

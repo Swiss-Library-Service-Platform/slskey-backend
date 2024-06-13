@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.0.2",
         "24slides/laravel-saml2": "^2.4",
-        "barryvdh/laravel-cors": "^3.0",
         "box/spout": "^3.3",
         "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
@@ -15,10 +14,10 @@
         "guzzlehttp/guzzle": "^7.8",
         "inertiajs/inertia-laravel": "^0.6.11",
         "jeremykenedy/laravel-roles": "^10.0",
-        "laravel/framework": "^9.11",
-        "laravel/jetstream": "^2.8",
-        "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7",
+        "laravel/framework": "^10",
+        "laravel/jetstream": "^4.0",
+        "laravel/sanctum": "^3.3",
+        "laravel/tinker": "^2.9.0",
         "maatwebsite/excel": "^3.1",
         "psr/simple-cache": "^1.0",
         "pusher/pusher-php-server": "^7.2",
@@ -31,8 +30,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "pestphp/pest": "^1.23",
-        "php-webdriver/webdriver": "^1.14",
-        "spatie/laravel-ignition": "^1.0"
+        "php-webdriver/webdriver": "^1.14"
     },
     "autoload": {
         "psr-4": {

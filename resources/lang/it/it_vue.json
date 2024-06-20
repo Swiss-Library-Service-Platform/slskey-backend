@@ -7,7 +7,7 @@
         "identifier": "Identificatore utente",
         "remark_optional": "Nota (opzionale):",
         "search": "Ricerca",
-        "slskey_groups:": "Gruppi SLSKey",
+        "slskey_groups": "Gruppi SLSKey",
         "title": "Attiva"
     },
     "action_chip": {

@@ -7,7 +7,7 @@
         "identifier": "Identifiant de l'utilisateur",
         "remark_optional": "Remarque (optionnelle) :",
         "search": "Recherche",
-        "slskey_groups:": "SLSKey Groupes",
+        "slskey_groups": "SLSKey Groupes",
         "title": "Activer"
     },
     "action_chip": {

@@ -8,15 +8,18 @@ TODO: Add Cron Job for Jobs
 TODO: TEST: Server aufbauen
       PROD: Github workflow for Deployment
 
-TODO: Laravel Octane
-      - vllt mit Frankenphp
-      - Octane kann Frankenphp nutzen, für bessere Concurrency. Gerade wird n Apache Module verwendet, nächste Stufe wäre php-fpm. aber Octane wäre wohl noch besser
-      - vllt mit Docker
-      - und dann Continous Deployment
+TODO: Deployment Produktive 
+      - Laravel Octane
+      - PHP FPM
 
 TODO: wie der ZHDK zeigen welche Publisher sie nutzen (nur für sie relevant, oder?)
 
 TODO: Was ist mit edu-ID Login
+
+TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
+
+TODO: Cloud App
+      - Icon Jiggle Bug wenn geöffnet wird
 
 ________________________________________________________________________
 Nice to have:

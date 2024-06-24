@@ -42,7 +42,7 @@
                         -->
 
                         <!-- Activation Date -->
-                        <!--
+                        
                         <th @click="sort('activation_date')"
                             class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
                             <div class="flex flex-row items-center">
@@ -53,7 +53,7 @@
                                 {{ $t('user_management.activation_date') }}
                             </div>
                         </th>
-                         -->
+                        
                         <!-- Expiration Date -->
                         <th @click="sort('expiration_date')"
                             class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
@@ -119,14 +119,14 @@
                                 -->
 
                                 <!-- Activation Date -->
-                                <!-- 
+                                
                                 <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     <div v-if="activation.activation_date" class="flex flex-row items-center">
                                         <Icon icon="key" class="h-4 w-4 mr-2"></Icon>
                                         {{ formatDate(activation.activation_date) }}
                                     </div>
                                 </td>
-                                -->
+                                
 
                                 <!-- Expiration Date -->
                                 <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">

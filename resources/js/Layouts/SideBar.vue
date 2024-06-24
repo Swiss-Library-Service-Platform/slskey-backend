@@ -43,6 +43,11 @@ defineProps({
 						</NavLink>
 
 						<!-- Logout -->
+						<NavLink icon="question-mark" :href="$page.props.helpUrl" :isExternal="true">
+							{{ $t('app_header.help') }}
+						</NavLink>
+
+						<!-- Logout -->
 						<!--
 						<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
 							{{ $t('app_header.logout') }}
@@ -95,7 +100,7 @@ defineProps({
 						</NavLink>
 
 						<!-- edu-ID Status --> 
-						<NavLink icon="information-circle" href="https://status.eduid.ch/" :isExternal="true">
+						<NavLink icon="information-circle" href="https://status.eduid.ch/">
 							{{ $t('eduid_status') }}
 						</NavLink>
 					</div>

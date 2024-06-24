@@ -136,7 +136,7 @@ class SlskeyGroupsController extends Controller
             'slskey_code' => ['required', 'max:255', 'regex:/^[a-zA-Z0-9]+$/'],
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
-            'alma_iz' => ['required', 'max:12'],
+            'alma_iz' => ['required', 'max:14'],
         ];
         if (Request::input('workflow') === 'Webhook') {
             $rules = array_merge($rules, [

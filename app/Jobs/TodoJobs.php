@@ -6,23 +6,21 @@ Before Go Live:
 TODO: Add Cron Job for Jobs
 
 TODO: TEST: Server aufbauen
-      PROD: Github workflow for Deployment
 
 TODO: Deployment Produktive 
       - Laravel Octane
       - PHP FPM
 
-TODO: wie der ZHDK zeigen welche Publisher sie nutzen (nur für sie relevant, oder?)
-
 TODO: Was ist mit edu-ID Login
+      - Erstmal auf Eis
 
 TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
 
-TODO: Cloud App
-      - Icon Jiggle Bug wenn geöffnet wird
-
 ________________________________________________________________________
 Nice to have:
+
+TODO: Cloud App
+      - Icon Jiggle Bug wenn geöffnet wird
 
 TODO: Participage page: Motivation / Vorteile aufzählen
 

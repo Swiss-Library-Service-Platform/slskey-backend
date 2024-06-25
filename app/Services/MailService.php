@@ -72,7 +72,7 @@ class MailService
      * Send Monthly Report Mail.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param SlskeyHistory $slskeyHistory
+     * @param SlskeyHistoryMonth $slskeyHistory
      * @param integer $totalCount
      * @param array $reportEmailAddresses
      * @return ?SentMessage

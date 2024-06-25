@@ -7,7 +7,7 @@
     ]">
         <div class="mt-5 mb-10 bg-white gap-5 rounded-md shadow-md">
             <!-- component -->
-            <div class="w-full flex justify-between border-b pl-8">
+            <div class="w-full flex justify-between border-b pl-4">
                 <ActionButton class="w-fit my-3 mr-8 px-8" @click.prevent="activate()" icon="key" :loading="loading">
                     {{ $t('user_management.new_activation') }}
                 </ActionButton>

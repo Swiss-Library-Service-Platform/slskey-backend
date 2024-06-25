@@ -41,7 +41,7 @@ const toggleNavbar = () => {
                         <SideBar v-if="!modePublic" :showNavbar="showNavbar" :route="route" />
 
                         <!-- Page Contents -->
-                        <main class="flex-1 overflow-x-clip"> 
+                        <main class="flex-1 Xoverflow-x-clip overflow-x-auto"> 
 
                             <slot />
 

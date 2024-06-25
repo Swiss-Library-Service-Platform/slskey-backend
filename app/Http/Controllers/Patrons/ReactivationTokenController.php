@@ -53,7 +53,7 @@ class ReactivationTokenController extends Controller
 
         if (! $slskeyReactivationToken) {
             return Inertia::render('ReactivationToken/ReactivationError', [
-                'error' => __('flashMessages.token_not_found'),
+                'error' => __('flashMessages.errors.tokens.not_found'),
                 'token' => $token,
             ]);
         }
@@ -75,7 +75,7 @@ class ReactivationTokenController extends Controller
             }
 
             return Inertia::render('ReactivationToken/ReactivationError', [
-                'error' => __('flashMessages.token_already_used'),
+                'error' => __('flashMessages.errors.tokens.already_used'),
                 'token' => $token,
             ]);
         }
@@ -123,14 +123,14 @@ class ReactivationTokenController extends Controller
 
         if (! $slskeyReactivationToken) {
             return Inertia::render('ReactivationToken/ReactivationError', [
-                'error' => __('flashMessages.token_not_found'),
+                'error' => __('flashMessages.errors.tokens.not_found'),
                 'token' => $token,
             ]);
         }
 
         if (! $slskeyReactivationToken->isExpired()) {
             return Inertia::render('ReactivationToken/ReactivationError', [
-                'error' => __('flashMessages.token_not_expired'),
+                'error' => __('flashMessages.errors.tokens.not_expired'),
                 'token' => $token,
             ]);
         }
@@ -143,7 +143,7 @@ class ReactivationTokenController extends Controller
         if (! $slskeyActivation->webhook_activation_mail) {
             return Inertia::render('ReactivationToken/ReactivationError', [
                 'token' => $token,
-                'error' => __('flashMessages.token_activation_mail_revoked'),
+                'error' => __('flashMessages.errors.tokens.activation_mail_revoked'),
             ]);
         }
 

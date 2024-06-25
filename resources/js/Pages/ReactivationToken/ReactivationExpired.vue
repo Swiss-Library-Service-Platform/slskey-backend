@@ -1,5 +1,5 @@
 <template>
-    <AppLayout :modePublic="true" :title="$t('activation.title')" :breadCrumbs="[{
+    <AppLayout :modePublic="true" :title="$t('reactivation_token.title')" :breadCrumbs="[{
         name: 'Token Expired'
     }]">
         <div

@@ -38,7 +38,7 @@
                                     {{ slskeyGroup.name }}
                                 </td>
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('delete')"
+                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('admin_users.delete_slskey_group')"
                                         @click="removeGroup(slskeyGroup.id)" />
                                 </td>
                             </tr>
@@ -57,7 +57,7 @@
                     <SelectInput class="w-full" v-model="this.newSlskeyGroup" :options="this.availableSlskeyGroups.data">
                     </SelectInput>
                     <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSlskeyGroupToAdd" :tooltip="$t('reporting.settings.add')" />
+                        :disabled="!isNewSlskeyGroupToAdd" :tooltip="$t('admin_users.add_slskey_group')" />
                 </div>
             </div>
             <!-- Bottom Buttons-->

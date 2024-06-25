@@ -167,6 +167,7 @@ class ImportController extends Controller
         }
 
         // Separate Z01 into Z01 and MBA
+        $almaUserWebhookActivationMail = null;
         if ($slskeyGroup->slskey_code == 'Z01') {
             $mbaSlskeyGroup = SlskeyGroup::where('slskey_code', 'testmba')->first();
             $webhookMailActivationHelper = new WebhookMailActivationHelper($mbaSlskeyGroup->webhook_mail_activation_domains);

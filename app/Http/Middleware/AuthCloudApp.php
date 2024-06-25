@@ -141,9 +141,15 @@ class AuthCloudApp
     {
         $institution = $token->inst_code;
         $username = $token->sub;
+        $token = config("services.alma.$institution.api_key");
+        if (!$token) {
+            return [
+                'success' => false,
+                'message' => 'No API token configured for this IZ.'
+            ];
+        }
 
-        //TODO: set different key depending on IZ
-
+        $this->almaApiService->setApiKey($token);
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
 
         if (!$almaServiceResponse->success) {
@@ -191,10 +197,8 @@ class AuthCloudApp
             'user_identifier' => $token->sub,
         ], [
             'display_name' => $token->sub,
-
-            // TODO: what about these fields?
             'is_edu_id' => 0,
-            'password' => bcrypt('FIXME'),
+            'password' => bcrypt(str_random(10)),
         ]);
 
         foreach ($slskeyGroups as $slskeyGroup) {

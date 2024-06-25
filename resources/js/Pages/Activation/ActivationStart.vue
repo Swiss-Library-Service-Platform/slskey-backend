@@ -15,9 +15,9 @@
                     </div>
                 </div>
 
-                <TextInput @enter="activate" v-model="inputIdentifier" :placeholder="$t('slskey_user.identifier')"></TextInput>
+                <TextInput @enter="activate" v-model="inputIdentifier" :placeholder="$t('activation.identifier')"></TextInput>
                 <ActionButton :disabled="!inputIdentifier" @click.prevent="activate" icon="search" :loading="loading">
-                    {{ $t('search') }}
+                    {{ $t('activation.search') }}
                 </ActionButton>
 
             </div>

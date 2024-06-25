@@ -199,7 +199,9 @@ class UserService
         }
 
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
-        $message = __("flashMessages.$messageCode") . ' ' . $successMessage;
+
+        // $message = __("flashMessages.$messageCode") . ': ' . $successMessage;
+        $message = __("flashMessages.$messageCode");
 
         return new UserServiceResponse(true, $message);
     }
@@ -680,7 +682,7 @@ class UserService
      */
     private function logAndReturnError(string $errorMessage, SlskeyHistory $slskeyHistory): UserServiceResponse
     {
-        $logMessage = __('flashMessages.errors.' . $errorMessage);
+        $logMessage = __('flashMessages.errors.activations.' . $errorMessage);
         $slskeyHistory->setErrorMessage($logMessage);
 
         // return new UserServiceResponse(false, $errorMessage);

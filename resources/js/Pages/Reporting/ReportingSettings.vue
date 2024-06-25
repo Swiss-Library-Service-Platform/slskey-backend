@@ -36,7 +36,7 @@
                             </td>
                             <td class="px-6 py-4 align-center">
                                 <DefaultConfirmIconButton class="bg-color-blocked py-1" icon="trash"
-                                    :tooltip="$t('delete')" :confirmText="$t('reporting.settings.delete_recipient')"
+                                    :tooltip="$t('reporting.settings.delete_recipient')" :confirmText="$t('reporting.settings.delete_recipient')"
                                     @confirmed="removeEmail(email.id)" />
                             </td>
                         </tr>
@@ -50,7 +50,7 @@
                         <td class="px-6 py-4 whitespace-nowrap flex items-center">
                             <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
                             <TextInput type="email" :error="errors.email" v-model="newEmail"
-                                :placeholder="$t('slskey_user.identifier')">
+                                :placeholder="$t('reporting.email')">
                             </TextInput>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap"></td>

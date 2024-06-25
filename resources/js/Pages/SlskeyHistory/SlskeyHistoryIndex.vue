@@ -1,14 +1,13 @@
 
 <template>
-    <AppLayout :title="$t('slskey_histories.title')" :breadCrumbs="[{ name: $t('slskey_histories.title') }]">
+    <AppLayout :title="$t('history.title')" :breadCrumbs="[{ name: $t('history.title') }]">
         <div class="flex py-5 items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SearchFilter v-model="form.search" :label="$t('slskey_user.identifier')" :placeholder="$t('search')" />
+                <SearchFilter v-model="form.search" :label="$t('slskey_user.primary_id')" :placeholder="$t('history.search')" />
                 <DatePickerFilter :label="$t('history.date')" v-model="form.date" />
                 <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
-                    :options="slskeyGroups.data" :placeholder="$t('type')" />
-                <SelectFilter v-model="form.trigger" :label="$t('history.trigger')" :options="triggers"
-                    :placeholder="$t('type')" />
+                    :options="slskeyGroups.data" />
+                <SelectFilter v-model="form.trigger" :label="$t('history.trigger')" :options="triggers" />
             </FilterControl>
         </div>
 

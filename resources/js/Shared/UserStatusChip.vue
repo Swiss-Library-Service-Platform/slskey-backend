@@ -34,12 +34,12 @@ export default {
 		},
 		getStatus() {
 			return !this.activation ?
-			'No Status'
+			this.$i18n.t('user_status_chip.no_status')
 			: this.activation?.blocked ?
-				'Blocked' :
+			this.$i18n.t('user_status_chip.blocked') :
 				(this.activation?.activated ?
-					'Activated' :
-					'Inactive');
+				this.$i18n.t('user_status_chip.activated') :
+				this.$i18n.t('user_status_chip.deactivated'));
 		},
 		getClasses: function () {
 			return this.activation?.blocked ?

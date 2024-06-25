@@ -6,24 +6,31 @@ Before Go Live:
 TODO: Add Cron Job for Jobs
 
 TODO: TEST: Server aufbauen
-      PROD: Github workflow for Deployment
 
-TODO: Laravel Octane?
+TODO: Deployment Produktive
+      - Laravel Octane
+      - PHP FPM
 
-TODO: Internalization i18n Texts
+TODO: Was ist mit edu-ID Login
+      - Erstmal auf Eis
+
+TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
 
 ________________________________________________________________________
-Improvements:
+Nice to have:
 
-TODO: Participage page: Motiviation / Vorteile aufzählen
+TODO: Cloud App
+      - Icon Jiggle Bug wenn geöffnet wird
+
+TODO: Participage page: Motivation / Vorteile aufzählen
 
 TODO: Wrap activation in Transaction
       -> mock a transaction for switch service api
       -> remove first switch group from user when first was successful and second failed
 
-TODO: Add test for each Job
-
-TODO: Add good test for Cloud App Auths
+TODO: Test:
+      - for each job
+      - Add good test for Cloud App Auths
 
 ________________________________________________________________________
 Feedback Bibliotheken:
@@ -37,6 +44,6 @@ Import Tool
 TODO: user group sind IZ spezifisch
 -> was bedeutet das: ImportTool Verifier sind nicht wirklich korrekt, weil sie nur die NZ API verwenden!
 -> außer das Import Tool kann mit IZ API arbeiten statt NZ
--> wir brauchen jetzt auch Alma IZ API, also könnten wir das auch umstellen, theoreitsch??
+-> wir brauchen jetzt auch Alma IZ API, also könnten wir das auch umstellen, theoretisch??
 
 */

@@ -34,32 +34,56 @@ const submit = () => {
         <FlashMessages />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
-            <div class="w-80 px-8 py-8 flex flex-col justify-around items-start"> 
+            <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start"> 
                 <!--<div class=""></div> -->
-                <JetApplicationLogo class="h-auto px-8" />
-                <span class="text-sm italic px-8">
+                <JetApplicationLogo class="h-auto" />
+                <span class="text-sm italic">
                    {{ $t('landing.service') }} <a class="text-blue-800" href="https://slsp.ch">SLSP</a>.
                 </span>
             </div>
 
-            <div class="w-80 p-8 py-16 h-auto flex flex-col h-fit justify-between border-l">
+            <div class="w-80 p-8 flex flex-col h-fit justify-between border-l">
 
                 <div class="flex flex-col items-center justify-center">
 
+                    <SwitchLoginButton href="/login/eduid">
+                        {{ $t('landing.eduid') }}
+                    </SwitchLoginButton>
+
+
+
+                    <!-- Divider element "OR" -->
+                    <div class="flex w-full items-center py-4">
+                        <div class="flex flex-col w-full items-center my-4">
+                            <div class="flex-grow"></div>
+                            <div class="border-t w-full mx-2"></div>
+                            <div class="flex-grow"></div>
+                        </div>
+                        <div class="border uppercase p-1 text-gray-table text-sm">
+                            {{ $t('landing.orvia') }}
+                        </div>
+                        <div class="flex flex-col w-full items-center my-4">
+                            <div class="flex-grow"></div>
+                            <div class="border-t w-full mx-2"></div>
+                            <div class="flex-grow"></div>
+                        </div>
+                    </div>
+
+
                     <form class="w-full" @submit.prevent="submit">
 
-                        <div class="w-full mb-4">
-                            <JetLabel for="user_identifier" :value="$t('landing.username')" />
+                        <div class="w-full mb-2">
+                            <JetLabel for="user_identifier" value="Username" />
                             <JetInput id="user_identifier" v-model="form.user_identifier" type="text"
                                 class="mt-1 block w-full" required autofocus />
                         </div>
 
                         <div class="w-full">
-                            <JetLabel for="password" :value="$t('landing.password')" />
+                            <JetLabel for="password" value="Password" />
                             <JetInput id="password" v-model="form.password" type="password" class="mt-1 block w-full"
                                 required autocomplete="current-password" />
                         </div>
-                        <JetValidationErrors class="mb-6" />
+                        <JetValidationErrors class="mb-4" />
 
                         <div class="w-full">
                             <DefaultButton @click="submit"

@@ -2,33 +2,59 @@
 
 ## Table of Contents
 1. [Technology Stack](#technology-stack)
-2. [Testing](#testing)
-    1. [Test Database](#test-database)
-    2. [Test Structure](#test-structure)
-    3. [Run Tests](#run-tests)
-    4. [Test Coverage](#test-coverage)
-3. [Productive Deployment](#productive-deployment)
-    1. [Install Dependencies](#install-dependencies)
-    2. [Build Frontend](#build-frontend)
-4. [Local Development using Docker](#local-development-using-docker)
-    1. [Database Migrations](#database-migrations)
-5. [Update SAML2 Identity Provider (e.g. SWITCH edu-ID)](#update-saml2-identity-provider-e.g.-switch-edu-id)
+2. [Local Development using Docker](#local-development-using-docker)
+    - [Database Migrations](#database-migrations)
+3. [Testing](#testing)
+    - [Test Database](#test-database)
+    - [Test Structure](#test-structure)
+    - [Run Tests](#run-tests)
+    - [Test Coverage](#test-coverage)
+4. [Productive Deployment](#productive-deployment)
+    - [Requirements](#requirements)
+    - [First Deployment](#first-deployment)
+    - [Deploy Changes](#deploy-changes)
+        - [Frontend Changes](#frontend-changes)
+        - [Backend Changes](#backend-changes)
+5. [Update SAML2 Identity Provider (e.g. SWITCH edu-ID)](#update-saml2-identity-provider-eg-switch-edu-id)
+    - [Two examples:](#two-examples)
+        - [Switch edu-ID](#switch-edu-id)
+        - [SLSP AuthProxy](#slsp-authproxy)
 6. [GitHub Workflows](#github-workflows)
-    1. [Pull Request Workflow](#pull-request-workflow)
-        1. [Linting](#linting)
-        2. [Testing & Coverage](#testing--coverage)
+    - [Pull Request Workflow](#pull-request-workflow)
+        - [Linting](#linting)
+        - [Testing & Coverage](#testing--coverage)
 7. [PHP Doc Header](#php-doc-header)
 
 
 ## Technology Stack
 This application uses: 
 - Laravel
-- Inertia JS
-- VueJS Frontend
+- Inertia with VueJS Frontend
 - Tailwind CSS
-- Laravel Sail for Dockerization
+- Laravel Sail for Docker development environment
 - MySQL database
 - Pest PHP Testing Framework
+
+## Local Development using Docker
+
+Requires Docker running.
+Requires PHP.
+
+- Create an .env file and configure application
+  - Update DB_USERNAME, it should not be 'root'
+  - Update APP_ENV=dev in .env file
+  - Update DB_HOST=mysql in .env file
+- Install dependencies: `composer install --ignore-platform-reqs --dev`
+- Startup container: `./vendor/bin/sail up`
+- Install node dependencies: `./vendor/bin/sail npm install`
+- Live-update of Vue files: `./vendor/bin/sail npm run watch` 
+
+The test app will be available at `localhost:80`
+
+### Database Migrations
+
+- Clear the database and freshly migrate: `./vendor/bin/sail artisan migrate:refresh`
+- Seed the database with initial data: `./vendor/bin/sail artisan db:seed` 
 
 ## Testing
 
@@ -53,7 +79,7 @@ Run following command to run tests without coverage analysis: </br>
 
 <b> Please note: </b> </br>
 If many tests fail, it is possible that it is because of the config.
-Therefore run `php artisan config:clear and re-run the tests.
+In this case, run `php artisan config:clear` and re-run the tests.
 
 ### Test Coverage
 Pest uses XDebug to generate test coverage reports.</br>
@@ -62,44 +88,89 @@ Run following command to generate test coverage report: </br>
 
 ## Productive Deployment
 
-### Install Dependencies
-Apache Webserver is used to host the /public directory.
-Run following commands to make sure the app is deployed correctly:
-```
-composer install --optimize-autoloader --no-dev
-php artisan config:cache`
-php artisan route:cache`
-```
-For the first deployment, run database migration as described above.
+### Requirements
+- PHP 8.2 or higher
+    - PHP PCNTL installed
+- Composer
+- NodeJS (Frontend build)
+- Apache/Nginx Webserver
+- MySQL Database
 
-### Build Frontend
+### First Deployment
 
-If changes were made to the frontend (.vue files), a rebuild is neccessary to deploy the new frontend to production.
-This also assures that clients won't have caching problems.
+Install the application by following these steps:
+1. Clone the repository
+2. Create a `.env` file and configure the application. The `.env.example` file can be used as a template.
+3. Run `composer install --optimize-autoloader --no-dev`
+4. Run `php artisan migrate`
+7. Run `php artisan optimize`
+5. Run `npm install`
+6. Run `npm run prod`
+
+Then install Laravel Octane:
+```
+php artisan octane:install
+```
+- Selected FrankenPHP as application server
+- It automatically downloads FrankenPHP binary
+
+Then run the Laravel Octane server with the following command:
+```
+php artisan octane:start
+```
+
+Use Apache or Nginx to route the requests to the Octane server.
+Apache example:
+
+```
+<VirtualHost *:80>
+    ServerName slskey2.swisscovery.network
+
+    # Redirect HTTP to HTTPS
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
+
+    # ... other configurations
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName slskey2.swisscovery.network
+
+    SSLEngine on
+    SSLCertificateKeyFile <path-to-key>
+    SSLCertificateFile <path-to-certificate>
+
+    ProxyPreserveHost On
+    ProxyPass / http://127.0.0.1:8000/ (with port of octane server)
+    ProxyPassReverse / http://127.0.0.1:8000/ (with port of octane server)
+
+    # ... other configurations
+</VirtualHost>
+```
+
+### Deploy Changes
+
+#### Frontend Changes
+If changes were made to the frontend (.vue files), a rebuild is neccessary to deploy the new frontend to production. </br>
+This also assures that clients won't have caching problems. </br>
+A restart of the Octane server is not necessary to apply changes. </br>
 ```
 npm run prod
 ```
 
-## Local Development using Docker
+#### Backend Changes
+If changes were made to the backend routes or the config, use artisan commands to update the routes and config. </br>
+```
+php artisan route:cache
+php artisan config:cache
+```
 
-Requires Docker running.
-Requires PHP.
+Then restart the Octane server with the following command:
+```
+php artisan octane:start
+```
 
-- Create an .env file and configure application
-  - Update DB_USERNAME, it should not be 'root'
-  - Update APP_ENV=dev in .env file
-  - Update DB_HOST=mysql in .env file
-- Install dependencies: `composer install --ignore-platform-reqs --dev`
-- Startup container: `./vendor/bin/sail up`
-- Install node dependencies: `./vendor/bin/sail npm install`
-- Live-update of Vue files: `./vendor/bin/sail npm run watch` 
-
-The test app will be available at `localhost:80`
-
-### Database Migrations
-
-- Clear the database and freshly migrate: `./vendor/bin/sail artisan migrate:refresh`
-- Seed the database with initial data: `./vendor/bin/sail artisan db:seed` 
 
 
 ## Update SAML2 Identity Provider (e.g. SWITCH edu-ID)

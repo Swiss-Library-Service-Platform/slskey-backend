@@ -21,3 +21,6 @@ yarn-error.log
 # Clover coverage report
 clover.xml
 .phpunit.cache
+/caddy
+frankenphp
+frankenphp-worker.php

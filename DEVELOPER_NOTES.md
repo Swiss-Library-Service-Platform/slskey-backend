@@ -18,6 +18,7 @@
         1. [Linting](#linting)
         2. [Testing & Coverage](#testing--coverage)
 7. [PHP Doc Header](#php-doc-header)
+8. [Develop New Verifier](#new-verifier)
 
 
 ## Technology Stack
@@ -159,3 +160,13 @@ See above at section Testing for more information. </br>
 
 ## PHP Doc Header
 Use VS Code Plugin `PHP DocBlocker` to generate PHP Doc Header. </br>
+
+## Develop New Verifier
+
+To develop a new verifier, create a new class in the `app/Helpers/CustomWebhookVerifier/Implementations` directory. </br>
+After creating the class, the Verifier will be available in the UI to select. </br> </br>
+
+The class should implement the `CustomWebhookVerifierInterface` interface. </br>
+The interface requires the implementation of the `verify` method. </br>
+The verify method is injected with the Alma User and should return a boolean, that is true if the user is authorised and false if not. </br>
+Look at existing implementations for reference. </br>

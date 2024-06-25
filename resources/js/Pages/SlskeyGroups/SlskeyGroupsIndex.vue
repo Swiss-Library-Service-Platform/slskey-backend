@@ -1,4 +1,3 @@
-
 <template>
     <AppLayout :title="$t('slskey_groups.title')" :breadCrumbs="[{ name: $t('slskey_groups.title') }]">
 
@@ -16,35 +15,38 @@
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }} </th>
-                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.active_user_count') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.name') }} </th>
-                       <!-- <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.switch_groups_count') }} </th> -->
-                       <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.publishers_title') }} </th>
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.webhook_custom_verifier_class') }} </th>
+                        <!-- <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.switch_groups_count') }} </th> -->
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.publishers_title') }}
+                        </th>
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.active_user_count') }}
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="slskeyGroups.data.length > 0">
                         <tr v-for="group in slskeyGroups.data" :key="'group' + group.id"
-                        class="hover:bg-gray-100 focus-within:bg-gray-100">
+                            class="hover:bg-gray-100 focus-within:bg-gray-100">
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                    {{ group.slskey_code }}
+                                {{ group.slskey_code }}
                                 </Link>
                             </td>
 
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                    {{ group.activeUserCount }}
+                                <SlskeyGroupNameAndIcon :slskeyGroupName="group.name" :workflow="group.workflow" />
+
                                 </Link>
                             </td>
 
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                    <SlskeyGroupNameAndIcon :slskeyGroupName="group.name" :workflow="group.workflow"/>
-                                        
+                                {{ group.webhook_custom_verifier_class }}
                                 </Link>
                             </td>
                             <!--
@@ -58,14 +60,20 @@
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                    
-                                    <span v-for="publisher in group.publishers" :key="publisher.id">
-                                        {{ publisher }}
-                                    </span>
+
+                                <span v-for="publisher in group.publishers" :key="publisher.id">
+                                    {{ publisher }}
+                                </span>
                                 </Link>
                             </td>
 
-                            
+                            <td class="align-top">
+                                <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+                                    :href="`/admin/groups/${group.slskey_code}`">
+                                {{ group.activeUserCount }}
+                                </Link>
+                            </td>
+
 
                         </tr>
                     </template>
@@ -90,12 +98,12 @@ import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
 import SlskeyGroupNameAndIcon from '../../Shared/SlskeyGroupNameAndIcon.vue';
 export default {
     components: {
-    AppLayout,
-    SelectFilter,
-    Inertia,
-    DefaultButton,
-    SlskeyGroupNameAndIcon
-},
+        AppLayout,
+        SelectFilter,
+        Inertia,
+        DefaultButton,
+        SlskeyGroupNameAndIcon
+    },
     props: {
         slskeyGroups: Object
     },

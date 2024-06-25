@@ -224,6 +224,4 @@ return [
     */
 
     'help_page' => env('HELP_PAGE', 'https://slsp.ch'),
-
-
 ];

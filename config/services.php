@@ -61,5 +61,4 @@ return [
         'api_password' => env('SWITCH_API_PASSWORD', '---'),
         'natlic_group' => env('SWITCH_NATLIC_GROUP', '---'),
     ],
-
 ];

@@ -7,7 +7,7 @@ TODO: Add Cron Job for Jobs
 
 TODO: TEST: Server aufbauen
 
-TODO: Deployment Produktive 
+TODO: Deployment Produktive
       - Laravel Octane
       - PHP FPM
 

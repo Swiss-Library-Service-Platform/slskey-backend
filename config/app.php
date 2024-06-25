@@ -225,39 +225,5 @@ return [
 
     'help_page' => env('HELP_PAGE', 'https://slsp.ch'),
 
-    /*
 
-    |--------------------------------------------------------------------------
-    | Alma API
-    |--------------------------------------------------------------------------
-    |
-    */
-    'alma' => [
-        'api_key' => env('ALMA_API_KEY', '---'),
-        'base_url' => env('ALMA_BASE_URL', '---'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | SWITCH API
-    |--------------------------------------------------------------------------
-    |
-    */
-    'switch' => [
-        'base_url' => env('SWITCH_BASE_URL', '---'),
-        'api_user' => env('SWITCH_API_USER', '---'),
-        'api_password' => env('SWITCH_API_PASSWORD', '---'),
-        'natlic_group' => env('SWITCH_NATLIC_GROUP', '---'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cloud App Authentication
-    |--------------------------------------------------------------------------
-    |
-    */
-    'cloudapp_jwt_token' => [
-        'issuer' => env('JWT_CLOUDAPP_ISSUER', '---'),
-        'audience' => env('JWT_CLOUDAPP_AUDIENCE', '---'),
-    ],
 ];

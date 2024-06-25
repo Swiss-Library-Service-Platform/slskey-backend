@@ -32,16 +32,16 @@ class AppServiceProvider extends ServiceProvider
         // Note: (PestPHP) Tests use Mockery to switch out the actual services with mocks
         $this->app->bind(AlmaAPIInterface::class, function () {
             return new AlmaAPIService(
-                config('app.alma.base_url'),
-                config('app.alma.api_key')
+                config('services.alma.41SLSP_NETWORK.base_url'),
+                config('services.alma.41SLSP_NETWORK.api_key')
             );
         });
         $this->app->bind(SwitchAPIInterface::class, function () {
             return new SwitchAPIService(
-                config('app.switch.base_url'),
-                config('app.switch.api_user'),
-                config('app.switch.api_password'),
-                config('app.switch.natlic_grop')
+                config('services.switch.base_url'),
+                config('services.switch.api_user'),
+                config('services.switch.api_password'),
+                config('services.switch.natlic_grop')
             );
         });
         $this->app->bind(SlskeyActivationRepositoryInterface::class, function () {

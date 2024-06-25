@@ -169,6 +169,7 @@ class AuthCloudApp
         }
 
         // TODO: check if there are roles in the user for this institution
+        /*
         $roles = $almaUser->roles;
         if (!$roles) {
             return [
@@ -176,6 +177,7 @@ class AuthCloudApp
                 'message' => 'User has no roles in Alma.'
             ];
         }
+        */
 
         // Success
         return [

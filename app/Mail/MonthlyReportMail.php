@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistory;
 use App\Models\SlskeyHistoryMonth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;

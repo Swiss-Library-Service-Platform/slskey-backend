@@ -16,6 +16,8 @@ TODO: Was ist mit edu-ID Login
 
 TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
 
+TODO: wirklich den NZ API token nutzen für die alma calls? (z.b. activation preview)
+
 ________________________________________________________________________
 Nice to have:
 

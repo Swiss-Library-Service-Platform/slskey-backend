@@ -51,13 +51,15 @@
 		"user_identifier_username": "Benutzername"
 	},
 	"alma_user": {
+		"addresses": "Adressen",
 		"alma_details": "Alma Details",
 		"email": "E-Mail",
 		"first_name": "Vorname",
 		"full_name": "Benutzername",
 		"last_name": "Nachname",
 		"not_found": "Kein Benutzer in Alma gefunden",
-		"preferred_language": "Sprache"
+		"preferred_language": "Sprache",
+		"user_group": "Benutzergruppe"
 	},
 	"app_header": {
 		"help": "Hilfe",

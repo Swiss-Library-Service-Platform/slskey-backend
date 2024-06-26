@@ -54,6 +54,7 @@
         "alma_details": "Détails Alma",
         "email": "E-mail",
         "first_name": "Prénom",
+        "full_name": "Nom complet",
         "last_name": "Nom de famille",
         "not_found": "Aucun utilisateur trouvé dans Alma",
         "preferred_language": "Langue"
@@ -263,7 +264,6 @@
         },
         "title": "Gestion des utilisateurs",
         "unblock": "Débloquer",
-        "user_full_name": "Nom d'utilisateur complet",
         "webhook_activation_mail": "E-mail activé"
     },
     "user_status_chip": {

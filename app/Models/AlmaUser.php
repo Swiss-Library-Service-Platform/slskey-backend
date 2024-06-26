@@ -22,6 +22,7 @@ class AlmaUser extends Model
         'full_name',
         'preferred_language',
         'preferred_email',
+        'addresses',
 
         // for webhook checks
         'user_identifier',
@@ -75,6 +76,7 @@ class AlmaUser extends Model
             'full_name' => $apiData->full_name,
             'preferred_email' => $preferredEmail,
             'preferred_language' => $language,
+            'addresses' => $apiData->contact_info->address ?? '',
 
             // for webhook checks
             'user_identifier' => $apiData->user_identifier,
@@ -101,6 +103,7 @@ class AlmaUser extends Model
             'last_name' => $jsonData['last_name'],
             'full_name' => $jsonData['full_name'],
             'preferred_language' => $jsonData['preferred_language'],
+            'addresses' => $jsonData['addresses'],
             'preferred_email' => $jsonData['preferred_email'],
             'user_identifier' => $jsonData['user_identifier'],
             'user_group' => $jsonData['user_group'],

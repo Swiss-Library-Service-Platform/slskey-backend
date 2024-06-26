@@ -18,7 +18,9 @@
         1. [Linting](#linting)
         2. [Testing & Coverage](#testing--coverage)
 7. [PHP Doc Header](#php-doc-header)
-8. [Develop New Verifier](#new-verifier)
+8. [Enhancements](#enhancements)
+    1. [New SLSKey Group + API Key](#new-slskey-group--api-key)
+    2. [Custom Webhook Verifier](#custom-webhook-verifier)
 
 
 ## Technology Stack
@@ -161,8 +163,16 @@ See above at section Testing for more information. </br>
 ## PHP Doc Header
 Use VS Code Plugin `PHP DocBlocker` to generate PHP Doc Header. </br>
 
-## Develop New Verifier
+## Enhancements
 
+### New SLSKey Group + API Key
+When a new SLSKey Group is added in the SLSKey Admin Panel, the API Key needs to be added to the config. </br>
+Add the API Key for the Alma IZ that is associated with the new SLSKey Group to the `services.php` config file. </br>
+The key should be added to the `api_keys` array. </br>
+Add the value of the key to the .env file. </br>
+
+
+### Custom Webhook Verifier
 To develop a new verifier, create a new class in the `app/Helpers/CustomWebhookVerifier/Implementations` directory. </br>
 After creating the class, the Verifier will be available in the UI to select. </br> </br>
 

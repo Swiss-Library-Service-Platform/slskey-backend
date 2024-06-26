@@ -32,7 +32,7 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
             $user_identifier = (string) $request->user_identifier;
 
-            return Limit::perMinute(5)->by($user_identifier.$request->ip());
+            return Limit::perMinute(10)->by($user_identifier.$request->ip());
         });
 
         // Make sure only User login via username&password, when user is not an edu_id

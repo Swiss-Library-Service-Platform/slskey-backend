@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between">
+    <div class="flex justify-between pl-4">
         <h2 class="flex items-center leading-tight text-2xl justify-self-start text-color-header-text">
             <template v-for="(crumb, index) in breadCrumbs">
                 <template v-if="crumb.link">

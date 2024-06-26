@@ -210,7 +210,7 @@ export default {
         'form.workflow': function (workflow) {
             if (workflow === 'Manual') {
                 this.form.webhook_secret = null;
-                this.form.webhook_custom_verifier = null;
+                this.form.webhook_custom_verifier = 0;
                 this.form.webhook_custom_verifier_class = null;
             } else {
                 this.form.days_activation_duration = null;
@@ -219,7 +219,7 @@ export default {
         },
         'form.webhook_mail_activation': function (webhook_mail_activation) {
             if (webhook_mail_activation) {
-                this.form.webhook_custom_verifier = null;
+                this.form.webhook_custom_verifier = 0;
                 this.form.webhook_custom_verifier_class = null;
             }
         },

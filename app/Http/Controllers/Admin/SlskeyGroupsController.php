@@ -153,7 +153,8 @@ class SlskeyGroupsController extends Controller
                 $rules['webhook_mail_activation_domains'] = ['required', 'max:255'];
                 $rules['webhook_mail_activation_days_send_before_expiry'] = ['required', 'integer'];
                 $rules['webhook_mail_activation_days_token_validity'] = ['required', 'integer'];
-                $rules['webhook_custom_verifier'] = ['prohibited_if:webhook_mail_activation,1'];
+                // webhook_custom_verifier should be 0 if webhook_mail_activation is 1
+                $rules['webhook_custom_verifier'] = ['nullable', 'integer', 'max:0'];
             } else {
                 $rules['days_activation_duration'] = ['prohibited'];
                 $rules['webhook_mail_activation_domains'] = ['prohibited'];

@@ -12,7 +12,7 @@
       </div>
       <div class="flex flex-col text-left">
         <div class="w-60 text-2xl h-16 mb-4 flex items-center justify-between"> 
-          <span> {{ $t("alma_user.alma_details") }} </span>
+          <span> {{ $t("alma_user.alma_details") }} (NZ) </span>
           <div v-if="loading" class="btn-spinner-black" /> 
         </div>
         <div class="flex flex-col text-left" v-if="this.almaUser">

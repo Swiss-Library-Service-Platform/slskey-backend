@@ -102,7 +102,7 @@ class ImportController extends Controller
             $success = $result['success'];
             $message = $result['message'];
             $isActive = $result['isActive'] ?? null;
-            $isVerified =$result['isVerified'] ?? null;
+            $isVerified = $result['isVerified'] ?? null;
 
             // Broadcast progress to the frontend
             event(new DataImportProgressEvent($currentRow, $row['primary_id'], $row['slskey_code'], $success, $message, $isActive, $isVerified));

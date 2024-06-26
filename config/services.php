@@ -37,16 +37,12 @@ return [
     |
     */
     'alma' => [
-        '41SLSP_NETWORK' => [
-            'api_key' => env('ALMA_API_KEY', '---'),
-            'base_url' => env('ALMA_BASE_URL', '---'),
-        ],
-        /*
-        '41SLSP_HPH' => [
-            'api_key' => env('XXXXXXXXXXX', '---'),
-            'base_url' => env('XXXXXXXXXXX', '---'),
-        ],
-        */
+        'base_url' => env('ALMA_BASE_URL', '---'),
+        // API KEYs
+        'api_keys' => [
+            '41SLSP_NETWORK' => env('ALMA_API_NZ_KEY', '---'),
+            '41SLSP_ABN' => env('ALMA_ABN_API_KEY', '---'),
+        ]
     ],
 
     /*

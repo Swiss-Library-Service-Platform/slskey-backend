@@ -141,7 +141,7 @@ class AuthCloudApp
     {
         $institution = $token->inst_code;
         $username = $token->sub;
-        $token = config("services.alma.$institution.api_key");
+        $token = config("services.alma.api_keys.$institution");
         if (!$token) {
             return [
                 'success' => false,

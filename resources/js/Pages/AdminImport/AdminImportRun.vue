@@ -19,7 +19,7 @@
 
                 <div>
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
-                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Check if active" />
+                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Only import if user already activated" />
                     <DefaultButton v-if="!importStarted" @click="startImport"
                         class="w-fit text-white bg-color-slsp py-2">
                         Start Import
@@ -82,7 +82,8 @@
                             <th class="py-4 pr-6 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }}
                             </th>
                             <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('slskey_user.primary_id') }} </th>
-                            <th class="py-4 px-6 text-left whitespace-nowrap"> Already active </th>
+                            <th class="py-4 px-6 text-left whitespace-nowrap"> Switch Status </th>
+                            <th class="py-4 px-6 text-left whitespace-nowrap"> Custom Verification </th>
                             <th class="py-4 px-6 text-left whitespace-nowrap"> Success </th>
                             <th class="py-4 pl-6 text-left whitespace-nowrap"> Error </th>
                         </tr>
@@ -102,6 +103,11 @@
                                         <Icon class="h-6 w-6"
                                             :class="doneRow.isActive == null ? 'text-color-deactivated' : (doneRow.isActive ? 'text-color-active' : 'text-color-blocked')"
                                             :icon="doneRow.isActive == null ? 'question-mark' : (doneRow.isActive ? 'check-circle' : 'x')" />
+                                    </td>
+                                    <td class="px-6 py-4 align-top">
+                                        <Icon class="h-6 w-6"
+                                            :class="doneRow.isVerified == null ? 'text-color-deactivated' : (doneRow.isVerified ? 'text-color-active' : 'text-color-blocked')"
+                                            :icon="doneRow.isVerified == null ? 'question-mark' : (doneRow.isVerified ? 'check-circle' : 'x')" />
                                     </td>
                                     <td class="px-6 py-4 align-top">
                                         <Icon class="h-6 w-6"
@@ -209,7 +215,7 @@ export default {
                 this.successRows = event.success ? this.successRows + 1 : this.successRows;
                 this.errorRows = event.success ? this.errorRows : this.errorRows + 1;
                 this.activeRows = event.isActive ? this.activeRows + 1 : this.activeRows;
-
+                
                 this.progress++;
                 this.updateRow(event.currentRow, event);
             });
@@ -222,6 +228,7 @@ export default {
             doneRow.success = event.success;
             doneRow.message = event.message;
             doneRow.isActive = event.isActive;
+            doneRow.isVerified = event.isVerified;
             // push the doneRow to doneRows at first index
             this.doneRows.unshift(doneRow);
         },

@@ -635,23 +635,10 @@ class UserService
      */
     public function verifySwitchStatusSlskeyUser(string $primaryId, string $slskeyCode): UserServiceResponse
     {
-        // Get SLSKey User
-        $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
-        if (!$slskeyUser) {
-            return new UserServiceResponse(false, 'No SLSKey User found');
-        }
-
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
         if (!$slskeyGroup) {
             return new UserServiceResponse(false, 'No SLSKey Group found');
-        }
-
-        // Get SLSKey Activation
-        $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)
-            ->where('slskey_group_id', '=', $slskeyGroup->id)->first();
-        if (!$activation) {
-            return new UserServiceResponse(false, 'No SLSKey Activation found');
         }
 
         // Check if slskeygroup has switchgroups

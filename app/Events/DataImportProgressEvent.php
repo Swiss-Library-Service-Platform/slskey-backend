@@ -26,6 +26,8 @@ class DataImportProgressEvent implements ShouldBroadcast
 
     public $isActive;
 
+    public $isVerified;
+
     /**
      * Create a new event instance.
      *
@@ -36,7 +38,7 @@ class DataImportProgressEvent implements ShouldBroadcast
      * @param string $message
      * @param boolean $isActive
      */
-    public function __construct(int $currentRow, string $primary_id, string $slskey_code, bool $success, string $message, ?bool $isActive)
+    public function __construct(int $currentRow, string $primary_id, string $slskey_code, bool $success, string $message, ?bool $isActive, ?bool $isVerified)
     {
         $this->currentRow = $currentRow;
         $this->primary_id = $primary_id;
@@ -44,6 +46,7 @@ class DataImportProgressEvent implements ShouldBroadcast
         $this->success = $success;
         $this->message = $message;
         $this->isActive = $isActive;
+        $this->isVerified = $isVerified;
     }
 
     /**

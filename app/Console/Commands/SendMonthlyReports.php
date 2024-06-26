@@ -47,15 +47,14 @@ class SendMonthlyReports extends Command
         $this->logger->info("Sending Monthly Reports");
 
         // Get all SLSKey Groups with expiring activations
-        $slskeyGroups = SlskeyGroup::where('slskey_code', 'z01') //TODO: FIXME: remove this line
-            ->get();
+        $slskeyGroups = SlskeyGroup::all();
 
         foreach ($slskeyGroups as $slskeyGroup) {
             // Get all Report Emails for this SLSKey Group
             $reportEmailAddresses = $slskeyGroup->reportEmailAddresses->pluck('email_address')->toArray();
 
             if (count($reportEmailAddresses) == 0) {
-                $this->logger->info("Error: No report email addresses found for $slskeyGroup->slskey_code.");
+                $this->logger->info("$slskeyGroup->slskey_code: Error: No report email addresses found");
 
                 continue;
             }
@@ -73,9 +72,9 @@ class SendMonthlyReports extends Command
             $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
 
             if ($sent) {
-                $this->logger->info("Success: Sent report to ".implode(', ', $reportEmailAddresses));
+                $this->logger->info("$slskeyGroup->slskey_code: Success: Sent report to ".implode(', ', $reportEmailAddresses));
             } else {
-                $this->logger->info("Error: Failed to send report to ".implode(', ', $reportEmailAddresses));
+                $this->logger->info("$slskeyGroup->slskey_code: Error: Failed to send report to ".implode(', ', $reportEmailAddresses));
             }
         }
 

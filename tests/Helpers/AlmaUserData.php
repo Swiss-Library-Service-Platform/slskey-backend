@@ -14,6 +14,16 @@ function getAlmaUserData(string $primaryId, ?string $status = null)
             'email' => [
                 ['email_address' => 'john.doe@bluewin.ch', 'preferred' => 'true'],
             ],
+            'addresses' => [
+                [
+                    'line1' => 'Musterstrasse 1',
+                    'postal_code' => '1234',
+                    'city' => 'Musterstadt',
+                    'country' => ['value' => 'CH'],
+                    'address_type' => ['value' => 'Home'],
+                    'preferred' => 'true',
+                ],
+            ],
         ],
         'user_identifier' => [
             ['wrong format of identifier'],

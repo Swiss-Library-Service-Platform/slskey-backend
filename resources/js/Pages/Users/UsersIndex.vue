@@ -31,7 +31,7 @@
                                 <Icon icon="arrow-up" v-if="form.sortBy === 'primary_id' && form.sortAsc"
                                     class="h-4 w-4" />
                                 <!-- {{ $t('slskey_user.primary_id') }} -->
-                                {{ $t('user_management.user_full_name') }}
+                                {{ $t('alma_user.full_name') }}
                             </div>
                         </th>
                         <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> {{

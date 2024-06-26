@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistory;
+use App\Models\SlskeyHistoryMonth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -23,10 +23,10 @@ class MonthlyReportMail extends Mailable
      * Create a new message instance.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param SlskeyHistory $slskeyHistory
+     * @param SlskeyHistoryMonth $slskeyHistory
      * @param integer $activeCount
      */
-    public function __construct(SlskeyGroup $slskeyGroup, SlskeyHistory $slskeyHistory, int $activeCount)
+    public function __construct(SlskeyGroup $slskeyGroup, SlskeyHistoryMonth $slskeyHistory, int $activeCount)
     {
         $this->slskeyGroup = $slskeyGroup;
         $this->slskeyHistory = $slskeyHistory;

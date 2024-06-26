@@ -14,7 +14,7 @@ TODO: Deployment Produktive
 TODO: Was ist mit edu-ID Login
       - Erstmal auf Eis
 
-TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
+TODO: wirklich den NZ API token nutzen für die alma calls? (z.b. activation preview)
 
 ________________________________________________________________________
 Nice to have:
@@ -31,6 +31,8 @@ TODO: Wrap activation in Transaction
 TODO: Test:
       - for each job
       - Add good test for Cloud App Auths
+
+TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
 
 ________________________________________________________________________
 Feedback Bibliotheken:

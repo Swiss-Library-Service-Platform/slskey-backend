@@ -51,12 +51,15 @@
 		"user_identifier_username": "Username"
 	},
 	"alma_user": {
+		"addresses": "Addresses",
 		"alma_details": "Alma details",
 		"email": "E-mail",
 		"first_name": "First name",
+		"full_name": "User Name",
 		"last_name": "Last name",
 		"not_found": "No user found in Alma",
-		"preferred_language": "Language"
+		"preferred_language": "Language",
+		"user_group": "User Group"
 	},
 	"app_header": {
 		"help": "Help",
@@ -263,7 +266,6 @@
 		},
 		"title": "User Management",
 		"unblock": "Unblock",
-		"user_full_name": "User Name",
 		"webhook_activation_mail": "Activated E-Mail"
 	},
 	"user_status_chip": {

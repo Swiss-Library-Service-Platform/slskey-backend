@@ -8,7 +8,6 @@ use App\Mail\ReactivationTokenUserMail;
 use App\Mail\RemindExpiringUserMail;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistory;
 use App\Models\SlskeyHistoryMonth;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
@@ -72,7 +71,7 @@ class MailService
      * Send Monthly Report Mail.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param SlskeyHistory $slskeyHistory
+     * @param SlskeyHistoryMonth $slskeyHistory
      * @param integer $totalCount
      * @param array $reportEmailAddresses
      * @return ?SentMessage

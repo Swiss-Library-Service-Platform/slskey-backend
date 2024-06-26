@@ -102,9 +102,10 @@ class ImportController extends Controller
             $success = $result['success'];
             $message = $result['message'];
             $isActive = $result['isActive'] ?? null;
+            $isVerified = $result['isVerified'] ?? null;
 
             // Broadcast progress to the frontend
-            event(new DataImportProgressEvent($currentRow, $row['primary_id'], $row['slskey_code'], $success, $message, $isActive));
+            event(new DataImportProgressEvent($currentRow, $row['primary_id'], $row['slskey_code'], $success, $message, $isActive, $isVerified));
 
             $currentRow++;
         }
@@ -139,12 +140,24 @@ class ImportController extends Controller
             try {
                 $response = $this->userService->verifySwitchStatusSlskeyUser($row['primary_id'], $slskeyGroup->slskey_code);
                 $isActive = $response->success;
+                if (! $isActive) {
+                    return ['success' => false, 'message' => $response->message, 'isActive' => false];
+                }
             } catch (\Exception $e) {
                 return ['success' => false, 'message' => $e->getMessage(), 'isActive' => false];
             }
         }
 
         // Check Alma user
+        $token = config("services.alma.api_keys.{$slskeyGroup->alma_iz}");
+        if (!$token) {
+            return [
+                'success' => false,
+                'message' => 'No API token configured for this IZ.'
+            ];
+        }
+        $this->almaApiService->setApiKey($token);
+
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($row['primary_id']);
         if (! $almaServiceResponse->success) {
             return ['success' => false, 'message' => $almaServiceResponse->errorText, 'isActive' => $isActive];
@@ -160,10 +173,14 @@ class ImportController extends Controller
         }
 
         // Check for custom verification
-        $hasCustomVerification = $slskeyGroup->checkCustomVerificationForUser($almaUser);
-
-        if (! $hasCustomVerification) {
-            return ['success' => false, 'message' => 'Failed custom verification for SlskeyGroup.'];
+        $userIsVerified = $slskeyGroup->checkCustomVerificationForUser($almaUser);
+        if (!$userIsVerified) {
+            return [
+                'success' => false,
+                'message' => 'User is not verified for this SlskeyGroup',
+                'isActive' => $isActive,
+                'isVerified' => $userIsVerified,
+            ];
         }
 
         // Separate Z01 into Z01 and MBA
@@ -183,6 +200,7 @@ class ImportController extends Controller
                 'success' => true,
                 'message' => "User is ready for: {$slskeyGroup->slskey_code}",
                 'isActive' => $isActive,
+                'isVerified' => $userIsVerified,
             ];
         }
 
@@ -198,7 +216,12 @@ class ImportController extends Controller
 
         // Error handling
         if (! $response->success) {
-            return ['success' => false, 'message' => $response->message, 'isActive' => $isActive];
+            return [
+                'success' => false,
+                'message' => $response->message,
+                'isActive' => $isActive,
+                'isVerified' => $userIsVerified,
+            ];
         }
 
         // Set remark
@@ -220,7 +243,12 @@ class ImportController extends Controller
             $this->userService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
         }
 
-        return ['success' => true, 'message' => $response->message, 'isActive' => $isActive];
+        return [
+            'success' => true,
+            'message' => $response->message,
+            'isActive' => $isActive,
+            'isVerified' => $userIsVerified,
+        ];
     }
 
     /**

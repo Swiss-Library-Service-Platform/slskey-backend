@@ -26,6 +26,7 @@ class SlskeyGroupAdminResource extends JsonResource
             // Webhook
             'alma_iz' => $this->alma_iz,
             'webhook_custom_verifier' => $this->webhook_custom_verifier,
+            'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
             'webhook_secret' => $this->webhook_secret,
             // Switch Group Count
             'switchGroupsCount' => $this->switchGroups->count(),

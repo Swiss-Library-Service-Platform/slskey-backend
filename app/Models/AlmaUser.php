@@ -103,11 +103,13 @@ class AlmaUser extends Model
             'last_name' => $jsonData['last_name'],
             'full_name' => $jsonData['full_name'],
             'preferred_language' => $jsonData['preferred_language'],
-            'addresses' => $jsonData['addresses'],
             'preferred_email' => $jsonData['preferred_email'],
+            'addresses' => $jsonData['addresses'],
             'user_identifier' => $jsonData['user_identifier'],
             'user_group' => $jsonData['user_group'],
             'email' => $jsonData['email'],
+            'record_type' => $jsonData['record_type'],
+            'roles' => $jsonData['roles']
         ]);
     }
 }

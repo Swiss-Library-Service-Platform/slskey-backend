@@ -27,6 +27,7 @@ class AlmaUserFactory extends Factory
             'full_name' => $this->faker->word(),
             'preferred_language' => $this->faker->word(),
             'preferred_email' => $this->faker->word(),
+            'addresses' => $this->faker->word(),
             'user_identifier' => $this->faker->word(),
             'user_group' => $this->faker->word(),
             'email' => $this->faker->word(),

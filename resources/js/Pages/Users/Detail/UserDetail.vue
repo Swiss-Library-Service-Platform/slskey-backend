@@ -37,10 +37,12 @@
                     <UserDetailActivations :slskeyUser="slskeyUser.data" :isWebhookMailActivation="isWebhookMailActivation"/>
                 </div>
                 <div class="p-8 flex gap-5" v-show="activeTab === 1">
-                    <div v-if="almaLoading" class="w-full h-64 flex items-center justify-center">
-                        <div class="spinner"></div>
-                    </div>
-                    <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
+                    <template v-if="almaLoading" >
+                        <AlmaUserDetailsLoad />
+                    </template>
+                    <template v-else >
+                        <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
+                    </template>
                 </div>
                 <div class="py-4" v-show="activeTab === 2">
                     <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories"/>
@@ -53,7 +55,8 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import UserDetailActivations from './Tabs/UserDetailActivations.vue';
-import AlmaUserDetailsShow from '@/Shared/AlmaUserDetailsShow.vue'
+import AlmaUserDetailsShow from "@/Shared/AlmaUser/AlmaUserDetailsShow.vue";
+import AlmaUserDetailsLoad from "@/Shared/AlmaUser/AlmaUserDetailsLoad.vue";
 import UserDetailHistory from './Tabs/UserDetailHistory.vue';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios'
@@ -67,6 +70,7 @@ export default {
         Inertia,
         UserDetailActivations,
         AlmaUserDetailsShow,
+        AlmaUserDetailsLoad,
         UserDetailHistory,
         ActionButton,
         Icon

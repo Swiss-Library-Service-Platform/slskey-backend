@@ -1,5 +1,5 @@
 <template>
-  <div class="w-fit bg-color-alma rounded-md px-8 py-6 flex flex-col">
+  <div class="w-fit bg-color-alma rounded-md p-8 flex flex-col">
     <div class="flex flex-row">
       <div class="flex flex-col text-left mr-8">
         <img class="h-16 w-16 mb-4" src="/images/alma_logo.png" />
@@ -11,9 +11,11 @@
         <span class="mt-4">{{ $t("alma_user.addresses") }}: </span>
       </div>
       <div class="flex flex-col text-left">
-        <div class="w-60 text-2xl h-16 mb-4 flex items-center justify-between"> 
-          <span> {{ $t("alma_user.alma_details") }} (NZ) </span>
-          <div v-if="loading" class="btn-spinner-black" /> 
+        <div class="w-60 h-16 mb-4 flex items-center justify-between"> 
+          <div class="flex flex-col">
+            <span class="text-2xl font-semibold"> {{ $t("alma_user.alma_details") }} </span>
+            <span class="text-lg"> {{ this.almaUser?.alma_iz }} </span>
+          </div>
         </div>
         <div class="flex flex-col text-left" v-if="this.almaUser">
           <span class="font-bo"> {{ this.almaUser?.full_name }} </span>
@@ -31,7 +33,7 @@
 
       </div>
     </div>
-    <div v-if="!loading && !this.almaUser" class="text-color-blocked italic font-italic my-8">
+    <div v-if="!this.almaUser" class="text-color-blocked italic font-italic my-8">
       {{ $t("alma_user.not_found") }}
     </div>
   </div>
@@ -42,7 +44,6 @@ export default {
   components: {},
   props: {
     almaUser: Object,
-    loading: Boolean
   },
   data() {
     return {};

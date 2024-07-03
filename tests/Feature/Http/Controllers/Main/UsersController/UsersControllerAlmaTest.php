@@ -1,6 +1,6 @@
 <?php
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceMultiResponse;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyUser;
@@ -28,14 +28,16 @@ it('fails alma because no alma info', function () {
     $slskeyUser = SlskeyUser::query()->inRandomOrder()->first();
 
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(false, 404, null, ''));
+    $almaApiServiceMock->shouldReceive('getUserFromMultipleIzs')->andReturn(
+        new AlmaServiceMultiResponse(false, null, 'failed')
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     $response = $this->get("/users/alma/{$slskeyUser->primary_id}");
 
     $response->assertStatus(200);
     $response->assertJson([
-        'almaUser' => null,
+        'almaUsers' => null,
     ]);
 });
 
@@ -49,13 +51,15 @@ it('succeeds to get alma user info', function () {
     $almaUser = AlmaUser::factory()->make(['primary_id' => $slskeyUser->primary_id]);
 
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(true, 200, $almaUser, ''));
+    $almaApiServiceMock->shouldReceive('getUserFromMultipleIzs')->andReturn(
+        new AlmaServiceMultiResponse(true, [$almaUser], null)
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     $response = $this->get("/users/alma/{$slskeyUser->primary_id}");
 
     $response->assertStatus(200);
     $response->assertJson([
-        'almaUser' => $almaUser->toArray(),
+        'almaUsers' => [$almaUser->toArray()],
     ]);
 });

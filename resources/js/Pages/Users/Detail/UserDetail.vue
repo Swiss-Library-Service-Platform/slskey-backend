@@ -36,8 +36,11 @@
                 <div v-show="activeTab === 0">
                     <UserDetailActivations :slskeyUser="slskeyUser.data" :isWebhookMailActivation="isWebhookMailActivation"/>
                 </div>
-                <div class="p-8" v-show="activeTab === 1">
-                    <AlmaUserDetailsShow class="border" :loading="almaLoading" :almaUser="almaUser" />
+                <div class="p-8 flex gap-5" v-show="activeTab === 1">
+                    <div v-if="almaLoading" class="w-full h-64 flex items-center justify-center">
+                        <div class="spinner"></div>
+                    </div>
+                    <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
                 </div>
                 <div class="py-4" v-show="activeTab === 2">
                     <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories"/>
@@ -76,7 +79,7 @@ export default {
     data() {
         return {
             loading: false,
-            almaUser: null,
+            almaUsers: null,
             almaLoading: true,
             activeTab: 0,
             showUserExlamation: false,
@@ -100,13 +103,9 @@ export default {
             try {
                 // Make an asynchronous request to fetch external user information
                 const response = await axios.get('/users/alma/' + this.slskeyUser.data.primary_id);
-                this.almaUser = response.data.almaUser;
+                this.almaUsers = response.data.almaUsers;
                 this.almaLoading = false;
-                this.showUserExlamation = !this.almaUser;
-                // Update full name if it changed
-                if (this.almaUser && this.almaUser.full_name !== this.slskeyUser.data.full_name) {
-                    this.slskeyUser.data.full_name = this.almaUser.full_name;
-                }
+                this.showUserExlamation = !this.almaUsers;
             } catch (error) {
                 console.error('Error fetching external user information:', error);
             }

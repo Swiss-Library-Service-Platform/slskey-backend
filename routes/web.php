@@ -54,6 +54,8 @@ Route::get('logout/eduid', [LandingController::class, 'logoutEduID'])
 // Publisher Participate Info Page
 Route::get('/participate', [LandingController::class, 'participate'])
     ->name('participate');
+Route::get('/publishers', [LandingController::class, 'participate'])
+    ->name('publishers');
 
 // Authenticated Routes
 Route::middleware([

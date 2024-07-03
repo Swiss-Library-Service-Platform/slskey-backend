@@ -1,6 +1,6 @@
 <?php
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceSingleResponse;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyUser;
@@ -122,13 +122,16 @@ it('succeeds to show users - 2 groups - with users', function () {
 it('succeeds to search - no results', function () {
     seedSlskeyActivations();
 
+    $identifier = 'nothingtofind';
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(false, 400, null, 'Not found'));
+    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($identifier, '41SLSP_NETWORK')->andReturn(
+        new AlmaServiceSingleResponse(true, null, '')
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     $user = User::factory()->edu_id()->withRandomPermissions(1)->create();
     $this->actingAs($user);
-    $response = $this->get('/users?search=123456');
+    $response = $this->get("/users?search=$identifier");
 
     $response->assertStatus(200);
     $response->assertInertia(
@@ -172,15 +175,17 @@ it('succeeds to search - result from alma', function () {
 
     $slskeyUser = SlskeyUser::query()->inRandomOrder()->first();
     $almaUser = AlmaUser::factory()->make(['primary_id' => $slskeyUser->primary_id]);
+    $identifier = 'something that is not gonna be found';
 
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(true, 200, $almaUser, ''));
+    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($identifier, '41SLSP_NETWORK')->andReturn(
+        new AlmaServiceSingleResponse(true, $almaUser, null)
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     $user = User::factory()->edu_id()->withRandomPermissions(1)->create();
     $this->actingAs($user);
 
-    $identifier = 'something that is not gonna be found';
     $response = $this->get("/users?search=$identifier");
 
     $response->assertStatus(200);

@@ -149,16 +149,7 @@ class ImportController extends Controller
         }
 
         // Check Alma user
-        $token = config("services.alma.api_keys.{$slskeyGroup->alma_iz}");
-        if (!$token) {
-            return [
-                'success' => false,
-                'message' => 'No API token configured for this IZ.'
-            ];
-        }
-        $this->almaApiService->setApiKey($token);
-
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($row['primary_id']);
+        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($row['primary_id'], $slskeyGroup->alma_iz);
         if (! $almaServiceResponse->success) {
             return ['success' => false, 'message' => $almaServiceResponse->errorText, 'isActive' => $isActive];
         }

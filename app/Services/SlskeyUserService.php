@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\UserServiceResponse;
+use App\DTO\SlskeyUserServiceResponse;
 use App\Enums\ActivationActionEnums;
 use App\Enums\WorkflowEnums;
 use App\Interfaces\SwitchAPIInterface;
@@ -38,9 +38,9 @@ class SlskeyUserService
      * @param string $slskeyCode
      * @param string|null $author
      * @param string $trigger
-     * @param AlmaUser|null $almaUser
+     * @param AlmaUser|null $almaUser -> for setting user details and sending activation mail
      * @param string|null $webhookActivationMail
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function activateSlskeyUser(
         string $primaryId,
@@ -49,14 +49,14 @@ class SlskeyUserService
         string $trigger,
         ?AlmaUser $almaUser = null,
         ?string $webhookActivationMail = null,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey User
         $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
 
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
         if (!$slskeyGroup) {
-            return new UserServiceResponse(false, 'No SLSKey Group found');
+            return new SlskeyUserServiceResponse(false, 'No SLSKey Group found');
         }
 
         // Get SLSKey Activation
@@ -126,7 +126,7 @@ class SlskeyUserService
                 }
             }
 
-            return new UserServiceResponse(false, $e->getMessage());
+            return new SlskeyUserServiceResponse(false, $e->getMessage());
         }
 
         // Create User
@@ -203,7 +203,7 @@ class SlskeyUserService
         // $message = __("flashMessages.$messageCode") . ': ' . $successMessage;
         $message = __("flashMessages.$messageCode");
 
-        return new UserServiceResponse(true, $message);
+        return new SlskeyUserServiceResponse(true, $message);
     }
 
     /**
@@ -214,7 +214,7 @@ class SlskeyUserService
      * @param string|null $remark
      * @param string|null $author
      * @param string $trigger
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function deactivateSlskeyUser(
         string $primaryId,
@@ -222,7 +222,7 @@ class SlskeyUserService
         ?string $remark,
         ?string $author,
         string $trigger,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
 
@@ -270,7 +270,7 @@ class SlskeyUserService
         } catch (\Exception $e) {
             $slskeyHistory->setErrorMessage($e->getMessage());
 
-            return new UserServiceResponse(false, $e->getMessage());
+            return new SlskeyUserServiceResponse(false, $e->getMessage());
         }
 
         // Update SLSKey Activation
@@ -279,7 +279,7 @@ class SlskeyUserService
         // Set SLSKey History to Successful
         $slskeyHistory->setSuccess(true);
 
-        return new UserServiceResponse(true, __("flashMessages.user_deactivated"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.user_deactivated"));
     }
 
     /**
@@ -290,7 +290,7 @@ class SlskeyUserService
      * @param string|null $remark
      * @param string|null $author
      * @param string $trigger
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function blockSlskeyUser(
         string $primaryId,
@@ -298,7 +298,7 @@ class SlskeyUserService
         ?string $remark,
         ?string $author,
         string $trigger,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
 
@@ -346,7 +346,7 @@ class SlskeyUserService
         } catch (\Exception $e) {
             $slskeyHistory->setErrorMessage($e->getMessage());
 
-            return new UserServiceResponse(false, $e->getMessage());
+            return new SlskeyUserServiceResponse(false, $e->getMessage());
         }
 
         // Update SLSKey Activation
@@ -355,7 +355,7 @@ class SlskeyUserService
         // Set History succesfull
         $slskeyHistory->setSuccess(true);
 
-        return new UserServiceResponse(true, __("flashMessages.user_blocked"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.user_blocked"));
     }
 
     /**
@@ -366,7 +366,7 @@ class SlskeyUserService
      * @param string|null $remark
      * @param string|null $author
      * @param string $trigger
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function unblockSlskeyUser(
         string $primaryId,
@@ -374,7 +374,7 @@ class SlskeyUserService
         ?string $remark,
         ?string $author,
         string $trigger,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
 
@@ -409,7 +409,7 @@ class SlskeyUserService
         // Set History succesfull
         $slskeyHistory->setSuccess(true);
 
-        return new UserServiceResponse(true, __("flashMessages.user_unblocked"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.user_unblocked"));
     }
 
     /**
@@ -419,14 +419,14 @@ class SlskeyUserService
      * @param string $slskeyCode
      * @param string|null $author
      * @param string $trigger
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function disableExpirationSlskeyUser(
         string $primaryId,
         string $slskeyCode,
         ?string $author,
         string $trigger,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
 
@@ -461,7 +461,7 @@ class SlskeyUserService
         // Set History succesfull
         $slskeyHistory->setSuccess(true);
 
-        return new UserServiceResponse(true, __("flashMessages.user_expiration_disabled"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.user_expiration_disabled"));
     }
 
     /**
@@ -471,14 +471,14 @@ class SlskeyUserService
      * @param string $slskeyCode
      * @param string|null $author
      * @param string $trigger
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
     public function enableExpirationSlskeyUser(
         string $primaryId,
         string $slskeyCode,
         ?string $author,
         string $trigger,
-    ): UserServiceResponse {
+    ): SlskeyUserServiceResponse {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
 
@@ -516,7 +516,7 @@ class SlskeyUserService
         // Set History succesfull
         $slskeyHistory->setSuccess(true);
 
-        return new UserServiceResponse(true, __("flashMessages.user_expiration_enabled"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.user_expiration_enabled"));
     }
 
     /**
@@ -525,9 +525,9 @@ class SlskeyUserService
      * @param string $primaryId
      * @param string $slskeyCode
      * @param string|null $remark
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
-    public function setActivationRemark(string $primaryId, string $slskeyCode, ?string $remark): UserServiceResponse
+    public function setActivationRemark(string $primaryId, string $slskeyCode, ?string $remark): SlskeyUserServiceResponse
     {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
@@ -537,13 +537,13 @@ class SlskeyUserService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new UserServiceResponse(false, 'no_user');
+            return new SlskeyUserServiceResponse(false, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new UserServiceResponse(false, 'no_activation');
+            return new SlskeyUserServiceResponse(false, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -553,7 +553,7 @@ class SlskeyUserService
             $activation->removeRemark();
         }
 
-        return new UserServiceResponse(true, __("flashMessages.remark_set"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.remark_set"));
     }
 
     /**
@@ -562,9 +562,9 @@ class SlskeyUserService
      * @param string $primaryId
      * @param string $slskeyCode
      * @param Carbon $activationDate
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
-    public function updateActivationDate(string $primaryId, string $slskeyCode, Carbon $activationDate): UserServiceResponse
+    public function updateActivationDate(string $primaryId, string $slskeyCode, Carbon $activationDate): SlskeyUserServiceResponse
     {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
@@ -574,13 +574,13 @@ class SlskeyUserService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new UserServiceResponse(false, 'no_user');
+            return new SlskeyUserServiceResponse(false, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new UserServiceResponse(false, 'no_activation');
+            return new SlskeyUserServiceResponse(false, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -588,7 +588,7 @@ class SlskeyUserService
             $activation->setActivationDate($activationDate);
         }
 
-        return new UserServiceResponse(true, __("flashMessages.activation_date_set"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.activation_date_set"));
     }
 
     /**
@@ -597,9 +597,9 @@ class SlskeyUserService
      * @param string $primaryId
      * @param string $slskeyCode
      * @param Carbon $expirationDate
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
-    public function updateExpirationDate(string $primaryId, string $slskeyCode, Carbon $expirationDate): UserServiceResponse
+    public function updateExpirationDate(string $primaryId, string $slskeyCode, Carbon $expirationDate): SlskeyUserServiceResponse
     {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
@@ -609,13 +609,13 @@ class SlskeyUserService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new UserServiceResponse(false, 'no_user');
+            return new SlskeyUserServiceResponse(false, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new UserServiceResponse(false, 'no_activation');
+            return new SlskeyUserServiceResponse(false, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -623,7 +623,7 @@ class SlskeyUserService
             $activation->setExpirationDate($expirationDate);
         }
 
-        return new UserServiceResponse(true, __("flashMessages.expiration_date_set"));
+        return new SlskeyUserServiceResponse(true, __("flashMessages.expiration_date_set"));
     }
 
     /**
@@ -631,33 +631,33 @@ class SlskeyUserService
      *
      * @param string $primaryId
      * @param string $slskeyCode
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
-    public function verifySwitchStatusSlskeyUser(string $primaryId, string $slskeyCode): UserServiceResponse
+    public function verifySwitchStatusSlskeyUser(string $primaryId, string $slskeyCode): SlskeyUserServiceResponse
     {
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
         if (!$slskeyGroup) {
-            return new UserServiceResponse(false, 'No SLSKey Group found');
+            return new SlskeyUserServiceResponse(false, 'No SLSKey Group found');
         }
 
         // Check if slskeygroup has switchgroups
         $groupIds = $slskeyGroup->getSwitchGroupIds();
         if (!$groupIds) {
-            return new UserServiceResponse(false, 'No Switch Groups found for this SLSKey group');
+            return new SlskeyUserServiceResponse(false, 'No Switch Groups found for this SLSKey group');
         }
 
         try {
             $isActive = $this->switchApiService->userIsOnAllGroups($primaryId, $groupIds);
         } catch (\Exception $e) {
-            return new UserServiceResponse(false, $e->getMessage());
+            return new SlskeyUserServiceResponse(false, $e->getMessage());
         }
 
         if (!$isActive) {
-            return new UserServiceResponse(false, 'User is not activated in all SWITCH groups.');
+            return new SlskeyUserServiceResponse(false, 'User is not activated in all SWITCH groups.');
         }
 
-        return new UserServiceResponse(true, 'User is activated in all SWITCH groups.');
+        return new SlskeyUserServiceResponse(true, 'User is activated in all SWITCH groups.');
     }
 
     /**
@@ -665,14 +665,14 @@ class SlskeyUserService
      *
      * @param string $errorMessage
      * @param SlskeyHistory $slskeyHistory
-     * @return UserServiceResponse
+     * @return SlskeyUserServiceResponse
      */
-    private function logAndReturnError(string $errorMessage, SlskeyHistory $slskeyHistory): UserServiceResponse
+    private function logAndReturnError(string $errorMessage, SlskeyHistory $slskeyHistory): SlskeyUserServiceResponse
     {
         $logMessage = __('flashMessages.errors.activations.' . $errorMessage);
         $slskeyHistory->setErrorMessage($logMessage);
 
-        // return new UserServiceResponse(false, $errorMessage);
-        return new UserServiceResponse(false, $logMessage);
+        // return new SlskeyUserServiceResponse(false, $errorMessage);
+        return new SlskeyUserServiceResponse(false, $logMessage);
     }
 }

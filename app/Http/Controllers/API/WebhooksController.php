@@ -7,8 +7,6 @@ use App\Enums\TriggerEnums;
 use App\Enums\WebhookResponseEnums;
 use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Http\Controllers\Controller;
-use App\Interfaces\AlmaAPIInterface;
-use App\Interfaces\SwitchAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
@@ -23,7 +21,6 @@ use Illuminate\Validation\ValidationException;
  */
 class WebhooksController extends Controller
 {
-
     protected $slskeyUserService;
 
     /**

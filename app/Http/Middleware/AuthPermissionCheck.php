@@ -17,7 +17,9 @@ class AuthPermissionCheck
      */
     public function handle($request, Closure $next)
     {
-        $slspEmployee = Auth::user()->isSLSPAdmin();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
 
         if ($slspEmployee) {
             // The user is logged in, so allow access to the route
@@ -37,7 +39,7 @@ class AuthPermissionCheck
             abort(404);
         }
 
-        $permissions = Auth::user()->getSlskeyGroupPermissionsSlskeyCodes();
+        $permissions = $user->getSlskeyGroupPermissionsSlskeyCodes();
 
         // change slskey to lower case
         $slskeyCode = strtolower($slskeyCode);

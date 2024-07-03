@@ -16,6 +16,8 @@ class AlmaUser extends Model
      * @var array
      */
     protected $fillable = [
+        'alma_iz',
+
         'primary_id',
         'first_name',
         'last_name',

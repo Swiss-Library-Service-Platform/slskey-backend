@@ -10,7 +10,7 @@ use App\Interfaces\SwitchAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -24,20 +24,20 @@ class ActivationController extends Controller
 
     protected $switchApiService;
 
-    protected $userService;
+    protected $slskeyUserService;
 
     /**
      * ActivationController constructor.
      *
      * @param AlmaAPIInterface $almaApiService
      * @param SwitchAPIInterface $switchApiService
-     * @param UserService $userService
+     * @param SlskeyUserService $SlskeyUserService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, SwitchAPIInterface $switchApiService, UserService $userService)
+    public function __construct(AlmaAPIInterface $almaApiService, SwitchAPIInterface $switchApiService, SlskeyUserService $slskeyUserService)
     {
         $this->almaApiService = $almaApiService;
         $this->switchApiService = $switchApiService;
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
     }
 
     /**
@@ -58,24 +58,28 @@ class ActivationController extends Controller
      */
     public function preview(string $identifier): Response|RedirectResponse
     {
-        // Selected SLSKey Code
-        // $selectedSlskeyCode = Request::input('slskey_code');
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
+        // Origin: either ACTIVATION_START or null (if coming from user detail page)
         $origin = Request::input('origin');
 
-        // Alma User Details
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($identifier);
-        if (! $almaServiceResponse->success) {
+        // If User is Admin, get for User in Alma NZ, otherwise get User in all IZs
+        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
+        $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
+        if (!$almaServiceResponse->success) {
             if ($origin != 'ACTIVATION_START') {
                 return Redirect::route('users.show', $identifier)->with('error', $almaServiceResponse->errorText);
             }
 
             return Redirect::route('activation.start')->with('error', $almaServiceResponse->errorText);
         }
+        $almaUsers = $almaServiceResponse->almaUsers;
 
         // SLSKey User (stored in SLSKey database)
-        $almaUser = $almaServiceResponse->almaUser;
+        $primaryId = $almaServiceResponse->almaUsers[0]->primary_id;
         $slskeyUser = SlskeyUser::query()
-            ->where('primary_id', $almaUser->primary_id)
+            ->where('primary_id', $primaryId)
             ->whereHasPermittedActivations()
             ->withPermittedActivations()
             ->firstOr(function () {
@@ -88,13 +92,13 @@ class ActivationController extends Controller
         }
 
         // SLSKey Groups
-        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($almaUser->primary_id);
+        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId);
         // Preselect SLSKey Code, if only 1 available group, and group is not blocked
-        $preselectedSlskeyCode = count($slskeyGroups) != 1 ? null : (! $slskeyGroups[0]['activation'] || ! $slskeyGroups[0]['activation']['blocked'] ? $slskeyGroups[0]['value'] : null);
+        $preselectedSlskeyCode = count($slskeyGroups) != 1 ? null : (!$slskeyGroups[0]['activation'] || !$slskeyGroups[0]['activation']['blocked'] ? $slskeyGroups[0]['value'] : null);
 
         return Inertia::render('Activation/ActivationPreview', [
             'identifier' => $identifier,
-            'almaUser' => $almaUser,
+            'almaUsers' => $almaUsers,
             'slskeyGroups' => $slskeyGroups,
             'slskeyUser' => $slskeyUser ? SlskeyUserResource::make($slskeyUser) : null,
             'preselectedSlskeyCode' => $preselectedSlskeyCode,
@@ -121,7 +125,7 @@ class ActivationController extends Controller
         $almaUser = AlmaUser::fromJsonObject(Request::input('alma_user'));
 
         // Activate user via SWITCH API
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->slskeyUserService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,
@@ -131,12 +135,12 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('activation.preview', $primaryId)->with('error', $response->message);
         }
 
         // Set Remark
-        $this->userService->setActivationRemark($primaryId, $slskeyCode, $remark);
+        $this->slskeyUserService->setActivationRemark($primaryId, $slskeyCode, $remark);
 
         // redirect ro users.show with success message flash message from activated array
         return Redirect::route('users.show', $primaryId)->with('success', $response->message);
@@ -154,7 +158,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->userService->deactivateSlskeyUser(
+        $response = $this->slskeyUserService->deactivateSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -163,7 +167,7 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('users.show', $primaryId)->with('error', $response->message);
         }
 
@@ -183,7 +187,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->userService->blockSlskeyUser(
+        $response = $this->slskeyUserService->blockSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -192,7 +196,7 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('users.show', $primaryId)->with('error', $response->message);
         }
 
@@ -212,7 +216,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->userService->unblockSlskeyUser(
+        $response = $this->slskeyUserService->unblockSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -221,7 +225,7 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('users.show', $primaryId)->with('error', $response->message);
         }
 
@@ -240,7 +244,7 @@ class ActivationController extends Controller
         $slskeyCode = Request::input('slskey_code');
 
         // Activate user via SWITCH API
-        $response = $this->userService->disableExpirationSlskeyUser(
+        $response = $this->slskeyUserService->disableExpirationSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,
@@ -248,7 +252,7 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('users.show', $primaryId)->with('error', $response->message);
         }
 
@@ -267,7 +271,7 @@ class ActivationController extends Controller
         $slskeyCode = Request::input('slskey_code');
 
         // Activate user via SWITCH API
-        $response = $this->userService->enableExpirationSlskeyUser(
+        $response = $this->slskeyUserService->enableExpirationSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,
@@ -275,7 +279,7 @@ class ActivationController extends Controller
         );
 
         // Error handling
-        if (! $response->success) {
+        if (!$response->success) {
             return Redirect::route('users.show', $primaryId)->with('error', $response->message);
         }
 

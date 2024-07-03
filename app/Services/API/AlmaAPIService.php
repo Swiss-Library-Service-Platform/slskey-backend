@@ -2,7 +2,8 @@
 
 namespace App\Services\API;
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceMultiResponse;
+use App\DTO\AlmaServiceSingleResponse;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use DOMDocument;
@@ -17,6 +18,8 @@ class AlmaAPIService implements AlmaAPIInterface
 {
     protected $apiKey;
 
+    protected $izCode;
+
     protected $baseUrl;
 
     /**
@@ -25,10 +28,11 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param  string  $baseUrl  Base URL for the Alma API.
      * @param  string  $apiKey  API key for authentication.
      */
-    public function __construct(string $baseUrl, string $apiKey)
+    public function __construct(string $baseUrl, string $izCode, string $apiKey)
     {
-        $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
+        $this->izCode = $izCode;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -44,12 +48,76 @@ class AlmaAPIService implements AlmaAPIInterface
     /**
      * Set the API key.
      *
+     * @param string $izCode
      * @param string $apiKey
      * @return void
      */
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(string $izCode, string $apiKey): void
     {
+        $this->izCode = $izCode;
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Get a user from a single IZ
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return AlmaServiceSingleResponse
+     */
+    public function getUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
+    {
+        $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
+        if ($result['success']) {
+            return new AlmaServiceSingleResponse(true, $result['code'], $result['data'], null);
+        } else {
+            return new AlmaServiceSingleResponse(false, $result['code'], null, $result['message']);
+        }
+    }
+
+    /**
+     * Get a user from multiple IZs
+     *
+     * @param string $identifier
+     * @param array $izCodes
+     * @return AlmaServiceMultiResponse
+    */
+    public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse
+    {
+        $almaUsers = [];
+        foreach ($izCodes as $izCode) {
+            $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
+            if (!$result['success']) {
+                return new AlmaServiceMultiResponse(false, null, $result['message']);
+            }
+            $almaUsers[] = $result['data'];
+        }
+
+        return new AlmaServiceMultiResponse(true, $almaUsers, null);
+    }
+
+    /**
+     * Fetches a user by identifier for a given IZ code.
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return array
+     */
+    private function fetchUserByIdentifierAndIzCode(string $identifier, string $izCode): array
+    {
+        $token = config("services.alma.api_keys.{$izCode}");
+        if (!$token) {
+            return ['success' => false, 'message' => "{$izCode}: Missing API Key in configuration."];
+        }
+
+        try {
+            $this->setApiKey($izCode, $token);
+            $almaUser = $this->getUserByIdentifier($identifier);
+
+            return ['success' => true, 'data' => $almaUser];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => "{$izCode}: {$e->getMessage()}"];
+        }
     }
 
     /**
@@ -58,13 +126,13 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param  string  $identifier  Unique identifier (uniqueID, matriculation number, etc.).
      * @return AlmaUser|null User object or null if no user was found.
      */
-    public function getUserByIdentifier(string $identifier): AlmaServiceResponse
+    private function getUserByIdentifier(string $identifier): AlmaUser
     {
         if (empty($identifier)) {
             return null;
         }
 
-        $action = '/users/'.$identifier;
+        $action = '/users/' . $identifier;
         [$statusCode, $response] = $this->makeRequest($action);
 
         if ($statusCode != 200) {
@@ -75,12 +143,13 @@ class AlmaAPIService implements AlmaAPIInterface
                 $errorText = $response->errorList->error[0]->errorMessage;
             }
 
-            return new AlmaServiceResponse(false, $statusCode, null, $errorText);
+            throw new \Exception($errorText);
         }
 
         $almaUser = AlmaUser::fromApiResponse($response);
+        $almaUser->alma_iz = $this->izCode;
 
-        return new AlmaServiceResponse(true, $statusCode, $almaUser, null);
+        return $almaUser;
     }
 
     /**
@@ -101,7 +170,7 @@ class AlmaAPIService implements AlmaAPIInterface
         // Add the API key to the query parameters
         $queryParams['apikey'] = $this->apiKey;
 
-        $url = $this->baseUrl.$action;
+        $url = $this->baseUrl . $action;
 
         $client = new Client([
             'headers' => [
@@ -114,7 +183,7 @@ class AlmaAPIService implements AlmaAPIInterface
             'query' => $queryParams,
         ];
 
-        if (! empty($bodyData)) {
+        if (!empty($bodyData)) {
             $options['body'] = $bodyData;
         }
 
@@ -152,14 +221,14 @@ class AlmaAPIService implements AlmaAPIInterface
      */
     private function decodeResponse(string $response)
     {
-        if (! preg_match('/<error>/i', $response)) {
+        if (!preg_match('/<error>/i', $response)) {
             return json_decode($response);
         } else {
             $doc = new DOMDocument('1.0');
             $doc->preserveWhiteSpace = false;
             $doc->formatOutput = true;
 
-            if (! empty($response)) {
+            if (!empty($response)) {
                 $doc->loadXML($response);
             }
 

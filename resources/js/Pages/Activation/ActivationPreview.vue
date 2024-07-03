@@ -23,7 +23,8 @@
         <div class="flex flex-col justify-between gap-y-8" style="min-width: 450px;"> <!-- Workaround: for some reason tailwinds "min-w-80" is not working -->
 
           <!-- Selection SLSKey Code -->
-          <div class="text-2xl w-full flex justify-start">
+          <div class="text-2xl w-full flex justify-start items-center">
+            <Icon icon="key" class="w-7 mr-2"></Icon>
             {{ $t('activation.slskey_groups') }}
           </div>
 
@@ -63,8 +64,9 @@
         -->
 
         <!-- Alma User Details -->
-        
-        <AlmaUserDetailsShow class="shadow-md " :almaUser="almaUser" />
+        <div class="flex flex-col gap-y-5">
+          <AlmaUserDetailsShow class="shadow-md " v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
+        </div>
      
       </div>
     </div>
@@ -98,7 +100,7 @@ export default {
   },
   props: {
     identifier: String,
-    almaUser: Object,
+    almaUsers: Array,
     slskeyGroups: Array,
     slskeyUser: Object,
     preselectedSlskeyCode: String,

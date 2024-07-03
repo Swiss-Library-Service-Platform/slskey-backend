@@ -193,10 +193,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-       // App\Providers\FortifyServiceProvider::class,
+       // App\Providers\FortifyServiceProvider::class, //TODO: is this correct here FIXME:
         App\Providers\JetstreamServiceProvider::class,
         App\Providers\Saml2EventProvider::class,
-
         App\Providers\HelperServiceProvider::class,
     ],
 

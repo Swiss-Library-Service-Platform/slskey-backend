@@ -141,16 +141,7 @@ class AuthCloudApp
     {
         $institution = $token->inst_code;
         $username = $token->sub;
-        $token = config("services.alma.api_keys.$institution");
-        if (!$token) {
-            return [
-                'success' => false,
-                'message' => 'No API token configured for this IZ.'
-            ];
-        }
-
-        $this->almaApiService->setApiKey($token);
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
+        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($username, $institution);
 
         if (!$almaServiceResponse->success) {
             return [

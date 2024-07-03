@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Enums\ActivationActionEnums;
 use App\Enums\TriggerEnums;
 use App\Enums\WorkflowEnums;
-use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;

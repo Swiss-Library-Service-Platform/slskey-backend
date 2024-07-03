@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AlmaAPIInterface::class, function () {
             return new AlmaAPIService(
                 config('services.alma.base_url'),
+                '41SLSP_NETWORK',
                 config('services.alma.api_keys.41SLSP_NETWORK')
             );
         });

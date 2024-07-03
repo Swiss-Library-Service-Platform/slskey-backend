@@ -12,6 +12,7 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
 use App\Services\SlskeyUserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -61,7 +62,7 @@ class UsersController extends Controller
 
         // If search filter is set and no results are found, query for Alma users
         if (Request::input('search') && $slskeyUsersWithPermissions->isEmpty()) {
-            $almaServiceResponse = $this->almaApiService->getUserByIdentifier(Request::input('search'));
+            $almaServiceResponse = $this->almaApiService->getUserFromSingleIz(Request::input('search'), '41SLSP_NETWORK');
             $almaUser = $almaServiceResponse->almaUser;
             if ($almaUser) {
                 $slskeyUsersWithPermissions = SlskeyUser::query()
@@ -131,17 +132,21 @@ class UsersController extends Controller
             ->firstOrFail();
 
         // Get Alma user data using the AlmaAPIInterface
-        // TODO: take alma iz into account
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($identifier);
-        $almaUser = $almaServiceResponse->almaUser;
 
-        if ($almaUser) {
-            $slskeyUser->updateUserDetails($almaUser);
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
+        $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
+        $almaUsers = $almaServiceResponse->almaUsers;
+
+        if ($almaUsers) {
+            // TODO: which one do we take to update?
+            $slskeyUser->updateUserDetails($almaUsers[0]);
         }
 
         // Render the UserDetail Inertia view with SlskeyUser and AlmaUser data
         return new JsonResponse([
-            'almaUser' => $almaUser,
+            'almaUsers' => $almaUsers,
         ]);
     }
 

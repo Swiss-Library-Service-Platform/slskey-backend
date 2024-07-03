@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Patrons;
 use App\Enums\TriggerEnums;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SlskeyGroupPublicResource;
-use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyReactivationToken;
 use App\Services\MailService;

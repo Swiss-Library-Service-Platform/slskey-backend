@@ -14,8 +14,10 @@ class SlskeyGroupBuilder extends Builder
      */
     public function wherePermissions(): self
     {
-        $slspEmployee = Auth::user()->isSLSPAdmin();
-        $permissions = Auth::user()->getSlskeyGroupPermissionsSlskeyCodes();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
+        $permissions = $user->getSlskeyGroupPermissionsSlskeyCodes();
 
         // SLSP Super Admin
         if ($slspEmployee) {

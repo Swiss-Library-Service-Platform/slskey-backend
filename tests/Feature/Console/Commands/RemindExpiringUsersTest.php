@@ -1,6 +1,6 @@
 <?php
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceSingleResponse;
 use App\Enums\WorkflowEnums;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
@@ -56,7 +56,9 @@ it('sends reminders for expiring activations', function () {
     // Prepare Alma Request
     $almaUser = AlmaUser::factory()->make(['primary_id' => $remindedUser->primary_id, 'preferred_language' => 'en']);
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(true, 200, $almaUser, ''));
+    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($remindedUser->primary_id, $slskeyGroup->alma_iz)->andReturn(
+        new AlmaServiceSingleResponse(true, $almaUser, null)
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     // Mock mail service

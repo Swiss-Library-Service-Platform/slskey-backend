@@ -195,7 +195,6 @@ import throttle from "lodash/throttle"
 import omitBy from 'lodash/omitBy'
 import axios from 'axios';
 import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
 import SearchFilter from '@/Shared/Filters/SearchFilter.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import DatePickerFilter from '@/Shared/Filters/DatePickerFilter.vue';

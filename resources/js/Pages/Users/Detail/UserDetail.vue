@@ -2,8 +2,6 @@
     <AppLayout title="User" :breadCrumbs="[
         { name: $t('user_management.title'), link: '/users' },
         { name: slskeyUser.data.full_name ?? slskeyUser.data.primary_id}
-       // { name: slskeyUser.data.primary_id },
-       // { show: !almaLoading && almaUser, transitionedText: almaUser?.full_name }
     ]">
         <div class="mt-5 mb-10 bg-white gap-5 rounded-md shadow-md">
             <!-- component -->
@@ -20,10 +18,10 @@
                                 <Icon icon="key" class="w-6 h-6 mr-2" />
                             </div>
                             <div v-if="index == 1 && showUserExlamation" class="flex items">
-                                    <Icon icon="exclamation" class="w-6 h-6 mr-2 text-color-blocked" />
+                                <Icon icon="exclamation" class="w-6 h-6 mr-2 text-color-blocked" />
                             </div>
                             <div v-if="index == 1 && !showUserExlamation" class="flex items">
-                                    <Icon icon="user" class="w-6 h-6 mr-2" />
+                                <Icon icon="user" class="w-6 h-6 mr-2" />
                             </div>
                             <div v-if="index == 2" class="flex items">
                                 <Icon icon="book-open" class="w-6 h-6 mr-2" />

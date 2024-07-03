@@ -10,3 +10,4 @@
 @import 'tailwindcss/utilities';
 
 @import 'vue-select/dist/vue-select.css';
+@import '@vuepic/vue-datepicker/dist/main.css';

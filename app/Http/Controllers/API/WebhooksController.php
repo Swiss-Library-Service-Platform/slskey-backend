@@ -12,7 +12,7 @@ use App\Interfaces\SwitchAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
@@ -23,19 +23,17 @@ use Illuminate\Validation\ValidationException;
  */
 class WebhooksController extends Controller
 {
-    protected $almaApiService;
 
-    protected $userService;
+    protected $slskeyUserService;
 
     /**
      * WebhooksController constructor.
      *
-     * @param  SwitchAPIInterface  $switchApiService
+     * @param  SlskeyUserService  $slskeyUserService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, UserService $userService)
+    public function __construct(SlskeyUserService $slskeyUserService)
     {
-        $this->almaApiService = $almaApiService;
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
     }
 
     /**
@@ -217,7 +215,7 @@ class WebhooksController extends Controller
         $institution = Request::input('institution.value');
 
         $trigger = TriggerEnums::WEBHOOK.' '.$cause.' '.$institution;
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->slskeyUserService->activateSlskeyUser(
             $primaryId,
             $slskeyGroup->slskey_code,
             null, // author
@@ -258,7 +256,7 @@ class WebhooksController extends Controller
         }
 
         $trigger = TriggerEnums::WEBHOOK.' '.$cause.' '.$institution;
-        $response = $this->userService->deactivateSlskeyUser(
+        $response = $this->slskeyUserService->deactivateSlskeyUser(
             $primaryId,
             $slskeyGroup->slskey_code,
             '',

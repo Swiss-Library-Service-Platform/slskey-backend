@@ -4,18 +4,18 @@ namespace Database\Seeders\Test;
 
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Database\Seeder;
 
 class TestSlskeyActivationSeeder extends Seeder
 {
     public const TOTAL_NUMBERS_OF_USERS = 10;
 
-    protected $userService;
+    protected $slskeyUserService;
 
     public function __construct()
     {
-        $this->userService = app(UserService::class);
+        $this->slskeyUserService = app(SlskeyUserService::class);
     }
 
     /**
@@ -42,14 +42,14 @@ class TestSlskeyActivationSeeder extends Seeder
                 $actionDate = now()->subDays(rand(1, 365));
                 // copy value of actiondate without ref
                 $mockSwitchApiService = mockSwitchApiServiceActivation($mockSwitchApiService);
-                $this->userService->activateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
+                $this->slskeyUserService->activateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
 
                 if ($typeOfActivation < 20) {
                     // do nothing
                 } elseif ($typeOfActivation < 28) {
-                    $this->userService->deactivateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, null, 'Import Job', null, null, null, null);
+                    $this->slskeyUserService->deactivateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, null, 'Import Job', null, null, null, null);
                 } else {
-                    $this->userService->blockSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, null, 'Import Job', null, null, null, null);
+                    $this->slskeyUserService->blockSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, null, null, 'Import Job', null, null, null, null);
                 }
             }
         }

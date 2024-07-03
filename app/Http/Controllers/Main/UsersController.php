@@ -10,7 +10,7 @@ use App\Http\Resources\SlskeyUserResource;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
@@ -22,15 +22,17 @@ class UsersController extends Controller
 {
     protected $almaApiService;
 
-    protected $userService;
+    protected $slskeyUserService;
 
     /**
      * UsersController constructor.
+     * @param AlmaAPIInterface $almaApiService
+     * @param SlskeyUserService $slskeyUserService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, UserService $userService)
+    public function __construct(AlmaAPIInterface $almaApiService, SlskeyUserService $slskeyUserService)
     {
         $this->almaApiService = $almaApiService;
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
     }
 
     /**
@@ -129,6 +131,7 @@ class UsersController extends Controller
             ->firstOrFail();
 
         // Get Alma user data using the AlmaAPIInterface
+        // TODO: take alma iz into account
         $almaServiceResponse = $this->almaApiService->getUserByIdentifier($identifier);
         $almaUser = $almaServiceResponse->almaUser;
 
@@ -175,7 +178,7 @@ class UsersController extends Controller
         }
 
         // Query for SLSKey user by primary ID
-        $response = $this->userService->verifySwitchStatusSlskeyUser($primaryId, $slskeyCode);
+        $response = $this->slskeyUserService->verifySwitchStatusSlskeyUser($primaryId, $slskeyCode);
 
         return new JsonResponse([
             'status' => $response->success,

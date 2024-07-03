@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class UserServiceResponse
+class SlskeyUserServiceResponse
 {
     /**
      * Indicates if the request was successful.

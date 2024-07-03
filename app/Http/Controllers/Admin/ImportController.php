@@ -12,7 +12,7 @@ use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -24,7 +24,7 @@ use Inertia\Response as InertiaResponse;
 
 class ImportController extends Controller
 {
-    protected $userService;
+    protected $slskeyUserService;
 
     protected $almaApiService;
 
@@ -33,12 +33,12 @@ class ImportController extends Controller
     /**
      * ImportController constructor.
      *
-     * @param UserService $userService
+     * @param SlskeyUserService $slskeyUserService
      * @param AlmaAPIInterface $almaApiService
      */
-    public function __construct(UserService $userService, AlmaAPIInterface $almaApiService)
+    public function __construct(SlskeyUserService $slskeyUserService, AlmaAPIInterface $almaApiService)
     {
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
         $this->almaApiService = $almaApiService;
     }
 
@@ -138,7 +138,7 @@ class ImportController extends Controller
         $isActive = null;
         if ($checkIsActive) {
             try {
-                $response = $this->userService->verifySwitchStatusSlskeyUser($row['primary_id'], $slskeyGroup->slskey_code);
+                $response = $this->slskeyUserService->verifySwitchStatusSlskeyUser($row['primary_id'], $slskeyGroup->slskey_code);
                 $isActive = $response->success;
                 if (! $isActive) {
                     return ['success' => false, 'message' => $response->message, 'isActive' => false];
@@ -205,7 +205,7 @@ class ImportController extends Controller
         }
 
         // Activate user via SWITCH API
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->slskeyUserService->activateSlskeyUser(
             $row['primary_id'],
             $slskeyGroup->slskey_code,
             null, // author
@@ -226,7 +226,7 @@ class ImportController extends Controller
 
         // Set remark
         if ($row['remark'] && $row['remark'] != 'NULL') {
-            $this->userService->setActivationRemark($row['primary_id'], $slskeyGroup->slskey_code, $row['remark']);
+            $this->slskeyUserService->setActivationRemark($row['primary_id'], $slskeyGroup->slskey_code, $row['remark']);
         }
 
         // Update User Details
@@ -237,10 +237,10 @@ class ImportController extends Controller
 
         // Set Historic: Activation Date and Expiration Date
         if ($activationDate) {
-            $this->userService->updateActivationDate($row['primary_id'], $slskeyGroup->slskey_code, $activationDate);
+            $this->slskeyUserService->updateActivationDate($row['primary_id'], $slskeyGroup->slskey_code, $activationDate);
         }
         if ($expirationDate) {
-            $this->userService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
+            $this->slskeyUserService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
         }
 
         return [

@@ -7,7 +7,7 @@ use App\Models\AlmaUser;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -37,9 +37,9 @@ it('sends reminders for expiring activations', function () {
     // Create User and activation
     $remindedUser = SlskeyUser::factory()->create();
     $nonRemindedUser = SlskeyUser::factory()->create();
-    $userService = app(UserService::class);
-    $response = $userService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);#
-    $response = $userService->activateSlskeyUser($nonRemindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
+    $slskeyUserService = app(SlskeyUserService::class);
+    $response = $slskeyUserService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);#
+    $response = $slskeyUserService->activateSlskeyUser($nonRemindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
     assertUserActivationActivated($remindedUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($nonRemindedUser->primary_id, $slskeyGroup->slskey_code);
 

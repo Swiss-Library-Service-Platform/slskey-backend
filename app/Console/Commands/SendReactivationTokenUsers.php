@@ -31,17 +31,14 @@ class SendReactivationTokenUsers extends Command
      */
     protected $description = 'Sends emails with reactivation-tokens to users with expiring activations. Should run every day.';
 
-    protected $almaApiService;
-
     protected $tokenService;
 
     protected $mailService;
 
     protected $logger;
 
-    public function __construct(AlmaAPIInterface $almaApiService, TokenService $tokenService, MailService $mailService)
+    public function __construct(TokenService $tokenService, MailService $mailService)
     {
-        $this->almaApiService = $almaApiService;
         $this->tokenService = $tokenService;
         $this->mailService = $mailService;
         $this->logger = Log::channel('send-reactivation-token');

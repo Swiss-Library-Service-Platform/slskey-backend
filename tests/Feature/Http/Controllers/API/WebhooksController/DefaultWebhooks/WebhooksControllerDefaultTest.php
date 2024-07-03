@@ -5,7 +5,7 @@ use App\Enums\WebhookResponseEnums;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 
 beforeEach(function () {
     $this->seed('Database\Seeders\Test\TestSlskeyGroupSeeder');
@@ -38,8 +38,8 @@ it('fails webhook because of Activating a blocked user', function () {
     $slskeyUser = SlskeyUser::find($slskeyActivation->slskey_user_id);
 
     // Block user
-    $userService = app(UserService::class);
-    $response = $userService->blockSlskeyUser(
+    $slskeyUserService = app(SlskeyUserService::class);
+    $response = $slskeyUserService->blockSlskeyUser(
         $slskeyUser->primary_id,
         $this->slskeyCode,
         null,

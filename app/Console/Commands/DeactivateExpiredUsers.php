@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\TriggerEnums;
 use App\Models\SlskeyActivation;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -24,13 +24,13 @@ class DeactivateExpiredUsers extends Command
      */
     protected $description = 'Deactivate all SLSKey Activations that are expired. Should run every day.';
 
-    protected $userService;
+    protected $slskeyUserService;
 
     protected $logger;
 
-    public function __construct(UserService $userService)
+    public function __construct(SlskeyUserService $slskeyUserService)
     {
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
         $this->logger = Log::channel('deactivate-expired-users');
         parent::__construct();
     }
@@ -68,7 +68,7 @@ class DeactivateExpiredUsers extends Command
 
         // Deactivate all expired activations
         foreach ($expiredActivations as $activation) {
-            $response = $this->userService->deactivateSlskeyUser(
+            $response = $this->slskeyUserService->deactivateSlskeyUser(
                 $activation->slskeyUser->primary_id,
                 $activation->slskeyGroup->slskey_code,
                 $activation->remark,

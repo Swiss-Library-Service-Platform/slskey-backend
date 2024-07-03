@@ -13,14 +13,14 @@ use App\Models\SlskeyHistory;
 use App\Models\SlskeyUser;
 use Carbon\Carbon;
 
-class UserService
+class SlskeyUserService
 {
     protected $switchApiService;
 
     protected $mailService;
 
     /**
-     * UserService constructor.
+     * SlskeyUserService constructor.
      *
      * @param SwitchAPIInterface $switchApiService
      * @param MailService $mailService

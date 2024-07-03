@@ -10,16 +10,13 @@ use App\Models\SlskeyActivation;
 use App\Models\SlskeyReactivationToken;
 use App\Services\MailService;
 use App\Services\TokenService;
-use App\Services\UserService;
-use Illuminate\Support\Facades\Mail;
+use App\Services\SlskeyUserService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ReactivationTokenController extends Controller
 {
-    protected $almaApiService;
-
-    protected $userService;
+    protected $slskeyUserService;
 
     protected $tokenService;
 
@@ -28,15 +25,13 @@ class ReactivationTokenController extends Controller
     /**
      * ReactivationTokenController constructor.
      *
-     * @param AlmaAPIInterface $almaApiService
-     * @param UserService $userService
+     * @param SlskeyUserService $slskeyUserService
      * @param TokenService $tokenService
      * @param MailService $mailService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, UserService $userService, TokenService $tokenService, MailService $mailService)
+    public function __construct(SlskeyUserService $slskeyUserService, TokenService $tokenService, MailService $mailService)
     {
-        $this->almaApiService = $almaApiService;
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
         $this->tokenService = $tokenService;
         $this->mailService = $mailService;
     }
@@ -88,7 +83,7 @@ class ReactivationTokenController extends Controller
         }
 
         // Reactivate user
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->slskeyUserService->activateSlskeyUser(
             $slskeyReactivationToken->slskeyUser->primary_id,
             $slskeyReactivationToken->slskeyGroup->slskey_code,
             null, // Author

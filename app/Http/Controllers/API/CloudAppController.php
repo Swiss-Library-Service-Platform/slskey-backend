@@ -6,23 +6,23 @@ use App\Enums\TriggerEnums;
 use App\Http\Controllers\Controller;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
-use App\Services\UserService;
+use App\Services\SlskeyUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class CloudAppController extends Controller
 {
-    protected $userService;
+    protected $slskeyUserService;
 
     /**
      * CloudAppController constructor.
      *
-     * @param UserService $userService
+     * @param SlskeyUserService $slskeyUserService
      */
-    public function __construct(UserService $userService)
+    public function __construct(SlskeyUserService $slskeyUserService)
     {
-        $this->userService = $userService;
+        $this->slskeyUserService = $slskeyUserService;
     }
 
     /**
@@ -74,7 +74,7 @@ class CloudAppController extends Controller
         $almaUser = AlmaUser::fromApiResponse($almaUserInput);
 
         // Activate user via SWITCH API
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->slskeyUserService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->display_name,
@@ -88,7 +88,7 @@ class CloudAppController extends Controller
         }
 
         // Set Remark
-        $this->userService->setActivationRemark($primaryId, $slskeyCode, $remark);
+        $this->slskeyUserService->setActivationRemark($primaryId, $slskeyCode, $remark);
 
         return new JsonResponse($response->message);
     }

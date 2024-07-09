@@ -58,6 +58,7 @@
 		"full_name": "User Name",
 		"last_name": "Last name",
 		"loading": "loading ...",
+		"no_address": "No address in Alma",
 		"not_found": "No user found in Alma",
 		"preferred_language": "Language",
 		"user_group": "User Group"

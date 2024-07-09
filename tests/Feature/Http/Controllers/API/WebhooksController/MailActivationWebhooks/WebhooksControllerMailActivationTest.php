@@ -36,7 +36,7 @@ it('succeeds to activate new user', function () {
     assertUserActivationActivatedViaMail($primaryId, $this->slskeyCode, $this->activationMail);
 });
 
-it('succeeds to activate new user - and activate again', function () {
+it('succeeds to activate new user - and ignore at next webhook', function () {
     mockWebhookAuth(true);
     $mockSwitchApiService = mockSwitchApiServiceActivation();
 
@@ -59,7 +59,7 @@ it('succeeds to activate new user - and activate again', function () {
     assertUserActivationActivatedViaMail($primaryId, $this->slskeyCode, $this->activationMail);
 });
 
-it('succeeds to activate new user - add another email', function () {
+it('succeeds to activate new user - and ignore when new irrelevant mail is added', function () {
     mockWebhookAuth(true);
     $mockSwitchApiService = mockSwitchApiServiceActivation();
 
@@ -83,7 +83,7 @@ it('succeeds to activate new user - add another email', function () {
     assertUserActivationActivatedViaMail($primaryId, $this->slskeyCode, $this->activationMail);
 });
 
-it('succeeds to activate new user & remove email', function () {
+it('succeeds to activate new user & remove email but keep activation', function () {
     mockWebhookAuth(true);
     $mockSwitchApiService = mockSwitchApiServiceActivation();
 

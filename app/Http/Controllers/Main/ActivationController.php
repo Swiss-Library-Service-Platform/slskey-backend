@@ -64,8 +64,8 @@ class ActivationController extends Controller
         // Origin: either ACTIVATION_START or null (if coming from user detail page)
         $origin = Request::input('origin');
 
-        // If User is Admin, get for User in Alma NZ, otherwise get User in all IZs
-        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
+        // Get Alma Users from all permitted IZs
+        $slskeyGroups = SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
         $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
         if (!$almaServiceResponse->success) {
             if ($origin != 'ACTIVATION_START') {

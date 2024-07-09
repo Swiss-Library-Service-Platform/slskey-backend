@@ -1,7 +1,7 @@
 <template>
   <div class="w-fit bg-color-alma rounded-md p-8 flex flex-col">
     <div class="flex flex-row">
-      <div class="flex flex-col text-left mr-8">
+      <div class="flex flex-col text-left mr-8 whitespace-nowrap">
         <img class="h-16 w-16 mb-4" src="/images/alma_logo.png" />
         <span>{{ $t("alma_user.full_name") }}:</span>
         <span>{{ $t("alma_user.preferred_language") }}:</span>
@@ -28,6 +28,9 @@
             <span> {{ address.line1 }} </span>
             <span> {{ address.postal_code }} {{ address.city }} </span>
             <span> {{ address.state_province }} {{ address.country.desc }}</span>
+          </div>
+          <div v-if="!this.almaUser?.addresses.length" class="text-color-blocked italic font-italic mt-4">
+            {{ $t("alma_user.no_address") }}
           </div>
         </div>
 

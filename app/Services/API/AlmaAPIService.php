@@ -8,7 +8,7 @@ use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use DOMDocument;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\Utils;
 
 /**
  * Class AlmaAPIService
@@ -69,9 +69,9 @@ class AlmaAPIService implements AlmaAPIInterface
     {
         $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
         if ($result['success']) {
-            return new AlmaServiceSingleResponse(true, $result['code'], $result['data'], null);
+            return new AlmaServiceSingleResponse(true, $result['data'], null);
         } else {
-            return new AlmaServiceSingleResponse(false, $result['code'], null, $result['message']);
+            return new AlmaServiceSingleResponse(false, null, $result['message']);
         }
     }
 
@@ -88,9 +88,13 @@ class AlmaAPIService implements AlmaAPIInterface
         foreach ($izCodes as $izCode) {
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
-                return new AlmaServiceMultiResponse(false, null, $result['message']);
+                continue;
             }
             $almaUsers[] = $result['data'];
+        }
+
+        if (empty($almaUsers)) {
+            return new AlmaServiceMultiResponse(false, null, 'No user found.');
         }
 
         return new AlmaServiceMultiResponse(true, $almaUsers, null);
@@ -116,7 +120,8 @@ class AlmaAPIService implements AlmaAPIInterface
 
             return ['success' => true, 'data' => $almaUser];
         } catch (\Exception $e) {
-            return ['success' => false, 'message' => "{$izCode}: {$e->getMessage()}"];
+            // return ['success' => false, 'message' => "{$izCode}: {$e->getMessage()}"];
+            return ['success' => false, 'message' => "{$e->getMessage()}"];
         }
     }
 
@@ -125,6 +130,7 @@ class AlmaAPIService implements AlmaAPIInterface
      *
      * @param  string  $identifier  Unique identifier (uniqueID, matriculation number, etc.).
      * @return AlmaUser|null User object or null if no user was found.
+     * @throws \Exception If the user is not found or multiple users are found.
      */
     private function getUserByIdentifier(string $identifier): AlmaUser
     {
@@ -132,24 +138,75 @@ class AlmaAPIService implements AlmaAPIInterface
             return null;
         }
 
-        $action = '/users/' . $identifier;
-        [$statusCode, $response] = $this->makeRequest($action);
-
-        if ($statusCode != 200) {
-            $errorText = '';
-            if ($response instanceof DOMDocument) {
-                $errorText = $response->getElementsByTagName('errorMessage')->item(0)->nodeValue;
-            } elseif ($response->errorsExist) {
-                $errorText = $response->errorList->error[0]->errorMessage;
-            }
-
-            throw new \Exception($errorText);
+        $foundUsers = $this->findUsersParallel($identifier);
+        if (!$foundUsers) {
+            throw new \Exception('User not found');
         }
-
-        $almaUser = AlmaUser::fromApiResponse($response);
+        if (count($foundUsers) > 1) {
+            throw new \Exception('Multiple users found. Please provide a more specific identifier.');
+        }
+        $almaUser = AlmaUser::fromApiResponse($foundUsers[0]);
         $almaUser->alma_iz = $this->izCode;
 
         return $almaUser;
+    }
+
+    /**
+     * Find Users in Alma API in parallel
+     * - find users with query identifier
+     * - find users with query primary_id
+     *
+     * @param [type] $identifier
+     * @return array
+     */
+    private function findUsersParallel($identifier)
+    {
+        $client = new Client([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        // Define the two API endpoints
+        $endpoint = $this->baseUrl . '/users';
+        $queryPrimaryId = ['q' => "primary_id~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+        $queryIdentifiers = ['q' => "identifiers~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+        $queryEmail = ['q' => "email~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+
+        // Prepare the requests with query parameters
+        $promises = [
+            'primary_id' => $client->getAsync($endpoint, ['query' => $queryPrimaryId]),
+            'identifiers' => $client->getAsync($endpoint, ['query' => $queryIdentifiers]),
+            'email' => $client->getAsync($endpoint, ['query' => $queryEmail]),
+        ];
+
+        // Wait for both requests to complete
+        $responses = Utils::unwrap($promises);
+
+        // Process the responses and return the found users
+        $foundUsers = [];
+        foreach ($responses as $key => $response) {
+            $body = $response->getBody()->getContents();
+            $responseBody = $this->decodeResponse($body);
+            if ($responseBody->total_record_count > 0) {
+                foreach ($responseBody->user as $user) {
+                    $userExists = false;
+                    foreach ($foundUsers as $foundUser) {
+                        if ($user->primary_id == $foundUser->primary_id) {
+                            $userExists = true;
+
+                            break;
+                        }
+                    }
+                    if (!$userExists) {
+                        $foundUsers[] = $user;
+                    }
+                }
+            }
+        }
+
+        return $foundUsers;
     }
 
     /**
@@ -160,59 +217,60 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param  string[]  $queryParams  Query parameters.
      * @param  string  $bodyData  Request body data.
      * @return array [HTTP status code, API response].
-     */
+    */
+    /*
     private function makeRequest(
-        string $action,
-        string $actionType = 'GET',
-        array $queryParams = [],
-        string $bodyData = ''
+       string $action,
+       string $actionType = 'GET',
+       array $queryParams = [],
+       string $bodyData = ''
     ): array {
-        // Add the API key to the query parameters
-        $queryParams['apikey'] = $this->apiKey;
+       // Add the API key to the query parameters
+       $queryParams['apikey'] = $this->apiKey;
 
-        $url = $this->baseUrl . $action;
+       $url = $this->baseUrl . $action;
 
-        $client = new Client([
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-        ]);
+       $client = new Client([
+           'headers' => [
+               'Accept' => 'application/json',
+               'Content-Type' => 'application/json',
+           ],
+       ]);
 
-        $options = [
-            'query' => $queryParams,
-        ];
+       $options = [
+           'query' => $queryParams,
+       ];
 
-        if (!empty($bodyData)) {
-            $options['body'] = $bodyData;
-        }
+       if (!empty($bodyData)) {
+           $options['body'] = $bodyData;
+       }
 
-        try {
-            $response = $client->request($actionType, $url, $options);
+       try {
+           $response = $client->request($actionType, $url, $options);
 
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
+           $statusCode = $response->getStatusCode();
+           $body = $response->getBody()->getContents();
 
-            $userData = $this->decodeResponse($body);
+           $responseBody = $this->decodeResponse($body);
 
-            return [$statusCode, $userData];
-        } catch (RequestException $e) {
-            // If the request has an exception, get the response from it
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody()->getContents();
+           return [$statusCode, $responseBody];
+       } catch (RequestException $e) {
+           // If the request has an exception, get the response from it
+           if ($e->hasResponse()) {
+               $response = $e->getResponse();
+               $statusCode = $response->getStatusCode();
+               $body = $response->getBody()->getContents();
 
-                $errorData = $this->decodeResponse($body);
+               $errorData = $this->decodeResponse($body);
 
-                return [$statusCode, $errorData];
-            }
+               return [$statusCode, $errorData];
+           }
 
-            // If there is no response, rethrow the exception
-            throw $e;
-        }
+           // If there is no response, rethrow the exception
+           throw $e;
+       }
     }
-
+   */
     /**
      * Decodes given response depending on the current format mode of the API.
      *

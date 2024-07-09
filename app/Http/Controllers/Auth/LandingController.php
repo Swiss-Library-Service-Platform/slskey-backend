@@ -88,7 +88,7 @@ class LandingController extends Controller
             ]);
         }
 
-        return Redirect::route('login');
+        return Redirect::route('loginform');
     }
 
     /**

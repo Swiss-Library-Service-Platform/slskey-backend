@@ -1,7 +1,7 @@
 <template>
   <AppLayout :title="$t('activation.title')" :breadCrumbs="
     this.origin == 'ACTIVATION_START' ?
-    [{ name: $t('activation.title'), link: '/activate'},
+    [{ name: $t('activation.title'), link: '/'},
         { name: $t('activation.activate_new') }]
       :
       [{ name: $t('user_management.title'), link: '/users' },
@@ -35,7 +35,7 @@
           <TextAreaInput v-model="inputRemark" :label="$t('activation.remark_optional')" />
 
           <!-- Activation Button -->
-          <ActionButton :disabled="!this.almaUser || !this.selectedSlskeyCode" :loading="loading"
+          <ActionButton :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"
             @click.prevent="activate" icon="key">
             {{ $t("activation.activate") }}
           </ActionButton>
@@ -116,10 +116,10 @@ export default {
   methods: {
     activate: function () {
       this.loading = true;
-      Inertia.post("/activation/" + this.almaUser.primary_id, {
+      Inertia.post("/activation/" + this.almaUsers[0].primary_id, {
         slskey_code: this.selectedSlskeyCode,
         remark: this.inputRemark,
-        alma_user: this.almaUser,
+        alma_user: this.almaUsers[0],
       }, {
         onSuccess: () => {
           this.loading = false;

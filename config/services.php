@@ -42,7 +42,7 @@ return [
         'api_keys' => [
             '41SLSP_NETWORK' => env('ALMA_API_NZ_KEY', '---'),
             '41SLSP_ABN' => env('ALMA_ABN_API_KEY', '---'),
-            '41SLSP_ZHDK' => env('ALMA_ZHDK_API_KEY', '---'),
+            '41SLSP_ZHK' => env('ALMA_ZHK_API_KEY', '---'),
             '41SLSP_ZBS' => env('ALMA_ZBS_API_KEY', '---'),
             '41SLSP_UZB' => env('ALMA_UZB_API_KEY', '---'),
         ]

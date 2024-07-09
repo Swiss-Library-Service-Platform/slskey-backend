@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 // Landing and Login
 Route::get('/login', [LandingController::class, 'index'])
-    ->name('login');
+    ->name('loginform');
 Route::get('/login/eduid', [LandingController::class, 'loginEduID'])
     ->name('login_eduid');
 Route::get('/login/changepassword', [LandingController::class, 'changePassword'])

@@ -85,16 +85,19 @@ class AlmaAPIService implements AlmaAPIInterface
     public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse
     {
         $almaUsers = [];
+        $error = 'Alma Error:';
         foreach ($izCodes as $izCode) {
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
+                $error = $error . ' ' . $result['message'];
+
                 continue;
             }
             $almaUsers[] = $result['data'];
         }
 
         if (empty($almaUsers)) {
-            return new AlmaServiceMultiResponse(false, null, 'No user found.');
+            return new AlmaServiceMultiResponse(false, null, $error);
         }
 
         return new AlmaServiceMultiResponse(true, $almaUsers, null);
@@ -192,6 +195,11 @@ class AlmaAPIService implements AlmaAPIInterface
             if ($responseBody->total_record_count > 0) {
                 foreach ($responseBody->user as $user) {
                     $userExists = false;
+                    // Filter out certain record types (e.g. Staff), see config
+                    if (in_array($user->record_type->value, config('services.alma.ignore_record_type'))) {
+                        continue;
+                    }
+                    // Check if the user is already in the list
                     foreach ($foundUsers as $foundUser) {
                         if ($user->primary_id == $foundUser->primary_id) {
                             $userExists = true;

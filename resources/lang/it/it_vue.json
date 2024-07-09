@@ -4,7 +4,7 @@
         "activate_new": "Nuovo utente",
         "activation_start": "Attiva utente",
         "activation_start_info": "Cerca un identificatore in Alma",
-        "identifier": "Identificatore utente",
+        "identifier": "id primario / email / identificativi",
         "remark_optional": "Nota (opzionale):",
         "search": "Ricerca",
         "slskey_groups": "Gruppi SLSKey",

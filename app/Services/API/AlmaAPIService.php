@@ -85,12 +85,11 @@ class AlmaAPIService implements AlmaAPIInterface
     public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse
     {
         $almaUsers = [];
-        $error = 'Alma Error:';
+        $error = '';
         foreach ($izCodes as $izCode) {
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
-                $error = $error . ' ' . $result['message'];
-
+                $error = $error . "$izCode: {$result['message']} ";
                 continue;
             }
             $almaUsers[] = $result['data'];

@@ -37,8 +37,6 @@ return [
     |
     */
     'alma' => [
-        // Ignore certain user record types
-        'ignore_record_type' => ['STAFF'],
         // Base url
         'base_url' => env('ALMA_BASE_URL', '---'),
         // API KEYs

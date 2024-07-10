@@ -85,6 +85,7 @@ class AuthCloudApp
 
             // Log the user in, so we can use Auth::user() in the controllers
             Auth::setUser($user);
+            $user->updateLastLogin();
 
             // Store institution in session to make it available in the controllers
             session(['alma_institution' => $decodedToken->inst_code]);
@@ -191,6 +192,7 @@ class AuthCloudApp
         ], [
             'display_name' => $token->sub,
             'is_edu_id' => 0,
+            'is_alma' => 1,
             'password' => bcrypt(str_random(10)),
         ]);
 

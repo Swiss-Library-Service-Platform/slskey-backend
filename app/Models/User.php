@@ -29,7 +29,9 @@ class User extends Authenticatable
         'user_identifier', // either edu-ID primary ID or Username
         'display_name',
         'is_edu_id',
+        'is_alma',
         'password',
+        'last_login'
     ];
 
     /**
@@ -121,6 +123,16 @@ class User extends Authenticatable
     {
         $this->password = Hash::make($password);
         $this->password_change_at = null;
+        $this->save();
+    }
+
+    /**
+     * Update Last Login
+     *
+     * @return void
+     */
+    public function updateLastLogin(): void {
+        $this->last_login = now();
         $this->save();
     }
 

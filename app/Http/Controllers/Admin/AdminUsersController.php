@@ -24,13 +24,14 @@ class AdminUsersController extends Controller
      */
     public function index(): Response
     {
-        $adminUsers = User::query()->get();
-
+        $adminUsersPortal = User::where('is_alma', 0)->get();
+        $adminUsersAlma = User::where('is_alma', 1)->get();
         $slskeyGroups = SlskeyGroup::query()->get();
 
         return Inertia::render('AdminUsers/AdminUsersIndex', [
             'filters' => Request::all(),
-            'adminUsers' => AdminUserResource::collection($adminUsers),
+            'adminUsersPortal' => AdminUserResource::collection($adminUsersPortal),
+            'adminUsersAlma' => AdminUserResource::collection($adminUsersAlma),
             'slskeyGroups' => SlskeyGroupAdminResource::collection($slskeyGroups),
         ]);
     }

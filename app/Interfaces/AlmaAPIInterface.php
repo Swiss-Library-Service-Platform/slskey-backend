@@ -11,4 +11,5 @@ interface AlmaAPIInterface
     public function setApiKey(string $izCode, string $apiKey): void;
     public function getUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse;
     public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse;
+    public function getStaffUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse;
 }

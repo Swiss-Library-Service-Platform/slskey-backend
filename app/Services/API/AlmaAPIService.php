@@ -22,6 +22,8 @@ class AlmaAPIService implements AlmaAPIInterface
 
     protected $baseUrl;
 
+    protected $STAFF_RECORD_TYPES = ['STAFF'];
+
     /**
      * AlmaAPIService constructor.
      *
@@ -59,7 +61,7 @@ class AlmaAPIService implements AlmaAPIInterface
     }
 
     /**
-     * Get a user from a single IZ
+     * Get a user from a single IZ, filter out staff user
      *
      * @param string $identifier
      * @param string $izCode
@@ -68,6 +70,16 @@ class AlmaAPIService implements AlmaAPIInterface
     public function getUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
     {
         $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
+        if ($result['success']) {
+            return new AlmaServiceSingleResponse(true, $result['data'], null);
+        } else {
+            return new AlmaServiceSingleResponse(false, null, $result['message']);
+        }
+    }
+
+    public function getStaffUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
+    {
+        $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode, true);
         if ($result['success']) {
             return new AlmaServiceSingleResponse(true, $result['data'], null);
         } else {
@@ -109,7 +121,7 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param string $izCode
      * @return array
      */
-    private function fetchUserByIdentifierAndIzCode(string $identifier, string $izCode): array
+    private function fetchUserByIdentifierAndIzCode(string $identifier, string $izCode, bool $allowStaffUser = false): array
     {
         $token = config("services.alma.api_keys.{$izCode}");
         if (!$token) {
@@ -118,7 +130,7 @@ class AlmaAPIService implements AlmaAPIInterface
 
         try {
             $this->setApiKey($izCode, $token);
-            $almaUser = $this->getUserByIdentifier($identifier);
+            $almaUser = $this->getUserByIdentifier($identifier, $allowStaffUser);
 
             return ['success' => true, 'data' => $almaUser];
         } catch (\Exception $e) {
@@ -134,15 +146,15 @@ class AlmaAPIService implements AlmaAPIInterface
      * @return AlmaUser|null User object or null if no user was found.
      * @throws \Exception If the user is not found or multiple users are found.
      */
-    private function getUserByIdentifier(string $identifier): AlmaUser
+    private function getUserByIdentifier(string $identifier, bool $allowStaffUser): AlmaUser
     {
         if (empty($identifier)) {
             return null;
         }
 
-        $foundUsers = $this->findUsersParallel($identifier);
+        $foundUsers = $this->findUsersParallel($identifier, $allowStaffUser);
         if (!$foundUsers) {
-            throw new \Exception('User not found');
+            throw new \Exception("User $identifier not found in $this->izCode");
         }
         if (count($foundUsers) > 1) {
             throw new \Exception('Multiple users found. Please provide a more specific identifier.');
@@ -159,9 +171,10 @@ class AlmaAPIService implements AlmaAPIInterface
      * - find users with query primary_id
      *
      * @param [type] $identifier
+     * @param boolean $allowStaffUser
      * @return array
      */
-    private function findUsersParallel($identifier)
+    private function findUsersParallel($identifier, bool $allowStaffUser)
     {
         $client = new Client([
             'headers' => [
@@ -195,7 +208,7 @@ class AlmaAPIService implements AlmaAPIInterface
                 foreach ($responseBody->user as $user) {
                     $userExists = false;
                     // Filter out certain record types (e.g. Staff), see config
-                    if (in_array($user->record_type->value, config('services.alma.ignore_record_type'))) {
+                    if ($allowStaffUser && in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
                         continue;
                     }
                     // Check if the user is already in the list

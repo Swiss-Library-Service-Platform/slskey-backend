@@ -37,6 +37,7 @@
 		"general": "Allgemeine Details",
 		"initial_password": "Erstes Passwort",
 		"is_edu_id": "Anmeldung über Switch edu-ID",
+		"last_login": "Letzte Anmeldung",
 		"no_records": "Keine Benutzer gefunden",
 		"no_slskeygroups": "Keine Berechtigungen vorhanden",
 		"permission_groups": "Aktive Berechtigungen",
@@ -46,7 +47,7 @@
 		"save": "Benutzer speichern",
 		"slsp_admin": "SLSP Administrator",
 		"title": "Admin-Benutzer",
-		"user_identifier": "Identifier (Benutzername oder edu-ID)",
+		"user_identifier": "Identifier",
 		"user_identifier_eduid": "edu-ID Identifier",
 		"user_identifier_username": "Benutzername"
 	},

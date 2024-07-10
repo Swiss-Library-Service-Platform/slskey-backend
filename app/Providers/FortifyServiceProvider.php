@@ -35,15 +35,14 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(10)->by($user_identifier.$request->ip());
         });
-        
-        
+
         // Make sure only User login via username&password, when user is not an edu_id
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('user_identifier', $request->user_identifier)->first();
             if ($user && ! $user->is_edu_id && ! $user->is_alma) {
                 if (Auth::attempt($request->only('user_identifier', 'password'))) {
-
                     $user->updateLastLogin();
+
                     return $user;
                 }
             }

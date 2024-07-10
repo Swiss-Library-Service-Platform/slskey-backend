@@ -102,6 +102,7 @@ class AlmaAPIService implements AlmaAPIInterface
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
                 $error = $error . "$izCode: {$result['message']} ";
+
                 continue;
             }
             $almaUsers[] = $result['data'];

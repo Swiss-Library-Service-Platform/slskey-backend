@@ -131,7 +131,8 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function updateLastLogin(): void {
+    public function updateLastLogin(): void
+    {
         $this->last_login = now();
         $this->save();
     }

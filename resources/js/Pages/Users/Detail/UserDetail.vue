@@ -12,7 +12,8 @@
                 <ul class="flex flex-row">
                     <template v-for="(tab, index) in tabs" :key="index">
                         <li class="flex items-center cursor-pointer py-3 px-6 transition list-none"
-                            :class="activeTab === index ? 'border-b border-b-4 border-color-slsp text-color-slsp font-bold bg-color-slsp-bg' : ''"
+                            :class="{'border-b border-b-4 border-color-slsp text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
+                                    'rounded-tr-md': index === tabs.length - 1}"
                             @click="setActiveTab(index)">
                             <div v-if="index == 0" class="flex items">
                                 <Icon icon="key" class="w-6 h-6 mr-2" />

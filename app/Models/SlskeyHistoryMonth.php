@@ -21,7 +21,6 @@ class SlskeyHistoryMonth extends Model
         'reactivated_count',
         'deactivated_count',
         'blocked_active_count',
-
         'monthly_change',
         'total_users'
     ];

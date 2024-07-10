@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Exports\ReportingExport;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SlskeyGroupReportResource;
 use App\Http\Resources\SlskeyGroupSelectResource;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportingController extends Controller
 {
@@ -44,7 +46,7 @@ class ReportingController extends Controller
                 ->id;
 
             // Check permissions for selected SLSKeyCode
-            if (! in_array($selectedSlskeyGroupId, $slskeyGroupIds)) {
+            if (!in_array($selectedSlskeyGroupId, $slskeyGroupIds)) {
                 abort(403);
             }
         }
@@ -66,7 +68,34 @@ class ReportingController extends Controller
             'slskeyHistories' => $slskeyHistories,
             'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
             'selectedSlskeyGroup' => $selectedSlskeyCode,
+            'firstDate' => $firstDate,
         ]);
+    }
+
+    /**
+     * Export Reporting data to Excel
+     *
+     * @return Response
+     */
+    public function export()
+    {
+        // Get permitted SlskeyGroups for User
+        $firstDate = Request::input('firstDate');
+
+        // Get selected SLSKeyCode
+        $selectedSlskeyCode = Request::input('slskeyCode');
+        $selectedSlskeyGroupId = null;
+
+        if ($selectedSlskeyCode) {
+            // Check if selected SLSKeyCode is existing
+            $selectedSlskeyGroupId = SlskeyGroup::where('slskey_code', $selectedSlskeyCode)
+                ->wherePermissions()
+                ->firstOrFail()
+                ->id;
+        }
+        $slskeyGroupIds = $selectedSlskeyGroupId ? [$selectedSlskeyGroupId] : SlskeyGroup::wherePermissions()->get()->pluck('id')->toArray();
+
+        return Excel::download(new ReportingExport($slskeyGroupIds, $firstDate), 'report.xlsx');
     }
 
     /**
@@ -83,11 +112,11 @@ class ReportingController extends Controller
         // Check permissions for selected SLSKeyCode
         $slspEmployee = $user->isSLSPAdmin();
 
-        if (! $slspEmployee) {
+        if (!$slspEmployee) {
             $permissionIds = $user->getSlskeyGroupPermissionsSlskeyCodes();
 
             // Check permissions for selected SLSKeyCode
-            if (! in_array($slskeyCode, $permissionIds)) {
+            if (!in_array($slskeyCode, $permissionIds)) {
                 abort(403);
             }
         }
@@ -116,11 +145,11 @@ class ReportingController extends Controller
         // Check permissions for selected SLSKeyCode
         $slspEmployee = $user->isSLSPAdmin();
 
-        if (! $slspEmployee) {
+        if (!$slspEmployee) {
             $permissionIds = $user->getSlskeyGroupPermissionsSlskeyCodes();
 
             // Check permissions for selected SLSKeyCode
-            if (! in_array($slskeyCode, $permissionIds)) {
+            if (!in_array($slskeyCode, $permissionIds)) {
                 abort(403);
             }
         }
@@ -160,11 +189,11 @@ class ReportingController extends Controller
         // Check permissions for selected SLSKeyCode
         $slspEmployee = $user->isSLSPAdmin();
 
-        if (! $slspEmployee) {
+        if (!$slspEmployee) {
             $permissionIds = $user->getSlskeyGroupPermissionsSlskeyCodes();
 
             // Check permissions for selected SLSKeyCode
-            if (! in_array($slskeyCode, $permissionIds)) {
+            if (!in_array($slskeyCode, $permissionIds)) {
                 abort(403);
             }
         }

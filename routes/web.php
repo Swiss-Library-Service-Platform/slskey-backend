@@ -108,6 +108,8 @@ Route::middleware([
     // Reporting
     Route::get('/reporting', [ReportingController::class, 'index'])
         ->name('reporting.index');
+    Route::get('/reporting/export', [ReportingController::class, 'export'])
+        ->name('reporting.export');
     Route::get('reporting/{identifier}', [ReportingController::class, 'showReportSettings'])
         ->name('reporting.show');
     Route::post('reporting/{identifier}', [ReportingController::class, 'addReportingEmail'])

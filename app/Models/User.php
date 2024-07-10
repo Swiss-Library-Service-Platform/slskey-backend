@@ -91,13 +91,13 @@ class User extends Authenticatable
     /**
      * Get the SlskeyGroup IDs that the User has permissions for.
      *
-     * @return Collection
+     * @return array
      */
-    public function getSlskeyGroupsPermissionsIds(): Collection
+    public function getSlskeyGroupsPermissionsIds(): array
     {
         return $this->getPermissions()->map(function ($permission) {
             return SlskeyGroup::where('slskey_code', $permission->slug)->first()->id;
-        });
+        })->toArray();
     }
 
     /**

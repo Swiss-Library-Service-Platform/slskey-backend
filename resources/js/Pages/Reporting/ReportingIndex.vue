@@ -1,7 +1,7 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
 
-        <div class="flex py-5 items-end justify-between flex-wrap">
+        <div class="flex py-5 items-end justify-between flex-wrap gap-x-16">
             <div class="flex gap-x-16">
                 <FilterControl @reset="reset" v-if="slskeyGroups.data.length > 1">
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
@@ -10,10 +10,16 @@
                 <TabFilter :tab1="$t('reporting.display_tab1')" :tab2="$t('reporting.display_tab2')" icon1="view-list"
                     icon2="chart-square-bar" :label="$t('reporting.display')" v-model="displayTab" />
             </div>
-            <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
-                class="w-fit bg-color-slsp text-white py-2 mt-4">
-                {{ $t('reporting.change_settings') }}
-            </DefaultButton>
+            <div class="flex gap-x-4">
+                <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
+                    class="w-fit bg-color-slsp text-white py-2 mt-4">
+                    {{ $t('reporting.change_settings') }}
+                </DefaultButton>
+                <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
+                    class="w-fit bg-color-slsp text-white py-2 mt-4">
+                    {{ $t('reporting.export') }}
+                </DefaultButton>  
+            </div>
         </div>
 
         <div v-show="displayTab == 0" class="my-5 overflow-x-auto bg-white shadow-md rounded-md">
@@ -160,11 +166,13 @@ export default {
         slskeyHistories: Object,
         slskeyGroups: Object,
         selectedSlskeyCode: String,
+        firstDate: String,
     },
     data() {
         return {
             chart: null,
             displayTab: 0,
+            export_loading: false,
             form: {
                 slskeyCode: this.slskeyGroups.data.length === 1 ? this.slskeyGroups.data[0].value :
                     this.selectedSlskeyCode,
@@ -186,6 +194,30 @@ export default {
             if (this.form.slskeyCode) {
                 Inertia.get("/reporting/" + this.form.slskeyCode);
             }
+        },
+        async export() {
+            this.export_loading = true;
+            axios({
+                url: 'reporting/export',
+                method: 'GET',
+                responseType: 'blob', // important
+                params: {
+                    slskeyCode: this.form.slskeyCode,
+                    firstDate: this.firstDate
+                }
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                console.log(response)
+                link.setAttribute('download', 'reporting.xlsx');
+                document.body.appendChild(link);
+                link.click();
+                this.export_loading = false;
+            }).catch((error) => {
+                console.log(error);
+                this.export_loading = false;
+            });
         },
         initGraph() {
             console.log("getting graph");

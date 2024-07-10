@@ -26,7 +26,7 @@ class AuthCheck
             }
 
             // Check if permissions
-            if (Auth::user()->getSlskeyGroupsPermissionsIds()->isEmpty() && ! Auth::user()->isSLSPAdmin()) {
+            if (! Auth::user()->getSlskeyGroupsPermissionsIds() && ! Auth::user()->isSLSPAdmin()) {
                 return redirect(route('noroles'));
             }
 

@@ -24,13 +24,13 @@ defineProps({
 <template>
 	<header class="z-10 bg-color-header-bg shadow shadow-color-header-bg py-2">
 		<FlashMessages></FlashMessages>
-		<div class="mx-auto px-8 pr-16 flex flex-row gap-y-2 h-20 justify-between content-center"
+		<div class="mx-auto flex flex-row gap-y-2 h-20 justify-between content-center"
 			:class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
 
-			<div class="flex items-center">
+			<div class="flex items-center gap-x-8">
 				<!-- Logo -->
-				<div class="mr-4 bg-color-header-bg flex w-64 items-center justify-start">
-					<Link class="h-20 flex items-center" :href="modePublic ? route.path : route('activation.start')">
+				<div class="w-72 g-color-header-bg flex items-center justify-start">
+					<Link class="pl-8 h-20 flex items-center" :href="modePublic ? route.path : route('activation.start')">
 					<img src="/images/slskey_logo_small_white.png" class="h-9 w-auto mr-4" />
 					<h2 class="text-3xl text-color-header-text font-extrabold">
 						SLSKey
@@ -38,11 +38,6 @@ defineProps({
 
 					</Link>
 				</div>
-				<!--
-				<button @click="toggleNavbar" class="text-sm text-gray-400 bg-none mr-4">
-					<MenuIcon class="text-black w-6 h-6"></MenuIcon>
-				</button>
-				-->
 				<BreadCrumb :breadCrumbs="breadCrumbs" />
 
 			</div>

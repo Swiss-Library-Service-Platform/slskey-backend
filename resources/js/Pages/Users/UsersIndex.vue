@@ -1,6 +1,6 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
-        <div class="flex my-8  items-end justify-between flex-wrap">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
                 <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                     :placeholder="$t('user_management.search')" />
@@ -20,7 +20,7 @@
             </DefaultButton>
         </div>
 
-        <div class="overflow-x-auto bg-white shadow-md rounded-md">
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

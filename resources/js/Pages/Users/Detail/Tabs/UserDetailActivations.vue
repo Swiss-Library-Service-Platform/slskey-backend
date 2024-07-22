@@ -1,10 +1,10 @@
 <template>
-  <ActionButton class="text-lg w-fit mb-8 px-8 shadow" @click.prevent="activate()" icon="key" :loading="loading">
+  <div class="bg-white rounded-md shadow overflow-x-auto">
+    <ActionButton class="text-lg w-fit m-4 px-8 shadow" @click.prevent="activate()" icon="key" :loading="loading">
       {{ $t('user_management.new_activation') }}
-  </ActionButton>
-  <div class="bg-white rounded-md shadow w-full overflow-x-auto">
-    <table class="table-auto w-full divide-y divide-gray-table rounded-md">
-      <tbody class="divide-y divide-gray-table">
+    </ActionButton>
+    <table class="border-t border-gray-table table-auto rounded-md">
+      <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
           <tr class="h-20">

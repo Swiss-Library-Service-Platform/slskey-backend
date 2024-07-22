@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-md rounded-lg overflow-x-auto XXXborder XXXborder-gray-table">
+    <div class="rounded-md rounded-lg overflow-x-auto">
         <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
             <thead class="">
                <SlskeyHistoryHeader :showRelativeDate="true" />

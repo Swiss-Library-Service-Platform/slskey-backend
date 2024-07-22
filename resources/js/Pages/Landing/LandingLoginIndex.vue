@@ -32,7 +32,7 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
+    <div class="min-h-screen flex flex-col justify-center items-center gap-y-4 bg-gray-background">
         <FlashMessages />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">

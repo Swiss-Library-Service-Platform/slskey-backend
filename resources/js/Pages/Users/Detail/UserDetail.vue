@@ -3,11 +3,11 @@
         { name: $t('user_management.title'), link: '/users' },
         { name: slskeyUser.data.full_name ?? slskeyUser.data.primary_id }
     ]">
-        <div class="flex flex-col gap-y-8 rounded-md shadow bg-white">
+        <div class="flex flex-col gap-y-8 rounded-b shadow bg-white">
             <ul class="flex flex-row w-fit h-16 ">
                 <template v-for="(tab, index) in tabs" :key="index">
-                    <li class="flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
-                        'border-b border-b-4 border-color-slsp text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
+                    <li class="relative flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
+                        'tabitem text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
                         'rounded-tr-md': index === tabs.length - 1
                     }" @click="setActiveTab(index)">
                         <div v-if="index == 0" class="flex items">
@@ -43,7 +43,7 @@
                         :almaUser="almaUser" />
                 </template>
             </div>
-            <div class="bg-white rounded shadow py-4" v-show="activeTab === 2">
+            <div class="bg-white rounded shadow pt-4" v-show="activeTab === 2">
                 <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories" />
             </div>
         </div>
@@ -126,3 +126,15 @@ export default {
 
 }
 </script>
+<style>
+.tabitem::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 4px;
+    background-color: #4e4a99;
+    border-radius: 2px;
+}
+</style>

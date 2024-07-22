@@ -20,8 +20,10 @@ const form = useForm({
 });
 
 const submit = () => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     form.transform(data => ({
         ...data,
+        _token: csrfToken,
         remember: form.remember ? 'on' : '',
     })).post(route('loginform'), {
         onFinish: () => form.reset('password'),

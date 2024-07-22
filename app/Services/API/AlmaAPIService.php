@@ -77,6 +77,13 @@ class AlmaAPIService implements AlmaAPIInterface
         }
     }
 
+    /**
+     * Get a staff user from a single IZ
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return AlmaServiceSingleResponse
+     */
     public function getStaffUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
     {
         $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode, true);
@@ -135,7 +142,6 @@ class AlmaAPIService implements AlmaAPIInterface
 
             return ['success' => true, 'data' => $almaUser];
         } catch (\Exception $e) {
-            // return ['success' => false, 'message' => "{$izCode}: {$e->getMessage()}"];
             return ['success' => false, 'message' => "{$e->getMessage()}"];
         }
     }
@@ -153,18 +159,54 @@ class AlmaAPIService implements AlmaAPIInterface
             return null;
         }
 
-        $foundUsers = $this->findUsersParallel($identifier, $allowStaffUser);
-        if (!$foundUsers) {
-            throw new \Exception("User $identifier not found in $this->izCode");
+        if ($allowStaffUser) {
+            $foundUser = $this->findUserDetails($identifier);
+            if (!$foundUser) {
+                throw new \Exception("Staff User $identifier not found in $this->izCode");
+            }
+        } else {
+            $foundUsers = $this->findUsersQueryParallel($identifier);
+            if (!$foundUsers) {
+                throw new \Exception("User $identifier not found in $this->izCode");
+            }
+            if (count($foundUsers) > 1) {
+                throw new \Exception('Multiple users found. Please provide a more specific identifier.');
+            }
+            $foundUser = $foundUsers[0];
         }
-        if (count($foundUsers) > 1) {
-            throw new \Exception('Multiple users found. Please provide a more specific identifier.');
-        }
-        $almaUser = AlmaUser::fromApiResponse($foundUsers[0]);
+        
+        $almaUser = AlmaUser::fromApiResponse($foundUser);
         $almaUser->alma_iz = $this->izCode;
 
         return $almaUser;
     }
+
+    /**
+     * Find User Details in Alma API
+     *
+     * @param string $identifier
+     * @return void
+     */
+    private function findUserDetails(string $identifier): mixed
+    {
+        $client = new Client([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        $response = $client->get("$this->baseUrl/users/$identifier", [
+            'query' => [
+                'apikey' => $this->apiKey,
+            ],
+        ]);
+
+        $response = $this->decodeResponse($response->getBody()->getContents());
+
+        return $response;
+    }
+
 
     /**
      * Find Users in Alma API in parallel
@@ -175,7 +217,7 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param boolean $allowStaffUser
      * @return array
      */
-    private function findUsersParallel($identifier, bool $allowStaffUser)
+    private function findUsersQueryParallel($identifier)
     {
         $client = new Client([
             'headers' => [
@@ -209,7 +251,7 @@ class AlmaAPIService implements AlmaAPIInterface
                 foreach ($responseBody->user as $user) {
                     $userExists = false;
                     // Filter out certain record types (e.g. Staff), see config
-                    if (! $allowStaffUser && in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
+                    if (in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
                         continue;
                     }
                     // Check if the user is already in the list

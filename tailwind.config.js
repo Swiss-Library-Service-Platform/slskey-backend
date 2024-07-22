@@ -26,6 +26,7 @@ module.exports = {
               '18px': '18px',
               '32rem': '32rem',
               '36rem': '36rem',
+              '76': '19rem',
             }, 
             screens: {
                 '3xl': '1800px',
@@ -41,7 +42,7 @@ module.exports = {
                 // SLSP
                 'color-slsp': '#4e4a99',
                 'color-slsp-bg': '#4e4a9914',
-                'color-alma': '#00a1fe1c', // '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
+                'color-alma': '#e2f5ff', // '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
                 // App layout
                 'color-header-bg': '#343a40',
                 'color-header-text': '#fff',

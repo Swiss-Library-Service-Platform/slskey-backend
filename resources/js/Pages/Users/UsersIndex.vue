@@ -4,7 +4,7 @@
             <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
                 <FilterControl @reset="reset">
                     <SearchFilter v-model="form.search" :label="$t('user_management.search')"
-                        :placeholder="$t('user_management.search')" />
+                        :placeholder="$t('user_management.search_placeholder')" />
                     <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
                         :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
                     <SelectFilter v-model="form.status" :label="$t('user_management.status')"

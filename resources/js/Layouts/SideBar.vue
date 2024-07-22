@@ -13,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-	<nav v-if="showNavbar" class="w-72 min-w-fit bg-white shadow">
+	<nav v-if="showNavbar" class="w-76 min-w-fit bg-white shadow">
 		<!-- Primary Navigation Menu -->
 		<div class="h-full flex flex-col pt-4 px-4">
 			<!-- pl-2 sm:pl-4 lg:pl-6 pr-4 sm:pr-6 lg:pr-10  -->

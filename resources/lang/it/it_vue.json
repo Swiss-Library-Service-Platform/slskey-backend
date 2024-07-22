@@ -234,6 +234,9 @@
     },
     "user_management": {
         "activation": "Attivazione",
+        "activation_activated_on": "attivato il",
+		"activation_blocked_on": "bloccato il",
+		"activation_deactivated_on": "disattivato il",
         "activation_date": "Data di attivazione",
         "activation_end": "Fine",
         "activation_start": "Inizio",
@@ -260,6 +263,7 @@
         "no_webhook_activation_mail": "E-mail revocata",
         "remark": "Nota",
         "search": "Nome utente / Identificatore",
+        "search_placeholder": "Ricerca",
         "status": "Stato",
         "switch_status": "Stato Switch",
         "switch_status_active": "Attivo",

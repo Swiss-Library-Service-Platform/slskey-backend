@@ -234,6 +234,9 @@
 	},
 	"user_management": {
 		"activation": "Activation",
+		"activation_activated_on": "activated on",
+		"activation_blocked_on": "blocked on",
+		"activation_deactivated_on": "deactivated on",
 		"activation_date": "Activation Date",
 		"activation_end": "End",
 		"activation_start": "Start",
@@ -260,6 +263,7 @@
 		"no_webhook_activation_mail": "Email revoked",
 		"remark": "Remark",
 		"search": "User Name / Identifier",
+		"search_placeholder": "Search",
 		"status": "Status",
 		"switch_status": "Switch Status",
 		"switch_status_active": "Active",

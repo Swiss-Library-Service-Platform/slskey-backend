@@ -1,18 +1,17 @@
 <template>
-  <AppLayout :title="$t('activation.title')" :breadCrumbs="
-    this.origin == 'ACTIVATION_START' ?
-    [{ name: $t('activation.title'), link: '/'},
-        { name: $t('activation.activate_new') }]
+  <AppLayout :title="$t('activation.title')" :breadCrumbs="this.origin == 'ACTIVATION_START' ?
+      [{ name: $t('activation.title'), link: '/' },
+      { name: $t('activation.activate_new') }]
       :
       [{ name: $t('user_management.title'), link: '/users' },
-        slskeyUser
-          ? {
-            name: slskeyUser.data.full_name,
-            link: '/users/' + slskeyUser.data.primary_id,
-          }
-          : {},
-        { name: $t('activation.activate') }]
-  ">
+      slskeyUser
+        ? {
+          name: slskeyUser.data.full_name,
+          link: '/users/' + slskeyUser.data.primary_id,
+        }
+        : {},
+      { name: $t('activation.activate') }]
+    ">
 
     <div class="my-8 flex flex-row items-start gap-x-8">
 
@@ -20,15 +19,14 @@
         class="justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-md gap-y-8 px-8 shadow-md">
 
 
-        <div class="flex flex-col justify-between gap-y-8" style="min-width: 450px;"> <!-- Workaround: for some reason tailwinds "min-w-80" is not working -->
-
+        <div class="flex flex-col justify-between gap-y-8" style="min-width: 450px;">
+          <!-- Workaround: for some reason tailwinds "min-w-80" is not working -->
           <!-- Selection SLSKey Code -->
-          <div class="text-2xl w-full flex justify-start items-center">
-            <Icon icon="key" class="w-7 mr-2"></Icon>
-            {{ $t('activation.slskey_groups') }}
-          </div>
-
-          <div Xv-if="this.slskeyGroups.length > 1">
+          <div class="" Xv-if="this.slskeyGroups.length > 1">
+            
+            <label class="form-label mb-1" :for="id">
+              SLSKey Gruppe:
+            </label>
             <SelectActivationInput v-model="this.selectedSlskeyCode" :options="this.slskeyGroups" />
           </div>
 
@@ -45,9 +43,10 @@
 
       <!-- Alma User Details -->
       <div class="flex flex-row flex-wrap gap-8">
-        <AlmaUserDetailsShow class="shadow-md " v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
+        <AlmaUserDetailsShow class="shadow-md " v-for="almaUser in almaUsers" :key="almaUser.primary_id"
+          :almaUser="almaUser" />
       </div>
-     
+
     </div>
 
   </AppLayout>

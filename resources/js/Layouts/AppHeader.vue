@@ -29,7 +29,7 @@ defineProps({
 
 			<div class="flex items-center gap-x-8">
 				<!-- Logo -->
-				<div class="w-72 g-color-header-bg flex items-center justify-start">
+				<div class="w-76 g-color-header-bg flex items-center justify-start">
 					<Link class="pl-8 h-20 flex items-center" :href="modePublic ? route.path : route('activation.start')">
 					<img src="/images/slskey_logo_small_white.png" class="h-9 w-auto mr-4" />
 					<h2 class="text-3xl text-color-header-text font-extrabold">

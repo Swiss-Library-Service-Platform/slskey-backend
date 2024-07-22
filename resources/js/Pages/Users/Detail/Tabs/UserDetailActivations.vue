@@ -3,7 +3,7 @@
     <ActionButton class="text-lg w-fit m-4 px-8 shadow" @click.prevent="activate()" icon="key" :loading="loading">
       {{ $t('user_management.new_activation') }}
     </ActionButton>
-    <table class="border-t border-gray-table table-auto rounded-md">
+    <table class="border-t table-auto rounded-md">
       <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->

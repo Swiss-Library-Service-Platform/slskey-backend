@@ -193,6 +193,7 @@
         "no_switch_groups": "Aucun groupe Switch affilié",
         "save": "Mettre à jour le groupe SLSKey",
         "send_activation_mail": "Envoyer un e-mail de notification d'activation",
+        "send_activation_mail_title": "Notify",
         "slskey_code": "Code SLSKey",
         "slskey_code_description": "Groupe SLSKey",
         "switch_groups": "Groupes Switch",

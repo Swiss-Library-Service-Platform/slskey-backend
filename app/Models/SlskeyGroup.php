@@ -237,6 +237,7 @@ class SlskeyGroup extends Model
             return true;
         }
 
+        // Check if the email template exists
         $baseDirectory = 'views/emails/activation/';
         try {
             $emailFiles = scandir(resource_path($baseDirectory . $this->slskey_code));

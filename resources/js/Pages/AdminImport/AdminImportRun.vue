@@ -13,7 +13,7 @@
                         <p id="progress-text">Total Users:</p>
                     </div>
                     <div class="flex flex-col font-bold font-bold">
-                        <p id="progress-text">{{ this.progress }} / {{ this.importRows.length }} </p>
+                        <p id="progress-text">{{ this.processedRows }} / {{ this.importRows.length }} </p>
                     </div>
                 </div>
 
@@ -35,13 +35,13 @@
 
             <!-- Progress Bar -->
             <div class="relative">
-                <progress id="progress-bar w-full mt-5" :max="this.importRows.length" :value="progress"></progress>
-                <p class="absolute left-1/2 text-black font-bold top-2" id="progress-text">{{ ((progress /
+                <progress id="progress-bar w-full mt-5" :max="this.importRows.length" :value="processedRows"></progress>
+                <p class="absolute left-1/2 text-black font-bold top-2" id="progress-text">{{ ((processedRows /
                     this.importRows.length) * 100).toFixed(2) }}%</p>
             </div>
 
             <!-- Results -->
-            <div v-if="progress != 0" class="flex flex-col">
+            <div v-if="processedRows != 0" class="flex flex-col">
 
                 <div class="w-full flex flex-row justify-between pt-8 border-t">
                     <div class="text-2xl">
@@ -160,7 +160,7 @@ export default {
     },
     data() {
         return {
-            progress: 0,
+            processedRows: 0,
             importStarted: false,
             showErrors: false,
             successRows: 0,
@@ -179,8 +179,7 @@ export default {
                 return;
             }
 
-            this.importStarted = true;
-            this.progress = 0;
+            this.processedRows = 0;
             this.successRows = 0;
             this.errorRows = 0;
             this.activeRows = 0;
@@ -191,7 +190,7 @@ export default {
                 testRun: this.testRun,
                 checkIsActive: this.checkIsActive
             }).then(() => {
-                this.importStarted = false;
+                this.importStarted = true;
             }).catch(error => {
                 alert(error);
             });
@@ -215,8 +214,12 @@ export default {
                 this.errorRows = event.success ? this.errorRows : this.errorRows + 1;
                 this.activeRows = event.isActive ? this.activeRows + 1 : this.activeRows;
                 
-                this.progress++;
+                this.processedRows++;
                 this.updateRow(event.currentRow, event);
+
+                if (this.processedRows == this.importRows.length) {
+                    this.importStarted = false;
+                }
             });
         },
         updateRow(index, event) {

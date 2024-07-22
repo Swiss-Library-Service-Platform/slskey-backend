@@ -12,14 +12,19 @@
 @import 'vue-select/dist/vue-select.css';
 @import '@vuepic/vue-datepicker/dist/main.css';
 
-html {
-    height: 100%;
-}
 body {
-    _height: 100%;
-    height: 100vh;
-    _background: white;
+    _background: green;
 }
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
 #app {
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }

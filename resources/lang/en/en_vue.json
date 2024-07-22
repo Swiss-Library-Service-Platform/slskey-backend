@@ -193,6 +193,7 @@
 		"no_switch_groups": "No Switch Groups affiliated",
 		"save": "Update SLSKey Group",
 		"send_activation_mail": "Send Activation Notify Mail",
+		"send_activation_mail_title": "Notify",
 		"slskey_code": "SLSKey Code",
 		"slskey_code_description": "SLSKey Group",
 		"switch_groups": "Switch Groups",

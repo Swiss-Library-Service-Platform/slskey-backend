@@ -132,18 +132,20 @@ class ImportCsvJob implements ShouldQueue
         // Separate Z01 into Z01 and MBA
         $almaUserWebhookActivationMail = null;
         if (strtoupper($slskeyGroup->slskey_code) === 'Z01') {
-            $mbaSlskeyGroup = SlskeyGroup::where('slskey_code', 'testmba')->first();
+            $mbaSlskeyGroup = SlskeyGroup::where('slskey_code', 'z01mba')->first();
             $webhookMailActivationHelper = new WebhookMailActivationHelper($mbaSlskeyGroup->webhook_mail_activation_domains);
             $almaUserWebhookActivationMail = $webhookMailActivationHelper->getWebhookActivationMail($almaUser);
             if ($almaUserWebhookActivationMail) {
                 $slskeyGroup = $mbaSlskeyGroup;
                 // FIXME: remove for prod import
+                /*
                 return [
                     'success' => false,
                     'message' => "User is MBA member",
                     'isActive' => false,
                     'isVerified' => false,
                 ];
+                */
             }
             
         }
@@ -164,7 +166,7 @@ class ImportCsvJob implements ShouldQueue
             $slskeyGroup->slskey_code,
             null, // author
             TriggerEnums::SYSTEM_MASS_IMPORT,
-            null, // $almaUser,
+            $almaUser,
             $almaUserWebhookActivationMail
         );
 
@@ -181,12 +183,6 @@ class ImportCsvJob implements ShouldQueue
         // Set remark
         if ($row['remark'] && $row['remark'] != 'NULL') {
             $this->slskeyUserService->setActivationRemark($row['primary_id'], $slskeyGroup->slskey_code, $row['remark']);
-        }
-
-        // Update User Details
-        if ($almaUser) {
-            $slskeyUser = SlskeyUser::where('primary_id', $row['primary_id'])->first();
-            $slskeyUser->updateUserDetails($almaUser);
         }
 
         // Set Historic: Activation Date and Expiration Date

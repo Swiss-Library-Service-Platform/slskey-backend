@@ -14,6 +14,16 @@ TODO: Deployment Produktive
 TODO: Was ist mit edu-ID Login
       - Erstmal auf Eis
 
+TODO: Bug Cloud App
+      - Wenn man keine Rechte hat
+      - Aber schon im User Record ist
+      - Wird "Access Denied" übersprungen und direkt zum User gegangen
+
+TODO: Cloud App, get Staffuser
+      - man sollte nur detail call /users/admin nutzen
+      - andernfalls können mehrere User zurüpckgegeben werden z.b. bei "admin" -> "Admin_ZHDK_3", ...
+      - und dann fehler
+
 ________________________________________________________________________
 Nice to have:
 

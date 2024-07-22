@@ -209,7 +209,7 @@ class AlmaAPIService implements AlmaAPIInterface
                 foreach ($responseBody->user as $user) {
                     $userExists = false;
                     // Filter out certain record types (e.g. Staff), see config
-                    if ($allowStaffUser && in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
+                    if (! $allowStaffUser && in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
                         continue;
                     }
                     // Check if the user is already in the list

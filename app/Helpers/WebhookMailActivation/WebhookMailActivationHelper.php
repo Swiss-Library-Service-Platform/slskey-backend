@@ -7,7 +7,7 @@ use App\Models\AlmaUser;
 /**
  * Class WebhookMailActivationHelper
  *
- * This controller is responsible for handling the verification of Z01 MBA users
+ * This controller is responsible for handling the verification of users that have email addresses that are members of a domain list.
  */
 class WebhookMailActivationHelper
 {

@@ -100,7 +100,7 @@ defineProps({
 						</NavLink>
 
 						<!-- edu-ID Status --> 
-						<NavLink icon="information-circle" href="https://status.eduid.ch/">
+						<NavLink icon="information-circle" href="https://status.eduid.ch/" :isExternal="true">
 							{{ $t('eduid_status') }}
 						</NavLink>
 					</div>

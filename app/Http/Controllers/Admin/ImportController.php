@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-ini_set('max_execution_time', 180); // 3 minutes
+ini_set('max_execution_time', 3600); // 1 hour
 
 use App\Enums\TriggerEnums;
 use App\Events\DataImportProgressEvent;
@@ -176,13 +176,21 @@ class ImportController extends Controller
 
         // Separate Z01 into Z01 and MBA
         $almaUserWebhookActivationMail = null;
-        if ($slskeyGroup->slskey_code == 'Z01') {
+        if (strtoupper($slskeyGroup->slskey_code) === 'Z01') {
             $mbaSlskeyGroup = SlskeyGroup::where('slskey_code', 'testmba')->first();
             $webhookMailActivationHelper = new WebhookMailActivationHelper($mbaSlskeyGroup->webhook_mail_activation_domains);
             $almaUserWebhookActivationMail = $webhookMailActivationHelper->getWebhookActivationMail($almaUser);
             if ($almaUserWebhookActivationMail) {
                 $slskeyGroup = $mbaSlskeyGroup;
+                // FIXME: remove for prod import
+                return [
+                    'success' => false,
+                    'message' => "User is MBA member",
+                    'isActive' => false,
+                    'isVerified' => false,
+                ];
             }
+            
         }
 
         // Check if test run, if so, return

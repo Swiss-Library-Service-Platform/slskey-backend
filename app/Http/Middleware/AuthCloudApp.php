@@ -142,7 +142,7 @@ class AuthCloudApp
     {
         $institution = $token->inst_code;
         $username = $token->sub;
-        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($username, $institution);
+        $almaServiceResponse = $this->almaApiService->getStaffUserFromSingleIz($username, $institution);
 
         if (!$almaServiceResponse->success) {
             return [

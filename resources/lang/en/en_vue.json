@@ -58,7 +58,6 @@
 		"first_name": "First name",
 		"full_name": "User Name",
 		"last_name": "Last name",
-		"loading": "loading ...",
 		"no_address": "No address in Alma",
 		"not_found": "No user found in Alma",
 		"preferred_language": "Language",
@@ -209,6 +208,7 @@
 		"webhook_mail_activation_days_token_validity": "Token Validity in Days",
 		"webhook_mail_activation_domains": "Mail Activation Domains",
 		"webhook_mail_activation_domains_help": "The lists available in this field are stored in the project in /storage/app/email_domain_lists. You can add new lists there.",
+		"webhook_mail_activation_title": "Mail Activation",
 		"webhook_secret": "Webhook Secret",
 		"workflow": "Workflow"
 	},

@@ -24,7 +24,7 @@
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased bg-gray-background XXXbg-color-slsp-light">
+<body class="font-sans antialiased">
     @inertia
 </body>
 

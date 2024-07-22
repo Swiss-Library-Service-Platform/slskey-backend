@@ -22,10 +22,10 @@ defineProps({
 </script>
 
 <template>
-	<header class="bg-color-header-bg shadow shadow-color-header-bg py-2 mb-2">
+	<header class="z-10 bg-color-header-bg shadow shadow-color-header-bg py-2">
 		<FlashMessages></FlashMessages>
 		<div class="mx-auto px-8 pr-16 flex flex-row gap-y-2 h-20 justify-between content-center"
-			:class="{ 'max-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
+			:class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
 
 			<div class="flex items-center">
 				<!-- Logo -->

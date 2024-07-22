@@ -4,7 +4,7 @@
     <AppLayout :title="$t('reporting.title')"
         :breadCrumbs="[{ name: $t('reporting.title'), link: '/reporting' }, { name: slskeyGroup.data.name }]">
 
-        <div class="w-fit mt-5 mb-10 justify-center align-center flex flex-col py-8 bg-white gap-8 rounded-md gap-y-4 px-8 shadow-md">
+        <div class="w-fit my-8 justify-center align-center flex flex-col py-8 bg-white gap-8 rounded-md gap-y-4 px-8 shadow-md">
             <div>
                 <div class="text-2xl">
                     {{ $t('reporting.recipients') }}

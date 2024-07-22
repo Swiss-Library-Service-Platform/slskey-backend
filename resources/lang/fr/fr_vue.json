@@ -58,6 +58,7 @@
         "first_name": "Prénom",
         "full_name": "Nom complet",
         "last_name": "Nom de famille",
+        "no_address": "Pas d'adresse à Alma",
         "not_found": "Aucun utilisateur trouvé dans Alma",
         "preferred_language": "Langue",
         "user_group": "Groupe d'utilisateurs"
@@ -207,6 +208,7 @@
         "webhook_mail_activation_days_token_validity": "Validité du token en jours",
         "webhook_mail_activation_domains": "Domaines d'activation des e-mails",
         "webhook_mail_activation_domains_help": "Les listes disponibles dans ce champ sont stockées dans le projet sous /storage/app/email_domain_lists. Vous pouvez y ajouter de nouvelles listes.",
+        "webhook_mail_activation_title": "Mail Activation",
         "webhook_secret": "Secret du Webhook",
         "workflow": "Flux de travail"
     },

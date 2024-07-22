@@ -2,10 +2,10 @@
 <template>
     <AppLayout :title="$t('publishers.title')" :breadCrumbs="[{ name: $t('publishers.title') }]">
 
-        <DefaultButton @click="createPublisher" icon="plus" class="w-fit bg-color-slsp text-white py-2 mt-5">
+        <DefaultButton @click="createPublisher" icon="plus" class="w-fit bg-color-slsp text-white py-2 my-8">
             {{ $t('publishers.create_new') }}
         </DefaultButton>
-        <div class="mt-5 mb-10 bg-white shadow-md rounded-md">
+        <div class="bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

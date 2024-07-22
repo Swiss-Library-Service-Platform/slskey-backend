@@ -4,7 +4,7 @@
         { name: $t('admin_users.title'), link: '/admin/users' },
         { name: adminUser.data.display_name }
     ]">
-        <div class="mt-5 mb-10 bg-white shadow-md rounded-md">
+        <div class="my-8 bg-white shadow-md rounded-md">
             <AdminUserForm :availableSlskeyGroups="availableSlskeyGroups" :modelValue="form" @submit="saveAdminUser"
                 :isCreating="false" @cancel="cancel" @delete="deleteAdminUser" @resetPassword="resetPassword"/>
         </div>

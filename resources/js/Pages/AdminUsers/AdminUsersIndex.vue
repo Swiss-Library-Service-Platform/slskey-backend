@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('admin_users.title') }]">
 
-        <div class="flex justify-between items-center mt-5">
+        <div class="my-8 flex justify-between items-center">
             <div class="text-2xl">
                 SLSKey Admin Portal Users
             </div>
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Admin Portal Users -->
-        <div class="mt-5 mb-10 bg-white shadow-md rounded-md">
+        <div class="my-8 bg-white shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Alma Users -->
-        <div class="mt-5 mb-10 bg-color-alma shadow-md rounded-md">
+        <div class="my-8 bg-color-alma shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

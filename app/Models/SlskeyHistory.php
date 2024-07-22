@@ -114,13 +114,11 @@ class SlskeyHistory extends Model
      */
     public function scopeFilter(Builder $query, array $filters): Builder
     {
-        $searchableColumns = static::$searchable;
-
         /*
         ------    Search User Filter -------
         */
-        $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('primary_id', 'like', '%' . $search . '%');
+        $query->when($filters['primaryId'] ?? null, function ($query, $primaryId) {
+            $query->where('primary_id', 'like', '%' . $primaryId . '%');
         });
 
         /*

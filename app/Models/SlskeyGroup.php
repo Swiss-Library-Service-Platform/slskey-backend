@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class SlskeyGroup extends Model
 {
@@ -33,6 +34,17 @@ class SlskeyGroup extends Model
         'webhook_mail_activation_domains',
         'webhook_mail_activation_days_send_before_expiry',
         'webhook_mail_activation_days_token_validity',
+    ];
+
+    /**
+     * Searchable fields
+     *
+     * @var array
+     */
+    protected static $searchable = [
+        'name',
+        'slskey_code',
+        'alma_iz',
     ];
 
     /**
@@ -254,4 +266,30 @@ class SlskeyGroup extends Model
         // If all checks pass, return true
         return true;
     }
+
+    /**
+     * Filter
+     *
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        $searchableColumns = static::$searchable;
+
+        /*
+        ------    Search Filter -------
+        */
+        $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
+            $query->where(function ($query) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+                }
+            });
+        });
+
+        return $query;
+    }
+
 }

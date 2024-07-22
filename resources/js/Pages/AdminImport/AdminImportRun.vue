@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Import" :breadCrumbs="[{ name: $t('admin_users.title') }]">
 
-        <div class="mt-5 mb-10 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
+        <div class="my-8 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
 
             <div class="w-full flex flex-row justify-between pb-4 border-b">
                 <div class="text-2xl">

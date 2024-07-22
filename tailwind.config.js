@@ -32,7 +32,7 @@ module.exports = {
             },
             colors: {
                 // Gray for Background and Borders
-                'gray-background': '#e9e9e9',
+                'gray-background': '#e9e9e991', // '#e9e9e9',
                 'gray-table': '#c9c9c9', //'#e5e7eb',
                 'gray-disabled': '#d1d5db',
                 // Main colors
@@ -40,7 +40,6 @@ module.exports = {
                 'color-one-1': '#edf1f5', 
                 // SLSP
                 'color-slsp': '#4e4a99',
-                'color-slsp-light': '#e5e5f4',
                 'color-slsp-bg': '#4e4a9914',
                 'color-alma': '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
                 // App layout

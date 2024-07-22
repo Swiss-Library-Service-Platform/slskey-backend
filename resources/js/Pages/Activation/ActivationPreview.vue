@@ -14,7 +14,7 @@
         { name: $t('activation.activate') }]
   ">
 
-    <div class="mt-5 mb-10 flex flex-row items-start gap-x-8">
+    <div class="my-8 flex flex-row items-start gap-x-8">
 
       <div
         class="justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-md gap-y-8 px-8 shadow-md">
@@ -43,32 +43,11 @@
 
       </div>
 
-      <div class="flex flex-col">
-        <!--  SLSKey USer Details
-
-       
-        <div v-if="slskeyUser"
-          class="flex mt-5 rounded-md bg-white p-4 w-full justify-between shadow border shadow-md">
-
-          <div class="flex flex-row items-center ">
-            <Icon icon="check-circle" class="w-4 mr-1"></Icon>
-
-            User found in SLSKey
-          </div>
-
-          <a :href="'/users/' + slskeyUser.primary_id" class="flex flex-row items-center underline">
-            <Icon icon="user" class="w-4"></Icon>
-            Details
-          </a>
-        </div>
-        -->
-
-        <!-- Alma User Details -->
-        <div class="flex flex-col gap-y-5">
-          <AlmaUserDetailsShow class="shadow-md " v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
-        </div>
-     
+      <!-- Alma User Details -->
+      <div class="flex flex-row flex-wrap gap-8">
+        <AlmaUserDetailsShow class="shadow-md " v-for="almaUser in almaUsers" :key="almaUser.primary_id" :almaUser="almaUser" />
       </div>
+     
     </div>
 
   </AppLayout>

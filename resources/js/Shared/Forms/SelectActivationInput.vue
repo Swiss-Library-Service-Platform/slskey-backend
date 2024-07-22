@@ -8,7 +8,7 @@
 
             <input v-if="option.workflow != 'Webhook'" :checked="option.value == this.modelValue" :id="getId(option.value)" ref="input"
                 v-bind="{ ...$attrs, class: null }"
-                class="form-checkbox rounded shadow-sm border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50"
+                class="text-color-slsp rounded shadow-sm border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50"
                 :class="{ error: error }" type="checkbox" @change="clickOption(option.value, $event)"
                 :disabled="(option.workflow == 'Webhook') || (option.activation && option.activation.blocked)" />
 
@@ -23,7 +23,7 @@
             </span>
         </label>
         <div class="ml-4">
-            <UserStatusChip :activation="option.activation" />
+            <UserStatusChip v-if="option.activation" :activation="option.activation" />
         </div>
         <div v-if="error" class="form-error">{{ error }}</div>
     </div>

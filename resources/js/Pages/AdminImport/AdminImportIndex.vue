@@ -1,7 +1,7 @@
 
 <template>
     <AppLayout title="Import" :breadCrumbs="[{ name: $t('admin_users.title') }]">
-        <div class="mt-5 mb-10 w-fit flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
+        <div class="my-8 w-fit flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
 
             <div class="text-2xl">
                 Import CSV File

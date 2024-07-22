@@ -24,7 +24,7 @@ class SlskeyGroupsController extends Controller
      */
     public function index(): Response
     {
-        $slskeyGroups = SlskeyGroup::query()->get();
+        $slskeyGroups = SlskeyGroup::query()->filter(Request::all())->get();
 
         return Inertia::render('SlskeyGroups/SlskeyGroupsIndex', [
             'filters' => Request::all(),

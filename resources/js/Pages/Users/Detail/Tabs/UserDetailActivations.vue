@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full overflow-x-auto rounded-lg rounded-lg XXXborder XXXborder-gray-table">
+  <ActionButton class="text-lg w-fit mb-8 px-8 shadow" @click.prevent="activate()" icon="key" :loading="loading">
+      {{ $t('user_management.new_activation') }}
+  </ActionButton>
+  <div class="bg-white rounded-md shadow w-full overflow-x-auto">
     <table class="table-auto w-full divide-y divide-gray-table rounded-md">
       <tbody class="divide-y divide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
@@ -75,8 +78,7 @@
                         <!-- Block User -->
                         <DefaultConfirmDropdownLink v-if="!activation.blocked" class="bg-color-blocked py-1"
                           :activation="activation" :confirmText="$t('user_management.confirm_block_user')"
-                          @confirmed="block"
-                          :confirmText2="$t('user_management.confirm_block_user_2')">
+                          @confirmed="block" :confirmText2="$t('user_management.confirm_block_user_2')">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
                           {{ $t('user_management.block') }}
                         </DefaultConfirmDropdownLink>
@@ -214,6 +216,7 @@
       </tbody>
     </table>
   </div>
+
 </template>
 
 
@@ -230,9 +233,11 @@ import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
 import LetterIcon from "../../../../Shared/LetterIcon.vue";
 import SlskeyGroupNameAndIcon from "../../../../Shared/SlskeyGroupNameAndIcon.vue";
+import ActionButton from "@/Shared/Buttons/ActionButton.vue";
 
 export default {
   components: {
+    ActionButton,
     Inertia,
     UserStatusChip,
     DefaultIconButton,
@@ -260,6 +265,10 @@ export default {
     }
   },
   methods: {
+    activate: function () {
+      this.loading = true;
+      Inertia.get("/activation/" + this.slskeyUser.primary_id);
+    },
     getSwitchStatus: async function () {
       this.slskeyUser.slskey_activations.forEach(async (activation) => {
         activation.switchLoading = true;

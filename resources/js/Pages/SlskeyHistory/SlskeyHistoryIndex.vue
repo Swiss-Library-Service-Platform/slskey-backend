@@ -1,9 +1,9 @@
 
 <template>
     <AppLayout :title="$t('history.title')" :breadCrumbs="[{ name: $t('history.title') }]">
-        <div class="flex py-5 items-end justify-between flex-wrap">
+        <div class="my-8 flex items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SearchFilter v-model="form.search" :label="$t('slskey_user.primary_id')" :placeholder="$t('history.search')" />
+                <SearchFilter v-model="form.primaryId" :label="$t('slskey_user.primary_id')" :placeholder="$t('history.search')" />
                 <DatePickerFilter :label="$t('history.date')" v-model="form.date" />
                 <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
                     :options="slskeyGroups.data" />
@@ -11,7 +11,7 @@
             </FilterControl>
         </div>
 
-        <div class="mt-5 overflow-x-auto bg-white shadow-md rounded-md">
+        <div class="overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <SlskeyHistoryHeader :showPrimaryId="true" />
@@ -33,7 +33,7 @@
             </table>
 
         </div>
-        <div class="mt-5 mb-10">
+        <div class="my-8">
             <Pagination :pages="slskeyHistories" v-model="form.perPage" />
         </div>
     </AppLayout>
@@ -86,7 +86,7 @@ export default {
             tooltipShow: false,
             form: {
                 perPage: this.perPage,
-                search: this.filters.search,
+                primaryId: this.filters.primaryId,
                 date: this.filters.date,
                 slskeyCode: this.filters.slskeyCode,
                 trigger: this.filters.trigger
@@ -97,7 +97,7 @@ export default {
         reset() {
             this.form = {
                 perPage: this.perPage,
-                search: null,
+                primaryId: null,
                 date: null,
                 slskeyCode: null,
                 trigger: null

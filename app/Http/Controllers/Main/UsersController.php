@@ -135,7 +135,7 @@ class UsersController extends Controller
 
         /** @var \App\Models\User */
         $user = Auth::user();
-        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
+        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->unique()->toArray();
         $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
         $almaUsers = $almaServiceResponse->almaUsers;
 

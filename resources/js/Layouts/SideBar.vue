@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
@@ -22,7 +22,7 @@ defineProps({
 				<div class="h-full my-4 flex flex-col ">
 					<!-- pl-2 sm:pl-4 lg:pl-6 pr-4 sm:pr-6 lg:pr-10  -->
 
-					<div class="flex flex-col  pb-4">
+					<div class="flex flex-col pb-4">
 
 						<!-- Activation -->
 						<NavLink icon="key" :href="route('activation.start')"
@@ -41,24 +41,23 @@ defineProps({
 							:active="route().current('reporting.index') || route().current('reporting.show') || route().current('reporting.select')">
 							{{ $t('reporting.title') }}
 						</NavLink>
+					</div>
 
-						<!-- Logout -->
+					<div class="flex flex-col py-4 border-t">
+						<!-- Help -->
 						<NavLink icon="question-mark" :href="$page.props.helpUrl" :isExternal="true">
 							{{ $t('app_header.help') }}
 						</NavLink>
-
 						<!-- Logout -->
-						<!--
 						<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
 							{{ $t('app_header.logout') }}
 						</NavLink>
-					-->
-
 					</div>
 
-					<div v-if="$page.props.slskeyadmin" class="flex flex-col pt-4 ">
 
-						<div class="ml-8 mb-4 text-color-one">
+					<div v-if="$page.props.slskeyadmin" class="flex flex-col py-4 border-t">
+
+						<div class="ml-8 mb-4 text-color-one italic">
 							<Icon icon="lock-closed" class="w-3 h-3 inline-block mr-2" />
 							SLSP area
 						</div>
@@ -70,7 +69,7 @@ defineProps({
 
 						<!-- Admin Users -->
 						<NavLink icon="user-circle" :href="route('admin.users.index')"
-							:active="route().current('admin.users.index')  || route().current('admin.users.show') || route().current('admin.users.create')">
+							:active="route().current('admin.users.index') || route().current('admin.users.show') || route().current('admin.users.create')">
 							{{ $t('admin_users.title') }}
 						</NavLink>
 
@@ -92,18 +91,26 @@ defineProps({
 							{{ $t('publishers.title') }}
 						</NavLink>
 						-->
-						
+
 						<!-- Mass Import -->
 						<NavLink icon="upload" :href="route('admin.import.index')"
-							:active="route().current('admin.import.index') || route().current('admin.import.preview') || route().current('admin/import/store') ">
+							:active="route().current('admin.import.index') || route().current('admin.import.preview') || route().current('admin/import/store')">
 							{{ $t('admin_import.title') }}
 						</NavLink>
 
-						<!-- edu-ID Status --> 
+						<!-- edu-ID Status -->
 						<NavLink icon="information-circle" href="https://status.eduid.ch/" :isExternal="true">
 							{{ $t('eduid_status') }}
 						</NavLink>
 					</div>
+
+					<!-- 
+					<div class="flex flex-col pt-4 border-t">
+						<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
+							{{ $t('app_header.logout') }}
+						</NavLink>
+					</div>
+					-->
 
 				</div>
 

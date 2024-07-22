@@ -65,7 +65,7 @@ class ActivationController extends Controller
         $origin = Request::input('origin');
 
         // Get Alma Users from all permitted IZs
-        $slskeyGroups = SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->toArray();
+        $slskeyGroups = SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->unique()->toArray();
         $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
         if (!$almaServiceResponse->success) {
             if ($origin != 'ACTIVATION_START') {

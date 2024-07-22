@@ -18,7 +18,7 @@
                 B: <b>primary id</b> - The primary id of the activation
                 <br>
                 <br>
-                <span class="italic"> For migration from old PURA database: </span>
+                <span class="italic"> And optionally for migration from old PURA database: </span>
                 <br>
                 C: <b>activation date</b> - The activation date of the activation
                 <br>

@@ -7,7 +7,7 @@
     2. [Test Structure](#test-structure)
     3. [Run Tests](#run-tests)
     4. [Test Coverage](#test-coverage)
-3. [Productive Deployment](#productive-deployment)
+3. [Deployment](#deployment)
     1. [Install Dependencies](#install-dependencies)
     2. [Build Frontend](#build-frontend)
 4. [Local Development using Docker](#local-development-using-docker)
@@ -63,17 +63,31 @@ Pest uses XDebug to generate test coverage reports.</br>
 Run following command to generate test coverage report: </br>
 `./vendor/bin/pest --coverage`
 
-## Productive Deployment
+## Deployment
+
+### Requirements
+- PHP > 7.4
+- Composer
+- NodeJS & NPM
+- MySQL Database
+- Apache or Nginx
+
+#### For Queue (used for Import User Page)
+- Redis server (for queue) + systemctl start redis-server
+- Pusher account (for queue) + .env file with PUSHER_APP_ID, PUSHER_APP_KEY, PUSHER_APP_SECRET, PUSHER_APP_CLUSTER
 
 ### Install Dependencies
-Apache Webserver is used to host the /public directory.
-Run following commands to make sure the app is deployed correctly:
+Run following commands to install the php dependencies and cache the config and routes:
 ```
 composer install --optimize-autoloader --no-dev
 php artisan config:cache`
 php artisan route:cache`
 ```
-For the first deployment, run database migration as described above.
+
+For the first deployment, run database migration.
+```
+php artisan migrate
+```
 
 ### Build Frontend
 

@@ -211,7 +211,6 @@ export default {
             // Listen for Import progress
             var channel = pusher.subscribe('import-progress');
             channel.bind('import-progress-row', (event) => {
-                console.log(event);
                 this.successRows = event.success ? this.successRows + 1 : this.successRows;
                 this.errorRows = event.success ? this.errorRows : this.errorRows + 1;
                 this.activeRows = event.isActive ? this.activeRows + 1 : this.activeRows;

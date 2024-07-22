@@ -68,6 +68,15 @@ return [
             'block_for' => null,
             'after_commit' => false,
         ],
+
+        'redis_import_job' => [
+            'driver' => 'redis',
+            //'connection' => 'default',
+            'queue' => 'redis_import_job',
+            'retry_after' => 86400, // 24 hours
+            'block_for' => null,
+            'after_commit' => false,
+        ],
     ],
 
     /*

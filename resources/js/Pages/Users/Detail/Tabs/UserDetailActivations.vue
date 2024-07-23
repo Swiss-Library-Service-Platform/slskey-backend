@@ -97,9 +97,9 @@
                   <div class="text-xs italic">
                     {{ activation?.activation_date ? $t('user_management.activation_activated_on') + " " +
                       formatDate(activation.activation_date) : '' }}
-                    {{ activation?.deactivation_date ? $t('user_management.deactivated_on') + " " +
+                    {{ activation?.deactivation_date ? $t('user_management.activation_deactivated_on') + " " +
                       formatDate(activation.deactivation_date) : '' }}
-                    {{ activation?.blocked_date ? $t('user_management.blocked_on') + " " +
+                    {{ activation?.blocked_date ? $t('user_management.activation_blocked_on') + " " +
                       formatDate(activation.blocked_date) : '' }}
                   </div>
                 </div>

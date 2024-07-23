@@ -68,8 +68,8 @@ class LandingController extends Controller
         $nameId = Session::get('nameId');
 
         // Clear local sessions // WORKAROUND 1, see above
-        Auth::logout();
         Session::flush();
+        Auth::logout();
 
         // SAML2 Remote Logout (SWITCH edu-ID)
         if ($user->is_edu_id) {

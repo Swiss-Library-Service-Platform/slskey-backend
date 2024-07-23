@@ -46,8 +46,7 @@ class CloudAppController extends Controller
         $primaryId = Request::route()->parameter('primary_id');
 
         // Get Institution code from session (Set by middleware)
-        $instCode = session('alma_institution');
-        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId, $instCode);
+        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId); //, $instCode);
 
         return new JsonResponse($slskeyGroups);
     }

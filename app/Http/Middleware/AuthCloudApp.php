@@ -87,8 +87,6 @@ class AuthCloudApp
             Auth::setUser($user);
             $user->updateLastLogin();
 
-            // Store institution in session to make it available in the controllers
-            session(['alma_institution' => $decodedToken->inst_code]);
 
             return $next($request);
         } catch (\Exception $e) {
@@ -129,7 +127,7 @@ class AuthCloudApp
      */
     protected function findUserFromToken(object $token)
     {
-        return User::where('user_identifier', $token->sub)->first();
+        return User::where('user_identifier', "$token->inst_code-$token->sub")->first();
     }
 
     /**
@@ -188,7 +186,7 @@ class AuthCloudApp
     protected function createOrUpdateUserWithPermissionsForSlskeyGroups(object $token, Collection $slskeyGroups)
     {
         $user = User::updateOrCreate([
-            'user_identifier' => $token->sub,
+            'user_identifier' => "$token->inst_code-$token->sub",
         ], [
             'display_name' => $token->sub,
             'is_edu_id' => 0,

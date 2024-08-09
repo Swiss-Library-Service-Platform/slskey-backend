@@ -105,7 +105,7 @@ class AuthCloudApp
         }
 
         // Check if user has any permissions
-        if (!$user->hasAnyPermissions()) {
+        if (!$user || !$user->hasAnyPermissions()) {
             return new Response("Authorization failed. User has no permissions for any SLSKey Groups", 403);
         }
     }

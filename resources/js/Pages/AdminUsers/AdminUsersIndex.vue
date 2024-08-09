@@ -12,7 +12,7 @@
         </div>
 
         <!-- Admin Portal Users -->
-        <div class="my-8 bg-white shadow-md rounded-md">
+        <div class="overflow-x-auto my-8 bg-white shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Alma Users -->
-        <div class="my-8 bg-color-alma shadow-md rounded-md">
+        <div class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

@@ -10,7 +10,7 @@
             </DefaultButton>
         </div>
 
-        <div class="bg-white shadow-md rounded-md">
+        <div class="overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

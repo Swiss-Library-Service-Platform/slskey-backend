@@ -33,6 +33,10 @@ class SlskeyGroupAdminDetailResource extends JsonResource
             'webhook_mail_activation_domains' => $this->webhook_mail_activation_domains,
             'webhook_mail_activation_days_send_before_expiry' => $this->webhook_mail_activation_days_send_before_expiry,
             'webhook_mail_activation_days_token_validity' => $this->webhook_mail_activation_days_token_validity,
+            // Cloud App Permissions
+            'cloud_app_allow' => $this->cloud_app_allow,
+            'cloud_app_roles' => $this->cloud_app_roles,
+            'cloud_app_roles_scopes' => $this->cloud_app_roles_scopes,
             // SwitchGroups
             'switchGroups' => $this->switchGroups,
         ];

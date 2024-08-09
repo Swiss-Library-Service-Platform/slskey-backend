@@ -65,6 +65,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user has any permissions
+     *
+     * @return boolean
+     */
+    public function hasAnyPermissions(): bool
+    {
+        return $this->getPermissions()->count() > 0;
+    }
+
+    /**
      * Get the slskey_codes of SlskeyGroups that the User has permissions for.
      *
      * @return array

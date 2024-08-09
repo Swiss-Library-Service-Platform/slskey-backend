@@ -62,6 +62,9 @@ export default {
                 webhook_mail_activation_domains: null,
                 webhook_mail_activation_days_send_before_expiry: null,
                 webhook_mail_activation_days_token_validity: null,
+                cloud_app_allow: 0,
+                cloud_app_roles: null,
+                cloud_app_roles_scopes: null,
                 switchGroups: []
             })
         }

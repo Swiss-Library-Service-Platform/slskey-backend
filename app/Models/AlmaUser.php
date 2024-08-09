@@ -67,7 +67,7 @@ class AlmaUser extends Model
         $roles = [];
         foreach ($apiData->user_role as $role) {
             if ($role->status->value == 'ACTIVE') {
-                $roles[] = $role->role_type->value;
+                $roles[] = new Role($role->role_type->value, $role->scope->value);
             }
         }
 
@@ -113,5 +113,17 @@ class AlmaUser extends Model
             'record_type' => $jsonData['record_type'],
             'roles' => $jsonData['roles']
         ]);
+    }
+}
+
+class Role
+{
+    public $role;
+    public $scope;
+
+    public function __construct($role, $scope)
+    {
+        $this->role = $role;
+        $this->scope = $scope;
     }
 }

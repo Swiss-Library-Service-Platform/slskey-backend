@@ -18,6 +18,7 @@ return [
             '41SLSP_ZBS' => env('ALMA_ZBS_API_KEY', '---'),
             '41SLSP_UZB' => env('ALMA_UZB_API_KEY', '---'),
             '41SLSP_UBS' => env('ALMA_UBS_API_KEY', '---'),
+            '41SLSP_HPH' => env('ALMA_HPH_API_KEY', '---'),
         ]
     ],
 

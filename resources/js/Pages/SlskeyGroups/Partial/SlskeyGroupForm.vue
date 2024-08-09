@@ -1,7 +1,8 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('slskey_groups.general') }}
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+                $t('slskey_groups.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <!-- Name -->
@@ -14,8 +15,8 @@
                     :label="`${$t('slskey_groups.workflow')} *`" v-model="form.workflow">
                 </select-input>
                 <!-- Activation Mail -->
-                <checkbox-input class="w-full" :error="form.errors.send_activation_mail" v-model="form.send_activation_mail"
-                    :label="$t('slskey_groups.send_activation_mail')" />
+                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
+                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
                 <!-- Alma IZ -->
                 <text-input v-model="form.alma_iz" :error="form.errors.alma_iz"
                     :label="`${$t('slskey_groups.alma_iz')} *`" />
@@ -32,7 +33,7 @@
                     <template v-if="form.workflow === 'Webhook'">
                         <text-input v-model="form.webhook_secret" :error="form.errors.webhook_secret"
                             :label="`${$t('slskey_groups.webhook_secret')} *`" />
-                            <!-- 
+                        <!-- 
                         <select-input v-model="form.webhook_custom_verifier" :error="form.errors.webhook_custom_verifier"
                             :options="availableWebhookCustomVerifiers"
                             :helpText="$t('slskey_groups.webhook_custom_verifier_help')"
@@ -42,17 +43,18 @@
                     </template>
                     <!-- Manual Activation -->
                     <template v-else>
-                        <number-input v-model="form.days_activation_duration" :error="form.errors.days_activation_duration"
+                        <number-input v-model="form.days_activation_duration"
+                            :error="form.errors.days_activation_duration"
                             :label="`${$t('slskey_groups.days_activation_duration')} *`" />
-                        <number-input v-model="form.days_expiration_reminder" :error="form.errors.days_expiration_reminder"
+                        <number-input v-model="form.days_expiration_reminder"
+                            :error="form.errors.days_expiration_reminder"
                             :label="$t('slskey_groups.days_expiration_reminder')"
                             :placeholder="$t('slskey_groups.days_expiration_reminder_placeholder')" />
                     </template>
                 </div>
             </template>
             <!-- Webhook Email Actviation -->
-            <template v-if="form.workflow == 'Webhook'"
-                class="border-t border-b border-default-gray">
+            <template v-if="form.workflow == 'Webhook'" class="border-t border-b border-default-gray">
                 <div class="border-t border-b border-default-gray"></div>
                 <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">
                     {{ $t('slskey_groups.webhook_activation_details') }}</h3>
@@ -60,33 +62,54 @@
 
                     <!-- Custom Verifier -->
                     <checkbox-input v-model="form.webhook_custom_verifier"
-                        :error="form.errors.webhook_custom_verifier_class" :label="$t('slskey_groups.webhook_custom_verifier')" />
-                    <select-input v-if="form.webhook_custom_verifier" v-model="form.webhook_custom_verifier_class" :error="form.errors.webhook_custom_verifier_class"
-                            :options="availableWebhookCustomVerifiers"
-                            :helpText="$t('slskey_groups.webhook_custom_verifier_help')"
-                            :label="$t('slskey_groups.webhook_custom_verifier_class')" />
+                        :error="form.errors.webhook_custom_verifier_class"
+                        :label="$t('slskey_groups.webhook_custom_verifier')" />
+                    <select-input v-if="form.webhook_custom_verifier" v-model="form.webhook_custom_verifier_class"
+                        :error="form.errors.webhook_custom_verifier_class" :options="availableWebhookCustomVerifiers"
+                        :helpText="$t('slskey_groups.webhook_custom_verifier_help')"
+                        :label="$t('slskey_groups.webhook_custom_verifier_class')" />
                     <div v-if="!form.webhook_custom_verifier" />
 
                     <!-- Mail Activation -->
                     <checkbox-input class="w-full" v-model="form.webhook_mail_activation"
-                        :error="form.errors.webhook_mail_activation" :label="$t('slskey_groups.webhook_mail_activation')" />
-                    <div/>
+                        :error="form.errors.webhook_mail_activation"
+                        :label="$t('slskey_groups.webhook_mail_activation')" />
+                    <div />
                     <select-input v-if="form.webhook_mail_activation" v-model="form.webhook_mail_activation_domains"
                         :helpText="$t('slskey_groups.webhook_mail_activation_domains_help')"
                         :error="form.errors.webhook_mail_activation_domains"
                         :options="availableWebhookMailActivationDomains"
                         :label="$t('slskey_groups.webhook_mail_activation_domains')" />
-                    <number-input v-if="form.webhook_mail_activation" v-model="form.webhook_mail_activation_days_send_before_expiry"
+                    <number-input v-if="form.webhook_mail_activation"
+                        v-model="form.webhook_mail_activation_days_send_before_expiry"
                         :error="form.errors.webhook_mail_activation_days_send_before_expiry"
                         :label="$t('slskey_groups.webhook_mail_activation_days_send_before_expiry')" />
-                    <number-input v-if="form.webhook_mail_activation" v-model="form.webhook_mail_activation_days_token_validity"
+                    <number-input v-if="form.webhook_mail_activation"
+                        v-model="form.webhook_mail_activation_days_token_validity"
                         :error="form.errors.webhook_mail_activation_days_token_validity"
                         :label="$t('slskey_groups.webhook_mail_activation_days_token_validity')" />
-                     <number-input v-if="form.webhook_mail_activation" v-model="form.days_activation_duration"
+                    <number-input v-if="form.webhook_mail_activation" v-model="form.days_activation_duration"
                         :error="form.errors.days_activation_duration"
                         :label="$t('slskey_groups.days_activation_duration')" />
                 </div>
             </template>
+
+            <!-- Cloud App Permissions -->
+            <div class="border-t border-b border-default-gray"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+                $t('slskey_groups.cloud_app_permissions') }}</h3>
+            <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+
+                <checkbox-input v-model="form.cloud_app_allow" :error="form.errors.cloud_app_allow"
+                    :label="$t('slskey_groups.cloud_app_allow')" />
+                <div/>
+                <!-- Roles -->
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles" :error="form.errors.cloud_app_roles"
+                    :label="$t('slskey_groups.cloud_app_roles')" />
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes" :error="form.errors.cloud_app_roles_scopes"
+                    :label="$t('slskey_groups.cloud_app_roles_scopes')" />
+            </div>
+
             <!-- Switch Groups -->
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
@@ -107,7 +130,8 @@
                                 </td>
 
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('slskey_groups.delete_switch_group')"
+                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x"
+                                        :tooltip="$t('slskey_groups.delete_switch_group')"
                                         @click="removeGroup(switchGroup.id)" />
                                 </td>
                             </tr>
@@ -115,7 +139,7 @@
                         <template v-else>
                             <tr>
                                 <td class="pl-6 py-2 whitespace-nowrap italic">{{ $t('slskey_groups.no_switch_groups')
-                                }}.</td>
+                                    }}.</td>
                             </tr>
                         </template>
 
@@ -223,7 +247,7 @@ export default {
                 this.form.webhook_custom_verifier_class = null;
             }
         },
-        'form.webhook_custom_verifier': function(webhook_custom_verifier) {
+        'form.webhook_custom_verifier': function (webhook_custom_verifier) {
             if (webhook_custom_verifier) {
                 this.form.webhook_mail_activation = 0;
                 this.form.webhook_mail_activation_domains = null;

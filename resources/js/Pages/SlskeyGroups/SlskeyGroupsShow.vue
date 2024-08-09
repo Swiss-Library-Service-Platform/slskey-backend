@@ -63,6 +63,9 @@ export default {
                 webhook_mail_activation_domains: this.slskeyGroup.data.webhook_mail_activation_domains,
                 webhook_mail_activation_days_send_before_expiry: this.slskeyGroup.data.webhook_mail_activation_days_send_before_expiry,
                 webhook_mail_activation_days_token_validity: this.slskeyGroup.data.webhook_mail_activation_days_token_validity,
+                cloud_app_allow: this.slskeyGroup.data.cloud_app_allow,
+                cloud_app_roles: this.slskeyGroup.data.cloud_app_roles,
+                cloud_app_roles_scopes: this.slskeyGroup.data.cloud_app_roles_scopes,
                 switchGroups: this.slskeyGroup.data.switchGroups
             })
         }

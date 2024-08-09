@@ -137,6 +137,9 @@ class SlskeyGroupsController extends Controller
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
             'alma_iz' => ['required', 'max:14'],
+            'cloud_app_allow' => ['numeric'],
+            'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
+            'cloud_app_roles_scopes' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
         ];
         if (Request::input('workflow') === 'Webhook') {
             $rules = array_merge($rules, [

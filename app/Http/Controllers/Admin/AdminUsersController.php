@@ -109,7 +109,7 @@ class AdminUsersController extends Controller
         $this->managePermissions($user);
 
         // Redirect to index route
-        return Redirect::route('admin.users.index')->with('success',  __('flashMessages.admin_user_created'));
+        return Redirect::route('admin.users.index')->with('success', __('flashMessages.admin_user_created'));
     }
 
     /**

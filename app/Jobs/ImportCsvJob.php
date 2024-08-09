@@ -13,14 +13,16 @@ use App\Events\DataImportProgressEvent;
 use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyUser;
 use App\Services\API\AlmaAPIService;
 use App\Services\SlskeyUserService;
 use Carbon\Carbon;
 
 class ImportCsvJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $importRows;
     protected $checkIsActive;
@@ -42,7 +44,7 @@ class ImportCsvJob implements ShouldQueue
     }
 
     /**
-     * Handle the job 
+     * Handle the job
      * Inject dependencies
      *
      * @param SlskeyUserService $slskeyUserService
@@ -147,7 +149,6 @@ class ImportCsvJob implements ShouldQueue
                 ];
                 */
             }
-            
         }
 
         // Check if test run, if so, return

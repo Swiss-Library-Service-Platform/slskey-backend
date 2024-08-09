@@ -3,48 +3,50 @@
         { name: $t('user_management.title'), link: '/users' },
         { name: slskeyUser.data.full_name ?? slskeyUser.data.primary_id }
     ]">
-        <div class="flex flex-col w-fit gap-y-8 rounded-b shadow bg-white">
-            <ul class="flex flex-row w-fit h-16 ">
-                <template v-for="(tab, index) in tabs" :key="index">
-                    <li class="relative flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
-                        'tabitem text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
-                        'rounded-tr-md': index === tabs.length - 1
-                    }" @click="setActiveTab(index)">
-                        <div v-if="index == 0" class="flex items">
-                            <Icon icon="key" class="w-6 h-6 mr-2" />
-                        </div>
-                        <div v-if="index == 1 && showUserExlamation" class="flex items">
-                            <Icon icon="exclamation" class="w-6 h-6 mr-2 text-color-blocked" />
-                        </div>
-                        <div v-if="index == 1 && !showUserExlamation" class="flex items">
-                            <Icon icon="user" class="w-6 h-6 mr-2" />
-                        </div>
-                        <div v-if="index == 2" class="flex items">
-                            <Icon icon="book-open" class="w-6 h-6 mr-2" />
-                        </div>
-                        {{ tab }}
-                    </li>
-                </template>
-            </ul>
+        <div class="w-full">
+            <div class="flex flex-col gap-y-8 rounded-b shadow bg-white">
+                <ul class="flex flex-row w-fit h-16 ">
+                    <template v-for="(tab, index) in tabs" :key="index">
+                        <li class="relative flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
+                            'tabitem text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
+                            'rounded-tr-md': index === tabs.length - 1
+                        }" @click="setActiveTab(index)">
+                            <div v-if="index == 0" class="flex items">
+                                <Icon icon="key" class="w-6 h-6 mr-2" />
+                            </div>
+                            <div v-if="index == 1 && showUserExlamation" class="flex items">
+                                <Icon icon="exclamation" class="w-6 h-6 mr-2 text-color-blocked" />
+                            </div>
+                            <div v-if="index == 1 && !showUserExlamation" class="flex items">
+                                <Icon icon="user" class="w-6 h-6 mr-2" />
+                            </div>
+                            <div v-if="index == 2" class="flex items">
+                                <Icon icon="book-open" class="w-6 h-6 mr-2" />
+                            </div>
+                            {{ tab }}
+                        </li>
+                    </template>
+                </ul>
 
-        </div>
+            </div>
 
-        <div class="w-fit min-w-1/2 my-8">
-            <div v-show="activeTab === 0">
-                <UserDetailActivations :slskeyUser="slskeyUser.data"
-                    :isWebhookMailActivation="isWebhookMailActivation" />
-            </div>
-            <div class="bg-white rounded shadow p-8 flex gap-5" v-show="activeTab === 1">
-                <template v-if="almaLoading">
-                    <AlmaUserDetailsLoad />
-                </template>
-                <template v-else>
-                    <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id"
-                        :almaUser="almaUser" />
-                </template>
-            </div>
-            <div class="bg-white rounded shadow pt-4" v-show="activeTab === 2">
-                <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories" />
+            <div class="my-8">
+                <div v-show="activeTab === 0">
+                    <UserDetailActivations :slskeyUser="slskeyUser.data"
+                        :isWebhookMailActivation="isWebhookMailActivation" />
+                </div>
+                <div class="bg-white rounded shadow p-8 flex gap-5" v-show="activeTab === 1">
+                    <template v-if="almaLoading">
+                        <AlmaUserDetailsLoad />
+                    </template>
+                    <template v-else>
+                        <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id"
+                            :almaUser="almaUser" />
+                    </template>
+                </div>
+                <div class="bg-white rounded shadow pt-4" v-show="activeTab === 2">
+                    <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories" />
+                </div>
             </div>
         </div>
     </AppLayout>

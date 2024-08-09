@@ -16,12 +16,6 @@ TODO: Uptime monitoring, Log Monitoring, Error Monitoring
 TODO: Was ist mit edu-ID Login
       - Erstmal auf Eis
 
-TODO: Bug Cloud App
-      - Wenn man keine Rechte hat
-      - Aber schon im User Record ist
-      - Wird "Access Denied" übersprungen und direkt zum User gegangen
-
-
 ________________________________________________________________________
 Nice to have:
 

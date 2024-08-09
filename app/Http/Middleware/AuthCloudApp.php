@@ -180,7 +180,6 @@ class AuthCloudApp
         if ($slskeyGroup->cloud_app_roles) {
             $cloudAppRoles = explode(';', $slskeyGroup->cloud_app_roles);
             $cloudAppRolesScopes = $slskeyGroup->cloud_app_roles_scopes ? explode(';', $slskeyGroup->cloud_app_roles_scopes) : null;
-            print_r($cloudAppRoles);
             // Check if user has a role in almauser->roles, that exists in cloudAppRoles and scope exists in cloudAppRolesScopes
             $hasRole = false;
             foreach ($almaUser->roles as $role) {

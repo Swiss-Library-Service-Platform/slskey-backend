@@ -73,7 +73,7 @@
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="slskeyHistories.length > 0">
                         <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
-                            class="hover:bg-gray-100 focus-within:bg-gray-100"
+                            class=" focus-within:bg-gray-100"
                             :class="{ 'bg-color-lightgreen': index == 0 }">
 
                             <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">

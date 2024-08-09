@@ -12,6 +12,13 @@ module.exports = {
 
     theme: {
         extend: {
+            minWidth: {
+               '0': '0',
+               '1/4': '25%',
+               '1/2': '50%',
+               '3/4': '75%',
+               'full': '100%',
+            },
             fontFamily: {
                 sans: ['Source Sans Pro', ...defaultTheme.fontFamily.sans],
             },
@@ -33,7 +40,7 @@ module.exports = {
             },
             colors: {
                 // Gray for Background and Borders
-                'gray-background': '#e9e9e991', // '#e9e9e9',
+                'gray-background': '#e9e9e9', // '#e9e9e991', // '#e9e9e9',
                 'gray-table': '#c9c9c9', //'#e5e7eb',
                 'gray-disabled': '#d1d5db',
                 // Main colors

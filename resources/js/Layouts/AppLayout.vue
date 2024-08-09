@@ -30,7 +30,7 @@ const toggleNavbar = () => {
     <!-- Page Heading -->
     <AppHeader :modePublic="modePublic" :breadCrumbs="breadCrumbs" :toggleNavbar="toggleNavbar" />
 
-    <div class="flex flex-1" :class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
+    <div class="flex flex-1" :class="{ 'bg-white': !modePublic, 'max-w-screen-xl m-auto': modePublic }">
         <!-- Sidebar -->
         <SideBar class="flex" v-if="!modePublic" :showNavbar="showNavbar" :route="route" />
 

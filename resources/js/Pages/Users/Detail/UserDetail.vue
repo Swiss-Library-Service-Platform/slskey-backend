@@ -3,7 +3,7 @@
         { name: $t('user_management.title'), link: '/users' },
         { name: slskeyUser.data.full_name ?? slskeyUser.data.primary_id }
     ]">
-        <div class="flex flex-col gap-y-8 rounded-b shadow bg-white">
+        <div class="flex flex-col w-fit gap-y-8 rounded-b shadow bg-white">
             <ul class="flex flex-row w-fit h-16 ">
                 <template v-for="(tab, index) in tabs" :key="index">
                     <li class="relative flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
@@ -29,7 +29,7 @@
 
         </div>
 
-        <div class="my-8">
+        <div class="w-fit min-w-1/2 my-8">
             <div v-show="activeTab === 0">
                 <UserDetailActivations :slskeyUser="slskeyUser.data"
                     :isWebhookMailActivation="isWebhookMailActivation" />

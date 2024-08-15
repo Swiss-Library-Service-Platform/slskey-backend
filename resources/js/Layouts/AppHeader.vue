@@ -12,7 +12,6 @@ import MaterialIcon from '../Shared/MaterialIcon.vue';
 
 defineProps({
 	title: String,
-	toggleNavbar: Function,
 	breadCrumbs: Array,
 	modePublic: {
 		type: Boolean,

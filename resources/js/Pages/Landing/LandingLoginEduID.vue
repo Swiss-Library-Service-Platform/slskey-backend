@@ -70,7 +70,7 @@ const submit = () => {
                     </div>
 
 
-                    <form class="w-full" @submit.prevent="submit">
+                    <form class="w-full" @submit.prevent="submit" @keydown.enter="submit">
 
                         <div class="w-full mb-2">
                             <JetLabel for="user_identifier" value="Username" />

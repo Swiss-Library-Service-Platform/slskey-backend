@@ -66,17 +66,5 @@ class Saml2EventProvider extends ServiceProvider
             Auth::login($user);
             Session::save();
         });
-
-        /*
-        This was not working here:
-
-        Event::listen(\Slides\Saml2\Events\SignedOut::class, function (\Slides\Saml2\Events\SignedOut $event) {
-            Log::channel('saml')->info('Before logout: ', [Auth::user(), Session::all()]);
-            Auth::logout();
-            Session::flush();
-            Session::regenerate();
-            Log::channel('saml')->info('After logout: ', [Auth::user(), Session::all()]);
-        });
-        */
     }
 }

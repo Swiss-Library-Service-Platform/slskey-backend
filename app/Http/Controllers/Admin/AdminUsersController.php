@@ -14,9 +14,22 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Interfaces\AlmaAPIInterface;
 
 class AdminUsersController extends Controller
 {
+    protected $almaApiService;
+
+    /**
+     * SlskeyGroupsController constructor.
+     *
+     * @param AlmaAPIInterface $almaApiService
+     */
+    public function __construct(AlmaAPIInterface $almaApiService)
+    {
+        $this->almaApiService = $almaApiService;
+    }
+
     /**
      * Index route for Admin Users
      *
@@ -205,5 +218,22 @@ class AdminUsersController extends Controller
 
         return Redirect::route('admin.users.index')
             ->with('success', __('flashMessages.admin_user_password_reset'));
+    }
+
+
+    /**
+     * Find edu-ID Primary Identifier from email using Alma API
+     * 
+     * @param string $email
+     * @return array
+     */
+    public function findEduIdPrimaryIdentifier(string $email): array
+    {
+        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($email, '41SLSP_NETWORK');
+        
+        return [
+            'user' => $almaServiceResponse?->almaUser,
+            'message' => $almaServiceResponse?->errorText,
+        ];
     }
 }

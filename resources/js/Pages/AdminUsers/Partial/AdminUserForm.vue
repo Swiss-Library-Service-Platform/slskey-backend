@@ -7,13 +7,16 @@
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_edu_id" v-model="form.is_edu_id"
                     :label="$t('admin_users.is_edu_id')" />
-                <div /> <!--Placeholder -->
+                <TextInput v-if="form.is_edu_id" :label="$t('admin_users.search_eduid')" v-model="inputUserEmail"
+                    @keydown.enter="searchPrimaryId" />
+                
+                <TextInput disabled="true" :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
+                    :error="form.errors.display_name" />
+                <TextInput disabled="true" v-if="form.is_edu_id" :label="`${$t('admin_users.user_identifier_eduid')} *`"
+                    v-model="form.user_identifier":error="form.errors.user_identifier" />
+
                 <TextInput v-if="!form.is_edu_id" :label="`${$t('admin_users.user_identifier_username')} *`"
                     v-model="form.user_identifier" :error="form.errors.user_identifier" />
-                <TextInput v-if="form.is_edu_id" :label="`${$t('admin_users.user_identifier_eduid')} *`"
-                    v-model="form.user_identifier" :error="form.errors.user_identifier" />
-                <TextInput :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
-                    :error="form.errors.display_name" />
                 <TextInput v-if="isCreating && !form.is_edu_id" :label="`${$t('admin_users.initial_password')} *`"
                     v-model="form.password" :error="form.errors.password" />
             </div>
@@ -134,6 +137,7 @@ export default {
         return {
             form: this.modelValue,
             newSlskeyGroup: null,
+            inputUserEmail: null,
         }
     },
     emits: ['update:modelValue', 'submit'],
@@ -166,6 +170,18 @@ export default {
                     this.form.slskeyGroups.push(this.availableSlskeyGroups.data.find(group => group.slskey_code === this.newSlskeyGroup));
                 }
                 this.newSlskeyGroup = null;
+            }
+        },
+        async searchPrimaryId() {
+            try {
+                // Make an asynchronous request to fetch external user information
+                const response = await axios.get('/admin/users/findeduid/' + this.inputUserEmail);
+                if (response.data.user) {
+                    this.form.user_identifier = response.data.user.primary_id;
+                    this.form.display_name = response.data.user.first_name;
+                }
+            } catch (error) {
+                console.error('Error fetching external user information:', error);
             }
         },
     }

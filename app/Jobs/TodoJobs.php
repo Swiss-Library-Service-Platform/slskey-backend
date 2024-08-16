@@ -12,10 +12,6 @@ TODO: Deployment Produktive
       - PHP FPM
 
 TODO: Uptime monitoring, Log Monitoring, Error Monitoring
-
-TODO: Was ist mit edu-ID Login
-      - Erstmal auf Eis
-
 ________________________________________________________________________
 Nice to have:
 

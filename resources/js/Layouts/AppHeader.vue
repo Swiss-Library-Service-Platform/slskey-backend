@@ -1,28 +1,31 @@
-<script setup>
+<script>
 
-import JetDropdown from '@/Jetstream/Dropdown.vue';
-import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
 import LangSwitch from './Partial/LangSwitch.vue';
 import BreadCrumb from '@/Shared/BreadCrumb'
-import FlashMessages from '@/Shared/FlashMessages.vue';
-import Icon from '@/Shared/Icon.vue';
-import { LogoutIcon } from '@heroicons/vue/solid';
 import ProfileButton from './Partial/ProfileButton.vue';
-import MaterialIcon from '../Shared/MaterialIcon.vue';
+import { defineProps, watch } from 'vue';
 
-defineProps({
-	title: String,
-	breadCrumbs: Array,
-	modePublic: {
-		type: Boolean,
-		default: false,
-	}
-});
+export default {
+	components: {
+		LangSwitch,
+		BreadCrumb,
+		ProfileButton
+	},
+	props: {
+		title: String,
+		breadCrumbs: Array,
+		modePublic: {
+			type: Boolean,
+			default: false,
+		}
+	},
+	
+}
 </script>
 
 <template>
 	<header class="z-10 bg-color-header-bg shadow shadow-color-header-bg py-2">
-		<FlashMessages></FlashMessages>
+		<!--<FlashMessages></FlashMessages>-->
 		<div class="mx-auto pr-8 flex flex-row gap-y-2 h-20 justify-between content-center"
 			:class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
 

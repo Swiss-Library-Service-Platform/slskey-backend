@@ -45,6 +45,7 @@
 		"permissions": "Permissions",
 		"reset_password": "Reset Password",
 		"save": "Save User",
+		"search_eduid": "Search mail in Alma (press enter)",
 		"slsp_admin": "SLSP Admin",
 		"title": "Admin Users",
 		"user_identifier": "Identifier",

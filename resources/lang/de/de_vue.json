@@ -45,6 +45,7 @@
 		"permissions": "Berechtigungen",
 		"reset_password": "Passwort zurücksetzen",
 		"save": "Benutzer speichern",
+		"search_eduid": "Search mail in Alma (press enter)",
 		"slsp_admin": "SLSP Administrator",
 		"title": "Admin-Benutzer",
 		"user_identifier": "Identifier",

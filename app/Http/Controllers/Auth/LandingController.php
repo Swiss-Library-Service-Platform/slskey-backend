@@ -22,7 +22,7 @@ class LandingController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Landing/LandingLoginIndex', []);
+        return Inertia::render('Landing/LandingLoginEduID', []);
     }
 
     /**
@@ -132,7 +132,7 @@ class LandingController extends Controller
         Auth::logout();
         Session::flush();
 
-        return Inertia::render('Landing/LandingLoginIndex', [
+        return Inertia::render('Landing/LandingLoginEduID', [
             'flash.error' => __('flashMessages.errors.permissions_missing'),
         ]);
     }

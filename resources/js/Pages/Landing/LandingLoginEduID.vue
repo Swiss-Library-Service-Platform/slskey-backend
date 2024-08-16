@@ -31,7 +31,7 @@ const submit = () => {
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
-        <FlashMessages />
+        <FlashMessages /> <!-- because we are not inside Applayout here and use notifications -->
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
             <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start"> 

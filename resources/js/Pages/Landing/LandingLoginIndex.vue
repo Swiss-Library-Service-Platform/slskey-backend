@@ -33,7 +33,7 @@ const submit = () => {
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4 bg-gray-background">
-        <FlashMessages />
+        <FlashMessages /> <!-- because we are not inside Applayout here and use notifications -->
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
             <div class="w-80 px-8 py-8 flex flex-col justify-around items-start"> 

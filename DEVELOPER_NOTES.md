@@ -135,7 +135,7 @@ To update SAML2 Identity Provider information use artisan:
 `php artisan saml2:create-tenant --key=<idp-key> --entityId=<entity-id> --loginUrl=<login-url> --logoutUrl=<logout-url> --x509cert="<cert>`
 
 4. The console will prompt the credentials for the new tenant that was created. </br>
-This information 
+This information should be given to the Identity Provider. In the case of Switch edu-ID, it has to be entered in the Switch Resource Registry. </br>
 
 Please note: Switch edu-ID (Resource Registry) is asking for a certificate of the SP. </br>
 The X509 Certificate for the SP should be created independently of the tenant creation. </br>

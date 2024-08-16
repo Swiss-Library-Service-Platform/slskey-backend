@@ -7,6 +7,7 @@
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_edu_id" v-model="form.is_edu_id"
                     :label="$t('admin_users.is_edu_id')" />
+                <div v-if="!form.is_edu_id" /> <!--Placeholder -->
                 <TextInput v-if="form.is_edu_id" :label="$t('admin_users.search_eduid')" v-model="inputUserEmail"
                     @keydown.enter="searchPrimaryId" />
                 
@@ -179,6 +180,13 @@ export default {
                 if (response.data.user) {
                     this.form.user_identifier = response.data.user.primary_id;
                     this.form.display_name = response.data.user.first_name;
+                } else if (response.data.message) {
+                    this.$notify({
+                        title: 'Error',
+                        text: response.data.message,
+                        type: 'error',
+                        duration: 10000
+                    });
                 }
             } catch (error) {
                 console.error('Error fetching external user information:', error);

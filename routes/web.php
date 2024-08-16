@@ -180,6 +180,8 @@ Route::middleware([
             ->name('admin.users.destroy');
         Route::put('/admin/users/{user_identifier}/resetpassword', [AdminUsersController::class, 'resetPassword'])
             ->name('admin.users.resetpassword');
+        Route::get('/admin/users/findeduid/{user_identifier}', [AdminUsersController::class, 'findEduIdPrimaryIdentifier'])
+            ->name('admin.users.findeduid');
 
         // Mass Import
         Route::get('admin/import', [ImportController::class, 'index'])

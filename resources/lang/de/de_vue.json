@@ -77,7 +77,7 @@
 	"eduid_status": "Edu-ID Status",
 	"history": {
 		"action": "Ereignis",
-		"author": "Autor",
+		"author": "Benutzer",
 		"date": "Datum",
 		"message": "Fehler",
 		"no_history": "Keine Historie",

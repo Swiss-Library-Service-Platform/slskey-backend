@@ -26,6 +26,9 @@
           <div class="font-bo mt-4 flex flex-col" v-for="address in this.almaUser?.addresses">
             <span class="underline" v-for="address_type in address.address_type"> {{ address_type.desc }}</span>
             <span> {{ address.line1 }} </span>
+            <span> {{ address.line2 }} </span>
+            <span> {{ address.line3 }} </span>
+            <span> {{ address.line4 }} </span>
             <span> {{ address.postal_code }} {{ address.city }} </span>
             <span> {{ address.state_province }} {{ address.country.desc }}</span>
           </div>

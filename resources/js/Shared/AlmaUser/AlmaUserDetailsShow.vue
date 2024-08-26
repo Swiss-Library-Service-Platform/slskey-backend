@@ -11,7 +11,7 @@
         <span class="mt-4">{{ $t("alma_user.addresses") }}: </span>
       </div>
       <div class="flex flex-col text-left">
-        <div class="w-60 h-16 mb-4 flex items-center justify-between"> 
+        <div class="w-60 h-16 mb-4 flex items-center justify-between">
           <div class="flex flex-col">
             <span class="text-2xl font-semibold"> {{ $t("alma_user.alma_details") }} </span>
             <span class="text-lg"> {{ this.almaUser?.alma_iz }} </span>
@@ -36,8 +36,12 @@
             {{ $t("alma_user.no_address") }}
           </div>
         </div>
-
       </div>
+    </div>
+    <!-- show block flag if user is blocked -->
+    <div v-if="this.almaUser?.blocks.length"
+      class="mt-5 flex flex-col rounded text-center border border-color-blocked bg-color-blocked-bg font-semibold text-color-blocked">
+      {{ $t("alma_user.blocked") }}
     </div>
     <div v-if="!this.almaUser" class="text-color-blocked italic font-italic my-8">
       {{ $t("alma_user.not_found") }}

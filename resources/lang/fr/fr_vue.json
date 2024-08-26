@@ -47,7 +47,7 @@
         "save": "Enregistrer l'utilisateur",
         "search_eduid": "Search mail in Alma (press enter)",
         "slsp_admin": "Administrateur SLSP",
-        "title": "Utilisateurs administrateurs",
+        "title": "Utilisateurs admins",
         "user_identifier": "Identifiant",
         "user_identifier_eduid": "Identifiant edu-ID",
         "user_identifier_username": "Nom d'utilisateur"
@@ -55,6 +55,7 @@
     "alma_user": {
         "addresses": "Adresses",
         "alma_details": "Détails Alma",
+        "blocked": "Le compte est bloqué à Alma.",
         "email": "E-mail",
         "first_name": "Prénom",
         "full_name": "Nom complet",
@@ -98,6 +99,10 @@
         "german": "Allemand",
         "italian": "Italien"
     },
+    "notifications": {
+		"error": "Erreur",
+		"success": "Succès"
+	},
     "pagination": {
         "empty": "{0} résultats",
         "next": "Suivant",
@@ -278,7 +283,7 @@
             "details": "Détails de l'utilisateur",
             "history": "Historique"
         },
-        "title": "Gestion des utilisateurs",
+        "title": "Utilisateurs",
         "unblock": "Débloquer",
         "webhook_activation_mail": "E-mail activé"
     },

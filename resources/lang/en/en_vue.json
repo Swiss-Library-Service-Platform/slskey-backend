@@ -55,6 +55,7 @@
 	"alma_user": {
 		"addresses": "Addresses",
 		"alma_details": "Alma details",
+		"blocked": "Account is blocked in Alma.",
 		"email": "E-mail",
 		"first_name": "First name",
 		"full_name": "User Name",
@@ -97,6 +98,10 @@
 		"french": "French",
 		"german": "German",
 		"italian": "Italian"
+	},
+	"notifications": {
+		"error": "Error",
+		"success": "Success"
 	},
 	"pagination": {
 		"empty": "{0} results",

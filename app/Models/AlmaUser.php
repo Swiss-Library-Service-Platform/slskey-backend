@@ -53,9 +53,9 @@ class AlmaUser extends Model
         // Find preferred language
         $language = $apiData->preferred_language->value;
         // Set to english if its an exotic language :-)
-        if ($language != 'de' ||
-            $language != 'en' ||
-            $language != 'fr' ||
+        if ($language != 'de' &&
+            $language != 'en' &&
+            $language != 'fr' &&
             $language != 'it') {
             $language = 'en';
         }

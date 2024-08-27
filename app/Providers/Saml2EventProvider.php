@@ -64,6 +64,7 @@ class Saml2EventProvider extends ServiceProvider
             Session::put('nameId', $samlUser->getNameId());
             // Login user
             Auth::login($user);
+            $user->updateLastLogin();
             Session::save();
         });
     }

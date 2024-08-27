@@ -25,7 +25,7 @@
           <div class="" Xv-if="this.slskeyGroups.length > 1">
             
             <label class="form-label mb-1" :for="id">
-              SLSKey Gruppe:
+              {{ $t("slskey_groups.slskey_code_description") }}:
             </label>
             <SelectActivationInput v-model="this.selectedSlskeyCode" :options="this.slskeyGroups" />
           </div>

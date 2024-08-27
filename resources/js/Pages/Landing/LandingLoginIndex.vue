@@ -7,6 +7,7 @@ import JetInput from '@/Jetstream/Input.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
+import Notifications from '@/Shared/Notifications.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -33,7 +34,8 @@ const submit = () => {
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4 bg-gray-background">
-        <FlashMessages /> <!-- because we are not inside Applayout here and use notifications -->
+        <!-- <FlashMessages /> because we are not inside Applayout here and use notifications -->
+        <Notifications />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
             <div class="w-80 px-8 py-8 flex flex-col justify-around items-start"> 

@@ -354,7 +354,7 @@ export default {
                         replace: true
                     }
                 )
-            }, 500)
+            }, 300)
         }
     }
 }

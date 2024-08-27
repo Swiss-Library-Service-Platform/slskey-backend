@@ -99,22 +99,9 @@ class ActivationService
         // Activate User via SWITCH API
         $activatedGroups = [];
         try {
-            $successMessage = '';
-            foreach ($slskeyGroup->switchGroups as $switchGroup) {
-                $this->switchApiService->activatePublisherForUser($primaryId, $switchGroup->switch_group_id);
-                // Add name and comma if its not the last group
-                $successMessage .= $switchGroup->name . ($switchGroup !== $slskeyGroup->switchGroups->last() ? ', ' : '');
-                $activatedGroups[] = $switchGroup->switch_group_id;
-            }
+            $successMessage = $this->activateSwitchGroups($primaryId, $slskeyGroup, $activatedGroups);
         } catch (\Exception $e) {
-            // Fix Danger of Inconsitency, e.g. when first group is activated and the second failed
-            foreach ($activatedGroups as $activatedGroup) {
-                try {
-                    $this->switchApiService->removeUserFromGroupAndVerify($primaryId, $activatedGroup);
-                } catch (\Exception $e) {
-                }
-            }
-
+            $this->rollbackActivatedGroups($primaryId, $activatedGroups);
             return $this->logAndReturnError($primaryId, $action, 'switch_api_error', $e->getMessage());
         }
 
@@ -611,6 +598,42 @@ class ActivationService
     }
 
     /**
+     * Activate SWITCH groups for user.
+     *
+     * @param string $primaryId
+     * @param SlskeyGroup $slskeyGroup
+     * @param array $activatedGroups
+     * @return string
+     */
+    protected function activateSwitchGroups($primaryId, $slskeyGroup, &$activatedGroups)
+    {
+        $successMessage = '';
+        foreach ($slskeyGroup->switchGroups as $switchGroup) {
+            $this->switchApiService->activatePublisherForUser($primaryId, $switchGroup->switch_group_id);
+            $successMessage .= $switchGroup->name . ($switchGroup !== $slskeyGroup->switchGroups->last() ? ', ' : '');
+            $activatedGroups[] = $switchGroup->switch_group_id;
+        }
+        return $successMessage;
+    }
+
+    /**
+     * Rollback activated SWITCH groups for user.
+     *
+     * @param string $primaryId
+     * @param array $activatedGroups
+     */
+    protected function rollbackActivatedGroups($primaryId, $activatedGroups)
+    {
+        foreach ($activatedGroups as $activatedGroup) {
+            try {
+                $this->switchApiService->removeUserFromGroupAndVerify($primaryId, $activatedGroup);
+            } catch (\Exception $e) {
+                // Log the rollback error if necessary
+            }
+        }
+    }
+
+        /**
      * Log error and return response.
      *
      * @param string $primaryId
@@ -637,4 +660,5 @@ class ActivationService
         // return new ActivationServiceResponse(false, $errorMessage);
         return new ActivationServiceResponse(false, $flashMessage);
     }
+
 }

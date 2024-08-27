@@ -1,4 +1,3 @@
-
 <template>
     <div class="flex flex-row">
         <!--
@@ -6,7 +5,10 @@
             :class="{ 'border-color-gray-disabled': disabled, 'border-black': !disabled }">
         </LetterIcon>
     -->
-        <MaterialIcon class="mr-2" :icon="workflow == 'Webhook' ? 'auto_mode' : 'cursor_default_click'">
+        <MaterialIcon class="mr-2" :icon="workflow == 'Webhook' ? 'auto_mode' : 'cursor_default_click'" :class="{
+            'text-color-slsp': workflow !== 'Webhook',
+            'text-color-deactivated': workflow == 'Webhook',
+        }">
         </MaterialIcon>
 
         {{ slskeyGroupName }}

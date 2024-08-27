@@ -7,6 +7,7 @@ import JetInput from '@/Jetstream/Input.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
+import Notifications from '@/Shared/Notifications.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -31,7 +32,8 @@ const submit = () => {
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
-        <FlashMessages /> <!-- because we are not inside Applayout here and use notifications -->
+        <!-- <FlashMessages />  because we are not inside Applayout here and use notifications -->
+        <Notifications />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
             <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start"> 
@@ -83,7 +85,7 @@ const submit = () => {
                             <JetInput id="password" v-model="form.password" type="password" class="mt-1 block w-full"
                                 required autocomplete="current-password" />
                         </div>
-                        <JetValidationErrors class="mb-4" />
+                        <!-- <JetValidationErrors class="mb-4" /> -->
 
                         <div class="w-full">
                             <DefaultButton @click="submit"

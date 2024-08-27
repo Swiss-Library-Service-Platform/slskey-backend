@@ -16,7 +16,6 @@ export default {
 	},
 	props: {
 		action: String,
-		success: Number
 	},
 	data() {
 		return {
@@ -76,22 +75,18 @@ export default {
 			}
 		},
 		getClasses: function () {
-			if (this.success) {
-				switch (this.action) {
-					case 'BLOCKED_ACTIVE':
-					case 'BLOCKED_INACTIVE':
-						return 'text-color-blocked';
-					case 'ACTIVATED':
-					case 'REACTIVATED':
-					case 'EXTENDED':
-						return 'text-color-active';
-					case 'DEACTIVATED':
-						return 'text-color-deactivated';
-					default:
-						return 'text-color-deactivated';
-				}
-			} else {
-				return 'text-gray-table';
+			switch (this.action) {
+				case 'BLOCKED_ACTIVE':
+				case 'BLOCKED_INACTIVE':
+					return 'text-color-blocked';
+				case 'ACTIVATED':
+				case 'REACTIVATED':
+				case 'EXTENDED':
+					return 'text-color-active';
+				case 'DEACTIVATED':
+					return 'text-color-deactivated';
+				default:
+					return 'text-color-deactivated';
 			}
 		}
 	}

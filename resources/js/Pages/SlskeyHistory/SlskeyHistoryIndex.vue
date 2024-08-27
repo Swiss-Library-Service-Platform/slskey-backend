@@ -19,8 +19,7 @@
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="slskeyHistories.data.length > 0">
                         <tr v-for="history in slskeyHistories.data" :key="'user' + history.id"
-                            class="hover:bg-gray-100 focus-within:bg-gray-100"
-                            :class="{ 'italic text-gray-table': !history.success }">
+                            class="hover:bg-gray-100 focus-within:bg-gray-100">
                             <SlskeyHistoryRow :showPrimaryId="true" :history="history" />
                         </tr>
                     </template>

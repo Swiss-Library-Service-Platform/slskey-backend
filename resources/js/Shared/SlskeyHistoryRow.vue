@@ -10,9 +10,6 @@
             {{ formatDate(history.created_at) }}
         </div>
     </td>
-    <td v-if="$page.props.slskeyadmin" class="px-2 ">
-        <Icon v-if="!history.success" icon="exclamation-circle" class="h-5 w-5" />
-    </td>
     <td class="align-top">
         <Link v-if="$page.props.slskeyadmin" :href="`/admin/groups/${history.slskey_group.slskey_code}`">
         <div class="underline flex px-4 py-3 whitespace-nowrap">
@@ -35,7 +32,7 @@
     </td>
     <td class="align-top">
         <div class="flex px-4 py-3 whitespace-nowrap">
-            <UserActionChip :success="history.success" :action="history.action" />
+            <UserActionChip :action="history.action" />
         </div>
     </td>
     <td class="align-top">
@@ -53,11 +50,7 @@
             {{ history.author }}
         </div>
     </td>
-    <td class="align-top">
-        <div v-if="$page.props.slskeyadmin" class="flex px-4 py-3 whitespace-nowrap">
-            {{ history.error_message }}
-        </div>
-    </td>
+   
 </template>
 
 <script>

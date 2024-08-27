@@ -7,9 +7,7 @@
             <tbody class="divide-y divide-gray-table">
                 <template v-if="slskeyHistories.length > 0">
 
-                    <tr v-for="history in slskeyHistories" :key="'user' + history.id"
-                        class=""
-                        :class="{ 'italic text-gray-table': !history.success }">
+                    <tr v-for="history in slskeyHistories" :key="'user' + history.id">
                         <SlskeyHistoryRow :showRelativeDate="true" :history="history" />
                     </tr>
                 </template>

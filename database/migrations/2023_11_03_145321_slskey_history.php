@@ -38,7 +38,6 @@ return new class () extends Migration {
             $table->string('action');
             $table->string('author')->nullable();
             $table->string('trigger')->nullable();
-            $table->boolean('success')->default(false);
 
             $table->timestamps();
         });

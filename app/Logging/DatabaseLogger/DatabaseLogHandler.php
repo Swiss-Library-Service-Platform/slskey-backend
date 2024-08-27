@@ -10,8 +10,6 @@ use App\Models\LogDefault;
 
 class DatabaseLogHandler extends AbstractProcessingHandler
 {
-    const DEFAULT_CHANNEL = 'log_default';
-
     /**
      * @inheritDoc
      */

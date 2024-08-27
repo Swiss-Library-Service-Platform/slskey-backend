@@ -23,6 +23,7 @@ class LogApiRequests
             'input' => json_encode($request->all()),
             'headers' => json_encode($request->header()),
         ]);
+
         return $next($request);
     }
 }

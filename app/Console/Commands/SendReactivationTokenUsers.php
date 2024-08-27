@@ -88,23 +88,10 @@ class SendReactivationTokenUsers extends Command
                 }
                 $primaryId = $activation->slskeyUser->primary_id;
 
-                /* Add SlskeyHistory entry */
-                // Create History
-                $slskeyHistory = SlskeyHistory::create([
-                    'slskey_user_id' => $activation->slskeyUser->id,
-                    'slskey_group_id' => $slskeyGroup->id,
-                    'primary_id' => $primaryId,
-                    'action' => ActivationActionEnums::TOKEN_SENT,
-                    'author' => null,
-                    'trigger' => TriggerEnums::SYSTEM_TOKEN_EXPIRATION,
-                    'success' => false, // set it true after success
-                ]);
-
                 $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup);
 
                 if (! $response->success) {
                     $this->logger->info("Error: Failed to create token for user $primaryId: $response->message");
-                    $slskeyHistory->setErrorMessage("Failed: $response->message");
 
                     continue;
                 }
@@ -112,13 +99,22 @@ class SendReactivationTokenUsers extends Command
                 // Send e-mail
                 $sent = $this->mailService->sendReactivationTokenUserMail($slskeyGroup, $activation->webhook_activation_mail, $response->reactivationLink);
 
-                if ($sent) {
-                    $this->logger->info("Success: Sent token to user $primaryId");
-                    $slskeyHistory->setSuccess(true);
-                } else {
-                    $slskeyHistory->setErrorMessage('Email failed');
-                    $this->logger->info("Error: Failed to send token to user $primaryId.");
+                if (! $sent) {
+                    $this->logger->info("Failed to send token to user $primaryId.");
+
+                    continue;
                 }
+
+                $this->logger->info("Success: Sent token to user $primaryId");
+
+                // Create History
+                $slskeyHistory = SlskeyHistory::create([
+                    'slskey_user_id' => $activation->slskeyUser->id,
+                    'slskey_group_id' => $slskeyGroup->id,
+                    'action' => ActivationActionEnums::TOKEN_SENT,
+                    'author' => null,
+                    'trigger' => TriggerEnums::SYSTEM_TOKEN_EXPIRATION,
+                ]);
             }
         }
 

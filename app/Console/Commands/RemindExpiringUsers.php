@@ -97,30 +97,26 @@ class RemindExpiringUsers extends Command
                 }
                 $almaUser = $almaServiceResponse->almaUser;
 
-                // Create History
-                $slskeyHistory = SlskeyHistory::create([
-                    'slskey_user_id' => $activation->slskeyUser->id,
-                    'slskey_group_id' => $slskeyGroup->id,
-                    'primary_id' => $primaryId,
-                    'action' => ActivationActionEnums::REMINDED,
-                    'author' => null,
-                    'trigger' => TriggerEnums::SYSTEM_REMIND_EXPIRATION,
-                    'success' => false, // set it true after success
-                ]);
-
                 $sent = $this->mailService->sendRemindExpiringUserMail($slskeyGroup, $almaUser);
 
                 if (! $sent) {
-                    $slskeyHistory->setErrorMessage('Email failed');
                     $this->logger->info("Failed to send email to user $primaryId.");
 
                     continue;
                 }
 
-                $slskeyHistory->setSuccess(true);
                 $activation->setReminded(true);
 
                 $resultStatus = 1;
+
+                // Create History
+                SlskeyHistory::create([
+                    'slskey_user_id' => $activation->slskeyUser->id,
+                    'slskey_group_id' => $slskeyGroup->id,
+                    'action' => ActivationActionEnums::NOTIFIED,
+                    'author' => null,
+                    'trigger' => TriggerEnums::SYSTEM_REMIND_EXPIRATION,
+                ]);
 
                 $this->logger->info("Sent reminder to user $primaryId to $almaUser->preferred_email.");
             }

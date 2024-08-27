@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogDefault extends Model
 {
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'log_default';
-    
+
     /**
      * The attributes that aren't mass assignable.
      *

@@ -43,7 +43,7 @@ class FortifyServiceProvider extends ServiceProvider
             if ($user && ! $user->is_edu_id && ! $user->is_alma) {
                 if (Auth::attempt($request->only('user_identifier', 'password'))) {
                     $user->updateLastLogin();
-                    
+
                     return $user;
                 } else {
                     Log::warning('User login failed', ['user_identifier' => $request->user_identifier]);

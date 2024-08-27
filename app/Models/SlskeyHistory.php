@@ -19,12 +19,9 @@ class SlskeyHistory extends Model
     protected $fillable = [
         'slskey_user_id',
         'slskey_group_id',
-        'primary_id', // When activation fails, no SlskeyUser is created, but we still want to keep the primary ID in history log
         'action',
         'author',
         'trigger',
-        'success',
-        'error_message',
         'created_at',
         'updated_at',
     ];
@@ -39,8 +36,6 @@ class SlskeyHistory extends Model
         'action',
         'author',
         'trigger',
-        'success',
-        'error_message',
     ];
 
     /**
@@ -72,34 +67,6 @@ class SlskeyHistory extends Model
     public function setSlskeyUserId(string $slskeyUserId): self
     {
         $this->slskey_user_id = $slskeyUserId;
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Set the Success Flag of the SlskeyHistory.
-     *
-     * @param boolean $success
-     * @return self
-     */
-    public function setSuccess(bool $success): self
-    {
-        $this->success = $success;
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Set the Error Message of the SlskeyHistory.
-     *
-     * @param string $message
-     * @return self
-     */
-    public function setErrorMessage(string $message): self
-    {
-        $this->error_message = $message;
         $this->save();
 
         return $this;

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LogApi extends Model
+class LogActivationFails extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'log_api';
+    protected $table = 'log_activation_fails';
 
     /**
      * The attributes that are fillable
@@ -19,11 +19,10 @@ class LogApi extends Model
      * @var array
      */
     protected $fillable = [
-        'method',
-        'url',
-        'ip',
-        'input',
-        'headers',
+        'primary_id',
+        'action',
+        'message',
+        'author',
         'logged_at',
     ];
 

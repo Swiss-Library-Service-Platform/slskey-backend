@@ -3,6 +3,7 @@
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use App\Logging\DatabaseLogger\DatabaseLogger;
 
 return [
     /*
@@ -143,5 +144,19 @@ return [
             'path' => 'logs/send-reactivation-token.log',
             'level' => 'info'
         ],
+
+        'db_log_default' => [
+            'driver' => 'custom',
+            'via'    => DatabaseLogger::class,
+            'table' => 'log_default',
+        ],
+
+        'db_log_api' => [
+            'driver' => 'custom',
+            'via'    => DatabaseLogger::class,
+            'table' => 'log_api',
+        ],
+
+
     ],
 ];

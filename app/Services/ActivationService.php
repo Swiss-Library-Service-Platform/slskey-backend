@@ -671,6 +671,7 @@ class ActivationService
     {
         $logMessage = __('flashMessages.errors.activations.' . $errorMessage);
         $slskeyHistory->setErrorMessage($logMessage);
+        
 
         // return new ActivationServiceResponse(false, $errorMessage);
         return new ActivationServiceResponse(false, $logMessage);

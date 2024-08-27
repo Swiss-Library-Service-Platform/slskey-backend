@@ -260,7 +260,7 @@ class SlskeyUser extends Model
 
             $query->whereHas('slskeyActivations', function ($query) use ($status, $slskeyCode, $activationStart, $activationEnd) {
                 // Check for permissions again here, otherwise it looks up all users/activations for given filters
-                
+
                 /** @var \App\Models\User */
                 $user = Auth::user();
                 $slspEmployee = $user->isSLSPAdmin();

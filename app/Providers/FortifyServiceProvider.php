@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
@@ -42,9 +43,17 @@ class FortifyServiceProvider extends ServiceProvider
             if ($user && ! $user->is_edu_id && ! $user->is_alma) {
                 if (Auth::attempt($request->only('user_identifier', 'password'))) {
                     $user->updateLastLogin();
-
+                    
                     return $user;
+                } else {
+                    Log::warning('User login failed', ['user_identifier' => $request->user_identifier]);
+
+                    return null;
                 }
+            } else {
+                Log::warning('User login failed', ['user_identifier' => $request->user_identifier]);
+
+                return null;
             }
         });
     }

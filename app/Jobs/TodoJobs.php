@@ -24,10 +24,6 @@ TODO: Cloud App
 
 TODO: Participage page: Motivation / Vorteile aufzählen
 
-TODO: Wrap activation in Transaction
-      -> mock a transaction for switch service api
-      -> remove first switch group from user when first was successful and second failed
-
 TODO: Test:
       - for each job
       - Add good test for Cloud App Auths

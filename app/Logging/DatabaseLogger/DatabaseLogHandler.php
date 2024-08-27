@@ -26,12 +26,7 @@ class DatabaseLogHandler extends AbstractProcessingHandler
         }
 
         try {
-            // get name of logger
-            $channel = $record['channel'] ?? self::DEFAULT_CHANNEL;
-            if ($channel === self::DEFAULT_CHANNEL) {
-                $this->createLogDefault($record, $channel);
-            }
-
+            $this->createLogDefault($record);
         } catch (Exception $e) {
             $fallbackChannels = config('logging.channels.fallback.channels', ['single']);
 
@@ -43,7 +38,7 @@ class DatabaseLogHandler extends AbstractProcessingHandler
         }
     }
 
-    protected function createLogDefault(array $record, $channel): void
+    protected function createLogDefault(array $record): void
     {
         LogDefault::create([
             'level' => $record['level'],

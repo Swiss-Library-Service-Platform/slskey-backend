@@ -148,15 +148,6 @@ return [
         'db_log_default' => [
             'driver' => 'custom',
             'via'    => DatabaseLogger::class,
-            'table' => 'log_default',
         ],
-
-        'db_log_api' => [
-            'driver' => 'custom',
-            'via'    => DatabaseLogger::class,
-            'table' => 'log_api',
-        ],
-
-
     ],
 ];

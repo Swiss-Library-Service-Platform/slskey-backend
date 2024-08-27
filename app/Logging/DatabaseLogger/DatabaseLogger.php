@@ -13,8 +13,7 @@ class DatabaseLogger
      */
     public function __invoke(array $config)
     {
-        $table = $config['table'];
-        return new Logger($table, [
+        return new Logger('db_log_default', [
             new DatabaseLogHandler(),
         ]);
     }

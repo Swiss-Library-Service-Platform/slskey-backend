@@ -194,7 +194,8 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Pagination from '@/Shared/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
-import throttle from "lodash/throttle"
+import throttle from "lodash/throttle";
+import debounce from "lodash/debounce";
 import omitBy from 'lodash/omitBy'
 import axios from 'axios';
 import Datepicker from '@vuepic/vue-datepicker';
@@ -346,7 +347,7 @@ export default {
     watch: {
         form: {
             deep: true,
-            handler: throttle(function (new_value, old_value) {
+            handler: debounce(function (new_value, old_value) {
                 Inertia.get('/users', omitBy(this.form, _.overSome([_.isNil, _.isNaN])),
                     {
                         preserveState: true,

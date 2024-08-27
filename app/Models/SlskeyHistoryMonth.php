@@ -83,7 +83,7 @@ class SlskeyHistoryMonth extends Model
     public static function getHistoryCountsForMonthAndYear(array $slskeyGroupIds, int $month, int $year): self
     {
         $query = SlskeyHistory::query();
-        $query = $query->where('success', true)->whereIn('action', ['ACTIVATED', 'DEACTIVATED', 'EXTENDED', 'REACTIVATED', 'BLOCKED_ACTIVE', 'BLOCKED_INACTIVE']);
+        $query = $query->whereIn('action', ['ACTIVATED', 'DEACTIVATED', 'EXTENDED', 'REACTIVATED', 'BLOCKED_ACTIVE', 'BLOCKED_INACTIVE']);
         $query = $query->whereIn('slskey_group_id', $slskeyGroupIds);
 
         $driverName = DB::connection()->getDriverName();

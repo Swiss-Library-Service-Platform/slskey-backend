@@ -113,7 +113,7 @@ class RemindExpiringUsers extends Command
                 SlskeyHistory::create([
                     'slskey_user_id' => $activation->slskeyUser->id,
                     'slskey_group_id' => $slskeyGroup->id,
-                    'action' => ActivationActionEnums::NOTIFIED,
+                    'action' => ActivationActionEnums::REMINDED,
                     'author' => null,
                     'trigger' => TriggerEnums::SYSTEM_REMIND_EXPIRATION,
                 ]);

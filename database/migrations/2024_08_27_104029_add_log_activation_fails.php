@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->string('primary_id');
             $table->string('action');
             $table->string('message');
-            $table->string('author');
+            $table->string('author')->nullable();
             $table->timestamp('logged_at')->useCurrent();
         });
     }

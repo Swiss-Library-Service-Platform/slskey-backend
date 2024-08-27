@@ -631,7 +631,7 @@ class ActivationService
             'primary_id' => $primaryId,
             'action' => $action,
             'message' => $logMessage,
-            'author' => Auth::user()->user_identifier,
+            'author' => Auth::user()?->user_identifier,
         ]);
 
         // return new ActivationServiceResponse(false, $errorMessage);

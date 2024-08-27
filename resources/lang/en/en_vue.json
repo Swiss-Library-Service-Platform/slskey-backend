@@ -28,6 +28,8 @@
 	},
 	"admin_users": {
 		"add_slskey_group": "Add SLSKey Group",
+		"admin_portal": "Admin Portal",
+		"alma_app": "Alma Cloudapp",
 		"cancel": "Cancel",
 		"create_new": "Create New User",
 		"delete": "Delete Admin User",
@@ -50,7 +52,8 @@
 		"title": "Admin Users",
 		"user_identifier": "Identifier",
 		"user_identifier_eduid": "edu-ID Identifier",
-		"user_identifier_username": "Username"
+		"user_identifier_username": "Username",
+		"user_type": "User Type"
 	},
 	"alma_user": {
 		"addresses": "Addresses",

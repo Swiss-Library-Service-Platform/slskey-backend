@@ -2,17 +2,24 @@
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('admin_users.title') }]">
 
         <div class="my-8 flex justify-between items-center">
-            <div class="text-2xl">
-                SLSKey Admin Portal Users
+            <div class="flex flex-row gap-4">
+                <FilterControl @reset="reset">
+                    <TabFilter :tab1="$t('admin_users.admin_portal')" :tab2="$t('admin_users.alma_app')"
+                        icon1="view-list" icon2="chart-square-bar" :label="$t('admin_users.user_type')"
+                        v-model="displayTab" />
+                    <SearchFilter v-model="form.search" :label="$t('user_management.search')"
+                        :placeholder="$t('user_management.search_placeholder')" />
+                </FilterControl>
             </div>
 
-            <DefaultButton icon="plus" @click="createUser" class="w-fit bg-color-slsp text-white py-2 ">
+            <DefaultButton v-show="displayTab == 0" icon="plus" @click="createUser"
+                class="w-fit bg-color-slsp text-white py-2 ">
                 {{ $t('admin_users.create_new') }}
             </DefaultButton>
         </div>
 
         <!-- Admin Portal Users -->
-        <div class="overflow-x-auto my-8 bg-white shadow-md rounded-md">
+        <div v-show="displayTab == 0" class="overflow-x-auto my-8 bg-white shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -64,14 +71,8 @@
             </table>
         </div>
 
-        <div class="flex justify-between items-center">
-            <div class="text-2xl">
-                Alma Cloud App Users
-            </div>
-        </div>
-
         <!-- Alma Users -->
-        <div class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-md">
+        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -82,9 +83,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="adminUsersAlma.data.length > 0">
-                        <tr v-for="user in adminUsersAlma.data" :key="'user' + user.id"
-                         
-                            class="">
+                        <tr v-for="user in adminUsersAlma.data" :key="'user' + user.id" class="">
                             <td class="align-top">
                                 <div class="flex px-6 py-3 whitespace-nowrap">
                                     {{ user.user_identifier }}
@@ -126,7 +125,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
 import { Inertia } from '@inertiajs/inertia';
-import TextInput from '../../Shared/Forms/TextInput.vue';
+import TextInput from '@/Shared/Forms/TextInput.vue';
+import TabFilter from '@/Shared/Filters/TabFilter.vue';
+import debounce from "lodash/debounce";
+import SearchFilter from '@/Shared/Filters/SearchFilter.vue';
+import omitBy from 'lodash/omitBy'
+import FilterControl from '@/Shared/Filters/FilterControl.vue';
 
 export default {
     components: {
@@ -134,24 +138,32 @@ export default {
         DefaultButton,
         SelectFilter,
         Inertia,
-        TextInput
+        TextInput,
+        TabFilter,
+        SearchFilter,
+        FilterControl
     },
     props: {
         adminUsersPortal: Object,
         adminUsersAlma: Object,
-        slskeyGroups: Object
+        slskeyGroups: Object,
+        filters: Object
     },
     data() {
         return {
+            displayTab: 0,
             export_loading: false,
             selectedUser: null,
-            selectedGroup: null
+            selectedGroup: null,
+            form: {
+                search: this.filters.search
+            }
         }
     },
     methods: {
         reset() {
             this.form = {
-
+                search: ''
             }
         },
         createUser() {
@@ -164,9 +176,19 @@ export default {
             return date ? this.$moment(date).format('ll') : '-';
         },
     },
-    computed: {
-
-    },
+    watch: {
+        form: {
+            deep: true,
+            handler: debounce(function (new_value, old_value) {
+                Inertia.get('/admin/users', omitBy(this.form, _.overSome([_.isNil, _.isNaN])),
+                    {
+                        preserveState: true,
+                        replace: true
+                    }
+                )
+            }, 300)
+        }
+    }
 
 }
 </script>

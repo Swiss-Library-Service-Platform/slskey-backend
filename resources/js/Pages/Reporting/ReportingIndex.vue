@@ -219,7 +219,6 @@ export default {
             });
         },
         initGraph() {
-            console.log("getting graph");
             Chart.register(LineController, LinearScale, CategoryScale, PointElement, LineElement);
             const ctx = document.getElementById('userChart').getContext('2d');
             if (this.chart) {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -205,5 +206,30 @@ class User extends Authenticatable
     public function removeAllPermissions(): void
     {
         $this->detachAllPermissions();
+    }
+
+    /**
+     * Filter
+     *
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        $searchableColumns = static::$searchable;
+
+        /*
+        ------    Search Filter -------
+        */
+        $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
+            $query->where(function ($query) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+                }
+            });
+        });
+
+        return $query;
     }
 }

@@ -32,7 +32,8 @@ class AlmaUserFactory extends Factory
             'user_group' => $this->faker->word(),
             'email' => $this->faker->word(),
             'record_type' => AlmaEnums::RECORD_TYPE_STAFF_USER,
-            'roles' => [ $this->faker->randomDigit() ]
+            'roles' => [ $this->faker->randomDigit() ],
+            'blocks' => [],
         ];
     }
 }

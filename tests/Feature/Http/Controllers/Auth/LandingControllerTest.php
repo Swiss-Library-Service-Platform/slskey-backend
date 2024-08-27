@@ -9,7 +9,7 @@ use Inertia\Testing\AssertableInertia;
 test('it renders the landing index', function () {
     $response = $this->get('/login');
     $response->assertInertia(function (AssertableInertia $page) {
-        $page->component('Landing/LandingLoginIndex');
+        $page->component('Landing/LandingLoginEduID');
     });
 });
 
@@ -110,12 +110,12 @@ test('it renders no roles page', function () {
     $response->assertStatus(200);
     $response->assertInertia(
         fn (AssertableInertia $page) => $page
-        ->component('Landing/LandingLoginIndex')
+        ->component('Landing/LandingLoginEduID')
         ->has('flash.error')
     );
 
     $response->assertInertia(function (AssertableInertia $page) {
-        $page->component('Landing/LandingLoginIndex');
+        $page->component('Landing/LandingLoginEduID');
         $page->has('flash.error');
         $page->where('flash.error', 'You have no permissions. Please contact SLSP.');
     });

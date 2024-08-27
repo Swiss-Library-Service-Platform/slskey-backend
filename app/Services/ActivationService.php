@@ -494,6 +494,39 @@ class ActivationService
     }
 
     /**
+     * Set activation member educational institution for SLSKey User.
+     *
+     * @param string $primaryId
+     * @param string $slskeyCode
+     * @param bool $memberEducationalInstitution
+     * @return ActivationServiceResponse
+     */
+    public function setActivationMemberEducationalInstitution(string $primaryId, string $slskeyCode, bool $memberEducationalInstitution): ActivationServiceResponse
+    {
+        // Get SLSKey Group
+        $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
+
+        // Get SLSKey User
+        $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
+
+        // Check if user exists
+        if (!$slskeyUser) {
+            return new ActivationServiceResponse(false, 'no_user');
+        }
+
+        // Get Activation
+        $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
+        if (!$activation) {
+            return new ActivationServiceResponse(false, 'no_activation');
+        }
+
+        // Update SLSKey Activation
+        $activation->setMemberEducationalInstitution($memberEducationalInstitution);
+
+        return new ActivationServiceResponse(true, __("flashMessages.member_educational_institution_set"));
+    }
+
+    /**
      * Update Activation Date for SLSKey User.
      *
      * @param string $primaryId

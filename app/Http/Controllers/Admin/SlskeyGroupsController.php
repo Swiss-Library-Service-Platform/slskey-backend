@@ -136,6 +136,7 @@ class SlskeyGroupsController extends Controller
             'slskey_code' => ['required', 'max:255', 'regex:/^[a-zA-Z0-9]+$/'],
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
+            'show_member_educational_institution' => ['numeric'],
             'alma_iz' => ['required', 'max:14'],
             'cloud_app_allow' => ['numeric'],
             'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],

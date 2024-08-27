@@ -107,7 +107,7 @@
             </template>
           </tr>
           <!-- Activation Mail -->
-          <tr v-if="isWebhookMailActivation" class="h-20">
+          <tr v-if="isAnyWebhookMailActivation" class="h-20">
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
@@ -187,6 +187,28 @@
               </td>
             </template>
           </tr>
+          <!-- Member educational institution -->
+          <tr v-if="isAnyShowMemberEducationalInstitution" class="h-20">
+            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+              <div class="flex flex-row items-center">
+                <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
+                {{ $t("user_management.member_educational_institution") }}:
+              </div>
+            </td>
+            <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
+              <td class="px-6 py-4">
+                <div v-if="activation.slskey_group.show_member_educational_institution && activation.member_educational_institution">
+                  <Icon icon="check" class="h-5 w-5 text-color-active" />
+                </div>
+                <div v-if="activation.slskey_group.show_member_educational_institution && !activation.member_educational_institution">
+                  <Icon icon="x" class="h-5 w-5 text-color-deactivated" />
+                </div>
+                <div v-else class="italic text-gray-disabled">
+                  <!-- Placeholder -->
+                </div>
+              </td>
+            </template>
+          </tr>
           <!-- Switch Status -->
           <tr class="h-20" v-if="$page.props.slskeyadmin">
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold">
@@ -254,7 +276,8 @@ export default {
   },
   props: {
     slskeyUser: Object,
-    isWebhookMailActivation: Boolean
+    isAnyWebhookMailActivation: Boolean,
+    isAnyShowMemberEducationalInstitution: Boolean,
   },
   data() {
     return {

@@ -25,6 +25,7 @@ class SlskeyGroup extends Model
         'workflow',
         'send_activation_mail',
         'alma_iz',
+        'show_member_educational_institution',
         'webhook_secret',
         'webhook_custom_verifier',
         'webhook_custom_verifier_class',
@@ -169,6 +170,7 @@ class SlskeyGroup extends Model
                     'value' => $slskeyGroup->slskey_code,
                     'workflow' => $slskeyGroup->workflow,
                     'activation' => $activation ?? null,
+                    'show_member_educational_institution' => $slskeyGroup->show_member_educational_institution,
                 ];
             });
     }

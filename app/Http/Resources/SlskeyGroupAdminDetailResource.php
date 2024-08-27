@@ -20,6 +20,7 @@ class SlskeyGroupAdminDetailResource extends JsonResource
             'name' => $this->name,
             'workflow' => $this->workflow,
             'send_activation_mail' => $this->send_activation_mail,
+            'show_member_educational_institution' => $this->show_member_educational_institution,
             // Manual
             'days_activation_duration' => $this->days_activation_duration,
             'days_expiration_reminder' => $this->days_expiration_reminder,

@@ -53,6 +53,7 @@ export default {
                 slskey_code: this.slskeyGroup.data.slskey_code,
                 workflow: this.slskeyGroup.data.workflow,
                 send_activation_mail: this.slskeyGroup.data.send_activation_mail,
+                show_member_educational_institution: this.slskeyGroup.data.show_member_educational_institution,
                 alma_iz: this.slskeyGroup.data.alma_iz,
                 webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,
                 webhook_custom_verifier_class: this.slskeyGroup.data.webhook_custom_verifier_class,

@@ -377,7 +377,7 @@ class SlskeyUser extends Model
                 }
 
                 // Define Fields to be Eager Loaded
-                $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation']);
+                $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution']);
             },
         ]);
 

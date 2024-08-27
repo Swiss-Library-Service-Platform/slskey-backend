@@ -14,12 +14,16 @@
                 <select-input :options="availableWorkflows" :error="form.errors.workflow"
                     :label="`${$t('slskey_groups.workflow')} *`" v-model="form.workflow">
                 </select-input>
-                <!-- Activation Mail -->
-                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
-                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
                 <!-- Alma IZ -->
                 <text-input v-model="form.alma_iz" :error="form.errors.alma_iz"
                     :label="`${$t('slskey_groups.alma_iz')} *`" />
+                <!-- Activation Mail -->
+                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
+                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
+                <!-- Show Member Educational Institution -->
+                <checkbox-input class="w-full" :error="form.errors.show_member_educational_institution"
+                    v-model="form.show_member_educational_institution"
+                    :label="$t('slskey_groups.show_member_educational_institution')" />
             </div>
 
             <!-- Webhook -->

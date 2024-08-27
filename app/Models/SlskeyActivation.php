@@ -30,6 +30,7 @@ class SlskeyActivation extends Model
         'blocked_date',
         'reminded',
         'webhook_activation_mail',
+        'member_educational_institution',
     ];
 
     /**
@@ -258,6 +259,20 @@ class SlskeyActivation extends Model
     public function setReminded(): self
     {
         $this->reminded = true;
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Set Member Educational Institution
+     * 
+     * @param bool $memberEducationalInstitution
+     * @return self
+     */
+    public function setMemberEducationalInstitution(bool $memberEducationalInstitution): self
+    {
+        $this->member_educational_institution = $memberEducationalInstitution;
         $this->save();
 
         return $this;

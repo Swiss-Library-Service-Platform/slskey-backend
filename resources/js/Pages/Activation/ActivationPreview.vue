@@ -1,16 +1,16 @@
 <template>
   <AppLayout :title="$t('activation.title')" :breadCrumbs="this.origin == 'ACTIVATION_START' ?
-      [{ name: $t('activation.title'), link: '/' },
-      { name: $t('activation.activate_new') }]
-      :
-      [{ name: $t('user_management.title'), link: '/users' },
-      slskeyUser
-        ? {
-          name: slskeyUser.data.full_name,
-          link: '/users/' + slskeyUser.data.primary_id,
-        }
-        : {},
-      { name: $t('activation.activate') }]
+    [{ name: $t('activation.title'), link: '/' },
+    { name: $t('activation.activate_new') }]
+    :
+    [{ name: $t('user_management.title'), link: '/users' },
+    slskeyUser
+      ? {
+        name: slskeyUser.data.full_name,
+        link: '/users/' + slskeyUser.data.primary_id,
+      }
+      : {},
+    { name: $t('activation.activate') }]
     ">
 
     <div class="my-8 flex flex-row items-start gap-x-8">
@@ -23,7 +23,7 @@
           <!-- Workaround: for some reason tailwinds "min-w-80" is not working -->
           <!-- Selection SLSKey Code -->
           <div class="" Xv-if="this.slskeyGroups.length > 1">
-            
+
             <label class="form-label mb-1" :for="id">
               {{ $t("slskey_groups.slskey_code_description") }}:
             </label>
@@ -31,6 +31,9 @@
           </div>
 
           <TextAreaInput v-model="inputRemark" :label="$t('activation.remark_optional')" />
+
+          <CheckboxClassicInput v-model="inputMemberEducationalInstitution"
+            :label="$t('activation.member_educational_institution')" v-if="showMemberEducationalInstitution" />
 
           <!-- Activation Button -->
           <ActionButton :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"
@@ -62,6 +65,7 @@ import SelectActivationInput from "@/Shared/Forms/SelectActivationInput.vue";
 import AlmaUserDetailsShow from "@/Shared/AlmaUser/AlmaUserDetailsShow.vue";
 import TextAreaInput from "@/Shared/Forms/TextAreaInput.vue";
 import Icon from "@/Shared/Icon.vue";
+import CheckboxClassicInput from '@/Shared/Forms/CheckboxClassicInput.vue'
 
 // register globally
 export default {
@@ -74,7 +78,8 @@ export default {
     Inertia,
     AlmaUserDetailsShow,
     TextAreaInput,
-    Icon
+    Icon,
+    CheckboxClassicInput
   },
   props: {
     identifier: String,
@@ -88,7 +93,9 @@ export default {
     return {
       loading: false,
       selectedSlskeyCode: this.preselectedSlskeyCode,
-      inputRemark: this.getCurrentRemark(this.preselectedSlskeyCode)
+      inputRemark: this.getCurrentRemark(this.preselectedSlskeyCode),
+      inputMemberEducationalInstitution: false,
+      showMemberEducationalInstitution: this.getCurrentShowMemberEducationalInstitution(this.preselectedSlskeyCode),
     };
   },
   methods: {
@@ -97,6 +104,7 @@ export default {
       Inertia.post("/activation/" + this.almaUsers[0].primary_id, {
         slskey_code: this.selectedSlskeyCode,
         remark: this.inputRemark,
+        member_educational_institution: this.inputMemberEducationalInstitution,
         alma_user: this.almaUsers[0],
       }, {
         onSuccess: () => {
@@ -110,12 +118,20 @@ export default {
         return slskeyGroup.activation.remark;
       }
       return "";
-    }
+    },
+    getCurrentShowMemberEducationalInstitution: function (selectedSlskeyCode) {
+      const slskeyGroup = this.slskeyGroups.find((group) => group.value === selectedSlskeyCode);
+      if (slskeyGroup) {
+        return slskeyGroup.show_member_educational_institution;
+      }
+      return false;
+    },
   },
   watch: {
     selectedSlskeyCode: function (newVal) {
       // find remark from from slskey activation of currently selected group and if found, set it as inputRemark
       this.inputRemark = this.getCurrentRemark(newVal);
+      this.showMemberEducationalInstitution = this.getCurrentShowMemberEducationalInstitution(newVal);
     }
   },
 };

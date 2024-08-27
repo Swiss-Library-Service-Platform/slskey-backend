@@ -109,10 +109,16 @@ class UsersController extends Controller
             return $activation->slskeyGroup->webhook_mail_activation;
         });
 
+        // Check if there is a slskeyGroup in users slskeyActviation which has 'show_member_educational_institution' set
+        $showMemberEducationalInstitution = $user->slskeyActivations->first(function ($activation) {
+            return $activation->slskeyGroup->show_member_educational_institution;
+        });
+
         // Render the UserDetail Inertia view with SlskeyUser and AlmaUser data
         return Inertia::render('Users/Detail/UserDetail', [
             'slskeyUser' => new SlskeyUserDetailResource($user),
-            'isWebhookMailActivation' => $webhookMailActivation ? true : false,
+            'isAnyWebhookMailActivation' => $webhookMailActivation ? true : false,
+            'isAnyShowMemberEducationalInstitution' => $showMemberEducationalInstitution ? true : false,
         ]);
     }
 

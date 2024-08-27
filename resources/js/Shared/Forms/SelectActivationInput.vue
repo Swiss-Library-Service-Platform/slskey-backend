@@ -16,7 +16,7 @@
 
                 <MaterialIcon v-else icon="auto_mode" />
 
-                <span class="text-lg ml-4">
+                <span class="text-md ml-4">
 
                     <!-- 
                 <SlskeyGroupNameAndIcon :disabled="option.workflow === 'Webhook'" :workflow="option.workflow" :slskeyGroupName="option.name" />

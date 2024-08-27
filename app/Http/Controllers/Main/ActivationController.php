@@ -118,11 +118,13 @@ class ActivationController extends Controller
         Request::validate([
             'slskey_code' => ['required', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:255'],
+            'member_educational_institution' => ['boolean'],
             'alma_user' => ['required', 'array'],
         ]);
         $slskeyCode = Request::input('slskey_code');
         $remark = Request::input('remark');
         $almaUser = AlmaUser::fromJsonObject(Request::input('alma_user'));
+        $memberEducationalInstitution = Request::input('member_educational_institution');
 
         // Activate user via SWITCH API
         $response = $this->activationService->activateSlskeyUser(
@@ -141,6 +143,9 @@ class ActivationController extends Controller
 
         // Set Remark
         $this->activationService->setActivationRemark($primaryId, $slskeyCode, $remark);
+
+        // Set Member Educational Institution
+        $this->activationService->setActivationMemberEducationalInstitution($primaryId, $slskeyCode, $memberEducationalInstitution);
 
         // redirect ro users.show with success message flash message from activated array
         return Redirect::route('users.show', $primaryId)->with('success', $response->message);

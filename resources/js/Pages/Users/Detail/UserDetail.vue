@@ -33,7 +33,8 @@
             <div class="my-8">
                 <div v-show="activeTab === 0">
                     <UserDetailActivations :slskeyUser="slskeyUser.data"
-                        :isWebhookMailActivation="isWebhookMailActivation" />
+                        :isAnyWebhookMailActivation="isAnyWebhookMailActivation"
+                        :isAnyShowMemberEducationalInstitution="isAnyShowMemberEducationalInstitution" />
                 </div>
                 <div class="bg-white rounded shadow p-8 flex gap-5" v-show="activeTab === 1">
                     <template v-if="almaLoading">
@@ -78,7 +79,8 @@ export default {
     props: {
         slskeyUser: Object,
         slskeyHistories: Array,
-        isWebhookMailActivation: Boolean
+        isAnyWebhookMailActivation: Boolean,
+        isAnyShowMemberEducationalInstitution: Boolean
     },
     data() {
         return {

@@ -171,9 +171,14 @@ class SlskeyUser extends Model
         ------    Search Filter -------
         */
         $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
-            $query->where(function ($query) use ($search, $searchableColumns) {
-                foreach ($searchableColumns as $column) {
-                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+            $searchTerms = explode(' ', $search);
+            $query->where(function ($query) use ($searchTerms, $searchableColumns) {
+                foreach ($searchTerms as $term) {
+                    $query->where(function ($query) use ($term, $searchableColumns) {
+                        foreach ($searchableColumns as $column) {
+                            $query->orWhere($column, 'LIKE', '%'.$term.'%');
+                        }
+                    });
                 }
             });
         });
@@ -255,9 +260,12 @@ class SlskeyUser extends Model
 
             $query->whereHas('slskeyActivations', function ($query) use ($status, $slskeyCode, $activationStart, $activationEnd) {
                 // Check for permissions again here, otherwise it looks up all users/activations for given filters
-                $slspEmployee = Auth::user()->isSLSPAdmin();
+                
+                /** @var \App\Models\User */
+                $user = Auth::user();
+                $slspEmployee = $user->isSLSPAdmin();
                 if (! $slspEmployee) {
-                    $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+                    $permissions = $user->getSlskeyGroupsPermissionsIds();
                     $query = $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
                         $query->whereIn('id', $permissions);
                     });
@@ -319,10 +327,12 @@ class SlskeyUser extends Model
         }
 
         // SLSP Super Admin
-        $slspEmployee = Auth::user()->isSLSPAdmin();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
         if (! $slspEmployee) {
             // SLSKey Group Permissions
-            $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+            $permissions = $user->getSlskeyGroupsPermissionsIds();
 
             // Filter for users with permitted activation
             $query->whereHas('slskeyActivations.slskeyGroup', function ($query) use ($permissions) {
@@ -353,10 +363,12 @@ class SlskeyUser extends Model
                 }
 
                 // Filter for permitted activations
-                $slspEmployee = Auth::user()->isSLSPAdmin();
+                /** @var \App\Models\User */
+                $user = Auth::user();
+                $slspEmployee = $user->isSLSPAdmin();
                 if (! $slspEmployee) {
                     // SLSKey Group Permissions
-                    $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+                    $permissions = $user->getSlskeyGroupsPermissionsIds();
 
                     // Filter for users with permitted activation
                     $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
@@ -382,13 +394,15 @@ class SlskeyUser extends Model
     public function scopeWithPermittedHistories(Builder $query): Builder
     {
         // SLSP Super Admin
-        $slspEmployee = Auth::user()->isSLSPAdmin();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
         if ($slspEmployee) {
             return $query->with(['slskeyHistories.slskeyGroup:id,name,slskey_code']);
         }
 
         // SLSKey Group Permissions
-        $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+        $permissions = $user->getSlskeyGroupsPermissionsIds();
 
         // return only permitted activation of users
         return $query->with([

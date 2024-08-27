@@ -14,7 +14,7 @@ use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
 use App\Services\API\AlmaAPIService;
-use App\Services\SlskeyUserService;
+use App\Services\ActivationService;
 use Carbon\Carbon;
 
 class ImportCsvJob implements ShouldQueue
@@ -28,7 +28,7 @@ class ImportCsvJob implements ShouldQueue
     protected $checkIsActive;
     protected $testRun;
 
-    protected $slskeyUserService;
+    protected $activationService;
     protected $almaApiService;
 
     /**
@@ -47,12 +47,12 @@ class ImportCsvJob implements ShouldQueue
      * Handle the job
      * Inject dependencies
      *
-     * @param SlskeyUserService $slskeyUserService
+     * @param ActivationService $activationService
      * @param AlmaApiService $almaApiService
      */
-    public function handle(SlskeyUserService $slskeyUserService, AlmaAPIInterface $almaApiService)
+    public function handle(ActivationService $activationService, AlmaAPIInterface $almaApiService)
     {
-        $this->slskeyUserService = $slskeyUserService;
+        $this->activationService = $activationService;
         $this->almaApiService = $almaApiService;
 
         $currentRow = 0;
@@ -95,7 +95,7 @@ class ImportCsvJob implements ShouldQueue
         $isActive = null;
         if ($checkIsActive) {
             try {
-                $response = $this->slskeyUserService->verifySwitchStatusSlskeyUser($row['primary_id'], $slskeyGroup->slskey_code);
+                $response = $this->activationService->verifySwitchStatusSlskeyUser($row['primary_id'], $slskeyGroup->slskey_code);
                 $isActive = $response->success;
                 if (! $isActive) {
                     return ['success' => false, 'message' => $response->message, 'isActive' => false];
@@ -162,7 +162,7 @@ class ImportCsvJob implements ShouldQueue
         }
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->activateSlskeyUser(
+        $response = $this->activationService->activateSlskeyUser(
             $row['primary_id'],
             $slskeyGroup->slskey_code,
             null, // author
@@ -183,15 +183,15 @@ class ImportCsvJob implements ShouldQueue
 
         // Set remark
         if ($row['remark'] && $row['remark'] != 'NULL') {
-            $this->slskeyUserService->setActivationRemark($row['primary_id'], $slskeyGroup->slskey_code, $row['remark']);
+            $this->activationService->setActivationRemark($row['primary_id'], $slskeyGroup->slskey_code, $row['remark']);
         }
 
         // Set Historic: Activation Date and Expiration Date
         if ($activationDate) {
-            $this->slskeyUserService->updateActivationDate($row['primary_id'], $slskeyGroup->slskey_code, $activationDate);
+            $this->activationService->updateActivationDate($row['primary_id'], $slskeyGroup->slskey_code, $activationDate);
         }
         if ($expirationDate) {
-            $this->slskeyUserService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
+            $this->activationService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
         }
 
         return [

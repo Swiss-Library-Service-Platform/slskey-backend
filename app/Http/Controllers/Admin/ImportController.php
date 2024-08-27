@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Interfaces\AlmaAPIInterface;
 use App\Jobs\ImportCsvJob;
-use App\Services\SlskeyUserService;
+use App\Services\ActivationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -16,7 +16,7 @@ use Inertia\Response as InertiaResponse;
 
 class ImportController extends Controller
 {
-    protected $slskeyUserService;
+    protected $activationService;
 
     protected $almaApiService;
 
@@ -25,12 +25,12 @@ class ImportController extends Controller
     /**
      * ImportController constructor.
      *
-     * @param SlskeyUserService $slskeyUserService
+     * @param ActivationService $activationService
      * @param AlmaAPIInterface $almaApiService
      */
-    public function __construct(SlskeyUserService $slskeyUserService, AlmaAPIInterface $almaApiService)
+    public function __construct(ActivationService $activationService, AlmaAPIInterface $almaApiService)
     {
-        $this->slskeyUserService = $slskeyUserService;
+        $this->activationService = $activationService;
         $this->almaApiService = $almaApiService;
     }
 

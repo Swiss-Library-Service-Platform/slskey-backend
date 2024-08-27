@@ -10,7 +10,7 @@ use App\Interfaces\SwitchAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\SlskeyUserService;
+use App\Services\ActivationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -24,20 +24,20 @@ class ActivationController extends Controller
 
     protected $switchApiService;
 
-    protected $slskeyUserService;
+    protected $activationService;
 
     /**
      * ActivationController constructor.
      *
      * @param AlmaAPIInterface $almaApiService
      * @param SwitchAPIInterface $switchApiService
-     * @param SlskeyUserService $SlskeyUserService
+     * @param ActivationService $ActivationService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, SwitchAPIInterface $switchApiService, SlskeyUserService $slskeyUserService)
+    public function __construct(AlmaAPIInterface $almaApiService, SwitchAPIInterface $switchApiService, ActivationService $activationService)
     {
         $this->almaApiService = $almaApiService;
         $this->switchApiService = $switchApiService;
-        $this->slskeyUserService = $slskeyUserService;
+        $this->activationService = $activationService;
     }
 
     /**
@@ -125,7 +125,7 @@ class ActivationController extends Controller
         $almaUser = AlmaUser::fromJsonObject(Request::input('alma_user'));
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->activateSlskeyUser(
+        $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,
@@ -140,7 +140,7 @@ class ActivationController extends Controller
         }
 
         // Set Remark
-        $this->slskeyUserService->setActivationRemark($primaryId, $slskeyCode, $remark);
+        $this->activationService->setActivationRemark($primaryId, $slskeyCode, $remark);
 
         // redirect ro users.show with success message flash message from activated array
         return Redirect::route('users.show', $primaryId)->with('success', $response->message);
@@ -158,7 +158,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->deactivateSlskeyUser(
+        $response = $this->activationService->deactivateSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -187,7 +187,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->blockSlskeyUser(
+        $response = $this->activationService->blockSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -216,7 +216,7 @@ class ActivationController extends Controller
         $remark = Request::input('remark');
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->unblockSlskeyUser(
+        $response = $this->activationService->unblockSlskeyUser(
             $primaryId,
             $slskeyCode,
             $remark,
@@ -244,7 +244,7 @@ class ActivationController extends Controller
         $slskeyCode = Request::input('slskey_code');
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->disableExpirationSlskeyUser(
+        $response = $this->activationService->disableExpirationSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,
@@ -271,7 +271,7 @@ class ActivationController extends Controller
         $slskeyCode = Request::input('slskey_code');
 
         // Activate user via SWITCH API
-        $response = $this->slskeyUserService->enableExpirationSlskeyUser(
+        $response = $this->activationService->enableExpirationSlskeyUser(
             $primaryId,
             $slskeyCode,
             Auth::user()->user_identifier,

@@ -9,13 +9,13 @@ use App\Models\SlskeyActivation;
 use App\Models\SlskeyReactivationToken;
 use App\Services\MailService;
 use App\Services\TokenService;
-use App\Services\SlskeyUserService;
+use App\Services\ActivationService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ReactivationTokenController extends Controller
 {
-    protected $slskeyUserService;
+    protected $activationService;
 
     protected $tokenService;
 
@@ -24,13 +24,13 @@ class ReactivationTokenController extends Controller
     /**
      * ReactivationTokenController constructor.
      *
-     * @param SlskeyUserService $slskeyUserService
+     * @param ActivationService $activationService
      * @param TokenService $tokenService
      * @param MailService $mailService
      */
-    public function __construct(SlskeyUserService $slskeyUserService, TokenService $tokenService, MailService $mailService)
+    public function __construct(ActivationService $activationService, TokenService $tokenService, MailService $mailService)
     {
-        $this->slskeyUserService = $slskeyUserService;
+        $this->activationService = $activationService;
         $this->tokenService = $tokenService;
         $this->mailService = $mailService;
     }
@@ -82,7 +82,7 @@ class ReactivationTokenController extends Controller
         }
 
         // Reactivate user
-        $response = $this->slskeyUserService->activateSlskeyUser(
+        $response = $this->activationService->activateSlskeyUser(
             $slskeyReactivationToken->slskeyUser->primary_id,
             $slskeyReactivationToken->slskeyGroup->slskey_code,
             null, // Author

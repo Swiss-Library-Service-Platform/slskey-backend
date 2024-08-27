@@ -35,16 +35,12 @@ TODO: Test:
 
 TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
 
-TODO: Healthcheck, wo System überprüft wird
-      - API
-      - edu-ID API
-      - Alma API
-
 ________________________________________________________________________
 Feedback Bibliotheken:
 
 TODO: User needs some kind of "affiliation"? e.g. welche Bibliothek, welche Abteilung, etc.
       Beispiel: Aargau: sie wollen wissen, welche Bib genau einen User freigeschaltet hat
 
+TODO: is_member_educational_institution for ZHDK?
 
 */

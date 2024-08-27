@@ -220,17 +220,16 @@ class AdminUsersController extends Controller
             ->with('success', __('flashMessages.admin_user_password_reset'));
     }
 
-
     /**
      * Find edu-ID Primary Identifier from email using Alma API
-     * 
+     *
      * @param string $email
      * @return array
      */
     public function findEduIdPrimaryIdentifier(string $email): array
     {
         $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($email, '41SLSP_NETWORK');
-        
+
         return [
             'user' => $almaServiceResponse?->almaUser,
             'message' => $almaServiceResponse?->errorText,

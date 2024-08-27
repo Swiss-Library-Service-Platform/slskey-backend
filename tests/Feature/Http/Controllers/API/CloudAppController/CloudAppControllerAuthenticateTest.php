@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\AuthCloudApp;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\User;

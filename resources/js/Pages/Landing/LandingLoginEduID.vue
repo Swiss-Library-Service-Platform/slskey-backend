@@ -25,22 +25,25 @@ const submit = () => {
         ...data,
         remember: form.remember ? 'on' : '',
     })).post(route('loginform'), {
-        onFinish: () => form.reset('password'),
+        onFinish: () => {
+            if (form.errors.user_identifier || form.errors.password) {
+                form.reset('password');
+            }
+        },
     });
 };
 </script>
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
-        <!-- <FlashMessages />  because we are not inside Applayout here and use notifications -->
         <Notifications />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
-            <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start"> 
+            <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
                 <JetApplicationLogo class="h-auto" />
                 <span class="text-sm italic">
-                   {{ $t('landing.service') }} <a class="text-blue-800" href="https://slsp.ch">SLSP</a>.
+                    {{ $t('landing.service') }} <a class="text-blue-800" href="https://slsp.ch">SLSP</a>.
                 </span>
             </div>
 
@@ -51,8 +54,6 @@ const submit = () => {
                     <SwitchLoginButton href="/login/eduid">
                         {{ $t('landing.eduid') }}
                     </SwitchLoginButton>
-
-
 
                     <!-- Divider element "OR" -->
                     <div class="flex w-full items-center py-4">

@@ -1,6 +1,6 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
-        <div class="flex my-8 items-end justify-between flex-wrap gap-x-16">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <div class="flex gap-x-16">
                 <FilterControl @reset="reset" v-if="slskeyGroups.data.length > 1">
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
@@ -17,7 +17,7 @@
                 <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
                     class="w-fit bg-color-slsp text-white py-2 mt-4">
                     {{ $t('reporting.export') }}
-                </DefaultButton>  
+                </DefaultButton>
             </div>
         </div>
 
@@ -73,8 +73,7 @@
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="slskeyHistories.length > 0">
                         <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
-                            class=" focus-within:bg-gray-100"
-                            :class="{ 'bg-color-lightgreen': index == 0 }">
+                            class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
 
                             <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">
                                 {{ formatMonth(historyMonth.month, historyMonth.year) }}

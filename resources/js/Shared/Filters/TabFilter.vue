@@ -3,7 +3,7 @@
             <label class="block font-medium text-sm text-gray-700">
                 <span>{{ label }}</span>
             </label>
-            <div class="h-10 cursor-pointer bg-white flex flex-row rounded shadow-sm border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50 text-color-one">
+            <div class="h-10 cursor-pointer bg-white flex flex-row rounded shadow-sm border border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50 text-color-one">
                 <div class="flex items-center p-2 px-4 rounded" @click="selectTab(0)" :class="modelValue == 0 ? 'bg-color-header-bg text-white' : ''">
                     <Icon :icon="icon1" class="h-4 w-4 mr-2" />
                     {{ tab1 }}

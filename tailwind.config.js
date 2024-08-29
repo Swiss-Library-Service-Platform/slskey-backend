@@ -65,5 +65,29 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    plugins: [
+        require('@tailwindcss/forms'), 
+        require('@tailwindcss/typography'),
+        function ({ addBase, theme }) {
+            addBase({
+                // this is needed to use the colors in the css
+              ':root': {
+                '--color-one': theme('colors.color-one'),
+                '--color-one-1': theme('colors.color-one-1'),
+                '--color-slsp': theme('colors.color-slsp'),
+                '--color-slsp-bg': theme('colors.color-slsp-bg'),
+                '--color-alma': theme('colors.color-alma'),
+                '--color-header-bg': theme('colors.color-header-bg'),
+                '--color-header-text': theme('colors.color-header-text'),
+                '--color-active': theme('colors.color-active'),
+                '--color-deactivated': theme('colors.color-deactivated'),
+                '--color-blocked': theme('colors.color-blocked'),
+                '--color-active-bg': theme('colors.color-active-bg'),
+                '--color-deactivated-bg': theme('colors.color-deactivated-bg'),
+                '--color-blocked-bg': theme('colors.color-blocked-bg'),
+
+              },
+            });
+          },
+    ],
 };

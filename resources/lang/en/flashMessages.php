@@ -62,6 +62,7 @@ return [
     'user_extended' => 'User extended successfully.',
     'user_expiration_disabled' => 'User expiration disabled successfully.',
     'user_expiration_enabled' => 'User expiration enabled successfully.',
+    'user_member_educational_institution_changed' => 'Educational institution changed successfully.',
     'user_reactivated' => 'User reactivated successfully.',
     'user_unblocked' => 'User unblocked successfully.',
 ];

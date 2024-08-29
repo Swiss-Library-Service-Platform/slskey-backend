@@ -37,6 +37,12 @@ Feedback Bibliotheken:
 TODO: User needs some kind of "affiliation"? e.g. welche Bibliothek, welche Abteilung, etc.
       Beispiel: Aargau: sie wollen wissen, welche Bib genau einen User freigeschaltet hat
 
-TODO: is_member_educational_institution for ZHDK?
+TODO: is_member_educational_institution for ZHDK
+      - Cloud App Anpassung
+      - Import CSV Anpassung
+      - UI Anpassung, wie man es ändern kann ohne aktivierung/extension
+      - Ui Anpassung, erklärung education institution
+      - in Monthly Report aufnehmen
+
 
 */

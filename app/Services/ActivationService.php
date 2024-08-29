@@ -523,7 +523,7 @@ class ActivationService
         // Update SLSKey Activation
         $activation->setMemberEducationalInstitution($memberEducationalInstitution);
 
-        return new ActivationServiceResponse(true, __("flashMessages.member_educational_institution_set"));
+        return new ActivationServiceResponse(true, __("flashMessages.user_member_educational_institution_changed"));
     }
 
     /**

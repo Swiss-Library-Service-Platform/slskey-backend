@@ -33,7 +33,7 @@
           <TextAreaInput v-model="inputRemark" :label="$t('activation.remark_optional')" />
 
           <CheckboxClassicInput v-model="inputMemberEducationalInstitution"
-            :label="$t('activation.member_educational_institution')" v-if="showMemberEducationalInstitution" />
+            :label="$t('user_management.member_educational_institution')" v-if="showMemberEducationalInstitution" />
 
           <!-- Activation Button -->
           <DefaultButton class="text-xl" :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"

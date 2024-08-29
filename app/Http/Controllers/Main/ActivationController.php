@@ -291,4 +291,31 @@ class ActivationController extends Controller
         // Redirect to user
         return Redirect::route('users.show', $primaryId)->with('success', $response->message);
     }
+
+    /**
+     * Set Member Educational Institution route for Activation
+     *
+     * @param string $primaryId
+     * @return RedirectResponse
+     */
+    public function changeMemberEducationalInstitution(string $primaryId): RedirectResponse
+    {
+        $slskeyCode = Request::input('slskey_code');
+        $memberEducationalInstitution = Request::input('member_educational_institution');
+
+        // Activate user via SWITCH API
+        $response = $this->activationService->setActivationMemberEducationalInstitution(
+            $primaryId,
+            $slskeyCode,
+            $memberEducationalInstitution,
+        );
+
+        // Error handling
+        if (!$response->success) {
+            return Redirect::route('users.show', $primaryId)->with('error', $response->message);
+        }
+
+        // Redirect to user
+        return Redirect::route('users.show', $primaryId)->with('success', $response->message);
+    }
 }

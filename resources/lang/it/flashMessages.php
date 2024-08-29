@@ -62,6 +62,7 @@ return [
     'user_extended' => 'Utente esteso con successo.',
     'user_expiration_disabled' => "Scadenza dell'utente disabilitata con successo.",
     'user_expiration_enabled' => "Scadenza dell'utente abilitata con successo.",
+    'user_member_educational_institution_changed' => "La modifica dell'utente è stata eseguita con successo.",
     'user_reactivated' => 'Utente riattivato con successo.',
     'user_unblocked' => 'Utente sbloccato con successo.',
 ];

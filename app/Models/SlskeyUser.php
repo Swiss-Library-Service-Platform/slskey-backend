@@ -408,11 +408,6 @@ class SlskeyUser extends Model
         return $query->with([
             'slskeyHistories' => function ($query) use ($permissions, $slspEmployee) {
                 $query->whereIn('slskey_group_id', $permissions)->with(['slskeyGroup:id,name,slskey_code']);
-
-                // Only show successful history, if not SLSP admin
-                if (! $slspEmployee) {
-                    $query->where('success', 1);
-                }
             },
         ]);
     }

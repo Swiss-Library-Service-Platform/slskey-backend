@@ -1,8 +1,8 @@
 <template>
   <div class="bg-white rounded-md shadow overflow-x-auto">
-    <ActionButton class="text-lg w-fit m-4 px-8 shadow" @click.prevent="activate()" icon="key" :loading="loading">
+    <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
       {{ $t('user_management.new_activation') }}
-    </ActionButton>
+    </DefaultButton>
     <table class="border-t table-auto rounded-md">
       <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
@@ -189,7 +189,7 @@
           </tr>
           <!-- Member educational institution -->
           <tr v-if="isAnyShowMemberEducationalInstitution" class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+            <td class="py-4 px-8 text-left  font-bold pr-14">
               <div class="flex flex-row items-center">
                 <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.member_educational_institution") }}:
@@ -197,11 +197,18 @@
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
               <td class="px-6 py-4">
-                <div v-if="activation.slskey_group.show_member_educational_institution && activation.member_educational_institution">
-                  <Icon icon="check" class="h-5 w-5 text-color-active" />
-                </div>
-                <div v-if="activation.slskey_group.show_member_educational_institution && !activation.member_educational_institution">
-                  <Icon icon="x" class="h-5 w-5 text-color-deactivated" />
+                <div v-if="activation.slskey_group.show_member_educational_institution"
+                  class="flex flex-row items-center gap-4">
+                  <div v-if="activation.member_educational_institution">
+                    {{ $t("user_management.member_educational_institution_yes") }}
+                  </div>
+                  <div v-else>
+                    {{ $t("user_management.member_educational_institution_no") }}
+                  </div>
+                  <DefaultConfirmIconButton class="" icon="pencil"
+                    :tooltip="$t('user_management.confirm_change_member')"
+                    :confirmText="$t('user_management.confirm_change_member', [activation.member_educational_institution ? $t('user_management.member_educational_institution_no') : $t('user_management.member_educational_institution_yes')])"
+                    @confirmed="editMemberEducationalInstitution(activation)" />
                 </div>
                 <div v-else class="italic text-gray-disabled">
                   <!-- Placeholder -->
@@ -257,11 +264,12 @@ import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
 import LetterIcon from "../../../../Shared/LetterIcon.vue";
 import SlskeyGroupNameAndIcon from "../../../../Shared/SlskeyGroupNameAndIcon.vue";
-import ActionButton from "@/Shared/Buttons/ActionButton.vue";
+import DefaultButton from "@/Shared/Buttons/DefaultButton.vue";
+import DefaultConfirmIconButton from '@/Shared/Buttons/DefaultConfirmIconButton.vue';
 
 export default {
   components: {
-    ActionButton,
+    DefaultButton,
     Inertia,
     UserStatusChip,
     DefaultIconButton,
@@ -272,7 +280,8 @@ export default {
     DefaultConfirmDropdownLink,
     Icon,
     LetterIcon,
-    SlskeyGroupNameAndIcon
+    SlskeyGroupNameAndIcon,
+    DefaultConfirmIconButton
   },
   props: {
     slskeyUser: Object,
@@ -364,6 +373,16 @@ export default {
         onSuccess: () => {
           activation.loading = false;
           this.getSwitchStatus();
+        },
+      });
+    },
+    editMemberEducationalInstitution: function (activation) {
+      Inertia.post(`/activation/${this.slskeyUser.primary_id}/member_educational_institution`, {
+        slskey_code: activation.slskey_group.slskey_code,
+        member_educational_institution: !activation.member_educational_institution
+      }, {
+        onSuccess: () => {
+          // this.getSwitchStatus();
         },
       });
     },

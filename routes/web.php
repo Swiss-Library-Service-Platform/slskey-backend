@@ -90,6 +90,9 @@ Route::middleware([
             ->name('activation.expiration.disable');
         Route::delete('activation/{primary_id}/expiration', [ActivationController::class, 'enableExpiration'])
             ->name('activation.expiration.enable');
+        // Member of Educational Institution
+        Route::post('activation/{primary_id}/member_educational_institution', [ActivationController::class, 'changeMemberEducationalInstitution'])
+            ->name('activation.member');
     });
 
     // User Management

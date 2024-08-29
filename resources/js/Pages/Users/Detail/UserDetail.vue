@@ -61,8 +61,6 @@ import AlmaUserDetailsLoad from "@/Shared/AlmaUser/AlmaUserDetailsLoad.vue";
 import UserDetailHistory from './Tabs/UserDetailHistory.vue';
 import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios'
-import { ref } from 'vue';
-import ActionButton from '../../../Shared/Buttons/ActionButton.vue';
 import Icon from '../../../Shared/Icon.vue';
 
 export default {
@@ -73,7 +71,6 @@ export default {
         AlmaUserDetailsShow,
         AlmaUserDetailsLoad,
         UserDetailHistory,
-        ActionButton,
         Icon
     },
     props: {

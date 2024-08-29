@@ -16,9 +16,9 @@
                 </div>
 
                 <TextInput @enter="activate" v-model="inputIdentifier" :placeholder="$t('activation.identifier')"></TextInput>
-                <ActionButton :disabled="!inputIdentifier" @click.prevent="activate" icon="search" :loading="loading">
+                <DefaultButton :disabled="!inputIdentifier || loading" @click.prevent="activate" icon="search" :loading="loading">
                     {{ $t('activation.search') }}
-                </ActionButton>
+                </DefaultButton>
 
             </div>
         </div>
@@ -29,12 +29,12 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '../../Shared/Forms/TextInput.vue';
-import ActionButton from '../../Shared/Buttons/ActionButton.vue';
+import DefaultButton from '../../Shared/Buttons/DefaultButton.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 // register globally
 export default {
-    components: { AppLayout, TextInput, ActionButton, Inertia },
+    components: { AppLayout, TextInput, DefaultButton, Inertia },
     props: {
         filters: Object,
         results: Object,

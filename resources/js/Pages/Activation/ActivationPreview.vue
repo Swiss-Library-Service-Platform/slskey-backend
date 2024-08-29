@@ -36,10 +36,10 @@
             :label="$t('activation.member_educational_institution')" v-if="showMemberEducationalInstitution" />
 
           <!-- Activation Button -->
-          <ActionButton :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"
+          <DefaultButton class="text-xl" :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"
             @click.prevent="activate" icon="key">
             {{ $t("activation.activate") }}
-          </ActionButton>
+          </DefaultButton>
         </div>
 
       </div>
@@ -58,7 +58,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TextInput from "../../Shared/Forms/TextInput.vue";
-import ActionButton from "../../Shared/Buttons/ActionButton.vue";
+import DefaultButton from "../../Shared/Buttons/DefaultButton.vue";
 import Listbox from "../../Shared/Listbox.vue";
 import { Inertia } from "@inertiajs/inertia";
 import SelectActivationInput from "@/Shared/Forms/SelectActivationInput.vue";
@@ -73,7 +73,7 @@ export default {
     AppLayout,
     SelectActivationInput,
     TextInput,
-    ActionButton,
+    DefaultButton,
     Listbox,
     Inertia,
     AlmaUserDetailsShow,

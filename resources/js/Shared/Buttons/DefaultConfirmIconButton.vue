@@ -64,7 +64,9 @@ export default {
         justify-center
         font-bold 
         text-md
-        text-white
+        text-black
+        bg-white
+        text-color-header-bg
         hover:bg-opacity-80
         focus:outline-none
         focus:ring 
@@ -72,7 +74,7 @@ export default {
         active:bg-opacity-70
         disabled:opacity-25
         " :title="tooltip">
-        <span v-if="icon && !loading" class="text-white h-4 w-4">
+        <span v-if="icon && !loading" class="h-4 w-4">
             <Icon :icon="icon" />
         </span>
         <div v-if="loading" class="btn-spinner" />

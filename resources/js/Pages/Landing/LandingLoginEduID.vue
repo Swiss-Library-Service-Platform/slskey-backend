@@ -90,7 +90,7 @@ const submit = () => {
 
                         <div class="w-full">
                             <DefaultButton @click="submit"
-                                class="mt-4 text-lg">
+                                class="mt-4 text-lg leading-6">
                                 {{ $t('landing.login') }}
                             </DefaultButton>
                         </div>

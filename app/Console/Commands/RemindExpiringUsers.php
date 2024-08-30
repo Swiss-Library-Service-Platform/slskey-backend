@@ -12,6 +12,7 @@ use App\Models\SlskeyHistory;
 use App\Services\MailService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use App\Models\LogJob;
 
 class RemindExpiringUsers extends Command
 {
@@ -35,14 +36,14 @@ class RemindExpiringUsers extends Command
 
     protected $activationRepository;
 
-    protected $logger;
+    protected $textFileLogger;
 
     public function __construct(AlmaAPIInterface $almaApiService, MailService $mailService, SlskeyActivationRepositoryInterface $activationRepository)
     {
         $this->almaApiService = $almaApiService;
         $this->mailService = $mailService;
         $this->activationRepository = $activationRepository;
-        $this->logger = Log::channel('send-remind-expiring-users');
+        $this->textFileLogger = Log::channel('send-remind-expiring-users');
         parent::__construct();
     }
 
@@ -63,8 +64,7 @@ class RemindExpiringUsers extends Command
      */
     public function handle()
     {
-        $this->logger->info('---------- START ----------');
-        $this->logger->info('Reminding expiring users.');
+        $this->textFileLogger->info('START Reminding expiring users.');
 
         // Get all SLSKey Groups with expiring activations
         $slskeyGroups = SlskeyGroup::query()
@@ -72,26 +72,31 @@ class RemindExpiringUsers extends Command
             ->whereNotNull('days_expiration_reminder')
             ->get();
 
-        $resultStatus = 0;
+        $countTotal = 0;
+        $countSuccess = 0;
+        $countFailed = 0;
 
         foreach ($slskeyGroups as $slskeyGroup) {
-            $this->logger->info("Checking SLSKey Group $slskeyGroup->slskey_code for expiring activations.");
+            $this->textFileLogger->info("Checking SLSKey Group $slskeyGroup->slskey_code for expiring activations.");
 
             $expiringActivations = $this->activationRepository->getActivationsToBeReminded($slskeyGroup);
 
             if (! count($expiringActivations)) {
-                $this->logger->info("No expiring activations found for group $slskeyGroup->slskey_code.");
+                $this->textFileLogger->info("No expiring activations found for group $slskeyGroup->slskey_code.");
 
                 continue;
             }
 
             // Send reminder email to all users with expiring activations
             foreach ($expiringActivations as $activation) {
+                $countTotal++;
+
                 $primaryId = $activation->slskeyUser->primary_id;
                 // Get Alma User Details of user
                 $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($primaryId, $slskeyGroup->alma_iz);
                 if (! $almaServiceResponse->success) {
-                    $this->logger->info("Failed to get Alma user details for user $primaryId: $almaServiceResponse->errorText");
+                    $this->textFileLogger->info("Failed to get Alma user details for user $primaryId: $almaServiceResponse->errorText");
+                    $countFailed++;
 
                     continue;
                 }
@@ -100,14 +105,13 @@ class RemindExpiringUsers extends Command
                 $sent = $this->mailService->sendRemindExpiringUserMail($slskeyGroup, $almaUser);
 
                 if (! $sent) {
-                    $this->logger->info("Failed to send email to user $primaryId.");
+                    $this->textFileLogger->info("Failed to send email to user $primaryId.");
+                    $countFailed++;
 
                     continue;
                 }
 
                 $activation->setReminded(true);
-
-                $resultStatus = 1;
 
                 // Create History
                 SlskeyHistory::create([
@@ -118,10 +122,28 @@ class RemindExpiringUsers extends Command
                     'trigger' => TriggerEnums::SYSTEM_REMIND_EXPIRATION,
                 ]);
 
-                $this->logger->info("Sent reminder to user $primaryId to $almaUser->preferred_email.");
+                $this->textFileLogger->info("Sent reminder to user $primaryId to $almaUser->preferred_email.");
+
+                $countSuccess++;
             }
         }
 
-        return $resultStatus;
+        $this->logJobResultToDatabase($countTotal, $countSuccess, $countFailed);
+
+        return 1;
+    }
+
+    protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)
+    {
+        $this->textFileLogger->info("Logging job result to database.");
+        $databaseInfo = [
+            'users_to_remind' => $totalCount,
+            'success' => $countSuccess,
+            'failed' => $countFailed,
+        ];
+        LogJob::create([
+            'job' => class_basename(__CLASS__),
+            'info' => json_encode($databaseInfo),
+        ]);
     }
 }

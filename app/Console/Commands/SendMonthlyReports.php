@@ -75,12 +75,13 @@ class SendMonthlyReports extends Command
                 $totalCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
 
                 $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
-            }
-            if ($sent) {
-                $isSuccess = true;
-                $this->textFileLogger->info("$slskeyGroup->slskey_code: Success: Sent report to ".implode(', ', $reportEmailAddresses));
-            } else {
-                $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: Failed to send report to ".implode(', ', $reportEmailAddresses));
+
+                if ($sent) {
+                    $isSuccess = true;
+                    $this->textFileLogger->info("$slskeyGroup->slskey_code: Success: Sent report to " . implode(', ', $reportEmailAddresses));
+                } else {
+                    $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: Failed to send report to " . implode(', ', $reportEmailAddresses));
+                }
             }
 
             $sentReports[] = [
@@ -101,6 +102,7 @@ class SendMonthlyReports extends Command
         LogJob::create([
             'job' => class_basename(__CLASS__),
             'info' => json_encode($databaseInfo),
+            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn ($success) => !$success)),
         ]);
     }
 }

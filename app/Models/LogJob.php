@@ -20,8 +20,8 @@ class LogJob extends Model
      */
     protected $fillable = [
         'job',
-        'status',
         'info',
+        'has_fail',
         'logged_at',
     ];
 

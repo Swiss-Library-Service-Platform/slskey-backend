@@ -61,7 +61,8 @@ class SendReactivationTokenUsers extends Command
             ->whereNotNull('webhook_mail_activation_days_send_before_expiry')
             ->get();
 
-        $tokensPerGroup = []; 
+        $tokensPerGroup = [];
+        $hasFail = false;
 
         foreach ($slskeyGroups as $slskeyGroup) {
             $countTotal = 0;
@@ -133,19 +134,21 @@ class SendReactivationTokenUsers extends Command
                 'success' => $countSuccess,
                 'failed' => $countTotal - $countSuccess,
             ];
+            $hasFail = $hasFail || $countTotal - $countSuccess > 0;
         }
 
-        $this->logJobResultToDatabase($tokensPerGroup);
+        $this->logJobResultToDatabase($tokensPerGroup, $hasFail);
 
         return 1;
     }
 
-    protected function logJobResultToDatabase($databaseInfo)
+    protected function logJobResultToDatabase($databaseInfo, $hasFail = false)
     {
         $this->textFileLogger->info("Logging job result to database.");
         LogJob::create([
             'job' => class_basename(__CLASS__),
             'info' => json_encode($databaseInfo),
+            'has_fail' => $hasFail,
         ]);
     }
 }

@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('job');
             $table->string('info');
+            $table->boolean('has_fail')->default(false);
             $table->timestamp('logged_at')->useCurrent();
         });
     }

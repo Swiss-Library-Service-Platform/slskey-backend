@@ -141,6 +141,7 @@ class RemindExpiringUsers extends Command
         LogJob::create([
             'job' => class_basename(__CLASS__),
             'info' => json_encode($databaseInfo),
+            'has_fail' => $countFailed > 0,
         ]);
     }
 }

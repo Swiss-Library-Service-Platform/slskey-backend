@@ -27,12 +27,12 @@ class DeactivateExpiredUsers extends Command
 
     protected $activationService;
 
-    protected $textLogger;
+    protected $textFileLogger;
 
     public function __construct(ActivationService $activationService)
     {
         $this->activationService = $activationService;
-        $this->textLogger = Log::channel('deactivate-expired-users');
+        $this->textFileLogger = Log::channel('deactivate-expired-users');
         parent::__construct();
     }
 
@@ -53,7 +53,7 @@ class DeactivateExpiredUsers extends Command
      */
     public function handle()
     {
-        $this->textLogger->info('START Deactivating expired user.');
+        $this->textFileLogger->info('START Deactivating expired user.');
 
         $expiredActivations = SlskeyActivation::whereNotNull('expiration_date')
             ->where('expiration_date', '<', now())
@@ -61,7 +61,7 @@ class DeactivateExpiredUsers extends Command
             ->get();
 
         if (!count($expiredActivations)) {
-            $this->textLogger->info("No expired users found.");
+            $this->textFileLogger->info("No expired users found.");
         }
 
         $countSuccess = 0;
@@ -78,10 +78,10 @@ class DeactivateExpiredUsers extends Command
             );
             if ($response->success) {
                 $countSuccess++;
-                $this->textLogger->info("Success: Deactivated user {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code}");
+                $this->textFileLogger->info("Success: Deactivated user {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code}");
             } else {
                 $countFailed++;
-                $this->textLogger->info("Error: User failed {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code} with message: {$response->message}");
+                $this->textFileLogger->info("Error: User failed {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code} with message: {$response->message}");
             }
         }
 
@@ -92,7 +92,7 @@ class DeactivateExpiredUsers extends Command
 
     protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)
     {
-        $this->textLogger->info("Logging job result to database.");
+        $this->textFileLogger->info("Logging job result to database.");
         $databaseInfo = [
             'expired_activations' => $totalCount,
             'success' => $countSuccess,

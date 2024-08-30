@@ -10,8 +10,8 @@
             {{ formatDate(history.created_at) }}
         </div>
     </td>
-    <td class="align-top">
-        <Link v-if="$page.props.slskeyadmin" :href="`/admin/groups/${history.slskey_group.slskey_code}`">
+    <td v-if="$page.props.numberOfPermittedSlskeyGroups > 1" class="align-top">
+        <Link v-if="$page.props.isSlskeyAdmin" :href="`/admin/groups/${history.slskey_group.slskey_code}`">
         <div class="underline flex px-4 py-3 whitespace-nowrap">
             {{ history.slskey_group.name }}
         </div>
@@ -41,7 +41,7 @@
         </div>
     </td>
     <td class="align-top">
-        <Link v-if="$page.props.slskeyadmin" :href="`/admin/users/${history.author}`">
+        <Link v-if="$page.props.isSlskeyAdmin" :href="`/admin/users/${history.author}`">
             <div class="underline flex px-4 py-3 pr-8 whitespace-nowrap">
             {{ history.author }}
         </div>

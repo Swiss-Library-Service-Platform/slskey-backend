@@ -5,8 +5,9 @@
                 <FilterControl @reset="reset">
                     <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                         :placeholder="$t('user_management.search_placeholder')" />
-                    <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
-                        :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
+                    <SelectFilter v-if="$page.props.numberOfPermittedSlskeyGroups > 1"
+                        v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                        :options="slskeyGroups.data" />
                     <SelectFilter v-model="form.status" :label="$t('user_management.status')"
                         :options="getStatusOptions" :placeholder="$t('user_management.status')" />
                     <DatePickerFilter
@@ -37,12 +38,10 @@
                                     {{ $t('alma_user.full_name') }}
                                 </div>
                             </th>
+                            <!-- SLSKey Group Description -->
                             <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> {{
-                                $t('slskey_groups.slskey_code_description') }} </th>
-                            <!-- Mode: Webhook / Manual -->
-                            <!--
-                        <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> Mode </th>
-                        -->
+                                $t('slskey_groups.slskey_code_description') }}
+                            </th>
 
                             <!-- Activation Date -->
 
@@ -96,7 +95,7 @@
                                     </td>
                                     <td class="px-6 py-3" v-else></td>
 
-                                    <!-- SLSKey Code -->
+                                    <!-- SLSKey Group Description -->
                                     <td v-if="slskeyGroups.data.length > 1" class="px-6"
                                         :class="getVerticalPadding(user.slskey_activations.length, index)">
                                         <div class="flex flex-row">
@@ -105,31 +104,13 @@
                                         </div>
                                     </td>
 
-                                    <!-- Mode: Webhook / Manual -->
-                                    <!--
-                                <td class="px-6 py-3" v-if="slskeyGroups.data.length > 1">
-                                    <div class="flex flex-row items-center">
-                                        <
-                                        <Icon v-if="activation.slskey_group.workflow == 'Manual'" icon="cursor-click"
-                                            class="h-4 w-4 mr-2"></Icon>
-                                        <Icon v-if="activation.slskey_group.workflow == 'Webhook'" icon="chip"
-                                            class="h-4 w-4 mr-2">
-                                        
-                                     
-                                        {{ activation.slskey_group.workflow == 'Webhook' ? 'Alma' : 'Manual' }}
-                                    </div>
-                                </td>
-                                -->
-
                                     <!-- Activation Date -->
-
                                     <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
                                         <div v-if="activation.activation_date" class="flex flex-row items-center">
                                             <Icon icon="key" class="h-4 w-4 mr-2"></Icon>
                                             {{ formatDate(activation.activation_date) }}
                                         </div>
                                     </td>
-
 
                                     <!-- Expiration Date -->
                                     <td class="px-6" :class="getVerticalPadding(user.slskey_activations.length, index)">
@@ -168,9 +149,9 @@
                                         <template v-for="activation in user.activations" :key="activation.id">
                                             <UserStatusChip :activation="activation"/>
                                         </template>
-                                        </Link>
-                                    </td>
-                                    -->
+</Link>
+</td>
+-->
                                 </tr>
                             </template>
                         </template>

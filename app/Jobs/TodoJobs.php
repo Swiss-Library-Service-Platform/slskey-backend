@@ -54,6 +54,4 @@ TODO: is_member_educational_institution for ZHDK
       - Cloud App Anpassung
       - Import CSV Anpassung
       - Ui Anpassung, erklärung education institution
-      - in Monthly Report aufnehmen
-
 */

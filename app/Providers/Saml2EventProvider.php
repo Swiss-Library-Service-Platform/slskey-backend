@@ -34,7 +34,8 @@ class Saml2EventProvider extends ServiceProvider
             $samlUser = $event->getSaml2User();
 
             $uniqueID = $samlUser->getAttributesWithFriendlyName()['swissEduPersonUniqueID'][0];
-            $name = $samlUser->getAttributesWithFriendlyName()['givenName'][0];
+            $givenName = $samlUser->getAttributesWithFriendlyName()['givenName'][0];
+            $surname = $samlUser->getAttributesWithFriendlyName()['surname'][0];
 
             // $user = // find user by ID or attribute
             $user = User::where('user_identifier', '=', $uniqueID)
@@ -44,7 +45,7 @@ class Saml2EventProvider extends ServiceProvider
             // Create user if not exists
             if (! $user) {
                 DB::table('users')->insert([
-                    'display_name' => $name,
+                    'display_name' => $givenName . ' ' . $surname,
                     'user_identifier' => $uniqueID,
                     'password' => bin2hex(random_bytes(8)), // random 16 char password
                     'password_change_at' => Carbon::now(),
@@ -56,7 +57,7 @@ class Saml2EventProvider extends ServiceProvider
                 DB::table('users')
                     ->where('user_identifier', $uniqueID)
                     ->update([
-                        'display_name' => $name,
+                        'display_name' => $givenName . ' ' . $surname,
                     ]);
             }
             // Save nameId to session

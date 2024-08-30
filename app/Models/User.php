@@ -76,6 +76,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get number of permissions
+     * 
+     * @return int
+     */
+    public function getNumberOfPermissions(): int
+    {
+        return $this->getPermissions()->count();
+    }
+
+    /**
      * Get the slskey_codes of SlskeyGroups that the User has permissions for.
      *
      * @return array

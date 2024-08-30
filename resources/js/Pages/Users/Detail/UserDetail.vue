@@ -77,7 +77,7 @@ export default {
         slskeyUser: Object,
         slskeyHistories: Array,
         isAnyWebhookMailActivation: Boolean,
-        isAnyShowMemberEducationalInstitution: Boolean
+        isAnyShowMemberEducationalInstitution: Boolean,
     },
     data() {
         return {

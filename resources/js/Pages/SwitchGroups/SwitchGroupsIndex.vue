@@ -3,7 +3,7 @@
        
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
+                <SelectFilter v-model="form.slskeyCode"
                     :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
             </FilterControl>
             <DefaultButton @click="createGroup" icon="plus" class="w-fit bg-color-slsp text-white py-2">

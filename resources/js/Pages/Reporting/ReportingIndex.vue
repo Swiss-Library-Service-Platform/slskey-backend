@@ -2,7 +2,7 @@
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <div class="flex gap-x-16">
-                <FilterControl @reset="reset" v-if="slskeyGroups.data.length > 1">
+                <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
                         :options="slskeyGroups.data" />
                 </FilterControl>

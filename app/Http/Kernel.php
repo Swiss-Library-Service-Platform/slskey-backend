@@ -38,7 +38,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
-            \App\Http\Middleware\MiddlewareSharedData::class,
         ],
         'saml' => [
             \App\Http\Middleware\EncryptCookies::class,

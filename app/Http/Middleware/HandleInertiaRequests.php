@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SlskeyGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -34,6 +36,20 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $isAdmin = false;
+        $numberOfPermissions = 0;
+
+        if (Auth::check()) {
+            /** @var \App\Models\User */
+            $user = Auth::user();
+            $isAdmin = $user->isSLSPAdmin();
+            $numberOfGroupPermissions = $user->getNumberOfPermissions();
+            $numberOfPermittedSlskeyGroups = $isAdmin ? SlskeyGroup::count() : $numberOfGroupPermissions;
+        }
+
+        // get help url from config
+        $helpUrl = config('app.help_page');
+
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -42,6 +58,9 @@ class HandleInertiaRequests extends Middleware
                 ];
             },
             'locale' => App::currentLocale(),
+            'numberOfPermittedSlskeyGroups' => $numberOfPermittedSlskeyGroups,
+            'isSlskeyAdmin' => $isAdmin,
+            'helpUrl' => $helpUrl,
         ]);
     }
 }

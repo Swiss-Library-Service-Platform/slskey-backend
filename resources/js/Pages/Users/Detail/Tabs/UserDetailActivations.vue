@@ -217,7 +217,7 @@
             </template>
           </tr>
           <!-- Switch Status -->
-          <tr class="h-20" v-if="$page.props.slskeyadmin">
+          <tr class="h-20" v-if="$page.props.isSlskeyAdmin">
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold">
               <div class="flex flex-row items-center">
                 <Icon icon="link" class="h-4 w-4 mr-2"></Icon>
@@ -294,7 +294,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$page.props.slskeyadmin) {
+    if (this.$page.props.isSlskeyAdmin) {
       this.getSwitchStatus();
     }
   },

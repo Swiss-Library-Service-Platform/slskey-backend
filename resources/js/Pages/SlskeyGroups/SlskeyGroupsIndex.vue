@@ -1,7 +1,7 @@
 <template>
     <AppLayout :title="$t('slskey_groups.title')" :breadCrumbs="[{ name: $t('slskey_groups.title') }]">
 
-        <div class="my-8 flex items-end justify-between flex-wrap">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
                 <SearchFilter v-model="form.search" :label="$t('slskey_groups.title')" />
             </FilterControl>
@@ -10,7 +10,7 @@
             </DefaultButton>
         </div>
 
-        <div class="overflow-x-auto bg-white shadow-md rounded-md">
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>

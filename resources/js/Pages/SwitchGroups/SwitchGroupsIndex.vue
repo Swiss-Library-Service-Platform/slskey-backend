@@ -1,6 +1,7 @@
 <template>
     <AppLayout :title="$t('switch_groups.title')" :breadCrumbs="[{ name: $t('switch_groups.title') }]">
-        <div class="my-8 flex items-end justify-between flex-wrap">
+       
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
                 <SelectFilter v-if="slskeyGroups.data.length > 1" v-model="form.slskeyCode"
                     :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
@@ -10,7 +11,7 @@
             </DefaultButton>
         </div>
 
-        <div class="overflow-x-auto mb-10 bg-white shadow-md rounded-md">
+        <div class="my-8 overflow-x-auto mb-10 bg-white shadow-md rounded-md">
             <table class="table-fixed min-w-full divide-y divide-gray-table rounded-md">
                 <thead>
                     <tr>

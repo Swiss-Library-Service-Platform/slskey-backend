@@ -1,12 +1,10 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('admin_users.title') }]">
-
-        <div class="my-8 flex justify-between items-center">
-            <div class="flex flex-row gap-8">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
+            <div class="flex flex-row gap-x-16">
+                <TabFilter :tab1="$t('admin_users.admin_portal')" :tab2="$t('admin_users.alma_app')" icon1="user"
+                    icon2="cloud" :label="$t('admin_users.user_type')" v-model="displayTab" />
                 <FilterControl @reset="reset">
-                    <TabFilter :tab1="$t('admin_users.admin_portal')" :tab2="$t('admin_users.alma_app')"
-                        icon1="user" icon2="cloud" :label="$t('admin_users.user_type')"
-                        v-model="displayTab" />
                     <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                         :placeholder="$t('user_management.search_placeholder')" />
                 </FilterControl>

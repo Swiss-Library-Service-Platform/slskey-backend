@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div v-show="displayTab == 0" class="my-5 overflow-x-auto bg-white shadow-md rounded-md">
+        <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -125,7 +125,7 @@
             </table>
         </div>
 
-        <div v-show="displayTab == 1" class="my-5 p-5 overflow-x-auto bg-white shadow-md rounded-md">
+        <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
             <canvas id="userChart"></canvas>
         </div>
     </AppLayout>

@@ -1,7 +1,7 @@
 
 <template>
     <AppLayout :title="$t('history.title')" :breadCrumbs="[{ name: $t('history.title') }]">
-        <div class="my-8 flex items-end justify-between flex-wrap">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
                 <SearchFilter v-model="form.primaryId" :label="$t('slskey_user.primary_id')" :placeholder="$t('history.search')" />
                 <DatePickerFilter :label="$t('history.date')" v-model="form.date" />
@@ -11,7 +11,7 @@
             </FilterControl>
         </div>
 
-        <div class="overflow-x-auto bg-white shadow-md rounded-md">
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <SlskeyHistoryHeader :showPrimaryId="true" />

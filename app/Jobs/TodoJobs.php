@@ -21,6 +21,10 @@ TODO: Job Supervisor für ImportCsvJob
             auch noch in [README.md](http://README.md) mit aufnehmen
       php artisan queue:work --queue=redis_import_job --timeout=120
 
+TODO: Import CSV Job
+      - sollte nicht aktivieren wenn es eine Migration ist
+      - alternative: keine switch gruppe für slskey gruppe definieren und check ausgeklammert lassen dass es keine slskey gruppe braucht für aktivierung
+
 ________________________________________________________________________
 Nice to have:
 

@@ -17,7 +17,7 @@ class LogJobController extends Controller
      */
     public function index(): Response
     {
-        $perPage = intval(Request::input('perPage', 10));
+        $perPage = intval(Request::input('perPage', 5));
 
         $logs = LogJob::query()
             ->filter(Request::all())

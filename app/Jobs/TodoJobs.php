@@ -3,6 +3,8 @@
 ________________________________________________________________________
 Before Go Live:
 
+TODO: Fix all FIXMEs before Go Live!
+
 TODO: Add Cron Job for Jobs
 
 TODO: TEST: Server aufbauen

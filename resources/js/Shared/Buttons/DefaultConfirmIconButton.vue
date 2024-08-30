@@ -64,9 +64,7 @@ export default {
         justify-center
         font-bold 
         text-md
-        text-black
         bg-white
-        text-color-header-bg
         hover:bg-opacity-80
         focus:outline-none
         focus:ring 

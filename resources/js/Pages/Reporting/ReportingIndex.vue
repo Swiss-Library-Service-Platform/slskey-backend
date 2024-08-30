@@ -95,20 +95,20 @@
                             </td>
                             <td
                                 class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold border-r border-gray-table">
-                                <div v-if="historyMonth.monthly_change < 0">
+                                <div v-if="historyMonth.monthly_change_count < 0">
                                     <span class="text-red-500">
                                         -
                                     </span>
-                                    {{ Math.abs(historyMonth.monthly_change) }}
+                                    {{ Math.abs(historyMonth.monthly_change_count) }}
                                 </div>
-                                <div v-if="historyMonth.monthly_change == 0">
+                                <div v-if="historyMonth.monthly_change_count == 0">
                                     -
                                 </div>
-                                <div v-if="historyMonth.monthly_change > 0">
+                                <div v-if="historyMonth.monthly_change_count > 0">
                                     <span class="text-green-500">
                                         +
                                     </span>
-                                    {{ historyMonth.monthly_change }}
+                                    {{ historyMonth.monthly_change_count }}
                                 </div>
                             </td>
                             <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">

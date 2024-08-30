@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Monolog\Handler\AbstractProcessingHandler;
 use Throwable;
 use App\Models\LogDefault;
+use Illuminate\Support\Facades\Auth;
 
 class DatabaseLogHandler extends AbstractProcessingHandler
 {
@@ -42,6 +43,7 @@ class DatabaseLogHandler extends AbstractProcessingHandler
             'level' => $record['level'],
             'level_name' => $record['level_name'],
             'message' => $record['message'],
+            'user_identifier' => Auth::user()?->user_identifier,
             'logged_at' => $record['datetime'],
             'context' => $record['context'],
             'extra' => $record['extra'],

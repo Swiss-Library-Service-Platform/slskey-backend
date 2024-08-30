@@ -14,6 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('level_name');
             $table->unsignedSmallInteger('level');
+            $table->string('user_identifier')->nullable();
             $table->string('message');
             $table->dateTime('logged_at');
             $table->json('context');

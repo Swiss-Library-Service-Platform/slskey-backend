@@ -102,6 +102,14 @@
 		"german": "German",
 		"italian": "Italian"
 	},
+	"log_jobs": {
+		"has_fail": "Failed",
+		"info": "Info",
+		"job": "Job",
+		"no_logs": "No logs",
+		"time": "Time",
+		"title": "Job Logs"
+	},
 	"notifications": {
 		"error": "Error",
 		"success": "Success"

@@ -13,7 +13,14 @@ TODO: Deployment Produktive
       - Laravel Octane
       - PHP FPM
 
-TODO: Job Monitoring
+TODO: Job Supervisor für ImportCsvJob
+      https://laravel.com/docs/11.x/queues#installing-supervisor
+            Wir müssen den php artisan queue starten
+            automatisch durch supervisor
+            default queue genügt
+            auch noch in [README.md](http://README.md) mit aufnehmen
+      php artisan queue:work --queue=redis_import_job --timeout=120
+
 ________________________________________________________________________
 Nice to have:
 

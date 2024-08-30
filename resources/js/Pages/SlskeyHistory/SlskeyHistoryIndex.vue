@@ -102,10 +102,6 @@ export default {
                 trigger: null
             }
         },
-        formatDate(date) {
-            // format moment date with date and time
-            return this.$moment(date).format('MM/DD/YY HH:mm:ss');
-        },
         toggleTooltip: function () {
             if (this.tooltipShow) {
                 this.tooltipShow = false;

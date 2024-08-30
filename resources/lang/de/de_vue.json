@@ -73,10 +73,10 @@
 		"logout": "Abmelden"
 	},
 	"confirm_dialog": {
-        "cancel": "Abbrechen",
-        "confirm": "Bestätigen",
-        "title": "Bestätigung"
-    },
+		"cancel": "Abbrechen",
+		"confirm": "Bestätigen",
+		"title": "Bestätigung"
+	},
 	"eduid_status": "Edu-ID Status",
 	"history": {
 		"action": "Ereignis",
@@ -101,6 +101,14 @@
 		"french": "Französisch",
 		"german": "Deutsch",
 		"italian": "Italienisch"
+	},
+	"log_jobs": {
+		"has_fail": "Fehlgeschlagen",
+		"info": "Info",
+		"job": "Aufgabe",
+		"no_logs": "Keine Protokolle",
+		"time": "Zeit",
+		"title": "Job Protokolle"
 	},
 	"notifications": {
 		"error": "Fehler",

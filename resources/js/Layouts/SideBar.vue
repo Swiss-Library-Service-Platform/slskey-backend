@@ -54,10 +54,16 @@ import Icon from '../Shared/Icon.vue';
 					<Icon icon="lock-closed" class="w-3 h-3 inline-block mr-2" />
 					SLSP area
 				</div>
-				<!-- SLSKey Groups -->
+				<!-- Global History -->
 				<NavLink icon="book-open" :href="route('admin.history.index')"
 					:active="route().current('admin.history.index') || route().current('admin.history.show')">
 					{{ $t('history.title') }}
+				</NavLink>
+
+				<!-- Log Jobs -->
+				<NavLink icon="clock" :href="route('admin.logjob.index')"
+					:active="route().current('admin.logjob.index')">
+					{{ $t('log_jobs.title') }}
 				</NavLink>
 
 				<!-- Admin Users -->

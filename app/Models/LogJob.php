@@ -25,5 +25,35 @@ class LogJob extends Model
         'logged_at',
     ];
 
+    /**
+     * The attributes that should be cast to native types
+     *
+     * @var array
+     */
+    protected $casts = [
+        'info' => 'array', // Automatically cast the "info" column to an array (or object)
+        'has_fail' => 'boolean', // Automatically cast the "has_fail" column to a boolean
+    ];
+
     public $timestamps = false;
+
+    /**
+     * Filter the query based on the given filters
+     *
+     * @param $query
+     * @param array $filters
+     * @return mixed
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['job'] ?? null, function ($query, $job) {
+            $query->where('job', $job);
+        });
+
+        $query->when($filters['has_fail'] ?? null, function ($query, $hasFail) {
+            $query->where('has_fail', $hasFail == 'true');
+        });
+
+        return $query;
+    }
 }

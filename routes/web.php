@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\SlskeyGroupsController;
 use App\Http\Controllers\Admin\SlskeyHistoryController;
 use App\Http\Controllers\Admin\SwitchGroupsController;
+use App\Http\Controllers\Admin\LogJobController;
 use App\Http\Controllers\Auth\LandingController;
 use App\Http\Controllers\Main\ActivationController;
 use App\Http\Controllers\Main\ReportingController;
@@ -195,6 +196,10 @@ Route::middleware([
             ->name('admin.import.store');
         Route::post('admin/import/stop', [ImportController::class, 'cancelImport'])
             ->name('admin.import.stop');
+
+        // API Logs
+        Route::get('/admin/logjob', [LogJobController::class, 'index'])
+            ->name('admin.logjob.index');
     });
 
     // Localization

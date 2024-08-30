@@ -4,7 +4,7 @@
         "activate_new": "Nouvel utilisateur",
         "activation_start": "Activer l'utilisateur",
         "activation_start_info": "Rechercher un identifiant dans Alma",
-		"identifier": "identifiant principal  / email / identifiants",
+        "identifier": "identifiant principal  / email / identifiants",
         "remark_optional": "Remarque (optionnelle) :",
         "search": "Recherche",
         "slskey_groups": "SLSKey Groupes",
@@ -29,7 +29,7 @@
     "admin_users": {
         "add_slskey_group": "Ajouter un groupe SLSKey",
         "admin_portal": "Admin Portal",
-		"alma_app": "Alma Cloudapp",
+        "alma_app": "Alma Cloudapp",
         "cancel": "Annuler",
         "create_new": "Créer un nouvel utilisateur",
         "delete": "Supprimer l'utilisateur administrateur",
@@ -102,10 +102,18 @@
         "german": "Allemand",
         "italian": "Italien"
     },
+    "log_jobs": {
+        "has_fail": "Échoué",
+        "info": "Info",
+        "job": "Tâche",
+        "no_logs": "Aucun journal",
+        "time": "Temps",
+        "title": "Journaux des tâches"
+    },
     "notifications": {
-		"error": "Erreur",
-		"success": "Succès"
-	},
+        "error": "Erreur",
+        "success": "Succès"
+    },
     "pagination": {
         "empty": "{0} résultats",
         "next": "Suivant",
@@ -249,8 +257,8 @@
     "user_management": {
         "activation": "Activation",
         "activation_activated_on": "activé le",
-		"activation_blocked_on": "bloqué le",
-		"activation_deactivated_on": "désactivé le",
+        "activation_blocked_on": "bloqué le",
+        "activation_deactivated_on": "désactivé le",
         "activation_date": "Date d'activation",
         "activation_end": "Fin",
         "activation_start": "Début",
@@ -269,10 +277,10 @@
         "disable_expiration": "Désactiver l'expiration",
         "enable_expiration": "Activer l'expiration",
         "expiration_date": "Date d'expiration",
-		"export": "Excel Download",
+        "export": "Excel Download",
         "member_educational_institution": "Inscrit dans un établissement d'enseignement",
-		"member_educational_institution_no": "Oui",
-		"member_educational_institution_yes": "No",
+        "member_educational_institution_no": "Oui",
+        "member_educational_institution_yes": "No",
         "new_activation": "Activer / Prolonger",
         "no_expiry_deactivated": "Expiration désactivée",
         "no_expiry_webhook": "Désactivation via Alma",

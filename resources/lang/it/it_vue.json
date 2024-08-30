@@ -29,7 +29,7 @@
     "admin_users": {
         "add_slskey_group": "Aggiungi gruppo SLSKey",
         "admin_portal": "Admin Portal",
-		"alma_app": "Alma Cloudapp",
+        "alma_app": "Alma Cloudapp",
         "cancel": "Annulla",
         "create_new": "Crea nuovo utente",
         "delete": "Elimina utente amministratore",
@@ -102,10 +102,18 @@
         "german": "Tedesco",
         "italian": "Italiano"
     },
+    "log_jobs": {
+        "has_fail": "Fallito",
+        "info": "Info",
+        "job": "Compito",
+        "no_logs": "Nessun registro",
+        "time": "Tempo",
+        "title": "Registri dei compiti"
+    },
     "notifications": {
-		"error": "Errore",
-		"success": "Successo"
-	},
+        "error": "Errore",
+        "success": "Successo"
+    },
     "pagination": {
         "empty": "{0} risultati",
         "next": "Avanti",
@@ -249,8 +257,8 @@
     "user_management": {
         "activation": "Attivazione",
         "activation_activated_on": "attivato il",
-		"activation_blocked_on": "bloccato il",
-		"activation_deactivated_on": "disattivato il",
+        "activation_blocked_on": "bloccato il",
+        "activation_deactivated_on": "disattivato il",
         "activation_date": "Data di attivazione",
         "activation_end": "Fine",
         "activation_start": "Inizio",
@@ -269,10 +277,10 @@
         "disable_expiration": "Disabilita scadenza",
         "enable_expiration": "Abilita scadenza",
         "expiration_date": "Data di scadenza",
-		"export": "Excel Download",
+        "export": "Excel Download",
         "member_educational_institution": "Iscritto a un istituto di istruzione",
-		"member_educational_institution_no": "Sì",
-		"member_educational_institution_yes": "No",
+        "member_educational_institution_no": "Sì",
+        "member_educational_institution_yes": "No",
         "new_activation": "Attiva / Prolunga",
         "no_expiry_deactivated": "Scadenza disabilitata",
         "no_expiry_webhook": "Disattivazione tramite Alma",

@@ -68,13 +68,19 @@ class SendMonthlyReports extends Command
                 $currentMonth = date('m'); // FIXME: date('m', strtotime('-1 month'));
                 $currentYear = date('Y'); // FIXME: date('Y', strtotime('-1 month'));
 
-                // Get SlskeyActivations
-                $slskeyHistoryCount = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
+                // Get Month History
+                $slskeyHistoryMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
 
                 // Total count
-                $totalCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
-
-                $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
+                $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
+                $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
+                $sent = $this->mailService->sendMonthlyReportMail(
+                    $slskeyGroup,
+                    $slskeyHistoryMonth,
+                    $totalCurrentCount,
+                    $totalCurrentMemberEducationalInstitutionCount,
+                    $reportEmailAddresses
+                );
 
                 if ($sent) {
                     $isSuccess = true;
@@ -104,7 +110,7 @@ class SendMonthlyReports extends Command
         LogJob::create([
             'job' => class_basename(__CLASS__),
             'info' => json_encode($databaseInfo),
-            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn ($success) => !$success)),
+            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn($success) => !$success)),
         ]);
     }
 }

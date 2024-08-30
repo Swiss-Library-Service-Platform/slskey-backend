@@ -76,9 +76,9 @@ class MailService
      * @param array $reportEmailAddresses
      * @return ?SentMessage
      */
-    public function sendMonthlyReportMail(SlskeyGroup $slskeyGroup, SlskeyHistoryMonth $slskeyHistory, int $totalCount, array $reportEmailAddresses): ?SentMessage
+    public function sendMonthlyReportMail(SlskeyGroup $slskeyGroup, SlskeyHistoryMonth $slskeyHistoryMonth, int $totalCurrentCount, int $totalCurrentMemberEducationalInstitutionCount, array $reportEmailAddresses): ?SentMessage
     {
-        $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyHistory, $totalCount);
+        $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyHistoryMonth, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
         $toMails = $reportEmailAddresses;
         $toMails = self::TEST_MODE ? self::TEST_RECIPIENT : $toMails;
 

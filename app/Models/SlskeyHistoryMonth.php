@@ -112,7 +112,6 @@ class SlskeyHistoryMonth extends Model
                 'deactivated_count' => 0,
                 'blocked_active_count' => 0,
                 'monthly_change_count' => 0,
-                'total_users' => 0
             ]);
         } else {
             $monthlyChange = $result->activated_count + $result->reactivated_count - $result->deactivated_count - $result->blocked_active_count;
@@ -126,7 +125,6 @@ class SlskeyHistoryMonth extends Model
                 'deactivated_count' => $result->deactivated_count,
                 'blocked_active_count' => $result->blocked_active_count,
                 'monthly_change_count' => $monthlyChange,
-                'total_users' => 0 // total users will be calculated later
             ]);
         }
     }

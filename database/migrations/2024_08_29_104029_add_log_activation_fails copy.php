@@ -10,8 +10,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->boolean('show_member_educational_institution')->default(false)->after('alma_iz');
+        Schema::create('log_job', function (Blueprint $table) {
+            $table->id();
+            $table->string('job');
+            $table->string('info');
+            $table->timestamp('logged_at')->useCurrent();
         });
     }
 
@@ -20,8 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->dropColumn('show_member_educational_institution');
-        });
+        Schema::dropIfExists('log_job');
     }
 };

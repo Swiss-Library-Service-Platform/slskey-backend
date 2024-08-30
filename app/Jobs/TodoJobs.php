@@ -11,7 +11,7 @@ TODO: Deployment Produktive
       - Laravel Octane
       - PHP FPM
 
-TODO: Uptime monitoring, Log Monitoring, Error Monitoring
+TODO: Job Monitoring
 ________________________________________________________________________
 Nice to have:
 
@@ -40,9 +40,7 @@ TODO: User needs some kind of "affiliation"? e.g. welche Bibliothek, welche Abte
 TODO: is_member_educational_institution for ZHDK
       - Cloud App Anpassung
       - Import CSV Anpassung
-      - UI Anpassung, wie man es ändern kann ohne aktivierung/extension
       - Ui Anpassung, erklärung education institution
       - in Monthly Report aufnehmen
-
 
 */

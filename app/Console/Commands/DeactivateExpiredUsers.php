@@ -7,6 +7,7 @@ use App\Models\SlskeyActivation;
 use App\Services\ActivationService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use App\Models\LogJob;
 
 class DeactivateExpiredUsers extends Command
 {
@@ -26,12 +27,12 @@ class DeactivateExpiredUsers extends Command
 
     protected $activationService;
 
-    protected $logger;
+    protected $textLogger;
 
     public function __construct(ActivationService $activationService)
     {
         $this->activationService = $activationService;
-        $this->logger = Log::channel('deactivate-expired-users');
+        $this->textLogger = Log::channel('deactivate-expired-users');
         parent::__construct();
     }
 
@@ -52,8 +53,7 @@ class DeactivateExpiredUsers extends Command
      */
     public function handle()
     {
-        $this->logger->info('---------- START ----------');
-        $this->logger->info('Deactivating expired user.');
+        $this->textLogger->info('START Deactivating expired user.');
 
         $expiredActivations = SlskeyActivation::whereNotNull('expiration_date')
             ->where('expiration_date', '<', now())
@@ -61,10 +61,11 @@ class DeactivateExpiredUsers extends Command
             ->get();
 
         if (!count($expiredActivations)) {
-            $this->logger->info("No expired users found.");
-
-            return 0;
+            $this->textLogger->info("No expired users found.");
         }
+
+        $countSuccess = 0;
+        $countFailed = 0;
 
         // Deactivate all expired activations
         foreach ($expiredActivations as $activation) {
@@ -75,14 +76,31 @@ class DeactivateExpiredUsers extends Command
                 null,
                 TriggerEnums::SYSTEM_EXPIRATION
             );
-
             if ($response->success) {
-                $this->logger->info("Success: Deactivated user {$activation->slskeyUser->primary_id}");
+                $countSuccess++;
+                $this->textLogger->info("Success: Deactivated user {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code}");
             } else {
-                $this->logger->info("Error: User failed {$activation->slskeyUser->primary_id}: {$response->message}");
+                $countFailed++;
+                $this->textLogger->info("Error: User failed {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code} with message: {$response->message}");
             }
         }
 
+        $this->logJobResultToDatabase(count($expiredActivations), $countSuccess, $countFailed);
+
         return 1;
+    }
+
+    protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)
+    {
+        $this->textLogger->info("Logging job result to database.");
+        $databaseInfo = [
+            'expired_activations' => $totalCount,
+            'success' => $countSuccess,
+            'failed' => $countFailed,
+        ];
+        LogJob::create([
+            'job' => class_basename(__CLASS__),
+            'info' => json_encode($databaseInfo),
+        ]);
     }
 }

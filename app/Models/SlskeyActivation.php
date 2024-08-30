@@ -266,7 +266,7 @@ class SlskeyActivation extends Model
 
     /**
      * Set Member Educational Institution
-     * 
+     *
      * @param bool $memberEducationalInstitution
      * @return self
      */

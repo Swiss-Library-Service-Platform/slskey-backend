@@ -406,7 +406,7 @@ class SlskeyUser extends Model
 
         // return only permitted activation of users
         return $query->with([
-            'slskeyHistories' => function ($query) use ($permissions, $slspEmployee) {
+            'slskeyHistories' => function ($query) use ($permissions) {
                 $query->whereIn('slskey_group_id', $permissions)->with(['slskeyGroup:id,name,slskey_code']);
             },
         ]);

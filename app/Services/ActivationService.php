@@ -102,6 +102,7 @@ class ActivationService
             $successMessage = $this->activateSwitchGroups($primaryId, $slskeyGroup, $activatedGroups);
         } catch (\Exception $e) {
             $this->rollbackActivatedGroups($primaryId, $activatedGroups);
+
             return $this->logAndReturnError($primaryId, $action, 'switch_api_error', $e->getMessage());
         }
 
@@ -646,6 +647,7 @@ class ActivationService
             $successMessage .= $switchGroup->name . ($switchGroup !== $slskeyGroup->switchGroups->last() ? ', ' : '');
             $activatedGroups[] = $switchGroup->switch_group_id;
         }
+
         return $successMessage;
     }
 
@@ -666,7 +668,7 @@ class ActivationService
         }
     }
 
-        /**
+    /**
      * Log error and return response.
      *
      * @param string $primaryId
@@ -693,5 +695,4 @@ class ActivationService
         // return new ActivationServiceResponse(false, $errorMessage);
         return new ActivationServiceResponse(false, $flashMessage);
     }
-
 }

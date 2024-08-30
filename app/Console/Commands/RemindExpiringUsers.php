@@ -127,7 +127,9 @@ class RemindExpiringUsers extends Command
 
         $this->logJobResultToDatabase($countTotal, $countSuccess, $countTotal - $countSuccess);
 
-        return 1;
+        // 0 = Success
+        // 2 = Invalid (No expiring activations)
+        return $countSuccess > 0 ? 0 : 2; 
     }
 
     protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)

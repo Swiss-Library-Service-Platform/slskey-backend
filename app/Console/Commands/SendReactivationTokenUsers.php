@@ -139,7 +139,9 @@ class SendReactivationTokenUsers extends Command
 
         $this->logJobResultToDatabase($tokensPerGroup, $hasFail);
 
-        return 1;
+        // 0 = Success
+        // 2 = Invalid (No tokens to send)
+        return count($tokensPerGroup) > 0 ? 0 : 2;
     }
 
     protected function logJobResultToDatabase($databaseInfo, $hasFail = false)

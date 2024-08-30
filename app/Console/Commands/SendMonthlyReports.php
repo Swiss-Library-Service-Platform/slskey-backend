@@ -93,7 +93,9 @@ class SendMonthlyReports extends Command
 
         $this->logJobResultToDatabase($sentReports);
 
-        return 1;
+        // 0 = Success
+        // 2 = Invalid (No reports to send)
+        return count($sentReports) > 0 ? 0 : 2;
     }
 
     protected function logJobResultToDatabase($databaseInfo)

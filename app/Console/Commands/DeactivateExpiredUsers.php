@@ -85,7 +85,9 @@ class DeactivateExpiredUsers extends Command
 
         $this->logJobResultToDatabase(count($expiredActivations), $countSuccess, count($expiredActivations) - $countSuccess);
 
-        return 1;
+        // 0 = Success
+        // 2 = Invalid (No expired activations)
+        return $countSuccess > 0 ? 0 : 2;
     }
 
     protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)

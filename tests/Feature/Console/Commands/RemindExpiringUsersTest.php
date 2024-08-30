@@ -25,7 +25,7 @@ it('has the correct signature', function () {
 it('does not send any reminders if there are no expiring activations', function () {
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });
 
 // Test with expiring activations
@@ -67,7 +67,7 @@ it('sends reminders for expiring activations', function () {
     // Call command
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(1, $response);
+    $this->assertEquals(0, $response);
 
     // Assert DB
     assertUserActivationActivated($remindedUser->primary_id, $slskeyGroup->slskey_code);
@@ -78,5 +78,5 @@ it('sends reminders for expiring activations', function () {
     // Call command
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });

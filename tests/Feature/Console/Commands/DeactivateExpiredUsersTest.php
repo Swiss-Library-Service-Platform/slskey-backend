@@ -23,7 +23,7 @@ it('has the correct signature', function () {
 it('does not deactivate any users if there are no expired activations', function () {
     $command = $this->app->make(\App\Console\Commands\DeactivateExpiredUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });
 
 // Test with expired activations
@@ -54,10 +54,10 @@ it('deactivates an expired user', function () {
     $mockSwitchApiService = mockSwitchApiServiceDeactivation($mockSwitchApiService);
     $command = $this->app->make(\App\Console\Commands\DeactivateExpiredUsers::class);
     $response = $command->handle();
-    $this->assertEquals(1, $response);
+    $this->assertEquals(0, $response);
     assertUserActivationDeactivated($expiringUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($activatedUser->primary_id, $slskeyGroup->slskey_code);
     // Call command again
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });

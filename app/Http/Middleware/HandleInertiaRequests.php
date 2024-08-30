@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $isAdmin = false;
-        $numberOfPermissions = 0;
+        $numberOfPermittedSlskeyGroups = 0;
 
         if (Auth::check()) {
             /** @var \App\Models\User */

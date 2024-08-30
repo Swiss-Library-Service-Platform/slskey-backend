@@ -61,22 +61,21 @@ class SendMonthlyReports extends Command
                 $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: No report email addresses found");
 
                 continue;
+            } else {
+                $countRecipients = count($reportEmailAddresses);
+
+                // Get last month
+                $currentMonth = date('m'); // FIXME: date('m', strtotime('-1 month'));
+                $currentYear = date('Y'); // FIXME: date('Y', strtotime('-1 month'));
+
+                // Get SlskeyActivations
+                $slskeyHistoryCount = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
+
+                // Total count
+                $totalCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
+
+                $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
             }
-
-            $countRecipients = count($reportEmailAddresses);
-
-            // Get last month
-            $currentMonth = date('m'); // FIXME: date('m', strtotime('-1 month'));
-            $currentYear = date('Y'); // FIXME: date('Y', strtotime('-1 month'));
-
-            // Get SlskeyActivations
-            $slskeyHistoryCount = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
-
-            // Total count
-            $totalCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
-
-            $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
-
             if ($sent) {
                 $isSuccess = true;
                 $this->textFileLogger->info("$slskeyGroup->slskey_code: Success: Sent report to ".implode(', ', $reportEmailAddresses));
@@ -85,7 +84,7 @@ class SendMonthlyReports extends Command
             }
 
             $sentReports[] = [
-                'slskey_group_id' => $slskeyGroup->slskey_code,
+                'slskey_group' => $slskeyGroup->slskey_code,
                 'success' => $isSuccess,
                 'recipients' => $countRecipients,
             ];

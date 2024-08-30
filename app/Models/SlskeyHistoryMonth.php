@@ -116,7 +116,7 @@ class SlskeyHistoryMonth extends Model
             ]);
         } else {
             $monthlyChange = $result->activated_count + $result->reactivated_count - $result->deactivated_count - $result->blocked_active_count;
-          
+
             return new self([
                 'month' => $result->month,
                 'year' => $result->year,

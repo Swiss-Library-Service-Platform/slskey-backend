@@ -65,7 +65,6 @@ class DeactivateExpiredUsers extends Command
         }
 
         $countSuccess = 0;
-        $countFailed = 0;
 
         // Deactivate all expired activations
         foreach ($expiredActivations as $activation) {
@@ -80,12 +79,11 @@ class DeactivateExpiredUsers extends Command
                 $countSuccess++;
                 $this->textFileLogger->info("Success: Deactivated user {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code}");
             } else {
-                $countFailed++;
                 $this->textFileLogger->info("Error: User failed {$activation->slskeyUser->primary_id} for group {$activation->slskeyGroup->slskey_code} with message: {$response->message}");
             }
         }
 
-        $this->logJobResultToDatabase(count($expiredActivations), $countSuccess, $countFailed);
+        $this->logJobResultToDatabase(count($expiredActivations), $countSuccess, count($expiredActivations) - $countSuccess);
 
         return 1;
     }

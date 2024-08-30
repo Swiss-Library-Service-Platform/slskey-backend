@@ -74,7 +74,6 @@ class RemindExpiringUsers extends Command
 
         $countTotal = 0;
         $countSuccess = 0;
-        $countFailed = 0;
 
         foreach ($slskeyGroups as $slskeyGroup) {
             $this->textFileLogger->info("Checking SLSKey Group $slskeyGroup->slskey_code for expiring activations.");
@@ -96,7 +95,6 @@ class RemindExpiringUsers extends Command
                 $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($primaryId, $slskeyGroup->alma_iz);
                 if (! $almaServiceResponse->success) {
                     $this->textFileLogger->info("Failed to get Alma user details for user $primaryId: $almaServiceResponse->errorText");
-                    $countFailed++;
 
                     continue;
                 }
@@ -106,7 +104,6 @@ class RemindExpiringUsers extends Command
 
                 if (! $sent) {
                     $this->textFileLogger->info("Failed to send email to user $primaryId.");
-                    $countFailed++;
 
                     continue;
                 }
@@ -128,7 +125,7 @@ class RemindExpiringUsers extends Command
             }
         }
 
-        $this->logJobResultToDatabase($countTotal, $countSuccess, $countFailed);
+        $this->logJobResultToDatabase($countTotal, $countSuccess, $countTotal - $countSuccess);
 
         return 1;
     }

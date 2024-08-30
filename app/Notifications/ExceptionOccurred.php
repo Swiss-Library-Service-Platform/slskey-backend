@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class ExceptionOccurred extends Notification
@@ -40,6 +41,7 @@ class ExceptionOccurred extends Notification
         return (new MailMessage())
                     ->subject('Exception Occurred - SLSKey Admin Portal')
                     ->greeting('An Exception Occurred')
+                    ->line('User: ' . Auth::user()?->user_identifier)
                     ->line('Message: ' . $this->exception->getMessage())
                     ->line('File: ' . $this->exception->getFile())
                     ->line('Line: ' . $this->exception->getLine())

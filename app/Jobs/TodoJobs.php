@@ -3,8 +3,6 @@
 ________________________________________________________________________
 Before Go Live:
 
-TODO: edu-id login fixen
-
 TODO: Test Server aufbauen
       - PHP FPM
 

@@ -1,12 +1,31 @@
-<script setup>
+<script>
 
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
 import NavLink from '../Shared/Buttons/NavLink.vue';
+import NavButton from '../Shared/Buttons/NavButton.vue';
 import Icon from '../Shared/Icon.vue';
+import { Inertia } from '@inertiajs/inertia';
 
-
-
+export default {
+	components: {
+		NavLink,
+		NavButton,
+		Icon,
+		Head,
+		Link,
+	},
+	props: {
+		helpUrl: String,
+		isSlskeyAdmin: Boolean,
+	},
+	methods: {
+		onLogout() {
+			console.log(this.$page.props);
+			window.location.href = this.$page.props.logoutUrl;
+		}
+	},
+};
 </script>
 
 <template>
@@ -38,13 +57,17 @@ import Icon from '../Shared/Icon.vue';
 
 			<div class="flex flex-col py-4 border-t">
 				<!-- Help -->
-				<NavLink icon="question-mark" :href="$page.props.helpUrl" :isExternal="true">
+				<NavLink icon="question-mark" :href="$page.props.helpUrl" :openInNewTab="true">
 					{{ $t('app_header.help') }}
 				</NavLink>
 				<!-- Logout -->
-				<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
+				<NavLink v-if="!$page.props.auth.user.is_edu_id" icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
 					{{ $t('app_header.logout') }}
 				</NavLink>
+				<!-- Logout edu-ID -->
+				<NavButton v-else icon="logout" :onClick="onLogout">
+					{{ $t('app_header.logout') }}
+				</NavButton>
 			</div>
 
 
@@ -98,7 +121,7 @@ import Icon from '../Shared/Icon.vue';
 				</NavLink>
 
 				<!-- edu-ID Status -->
-				<NavLink icon="information-circle" href="https://status.eduid.ch/" :isExternal="true">
+				<NavLink icon="information-circle" href="https://status.eduid.ch/" :openInNewTab="true">
 					{{ $t('eduid_status') }}
 				</NavLink>
 			</div>

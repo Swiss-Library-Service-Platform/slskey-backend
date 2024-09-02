@@ -65,28 +65,16 @@ class LandingController extends Controller
     public function logoutEduID(): HttpFoundationResponse
     {
         $user = Auth::user();
+        if (!$user) {
+            return Redirect::route('loginform');
+        }
+
         $nameId = Session::get('nameId');
 
         // Clear local sessions // WORKAROUND 1, see above
         Session::flush();
         Auth::logout();
 
-        // SAML2 Remote Logout (SWITCH edu-ID)
-        if ($user->is_edu_id) {
-            $tenant = DB::table('saml2_tenants')
-                ->select('uuid')
-                ->where('key', '=', 'eduid')
-                ->get()->first();
-            if (!$tenant) {
-                // return 404
-                return response()->json(['message' => 'Tenant not found'], 404);
-            }
-
-            return Redirect::route('saml.logout', [
-                'uuid' => $tenant->uuid,
-                'nameId' => $nameId, // WORKAROUND 2, see above
-            ]);
-        }
 
         return Redirect::route('loginform');
     }

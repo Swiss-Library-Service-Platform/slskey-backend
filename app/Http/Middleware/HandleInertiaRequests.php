@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -50,6 +52,12 @@ class HandleInertiaRequests extends Middleware
         // get help url from config
         $helpUrl = config('app.help_page');
 
+        // eduID SAML tenantId
+        $tenantId = DB::table('saml2_tenants')
+                ->select('uuid')
+                ->where('key', '=', 'eduid')
+                ->get()->first()->uuid;
+
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
                 return [
@@ -61,6 +69,10 @@ class HandleInertiaRequests extends Middleware
             'numberOfPermittedSlskeyGroups' => $numberOfPermittedSlskeyGroups,
             'isSlskeyAdmin' => $isAdmin,
             'helpUrl' => $helpUrl,
+            'logoutUrl' => route('saml.logout', [
+                'uuid' => $tenantId,
+                'nameId' => Session::get('nameId')
+            ]),
         ]);
     }
 }

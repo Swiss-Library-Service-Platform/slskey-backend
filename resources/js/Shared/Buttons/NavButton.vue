@@ -10,16 +10,9 @@ const props = defineProps({
             return `nav-link-${uuid()}`
         },
     },
-    type: {
-        type: String,
-        default: 'button',
-    },
-    href: {
-        type: String
-    },
-    openInNewTab: {
-        type: Boolean,
-        default: false
+    onClick: {
+        type: Function,
+        default: () => {},
     },
     icon: String,
     active: Boolean
@@ -39,17 +32,11 @@ const iconClasses = computed(() => {
 </script>
 
 <template>
-    <Link v-if="!openInNewTab" :id=id :type="type" :as="type" :href="href" :class="linkClasses">
+    <button :id=id :class="linkClasses" @click="onClick">
     <span v-if="icon" :class="iconClasses">
         <Icon :icon="icon" />
     </span>
     <slot />
-    </Link>
-    <a v-else :id=id :type="type" target="_blank" :class="linkClasses" :href="href">
-        <span v-if="icon" :class="iconClasses">
-            <Icon :icon="icon" />
-        </span>
-        <slot />
-    </a>
+    </button>
 
 </template>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\LogDefault;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Redirect;
 
 class Saml2EventProvider extends ServiceProvider
 {
@@ -35,7 +37,7 @@ class Saml2EventProvider extends ServiceProvider
 
             $uniqueID = $samlUser->getAttributesWithFriendlyName()['swissEduPersonUniqueID'][0];
             $givenName = $samlUser->getAttributesWithFriendlyName()['givenName'][0];
-            $surname = $samlUser->getAttributesWithFriendlyName()['surname'][0];
+            $surname = $samlUser->getAttributesWithFriendlyName()['sn'][0];
 
             // $user = // find user by ID or attribute
             $user = User::where('user_identifier', '=', $uniqueID)
@@ -66,6 +68,12 @@ class Saml2EventProvider extends ServiceProvider
             Auth::login($user);
             $user->updateLastLogin();
             Session::save();
+        });
+
+        
+        Event::listen(\Slides\Saml2\Events\SignedOut::class, function (\Slides\Saml2\Events\SignedOut $event) {
+            Auth::logout();
+            Session::flush();
         });
     }
 }

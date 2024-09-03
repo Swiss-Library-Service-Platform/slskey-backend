@@ -104,13 +104,13 @@ class SendMonthlyReports extends Command
         return count($sentReports) > 0 ? 0 : 2;
     }
 
-    protected function logJobResultToDatabase($databaseInfo)
+    protected function logJobResultToDatabase(array $databaseInfo)
     {
         $this->textFileLogger->info("Logging job result to database.");
         LogJob::create([
             'job' => class_basename(__CLASS__),
-            'info' => json_encode($databaseInfo),
-            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn($success) => !$success)),
+            'info' => $databaseInfo, //json_encode($databaseInfo),
+            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn ($success) => !$success)),
         ]);
     }
 }

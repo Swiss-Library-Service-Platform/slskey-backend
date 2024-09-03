@@ -129,10 +129,10 @@ class RemindExpiringUsers extends Command
 
         // 0 = Success
         // 2 = Invalid (No expiring activations)
-        return $countSuccess > 0 ? 0 : 2; 
+        return $countSuccess > 0 ? 0 : 2;
     }
 
-    protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)
+    protected function logJobResultToDatabase(int $totalCount, int $countSuccess, int $countFailed)
     {
         $this->textFileLogger->info("Logging job result to database.");
         $databaseInfo = [
@@ -142,7 +142,7 @@ class RemindExpiringUsers extends Command
         ];
         LogJob::create([
             'job' => class_basename(__CLASS__),
-            'info' => json_encode($databaseInfo),
+            'info' => $databaseInfo, // json_encode($databaseInfo),
             'has_fail' => $countFailed > 0,
         ]);
     }

@@ -77,7 +77,7 @@ class User extends Authenticatable
 
     /**
      * Get number of permissions
-     * 
+     *
      * @return int
      */
     public function getNumberOfPermissions(): int

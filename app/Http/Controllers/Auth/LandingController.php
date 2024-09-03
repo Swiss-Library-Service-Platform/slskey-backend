@@ -75,7 +75,6 @@ class LandingController extends Controller
         Session::flush();
         Auth::logout();
 
-
         return Redirect::route('loginform');
     }
 

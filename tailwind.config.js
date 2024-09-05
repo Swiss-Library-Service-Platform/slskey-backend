@@ -51,7 +51,7 @@ module.exports = {
                 'color-slsp-bg': '#4e4a9914',
                 'color-alma': '#e2f5ff', // '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
                 // App layout
-                'color-header-bg': '#343a40',
+                'color-header-bg': process.env.APP_ENV == 'production' ?  '#343a40' : '#700d0ecf',
                 'color-header-text': '#fff',
                 // User Status - Font
                 'color-active': '#047d04',

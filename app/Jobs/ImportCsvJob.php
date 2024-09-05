@@ -108,7 +108,11 @@ class ImportCsvJob implements ShouldQueue
         // Check Alma user
         $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($row['primary_id'], $slskeyGroup->alma_iz);
         if (! $almaServiceResponse->success) {
-            return ['success' => false, 'message' => $almaServiceResponse->errorText, 'isActive' => $isActive];
+            return [
+                'success' => false,
+                'message' => $almaServiceResponse->errorText,
+                'isActive' => $isActive
+            ];
         }
         $almaUser = $almaServiceResponse->almaUser;
 
@@ -168,7 +172,8 @@ class ImportCsvJob implements ShouldQueue
             null, // author
             TriggerEnums::SYSTEM_MASS_IMPORT,
             $almaUser,
-            $almaUserWebhookActivationMail
+            $almaUserWebhookActivationMail,
+            $activationDate, // FIXME: not always set this!! only e.g. ETH, ABN, ...
         );
 
         // Error handling
@@ -192,6 +197,14 @@ class ImportCsvJob implements ShouldQueue
         }
         if ($expirationDate) {
             $this->activationService->updateExpirationDate($row['primary_id'], $slskeyGroup->slskey_code, $expirationDate);
+        }
+
+        // Set Member of educational institution
+        $isMemberEducationalInstitution = !empty($row['is_member_education_institution'])
+            && ($row['is_member_education_institution'] == 1 || $row['is_member_education_institution'] === '1');
+
+        if ($isMemberEducationalInstitution) {
+            $this->activationService->setActivationMemberEducationalInstitution($row['primary_id'], $slskeyGroup->slskey_code, true);
         }
 
         return [

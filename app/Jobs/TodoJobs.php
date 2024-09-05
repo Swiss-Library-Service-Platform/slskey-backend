@@ -7,7 +7,7 @@ TODO: Test Server aufbauen
       - PHP FPM ....
 
 TODO: Prod Server
-      Add Cron Job for Jobs
+      - Add Cron Job for Jobs
 
 TODO: Job Supervisor für ImportCsvJob
       https://laravel.com/docs/11.x/queues#installing-supervisor
@@ -21,13 +21,14 @@ TODO: Fix all FIXMEs before Go Live!
 
 TODO: is_member_educational_institution for ZHDK
       - Cloud App Anpassung
-      - Import CSV Anpassung
       - Ui Anpassung, erklärung education institution
 
 TODO: Import CSV Job
       - sollte nicht aktivieren wenn es eine Migration ist
       - alternative: keine switch gruppe für slskey gruppe definieren und check ausgeklammert lassen dass es keine slskey gruppe braucht für aktivierung
 
+TODO: Sortier bug
+      - es sortiert nicht richtig nach activatin date
 ________________________________________________________________________
 Nice to have:
 

@@ -3,8 +3,6 @@
 ________________________________________________________________________
 Before Go Live:
 
-TODO: Test Server aufbauen
-      - PHP FPM ....
 
 TODO: Prod Server
       - Add Cron Job for Jobs

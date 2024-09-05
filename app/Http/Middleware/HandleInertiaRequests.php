@@ -56,7 +56,7 @@ class HandleInertiaRequests extends Middleware
         $tenantId = DB::table('saml2_tenants')
                 ->select('uuid')
                 ->where('key', '=', 'eduid')
-                ->get()->first()->uuid;
+                ->get()->first()?->uuid;
 
         return array_merge(parent::share($request), [
             'flash' => function () use ($request) {
@@ -69,10 +69,10 @@ class HandleInertiaRequests extends Middleware
             'numberOfPermittedSlskeyGroups' => $numberOfPermittedSlskeyGroups,
             'isSlskeyAdmin' => $isAdmin,
             'helpUrl' => $helpUrl,
-            'logoutUrl' => route('saml.logout', [
+            'logoutUrl' => $tenantId ? route('saml.logout', [
                 'uuid' => $tenantId,
                 'nameId' => Session::get('nameId')
-            ]),
+            ]) : "",
         ]);
     }
 }

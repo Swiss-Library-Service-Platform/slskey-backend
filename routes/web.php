@@ -48,10 +48,6 @@ Route::get('/reactivate/{token}', [ReactivationTokenController::class, 'reactiva
 Route::get('/reactivate/{token}/renew', [ReactivationTokenController::class, 'renew'])
     ->name('token.renew');
 
-// Logout
-Route::get('logout/eduid', [LandingController::class, 'logoutEduID'])
-    ->name('logout_eduid');
-
 // Publisher Participate Info Page
 Route::get('/participate', [LandingController::class, 'participate'])
     ->name('participate');
@@ -63,9 +59,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'auth.check',
 ])->group(function () {
-    /* -------------------------
-            Activation
-    ------------------------- */
+    // Logout
+    Route::get('logout/user', [LandingController::class, 'logoutUsernamePassword'])
+        ->name('logout_username_password');
+
     // Start / Preview
     Route::get('/', [ActivationController::class, 'start'])
         ->name('activation.start');
@@ -76,6 +73,7 @@ Route::middleware([
     Route::middleware([
         'auth.permission_check',
     ])->group(function () {
+
         // Activate / Deactivate
         Route::post('activation/{primary_id}', [ActivationController::class, 'activate'])
             ->name('activation.activate');

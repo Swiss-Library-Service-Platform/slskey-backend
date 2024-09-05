@@ -21,7 +21,6 @@ export default {
 	},
 	methods: {
 		onLogout() {
-			console.log(this.$page.props);
 			window.location.href = this.$page.props.logoutUrl;
 		}
 	},
@@ -61,7 +60,7 @@ export default {
 					{{ $t('app_header.help') }}
 				</NavLink>
 				<!-- Logout -->
-				<NavLink v-if="!$page.props.auth.user.is_edu_id" icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
+				<NavLink v-if="!$page.props.auth.user.is_edu_id" icon="logout" :href="route('logout_username_password')">
 					{{ $t('app_header.logout') }}
 				</NavLink>
 				<!-- Logout edu-ID -->

@@ -48,30 +48,16 @@ class LandingController extends Controller
     }
 
     /**
-     * Logout route for Switch edu-ID
-     *
-     * FIXME: WORKAROUND 1:
-     * This method is currently in a workaround state, because 24slides/laravel-saml2 does not work as intended
-     * Usually one should call the edu-ID Logout first and wait for the SignedOut Event in Saml2EventProvider.php
-     * but when this is done, and the User is loggedout and Session is flushed in SignedOut Event, somehow the User remains logged in
-     * Workaround: We logout the User and Flush the Session here, so User is logout before calling the edu-ID Logout endpoint
-     *
-     * FIXME: WORKAROUND 2:
-     * Also we currently need to send the nameID to he SAML2 Logout endpoint,
-     * Usually the SAML2 Implementation should remember the nameID, but it does not
-     *
-     * @return void
-     */
-    public function logoutEduID(): HttpFoundationResponse
+     * Logout route for users with username and password
+     * Edu-ID users are logged out via saml2 route, see HandleInertiaRequests.php
+    */
+    public function logoutUsernamePassword(): HttpFoundationResponse
     {
         $user = Auth::user();
         if (!$user) {
             return Redirect::route('loginform');
         }
-
-        $nameId = Session::get('nameId');
-
-        // Clear local sessions // WORKAROUND 1, see above
+        // Clear local sessions
         Session::flush();
         Auth::logout();
 

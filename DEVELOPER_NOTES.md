@@ -65,16 +65,27 @@ Run following command to generate test coverage report: </br>
 
 ## Deployment
 
+Follow this to install the application on a productive environment.
+
 ### Requirements
-- PHP > 7.4
+- PHP > 7.4 (current version runs on 8.2.20)
 - Composer
 - NodeJS & NPM
 - MySQL Database
 - Apache or Nginx
 
 #### For Queue (used for Import User Page)
-- Redis server (for queue) + systemctl start redis-server
+- Redis server (for queue)
+```
+sudo apt install redis-server
+systemctl start redis-server
+```
 - Pusher account (for queue) + .env file with PUSHER_APP_ID, PUSHER_APP_KEY, PUSHER_APP_SECRET, PUSHER_APP_CLUSTER
+- Start Worker queue
+Either supervisor or queue worker should be running to process the queue.
+- Supervisor (for queue) `systemctl start supervisor`
+- `php artisan queue:work --queue=redis_import_job --timeout=12000` # 200 minutes timeout
+
 
 ### Install Dependencies
 Run following commands to install the php dependencies and cache the config and routes:
@@ -84,9 +95,21 @@ php artisan config:cache`
 php artisan route:cache`
 ```
 
-For the first deployment, run database migration.
+### Setup environment file
+Copy the example `.env.example` file into `.env` and change the fields that contain brackets `<>`.
+
+### Create database
+
+For the first deployment, run database migration. This command will setup the database tables according to the Laravel migrations.
+
 ```
 php artisan migrate
+```
+
+###  Run Database seeder
+Run the database seeder, e.g. to create the role for SLSP admins.
+```
+php artisan db:seed
 ```
 
 ### Build Frontend

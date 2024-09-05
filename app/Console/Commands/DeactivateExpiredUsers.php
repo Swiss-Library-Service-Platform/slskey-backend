@@ -90,7 +90,7 @@ class DeactivateExpiredUsers extends Command
         return $countSuccess > 0 ? 0 : 2;
     }
 
-    protected function logJobResultToDatabase($totalCount, $countSuccess, $countFailed)
+    protected function logJobResultToDatabase(int $totalCount, int $countSuccess, int $countFailed)
     {
         $this->textFileLogger->info("Logging job result to database.");
         $databaseInfo = [
@@ -100,7 +100,7 @@ class DeactivateExpiredUsers extends Command
         ];
         LogJob::create([
             'job' => class_basename(__CLASS__),
-            'info' => json_encode($databaseInfo),
+            'info' => $databaseInfo, // json_encode($databaseInfo),
             'has_fail' => $countFailed > 0,
         ]);
     }

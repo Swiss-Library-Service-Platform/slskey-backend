@@ -51,6 +51,7 @@ class ActivationService
         string $trigger,
         ?AlmaUser $almaUser = null,
         ?string $webhookActivationMail = null,
+        ?Carbon $historicActivationDate = null,
     ): ActivationServiceResponse {
         // Get SLSKey User
         $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
@@ -155,6 +156,7 @@ class ActivationService
             'action' => $action,
             'author' => $author,
             'trigger' => $trigger,
+            'created_at' => $historicActivationDate ?? now(),
         ]);
 
         // Send notify email to user, if group has enabled email feature

@@ -114,6 +114,7 @@ class ImportController extends Controller
                     'activation_date' =>  count($data) > 2 ? $data[2] : null,
                     'expiration_date' => count($data) > 3 ? $data[3] : null,
                     'remark' => count($data) > 4 ? $data[4] : null,
+                    'is_member_education_institution' => count($data) > 5 ? $data[5] : null,
                 ];
             }
             fclose($handle);

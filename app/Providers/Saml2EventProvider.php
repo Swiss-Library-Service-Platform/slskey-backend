@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\LogDefault;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Redirect;
 
 class Saml2EventProvider extends ServiceProvider
 {
@@ -70,7 +68,6 @@ class Saml2EventProvider extends ServiceProvider
             Session::save();
         });
 
-        
         Event::listen(\Slides\Saml2\Events\SignedOut::class, function (\Slides\Saml2\Events\SignedOut $event) {
             Auth::logout();
             Session::flush();

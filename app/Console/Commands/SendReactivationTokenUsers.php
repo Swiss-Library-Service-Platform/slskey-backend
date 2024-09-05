@@ -144,12 +144,12 @@ class SendReactivationTokenUsers extends Command
         return count($tokensPerGroup) > 0 ? 0 : 2;
     }
 
-    protected function logJobResultToDatabase($databaseInfo, $hasFail = false)
+    protected function logJobResultToDatabase(array $databaseInfo, $hasFail = false)
     {
         $this->textFileLogger->info("Logging job result to database.");
         LogJob::create([
             'job' => class_basename(__CLASS__),
-            'info' => json_encode($databaseInfo),
+            'info' => $databaseInfo, // json_encode($databaseInfo),
             'has_fail' => $hasFail,
         ]);
     }

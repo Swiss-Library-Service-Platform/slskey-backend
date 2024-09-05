@@ -124,7 +124,7 @@ class ActivationController extends Controller
         $slskeyCode = Request::input('slskey_code');
         $remark = Request::input('remark');
         $almaUser = AlmaUser::fromJsonObject(Request::input('alma_user'));
-        $memberEducationalInstitution = Request::input('member_educational_institution')?? false;
+        $memberEducationalInstitution = Request::input('member_educational_institution') ?? false;
 
         // Activate user via SWITCH API
         $response = $this->activationService->activateSlskeyUser(

@@ -25,6 +25,8 @@
                 D: <b>expiration date</b> - The expiration date of the activation
                 <br>
                 E: <b>remarks</b> - The remarks of the activation
+                <br>
+                F: <b>member educational institution</b> - The member educational institution of the activation (1 or 0)
             </p>
 
             <div class="flex flex-col gap-y-4 border-t py-5">

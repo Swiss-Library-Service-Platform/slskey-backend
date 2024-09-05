@@ -83,7 +83,7 @@
                         </DefaultButton>
 
                     </div>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('admin_users.create_new')">
                         <span v-if="isCreating">{{ $t('admin_users.create_new') }}</span>
                         <span v-else>

@@ -6,7 +6,7 @@
                 <SelectFilter v-model="form.slskeyCode"
                     :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
             </FilterControl>
-            <DefaultButton @click="createGroup" icon="plus" class="w-fit bg-color-slsp text-white py-2">
+            <DefaultButton @click="createGroup" icon="plus" class="w-fit">
                 {{ $t('switch_groups.create_new') }}
             </DefaultButton>
         </div>

@@ -161,7 +161,7 @@
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">
-                        <DefaultButton @click="cancel()" class="bg-color-one py-1 text-white w-fit"
+                        <DefaultButton @click="cancel()" class="py-1 text-black w-fit"
                             :tooltip="$t('slskey_groups.cancel')">
                             {{ $t('slskey_groups.cancel') }}
                         </DefaultButton>
@@ -170,7 +170,7 @@
                             {{ $t('slskey_groups.delete') }}
                         </DefaultButton>
                     </div>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('slskey_groups.save')">
                         <span v-if="isCreating">{{ $t('slskey_groups.create_new') }}</span>
                         <span v-else>

@@ -125,14 +125,6 @@ export default {
 				</NavLink>
 			</div>
 
-			<!-- 
-					<div class="flex flex-col pt-4 border-t">
-						<NavLink icon="logout" :href="route('logout_eduid')" :active="route().current('logout_eduid')">
-							{{ $t('app_header.logout') }}
-						</NavLink>
-					</div>
-					-->
-
 		</div>
 	</nav>
 </template>

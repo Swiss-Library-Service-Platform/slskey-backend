@@ -5,7 +5,7 @@
             <FilterControl @reset="reset">
                 <SearchFilter v-model="form.search" :label="$t('slskey_groups.title')" />
             </FilterControl>
-            <DefaultButton @click="createGroup" icon="plus" class="w-fit bg-color-slsp text-white py-2">
+            <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2">
                 {{ $t('slskey_groups.create_new') }}
             </DefaultButton>
         </div>

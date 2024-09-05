@@ -11,11 +11,11 @@
             </div>
             <div class="flex gap-x-4">
                 <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
-                    class="w-fit bg-color-slsp text-white py-2 mt-4">
+                    class="w-fit py-2 mt-4">
                     {{ $t('reporting.change_settings') }}
                 </DefaultButton>
                 <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
-                    class="w-fit bg-color-slsp text-white py-2 mt-4">
+                    class="w-fit py-2 mt-4">
                     {{ $t('reporting.export') }}
                 </DefaultButton>
             </div>

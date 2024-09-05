@@ -11,7 +11,7 @@
             </div>
 
             <DefaultButton v-show="displayTab == 0" icon="plus" @click="createUser"
-                class="w-fit bg-color-slsp text-white py-2 ">
+                class="w-fit py-2 ">
                 {{ $t('admin_users.create_new') }}
             </DefaultButton>
         </div>

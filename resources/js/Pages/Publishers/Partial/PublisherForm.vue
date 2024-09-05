@@ -76,7 +76,7 @@
                             {{ $t('publishers.delete') }}
                         </DefaultButton>
                     </div>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('publishers.save')">
                         <span v-if="isCreating">{{ $t('publishers.create_new') }}</span>
                         <span v-else>

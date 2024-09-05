@@ -20,13 +20,12 @@ class Kernel extends ConsoleKernel
     {
         // TODO: Schedule the commands here
 
-        $schedule->command('job:deactivate-expired-users')
-            ->dailyOn(0, '12:38'); //UTC time
-
         /*
-        if (env('APP_ENV') == 'prod') {
+        if (config('app.env') == 'production') {
             $schedule->command('send:financereport')
                 ->weeklyOn(0, '17:00'); //UTC time
+            $schedule->command('job:deactivate-expired-users')
+                ->dailyOn(0, '12:38'); //UTC time
         }
         */
     }

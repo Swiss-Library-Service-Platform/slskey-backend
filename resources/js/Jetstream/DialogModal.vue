@@ -30,26 +30,25 @@ const close = () => {
 
 <template>
     <Modal :show="show" :max-width="maxWidth" :closeable="closeable" @close="close">
-        <div class="flex flex-row justify-between px-6 py-4 bg-color-header-bg text-right">
-            <div class="text-lg font-bold text-white">
+        <div class="flex flex-row justify-between p-4 bg-color-slsp-bg shadow">
+            <div class="text-md text-color-slsp font-semibold text-lg flex flex-row items-center">
+                <Icon :inline="true" icon="exclamation-circle" class="mr-2 h5 w-5" />
                 <slot name="title" />
             </div>
             <button v-if="closeable" @click="close">
                 <span class="flex items-center gap-1 font-bold overflow-ellipsis">
-                    <Icon :inline="true" icon="x" class="h5 w-5 text-white" />
+                    <Icon :inline="true" icon="x" class="h-5 w-5 text-white" />
                 </span>
             </button>
         </div>
 
-        <div class="px-6 py-4">
-            <div class="mt-2">
-                <slot name="content" />
-            </div>
+        <div class="p-6">
+            <slot name="content" />
         </div>
-        <!--
-                    <div class="flex flex-row justify-end px-6 py-4 bg-color-one text-right">
-                        <slot name="footer" />
-                    </div>
-                -->
+        
+        <div class="p-4 flex flex-row border-t">
+            <slot name="footer" />
+        </div>
+                
     </Modal>
 </template>

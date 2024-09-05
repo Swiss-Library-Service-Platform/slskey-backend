@@ -37,7 +37,7 @@ defineProps({
             justify-center
             font-bold 
             text-md
-            hover:bg-opacity-80
+            hover:text-opacity-60
             focus:outline-none
             focus:ring 
             focus:ring-color-slsp-bg

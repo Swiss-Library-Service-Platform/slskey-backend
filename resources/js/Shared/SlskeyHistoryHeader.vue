@@ -15,7 +15,6 @@
 import UserActionChip from '@/Shared/UserActionChip.vue'
 import Icon from '@/Shared/Icon.vue'
 import { Link } from '@inertiajs/inertia-vue3'
-import moment from 'moment';
 export default {
     components: {
         Icon,

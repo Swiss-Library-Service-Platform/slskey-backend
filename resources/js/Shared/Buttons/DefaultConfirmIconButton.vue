@@ -4,10 +4,11 @@
 import Icon from '@/Shared/Icon.vue';
 import { v4 as uuid } from 'uuid';
 import ConfirmDialog from '../ConfirmDialog.vue';
+
 export default {
     components: {
         ConfirmDialog,
-        Icon
+        Icon,
     },
     data() {
         return {

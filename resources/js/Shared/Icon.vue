@@ -66,7 +66,7 @@
 <script>
 import {
     ChevronLeftIcon, ChevronRightIcon, PlusIcon, FingerPrintIcon,
-    SearchIcon, ClockIcon, ExclamationIcon, ChevronDownIcon, LightningBoltIcon, ExclamationCircleIcon, LinkIcon
+    SearchIcon, ClockIcon, ExclamationIcon, ChevronDownIcon, LightningBoltIcon, LinkIcon
 } from '@heroicons/vue/solid'
 import {
     DocumentDownloadIcon, TrashIcon, SaveIcon, ViewListIcon, PhoneIcon,
@@ -77,7 +77,7 @@ import {
     ArrowSmDownIcon, ArrowSmUpIcon, ArrowCircleRightIcon, HandIcon, MailIcon, BookOpenIcon,
     CursorClickIcon, RefreshIcon, ChevronDoubleRightIcon, ChipIcon, QuestionMarkCircleIcon, LogoutIcon, AnnotationIcon,
     LockClosedIcon, InformationCircleIcon, GlobeAltIcon,
-    ChartSquareBarIcon, CloudIcon, AcademicCapIcon
+    ChartSquareBarIcon, CloudIcon, AcademicCapIcon, ExclamationCircleIcon
 } from '@heroicons/vue/outline'
 export default {
     components: {

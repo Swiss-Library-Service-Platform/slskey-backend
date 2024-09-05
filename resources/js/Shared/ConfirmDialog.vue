@@ -13,51 +13,18 @@
 
             <TextAreaInput v-if="this.enterRemark" class="mt-6" v-model="remark"
                 :label="$t('user_management.remark')" />
-
-            <div class="flex justify-between mt-6 gap-x-8">
-                <div class=" w-28 flex items-center">
-                    <button @click="cancel" class="
-                        w-full
-                        inline-flex
-                        items-center
-                        px-3
-                        py-2
-                        bg-color-header-bg
-                        bg-opacity-60
-                        rounded-md
-                        font-bold 
-                        text-sm
-                        text-white
-                        hover:bg-opacity-40
-                        justify-center
-                        ">
-                        <Icon icon="x" class="text-white h-4 w-4 mr-2" />
-
-                        {{ $t('confirm_dialog.cancel') }}
-                    </button>
-                </div>
-
-
-                <div class="w-28 flex items-center">
-                    <button @click="confirm" class="
-                    
-                                    inline-flex
-                                    items-center
-                                    px-3
-                                    py-2
-                                    rounded-md
-                                    font-bold 
-                                    text-sm
-                                    bg-color-header-bg
-                                    text-white
-                                    w-full
-                                    justify-center
-                                    hover:bg-opacity-40
-                                    ">
-                        <Icon icon="check" class="text-white h-4 w-4 mr-2" />
-
+        </template>
+        <template #footer>
+            <div class="flex justify-between w-full">
+                <div class="w-32 flex items-center">
+                    <DefaultButton @click="confirm" icon="check" class="w-full text-md">
                         {{ $t('confirm_dialog.confirm') }}
-                    </button>
+                    </DefaultButton>
+                </div>
+                <div class="w-32 flex items-center">
+                    <DefaultButton @click="cancel" icon="x" class="w-full !bg-white font-normal shadow-none text-black">
+                        {{ $t('confirm_dialog.cancel') }}
+                    </DefaultButton>
                 </div>
             </div>
         </template>
@@ -67,12 +34,14 @@
 import DialogModal from '../Jetstream/DialogModal.vue';
 import Icon from '@/Shared/Icon.vue';
 import TextAreaInput from "@/Shared/Forms/TextAreaInput.vue";
+import DefaultButton from './Buttons/DefaultButton.vue';
 
 export default {
     components: {
         Icon,
         DialogModal,
-        TextAreaInput
+        TextAreaInput,
+        DefaultButton
     },
     props: {
         showConfirmModal: Boolean,

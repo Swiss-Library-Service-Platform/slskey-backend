@@ -21,7 +21,6 @@ TODO: Fix all FIXMEs before Go Live!
 
 TODO: is_member_educational_institution for ZHDK
       - Cloud App Anpassung
-      - Ui Anpassung, erklärung education institution
 
 TODO: Import CSV Job
       - sollte nicht aktivieren wenn es eine Migration ist
@@ -30,7 +29,7 @@ TODO: Import CSV Job
 TODO: Sortier bug
       - es sortiert nicht richtig nach activatin date
 ________________________________________________________________________
-Nice to have:
+Later, nice to have:
 
 TODO: Verifier
       - mehr infos sehen im Portal

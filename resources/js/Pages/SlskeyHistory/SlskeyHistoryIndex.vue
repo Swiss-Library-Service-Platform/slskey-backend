@@ -102,16 +102,6 @@ export default {
                 trigger: null
             }
         },
-        toggleTooltip: function () {
-            if (this.tooltipShow) {
-                this.tooltipShow = false;
-            } else {
-                this.tooltipShow = true;
-                createPopper(this.$refs.btnRef, this.$refs.tooltipRef, {
-                    placement: "right"
-                });
-            }
-        }
     },
     watch: {
         form: {

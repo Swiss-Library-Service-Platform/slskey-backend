@@ -5,7 +5,10 @@
                 class="form-checkbox rounded shadow-sm text-color-slsp border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50"
                 :class="{ error: error }" :type="type" v-model="selected"
                 @change="$emit('update:modelValue', this.selected ? 1 : 0)" />
-            <span class="ml-2" :class="disabled ? 'text-gray-500' : ''">{{ label }}</span>
+            <span class="flex ml-2" :class="disabled ? 'text-gray-500' : ''">
+                {{ label }}
+                <slot></slot>
+            </span>
             <div v-if="error" class="form-error">{{ error }}</div>
         </label>
     </div>

@@ -7,7 +7,7 @@
         <th v-if="showPrimaryId" class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_user.primary_id') }} </th>
         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.action') }} </th>
         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.trigger') }} </th>
-        <th class="py-4 px-4 pr-8 text-left whitespace-nowrap"> {{ $t('history.author') }} </th>
+        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.author') }} </th>
     </tr>
 </template>
 

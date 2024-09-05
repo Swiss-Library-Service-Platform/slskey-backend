@@ -1,25 +1,14 @@
 <template>
   <div class="vue-select-container" :class="$attrs.class">
-    <div class="flex flex-row">
+    <div class="flex flex-row items-center">
       <label v-if="label" class="form-label mt-1" :for="id">{{ label }}</label>
-      <button v-if="helpText" v-on:mouseenter="toggleTooltip()" v-on:mouseleave="toggleTooltip()"
-        class="text-color-one italic cursor-default mt-1 mb-2 ml-2" tabindex="-1" type="button" ref="btnRef">
-        <span class="flex items-center">
-          <Icon class="h-5 w-5" icon="question-mark" />
-        </span>
-      </button>
+      <HelpIconWithPopup class="mt-1 mb-2" v-if="helpText">
+        {{ helpText }}
+      </HelpIconWithPopup>
     </div>
     <vue-select :id="id" ref="input" v-model="selected" v-bind="{ ...$attrs, class: null }" :options="options"
       :searchable="true" label="name" :class="{ error: error, ...$attrs.inputclass }" />
     <div v-if="error" class="form-error">{{ error }}</div>
-  </div>
-
-  <div ref="tooltipRef" v-bind:class="{ 'hidden': !tooltipShow, 'block': tooltipShow }"
-    class="bg-white border-color-one border-2 ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg">
-    <div class="text-black p-3">
-      {{ helpText }}
-      <br>
-    </div>
   </div>
 </template>
 
@@ -28,11 +17,13 @@ import { v4 as uuid } from 'uuid'
 import VueSelect from 'vue-select';
 import Icon from '@/Shared/Icon.vue';
 import { createPopper } from '@popperjs/core';
+import HelpIconWithPopup from '../HelpIconWithPopup.vue';
 
 export default {
   components: {
     VueSelect,
-    Icon
+    Icon,
+    HelpIconWithPopup
   },
   inheritAttrs: false,
   props: {

@@ -1,9 +1,11 @@
 <template>
   <div class="bg-white rounded-md shadow overflow-x-auto">
-    <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
-      {{ $t('user_management.new_activation') }}
-    </DefaultButton>
-    <table class="border-t table-auto rounded-md">
+    <div class="w-full border-b">
+      <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
+        {{ $t('user_management.new_activation') }}
+      </DefaultButton>
+    </div>
+    <table class="table-auto rounded-md">
       <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
@@ -15,7 +17,7 @@
               </div>
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
-              <td class="px-6 py-4" :class="{ 'w-full': index == slskeyUser.slskey_activations.length - 1 }">
+              <td class="px-6 py-4" :class="{ 'Xw-full': index == slskeyUser.slskey_activations.length - 1 }">
                 <div class="flex flex-row">
                   <SlskeyGroupNameAndIcon :workflow="activation.slskey_group.workflow"
                     :slskeyGroupName="activation.slskey_group.name" />
@@ -192,7 +194,13 @@
             <td class="py-4 px-8 text-left  font-bold pr-14">
               <div class="flex flex-row items-center">
                 <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
-                {{ $t("user_management.member_educational_institution") }}:
+                <span class="flex flex-row items-end whitespace-pre-line">
+                  {{ $t("user_management.member_educational_institution") }}:
+                  <HelpIconWithPopup>
+                    {{ $t('user_management.member_educational_institution_info') }}
+                  </HelpIconWithPopup>
+                </span>
+
               </div>
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
@@ -254,7 +262,7 @@
 <script>
 import UserStatusChip from "@/Shared/UserStatusChip.vue";
 import { Inertia } from "@inertiajs/inertia";
-import ConfirmDialog from "../../../../Shared/ConfirmDialog.vue";
+import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
 import JetDropdown from '@/Jetstream/Dropdown.vue';
 import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
@@ -262,10 +270,11 @@ import DefaultConfirmButton from "@/Shared/Buttons/DefaultConfirmButton.vue";
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
 import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
-import LetterIcon from "../../../../Shared/LetterIcon.vue";
-import SlskeyGroupNameAndIcon from "../../../../Shared/SlskeyGroupNameAndIcon.vue";
+import LetterIcon from "@/Shared/LetterIcon.vue";
+import SlskeyGroupNameAndIcon from "@/Shared/SlskeyGroupNameAndIcon.vue";
 import DefaultButton from "@/Shared/Buttons/DefaultButton.vue";
 import DefaultConfirmIconButton from '@/Shared/Buttons/DefaultConfirmIconButton.vue';
+import HelpIconWithPopup from "@/Shared/HelpIconWithPopup.vue";
 
 export default {
   components: {
@@ -281,7 +290,8 @@ export default {
     Icon,
     LetterIcon,
     SlskeyGroupNameAndIcon,
-    DefaultConfirmIconButton
+    DefaultConfirmIconButton,
+    HelpIconWithPopup
   },
   props: {
     slskeyUser: Object,

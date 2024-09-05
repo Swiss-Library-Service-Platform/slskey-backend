@@ -33,7 +33,12 @@
           <TextAreaInput v-model="inputRemark" :label="$t('activation.remark_optional')" />
 
           <CheckboxClassicInput v-model="inputMemberEducationalInstitution"
-            :label="$t('user_management.member_educational_institution')" v-if="showMemberEducationalInstitution" />
+            :label="$t('user_management.member_educational_institution')" v-if="showMemberEducationalInstitution" >
+
+            <HelpIconWithPopup>
+             {{ $t('user_management.member_educational_institution_info')  }} 
+            </HelpIconWithPopup>
+          </CheckboxClassicInput>
 
           <!-- Activation Button -->
           <DefaultButton class="text-xl" :disabled="!this.almaUsers || !this.selectedSlskeyCode" :loading="loading"
@@ -66,6 +71,7 @@ import AlmaUserDetailsShow from "@/Shared/AlmaUser/AlmaUserDetailsShow.vue";
 import TextAreaInput from "@/Shared/Forms/TextAreaInput.vue";
 import Icon from "@/Shared/Icon.vue";
 import CheckboxClassicInput from '@/Shared/Forms/CheckboxClassicInput.vue'
+import HelpIconWithPopup from "@/Shared/HelpIconWithPopup.vue";
 
 // register globally
 export default {
@@ -79,7 +85,8 @@ export default {
     AlmaUserDetailsShow,
     TextAreaInput,
     Icon,
-    CheckboxClassicInput
+    CheckboxClassicInput,
+    HelpIconWithPopup
   },
   props: {
     identifier: String,

@@ -40,7 +40,7 @@
             {{ history.trigger }}
         </div>
     </td>
-    <td class="align-top">
+    <td class="align-top pr-16">
         <Link v-if="$page.props.isSlskeyAdmin" :href="`/admin/users/${history.author}`">
             <div class="underline flex px-4 py-3 pr-8 whitespace-nowrap">
             {{ history.author }}

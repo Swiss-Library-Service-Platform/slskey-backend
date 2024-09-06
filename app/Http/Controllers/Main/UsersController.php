@@ -133,8 +133,8 @@ class UsersController extends Controller
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $identifier)
             ->whereHasPermittedActivations()
-            ->withPermittedActivations()
-            ->withPermittedHistories()
+            // ->withPermittedActivations()
+            // ->withPermittedHistories()
             ->firstOrFail();
 
         // Get Alma user data using the AlmaAPIInterface
@@ -176,15 +176,15 @@ class UsersController extends Controller
     public function getSwitchStatus(string $primaryId, string $slskeyCode): JsonResponse
     {
         // Query for SLSKey user by primary ID
-        $user = SlskeyUser::query()
+        $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
             ->whereHasPermittedActivations()
-            ->withPermittedActivations()
-            ->withPermittedHistories()
+            // ->withPermittedActivations()
+            // ->withPermittedHistories()
             ->first();
 
         // Abort with 404 if the user is not found
-        if (! $user) {
+        if (! $slskeyUser) {
             abort(404);
         }
 

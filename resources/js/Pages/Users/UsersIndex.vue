@@ -27,14 +27,12 @@
                 <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                     <thead class="">
                         <tr>
-                            <th @click="sort('primary_id')"
+                            <th @click="sort('full_name')"
                                 class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
-                                <div class="flex flex-row items-center">
-                                    <Icon icon="arrow-down" v-if="form.sortBy === 'primary_id' && !form.sortAsc"
-                                        class="h-4 w-4" />
-                                    <Icon icon="arrow-up" v-if="form.sortBy === 'primary_id' && form.sortAsc"
-                                        class="h-4 w-4" />
-                                    <!-- {{ $t('slskey_user.primary_id') }} -->
+                                <div class="flex flex-row items-center gap-x-2">
+                                    <MaterialIcon v-if="form.sortBy === 'full_name' && !form.sortAsc" icon="sort_ascending"  />
+                                    <MaterialIcon v-if="form.sortBy === 'full_name' && form.sortAsc" icon="sort_descending" />
+                                    <MaterialIcon v-if="form.sortBy !== 'full_name'" icon="sort"  />
                                     {{ $t('alma_user.full_name') }}
                                 </div>
                             </th>
@@ -47,11 +45,10 @@
 
                             <th @click="sort('activation_date')"
                                 class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
-                                <div class="flex flex-row items-center">
-                                    <Icon icon="arrow-down" v-if="form.sortBy === 'activation_date' && !form.sortAsc"
-                                        class="h-4 w-4" />
-                                    <Icon icon="arrow-up" v-if="form.sortBy === 'activation_date' && form.sortAsc"
-                                        class="h-4 w-4" />
+                                <div class="flex flex-row items-center gap-x-2">
+                                    <MaterialIcon v-if="form.sortBy === 'activation_date' && !form.sortAsc" icon="sort_ascending"  />
+                                    <MaterialIcon v-if="form.sortBy === 'activation_date' && form.sortAsc" icon="sort_descending" />
+                                    <MaterialIcon v-if="form.sortBy !== 'activation_date'" icon="sort"  />
                                     {{ $t('user_management.activation_date') }}
                                 </div>
                             </th>
@@ -59,11 +56,10 @@
                             <!-- Expiration Date -->
                             <th @click="sort('expiration_date')"
                                 class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
-                                <div class="flex flex-row items-center">
-                                    <Icon icon="arrow-down" v-if="form.sortBy === 'expiration_date' && !form.sortAsc"
-                                        class="h-4 w-4" />
-                                    <Icon icon="arrow-up" v-if="form.sortBy === 'expiration_date' && form.sortAsc"
-                                        class="h-4 w-4" />
+                                <div class="flex flex-row items-center gap-x-2">
+                                    <MaterialIcon v-if="form.sortBy === 'expiration_date' && !form.sortAsc" icon="sort_ascending"  />
+                                    <MaterialIcon v-if="form.sortBy === 'expiration_date' && form.sortAsc" icon="sort_descending" />
+                                    <MaterialIcon v-if="form.sortBy !== 'expiration_date'" icon="sort"  />
                                     {{ $t('user_management.expiration_date') }}
                                 </div>
                             </th>
@@ -193,6 +189,7 @@ import Icon from '@/Shared/Icon.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
 import LetterIcon from '../../Shared/LetterIcon.vue';
 import SlskeyGroupNameAndIcon from '../../Shared/SlskeyGroupNameAndIcon.vue';
+import MaterialIcon from '../../Shared/MaterialIcon.vue';
 
 export default {
     components: {
@@ -210,7 +207,8 @@ export default {
         Icon,
         DefaultButton,
         LetterIcon,
-        SlskeyGroupNameAndIcon
+        SlskeyGroupNameAndIcon,
+        MaterialIcon
     },
     props: {
         perPage: Number,

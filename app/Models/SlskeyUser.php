@@ -191,59 +191,65 @@ class SlskeyUser extends Model
             // When no order is set, order by id desc
             return $query->orderBy('id', 'desc');
         }, function ($query, $sort_by) use ($filters) {
-            if ($sort_by == 'activation_date') {
+
+            // Sort by activation date
+            if ($sort_by == 'activation_date') {                   
+                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
                 if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
                         SELECT max(activation_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
                         ORDER BY activation_date DESC
                         LIMIT 1
                     ) DESC');
                 } else {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT min(activation_date)
+                        SELECT max(activation_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
-                        ORDER BY activation_date ASC
+                        ORDER BY activation_date DESC
                         LIMIT 1
                     ) ASC');
                 }
             }
+            // Sort by expiration date
             if ($sort_by == 'expiration_date') {
+                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
                 if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
                         SELECT max(expiration_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
                         ORDER BY expiration_date DESC
                         LIMIT 1
                     ) DESC');
                 } else {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT min(expiration_date)
+                        SELECT max(expiration_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
-                        ORDER BY expiration_date ASC
+                        ORDER BY expiration_date DESC
                         LIMIT 1
                     ) ASC');
                 }
             }
-            if ($sort_by == 'primary_id') {
-                if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
-                    $query->orderByDesc('primary_id');
-                } else {
-                    $query->orderBy('primary_id');
-                }
+            
+            if ($sort_by == 'full_name') {
+                $query->orderBy('first_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc')
+                    ->orderBy('last_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc');
             }
         });
 

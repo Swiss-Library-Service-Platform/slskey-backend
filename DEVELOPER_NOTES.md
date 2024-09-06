@@ -91,8 +91,8 @@ Either supervisor or queue worker should be running to process the queue.
 Run following commands to install the php dependencies and cache the config and routes:
 ```
 composer install --optimize-autoloader --no-dev
-php artisan config:cache`
-php artisan route:cache`
+php artisan config:cache
+php artisan route:cache
 ```
 
 ### Setup environment file

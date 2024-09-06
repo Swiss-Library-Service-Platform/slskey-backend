@@ -30,6 +30,7 @@ Route::middleware([
 
 Route::middleware([
     'auth.cloudapp',
+    'log.api'
 ])->group(function () {
     // Authenticate CloudApp
     Route::get('/cloudapp/authenticate', [CloudAppController::class, 'authenticate'])

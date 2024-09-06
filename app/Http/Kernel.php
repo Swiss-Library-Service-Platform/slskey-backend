@@ -48,7 +48,6 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\LogApiRequests::class,
         ],
     ];
 
@@ -78,5 +77,6 @@ class Kernel extends HttpKernel
         'auth.webhooks' => \App\Http\Middleware\AuthWebhooks::class,
         'auth.cloudapp' => \App\Http\Middleware\AuthCloudApp::class,
         'auth.permission_check' => \App\Http\Middleware\AuthPermissionCheck::class,
+        'log.api' => \App\Http\Middleware\LogApiRequests::class,
     ];
 }

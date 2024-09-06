@@ -69,15 +69,15 @@
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">
-                        <DefaultButton @click="cancel()" class="bg-color-one py-1 text-white w-fit"
+                        <DefaultButton @click="cancel()" class="text-black w-fit"
                             :tooltip="$t('admin_users.cancel')">
                             {{ $t('admin_users.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="resetPassword()" class="py-1 text-color-one w-fit"
+                        <DefaultButton v-if="!isCreating" @click="resetPassword()" class="text-color-one w-fit"
                             icon="key" :tooltip="$t('admin_users.reset_password')">
                             {{ $t('admin_users.reset_password') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="py-1 text-color-blocked w-fit"
+                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="text-color-blocked w-fit"
                             icon="trash" :tooltip="$t('admin_users.delete')">
                             {{ $t('admin_users.delete') }}
                         </DefaultButton>

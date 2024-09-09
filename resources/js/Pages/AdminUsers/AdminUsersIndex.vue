@@ -171,7 +171,7 @@ export default {
             Inertia.get(`/admin/users/${user_identifier}`);
         },
         formatDate(date) {
-            return date ? this.$moment(date).format('ll') : '-';
+            return date ? this.$moment(date).fromNow() : '-';
         },
     },
     watch: {

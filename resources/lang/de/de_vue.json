@@ -279,7 +279,7 @@
 		"expiration_date": "Ablaufdatum",
 		"export": "Excel Download",
 		"member_educational_institution": "Eingeschrieben in \n einer Bildungseinrichtung",
-		"member_educational_institution_info": "«Schüler:innen, Lehrer:innen, Mitarbeitende von Primarstufe, Sekundarstufe I, Sekundarstufe II (Berufliche Grundbildung, Gymnasien, Fachmittelschulen) ; Studierende, Dozierende, Mitarbeitende der Tertiärstufe (Höhere Fachschulen, Fachhochschulen, Universitäten)»",
+		"member_educational_institution_info": "Schüler:innen, Lehrer:innen, Mitarbeitende von Primarstufe, Sekundarstufe I, Sekundarstufe II (Berufliche Grundbildung, Gymnasien, Fachmittelschulen) \n\n Studierende, Dozierende, Mitarbeitende der Tertiärstufe (Höhere Fachschulen, Fachhochschulen, Universitäten)",
 		"member_educational_institution_no": "Nein",
 		"member_educational_institution_yes": "Ja",
 		"new_activation": "Aktivieren / Verlängern",

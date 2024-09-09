@@ -7,6 +7,8 @@
                 <FilterControl @reset="reset">
                     <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                         :placeholder="$t('user_management.search_placeholder')" />
+                    <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                        :options="slskeyGroups.data" />
                 </FilterControl>
             </div>
 
@@ -150,11 +152,9 @@ export default {
     data() {
         return {
             displayTab: 0,
-            export_loading: false,
-            selectedUser: null,
-            selectedGroup: null,
             form: {
-                search: this.filters.search
+                search: this.filters.search,
+                slskeyCode: this.filters.slskeyCode
             }
         }
     },

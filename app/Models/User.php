@@ -56,6 +56,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Permissions relationship
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(config('roles.models.permission'))->withTimestamps();
+    }
+
+    /**
      * Check if user is SLSP Admin
      *
      * @return boolean
@@ -237,6 +247,15 @@ class User extends Authenticatable
                 foreach ($searchableColumns as $column) {
                     $query->orWhere($column, 'LIKE', '%'.$search.'%');
                 }
+            });
+        });
+
+        /*
+        ------    SLSKey Group -------
+        */
+        $query->when($filters['slskeyCode'] ?? null, function ($query, $slskeyGroup) {
+            $query->whereHas('permissions', function ($query) use ($slskeyGroup) {
+                $query->where('slug', $slskeyGroup);
             });
         });
 

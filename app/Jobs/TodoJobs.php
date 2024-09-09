@@ -3,9 +3,8 @@
 ________________________________________________________________________
 Before Go Live:
 
-
 TODO: Prod Server
-      - Add Cron Job for Jobs
+      - Add Cron Job for Jobs https://laravel.com/docs/11.x/scheduling#running-the-scheduler
 
 TODO: Job Supervisor für ImportCsvJob
       https://laravel.com/docs/11.x/queues#installing-supervisor
@@ -17,15 +16,11 @@ TODO: Job Supervisor für ImportCsvJob
 
 TODO: Fix all FIXMEs before Go Live!
 
-TODO: is_member_educational_institution for ZHDK
-      - Cloud App Anpassung
 
 TODO: Import CSV Job
       - sollte nicht aktivieren wenn es eine Migration ist
       - alternative: keine switch gruppe für slskey gruppe definieren und check ausgeklammert lassen dass es keine slskey gruppe braucht für aktivierung
 
-TODO: Sortier bug
-      - es sortiert nicht richtig nach activatin date
 ________________________________________________________________________
 Later, nice to have:
 
@@ -44,6 +39,8 @@ TODO: Test:
       - Add good test for Alma Api Service (its all mocked)
 
 TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
+
+TODO: SLskeyhistory bei Author den Namen anzeigen statt edu-ID/ user_identifier
 
 ________________________________________________________________________
 Feedback Bibliotheken:

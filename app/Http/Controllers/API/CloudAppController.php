@@ -62,10 +62,12 @@ class CloudAppController extends Controller
         Request::validate([
             'slskey_code' => ['required', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:255'],
+            'member_of_education_institution' => ['required', 'boolean'],
             'alma_user' => ['required'],
         ]);
         $slskeyCode = Request::input('slskey_code');
         $remark = Request::input('remark');
+        $isMemberOfEducationInstitution = Request::input('member_of_education_institution');
         $primaryId = Request::route()->parameter('primary_id');
 
         // Assuming $jsonData contains your JSON data
@@ -88,6 +90,9 @@ class CloudAppController extends Controller
 
         // Set Remark
         $this->activationService->setActivationRemark($primaryId, $slskeyCode, $remark);
+
+        // Set Member Educational Institution
+        $this->activationService->setActivationMemberEducationalInstitution($primaryId, $slskeyCode, $isMemberOfEducationInstitution);
 
         return new JsonResponse($response->message);
     }

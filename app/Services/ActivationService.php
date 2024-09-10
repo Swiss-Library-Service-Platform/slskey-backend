@@ -288,10 +288,13 @@ class ActivationService
             return $this->logAndReturnError($primaryId, $action, 'no_activation');
         }
 
+        /*
         // Deactivate User via SWITCH API
+        /* FIXME: remove comment
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
+        */
 
         try {
             foreach ($slskeyGroup->switchGroups as $switchGroup) {

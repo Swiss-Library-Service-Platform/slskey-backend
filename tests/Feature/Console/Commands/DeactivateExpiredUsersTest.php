@@ -37,8 +37,8 @@ it('deactivates an expired user', function () {
     $expiringUser = SlskeyUser::factory()->create();
     $activatedUser = SlskeyUser::factory()->create();
     $activationService = app(ActivationService::class);
-    $response = $activationService->activateSlskeyUser($expiringUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);#
-    $response = $activationService->activateSlskeyUser($activatedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
+    $response = $activationService->activateSlskeyUser($expiringUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
+    $response = $activationService->activateSlskeyUser($activatedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
     assertUserActivationActivated($expiringUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($activatedUser->primary_id, $slskeyGroup->slskey_code);
     // Get Expiration Date and Travel in time past that date

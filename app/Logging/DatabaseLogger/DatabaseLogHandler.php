@@ -39,6 +39,7 @@ class DatabaseLogHandler extends AbstractProcessingHandler
 
     protected function createLogDefault(array $record): void
     {
+        $record['message'] = substr($record['message'], 0, 255);
         LogDefault::create([
             'level' => $record['level'],
             'level_name' => $record['level_name'],

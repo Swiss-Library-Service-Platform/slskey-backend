@@ -78,8 +78,8 @@ class CloudAppController extends Controller
         $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
-            Auth::user()->display_name,
             TriggerEnums::CLOUD_APP,
+            Auth::user()->display_name,
             $almaUser,
             null // webhook activation mail
         );

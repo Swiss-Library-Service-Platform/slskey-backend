@@ -3,17 +3,15 @@
 ________________________________________________________________________
 Before Go Live:
 
-
+TODO: Add history for set enrolled
 
 TODO: Fix all FIXMEs before Go Live!
-
 
 TODO: Import CSV Job
       - sollte nicht aktivieren wenn es eine Migration ist
             - alternative: keine switch gruppe für slskey gruppe definieren und check ausgeklammert lassen dass es keine slskey gruppe braucht für aktivierung
       - häckchen ob historic activation date genutzt wird oder nicht
       
-
 ________________________________________________________________________
 Later, nice to have:
 

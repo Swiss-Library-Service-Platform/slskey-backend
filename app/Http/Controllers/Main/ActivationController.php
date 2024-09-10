@@ -130,8 +130,8 @@ class ActivationController extends Controller
         $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
-            Auth::user()->user_identifier,
             TriggerEnums::MANUAL_UI,
+            Auth::user()->user_identifier,
             $almaUser,
             null // webhook activation mail
         );

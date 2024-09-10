@@ -158,8 +158,8 @@ class ImportCsvJob implements ShouldQueue
         $response = $this->activationService->activateSlskeyUser(
             $row['primary_id'],
             $slskeyGroup->slskey_code,
-            null, // author
             TriggerEnums::SYSTEM_MASS_IMPORT,
+            null, // author
             $almaUser,
             $almaUserWebhookActivationMail,
             $activationDate, // FIXME: not always set this!! only e.g. ETH, ABN, ...

@@ -45,9 +45,7 @@ class ExceptionOccurred extends Notification
                     ->line('Message: ' . $this->exception->getMessage())
                     ->line('File: ' . $this->exception->getFile())
                     ->line('Line: ' . $this->exception->getLine())
-                    ->line('Stack Trace:')
-                    ->with('html', true) // Enable HTML for stack trace formatting
-                    ->line($stackTrace);
+                    ->line('Look into log_default DB table for more details');
     }
 
     /**

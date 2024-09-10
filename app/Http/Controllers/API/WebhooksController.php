@@ -215,8 +215,8 @@ class WebhooksController extends Controller
         $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyGroup->slskey_code,
-            null, // author
             $trigger,
+            null, // author
             $almaUser,
             $webhookActivationMail
         );

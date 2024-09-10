@@ -85,8 +85,8 @@ class ReactivationTokenController extends Controller
         $response = $this->activationService->activateSlskeyUser(
             $slskeyReactivationToken->slskeyUser->primary_id,
             $slskeyReactivationToken->slskeyGroup->slskey_code,
-            null, // Author
             TriggerEnums::USER_TOKEN_REACTIVATION,
+            null, // Author
             null, // almaUser
             null // webhook activation mail
         );

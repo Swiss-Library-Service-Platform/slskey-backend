@@ -47,8 +47,8 @@ class ActivationService
     public function activateSlskeyUser(
         string $primaryId,
         string $slskeyCode,
-        ?string $author = null,
         string $trigger,
+        ?string $author = null,
         ?AlmaUser $almaUser = null,
         ?string $webhookActivationMail = null,
         ?Carbon $historicActivationDate = null,

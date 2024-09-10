@@ -18,16 +18,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // TODO: Schedule the commands here
-
-        /*
         if (config('app.env') == 'production') {
-            $schedule->command('send:financereport')
-                ->weeklyOn(0, '17:00'); //UTC time
+            /*
+            // FIXME: Schedule the commands here
+
             $schedule->command('job:deactivate-expired-users')
-                ->dailyOn(0, '12:38'); //UTC time
+                ->dailyOn(0, '06:00'); //UTC time
+            */
         }
-        */
     }
 
     /**

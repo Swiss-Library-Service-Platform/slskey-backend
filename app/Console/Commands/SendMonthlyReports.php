@@ -65,8 +65,8 @@ class SendMonthlyReports extends Command
                 $countRecipients = count($reportEmailAddresses);
 
                 // Get last month
-                $currentMonth = date('m'); // FIXME: date('m', strtotime('-1 month'));
-                $currentYear = date('Y'); // FIXME: date('Y', strtotime('-1 month'));
+                $currentMonth = date('m', strtotime('-1 month'));
+                $currentYear = date('Y', strtotime('-1 month'));
 
                 // Get Month History
                 $slskeyHistoryMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);

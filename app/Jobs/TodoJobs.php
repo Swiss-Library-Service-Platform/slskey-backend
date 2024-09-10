@@ -3,16 +3,7 @@
 ________________________________________________________________________
 Before Go Live:
 
-TODO: Prod Server
-      - Add Cron Job for Jobs https://laravel.com/docs/11.x/scheduling#running-the-scheduler
 
-TODO: Job Supervisor für ImportCsvJob
-      https://laravel.com/docs/11.x/queues#installing-supervisor
-            Wir müssen den php artisan queue starten
-            automatisch durch supervisor
-            default queue genügt
-            auch noch in [README.md](http://README.md) mit aufnehmen
-      php artisan queue:work --queue=redis_import_job --timeout=120
 
 TODO: Fix all FIXMEs before Go Live!
 
@@ -33,7 +24,9 @@ TODO: Verifier
 TODO: Cloud App
       - Icon Jiggle Bug wenn geöffnet wird
 
-TODO: Participage page: Motivation / Vorteile aufzählen
+TODO: Participage page: 
+      -    Motivation / Vorteile aufzählen
+      - IdP entity ID nennen
 
 TODO: Test:
       - for each job

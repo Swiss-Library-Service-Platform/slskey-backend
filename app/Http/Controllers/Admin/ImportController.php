@@ -78,6 +78,7 @@ class ImportController extends Controller
         $checkIsActive = Request::input('checkIsActive');
         $testRun = Request::input('testRun');
 
+        Cache::put('is_import_cancelled', false, 60);
         ImportCsvJob::dispatch($importRows, $checkIsActive, $testRun)->onConnection('redis_import_job');
 
         return Response(200);

@@ -76,8 +76,6 @@ class ImportCsvJob implements ShouldQueue
 
             $currentRow++;
         }
-
-        Cache::put('is_import_cancelled', false, 60);
     }
 
     /**
@@ -143,15 +141,6 @@ class ImportCsvJob implements ShouldQueue
             $almaUserWebhookActivationMail = $webhookMailActivationHelper->getWebhookActivationMail($almaUser);
             if ($almaUserWebhookActivationMail) {
                 $slskeyGroup = $mbaSlskeyGroup;
-                // FIXME: remove for prod import
-                /*
-                return [
-                    'success' => false,
-                    'message' => "User is MBA member",
-                    'isActive' => false,
-                    'isVerified' => false,
-                ];
-                */
             }
         }
 

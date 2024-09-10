@@ -160,12 +160,15 @@ class ActivationService
         ]);
 
         // Send notify email to user, if group has enabled email feature
+        /*
+        FIXME: dont notify users when importing MBA
         if (
             $slskeyGroup->send_activation_mail &&
             $almaUser
         ) {
             $sent = $this->mailService->sendNotifyUserActivationMail($slskeyGroup, $activation, $almaUser, $trigger);
         }
+        */
 
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
 

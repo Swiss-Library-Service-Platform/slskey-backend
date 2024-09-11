@@ -19,9 +19,12 @@
         "extended": "Prolongé",
         "notified": "Utilisateur notifié",
         "reactivated": "Réactivé",
+        "remark_updated": "Remarque mise à jour",
         "reminded": "Utilisateur rappelé",
+        "set_member_education": "Membre de l'établissement d'enseignement",
         "token_sent": "Token envoyé",
-        "unblocked": "Débloqué"
+        "unblocked": "Débloqué",
+        "unset_member_education": "Non membre de l'établissement d'enseignement"
     },
     "admin_import": {
         "title": "Importation en masse"

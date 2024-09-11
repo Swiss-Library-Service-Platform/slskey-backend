@@ -19,9 +19,12 @@
         "extended": "Esteso",
         "notified": "Utente notificato",
         "reactivated": "Riattivato",
+        "remark_updated": "Nota aggiornata",
         "reminded": "Utente ricordato",
+        "set_member_education": "Iscritto a un istituto di istruzione",
         "token_sent": "Token inviato",
-        "unblocked": "Sbloccato"
+        "unblocked": "Sbloccato",
+        "unset_member_education": "Non iscritto a un istituto di istruzione"
     },
     "admin_import": {
         "title": "Importazione di massa"

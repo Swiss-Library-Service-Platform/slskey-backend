@@ -19,9 +19,12 @@
 		"extended": "Verlängert",
 		"notified": "Benutzer benachrichtigt",
 		"reactivated": "Reaktiviert",
+		"remark_updated": "Anmerkung aktualisiert",
 		"reminded": "Benutzer erinnert",
+		"set_member_education": "Mitglied Bildungsinstitution",
 		"token_sent": "Token gesendet",
-		"unblocked": "Entblockiert"
+		"unblocked": "Entblockiert",
+		"unset_member_education": "Nicht Mitglied Bildungsinstitution"
 	},
 	"admin_import": {
 		"title": "Massenimport"

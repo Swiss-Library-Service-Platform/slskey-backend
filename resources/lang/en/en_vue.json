@@ -19,9 +19,12 @@
 		"extended": "Extended",
 		"notified": "User notified",
 		"reactivated": "Reactivated",
+		"remark_updated": "Remark updated",
 		"reminded": "User reminded",
+		"set_member_education": "Set Member Educational Institution",
 		"token_sent": "Token sent",
-		"unblocked": "Unblocked"
+		"unblocked": "Unblocked",
+		"unset_member_education": "Unset Member Educational Institution"
 	},
 	"admin_import": {
 		"title": "Mass Import"

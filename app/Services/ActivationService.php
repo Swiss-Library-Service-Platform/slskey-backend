@@ -14,6 +14,8 @@ use App\Models\SlskeyHistory;
 use App\Models\SlskeyUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\TriggerEnums;
+
 
 class ActivationService
 {
@@ -483,13 +485,13 @@ class ActivationService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new ActivationServiceResponse(false, 'no_user');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::REMARK_UPDATED, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new ActivationServiceResponse(false, 'no_activation');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::REMARK_UPDATED, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -520,17 +522,26 @@ class ActivationService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new ActivationServiceResponse(false, 'no_user');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::SET_MEMBER_EDUCATION, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new ActivationServiceResponse(false, 'no_activation');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::SET_MEMBER_EDUCATION, 'no_activation');
         }
 
         // Update SLSKey Activation
         $activation->setMemberEducationalInstitution($memberEducationalInstitution);
+
+        // Create History for Logging
+        $slskeyHistory = SlskeyHistory::create([
+            'slskey_user_id' => $slskeyUser->id,
+            'slskey_group_id' => $slskeyGroup->id,
+            'action' => $memberEducationalInstitution ? ActivationActionEnums::SET_MEMBER_EDUCATION : ActivationActionEnums::UNSET_MEMBER_EDUCATION,
+            'author' => Auth::user()?->user_identifier,
+            'trigger' =>  Auth::user() ? TriggerEnums::MANUAL_UI : 'system',
+        ]);
 
         return new ActivationServiceResponse(true, __("flashMessages.user_member_educational_institution_changed"));
     }
@@ -553,13 +564,13 @@ class ActivationService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new ActivationServiceResponse(false, 'no_user');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::UPDATE_ACTIVATION_DATE, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new ActivationServiceResponse(false, 'no_activation');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::UPDATE_ACTIVATION_DATE, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -588,13 +599,13 @@ class ActivationService
 
         // Check if user exists
         if (!$slskeyUser) {
-            return new ActivationServiceResponse(false, 'no_user');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::UPDATE_EXPIRATION_DATE, 'no_user');
         }
 
         // Get Activation
         $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)->where('slskey_group_id', '=', $slskeyGroup->id)->first();
         if (!$activation) {
-            return new ActivationServiceResponse(false, 'no_activation');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::UPDATE_EXPIRATION_DATE, 'no_activation');
         }
 
         // Update SLSKey Activation
@@ -617,13 +628,13 @@ class ActivationService
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
         if (!$slskeyGroup) {
-            return new ActivationServiceResponse(false, 'No SLSKey Group found');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::VERIFY_SWITCH_STATUS, 'no_slskey_group');
         }
 
         // Check if slskeygroup has switchgroups
         $groupIds = $slskeyGroup->getSwitchGroupIds();
         if (!$groupIds) {
-            return new ActivationServiceResponse(false, 'No Switch Groups found for this SLSKey group');
+            return $this->logAndReturnError($primaryId, ActivationActionEnums::VERIFY_SWITCH_STATUS, 'no_switch_group');
         }
 
         try {

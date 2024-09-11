@@ -64,19 +64,20 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 90,
+            'retry_after' => 86400, // 24 hours
             'block_for' => null,
             'after_commit' => false,
         ],
 
         'redis_import_job' => [
             'driver' => 'redis',
-            //'connection' => 'default',
+            'connection' => 'redis_import_job',
             'queue' => 'redis_import_job',
-            'retry_after' => 86400, // 24 hours
+            // 'retry_after' => ?? retry_after from redis connection above is used apparently
             'block_for' => null,
             'after_commit' => false,
         ],
+        
     ],
 
     /*

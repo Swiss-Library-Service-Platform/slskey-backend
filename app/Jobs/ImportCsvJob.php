@@ -32,6 +32,13 @@ class ImportCsvJob implements ShouldQueue
     protected $almaApiService;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 86400; // 24 hours
+
+    /**
      * Create a new job instance.
      *
      * @return void

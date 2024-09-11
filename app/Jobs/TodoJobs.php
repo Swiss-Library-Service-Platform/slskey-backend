@@ -3,8 +3,6 @@
 ________________________________________________________________________
 Before Go Live:
 
-TODO: Add history for set enrolled
-
 TODO: Fix all FIXMEs before Go Live!
 
 TODO: Import CSV Job

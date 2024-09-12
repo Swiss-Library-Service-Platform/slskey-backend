@@ -167,27 +167,45 @@
                                 protocol.
                                 Your service should therefore either act as a SAML Service Provider (SP) or provide an
                                 OpenID Connect Relying Party (RP). <br>
-                                <br>
-                                The Identity Provider for the authentication of the users is the Switch edu-ID IdP.
-                                Here you can find the corresponding
-                                <a class="underline" href="https://metadata.aai.switch.ch/entities/eduid">SAML
-                                    metadata</a> or the
-                                <a class="underline"
-                                    href="https://login.eduid.ch/.well-known/openid-configuration">OpenID Connect
-                                    configuration</a>
-                                of the Switch edu-ID Identity Provider.
+                                
                             </div>
                         </div>
                         <div class="flex flex-col mt-10">
                             <div class="font-bold">
-                                3. Carrying out the Authorization
+                                3. Implement Authentication via Switch edu-ID
+                            </div>
+                            <div class="pl-5 mt-2">
+                                The Identity Provider for the authentication of the users is the Switch edu-ID IdP.
+                                <ul class="list-disc pl-8 mt-2">
+                                        <li>
+                                            SAML2.0: Entity-ID: https://eduid.ch/idp/shibboleth <br>
+                                            Metadata: <a
+                                                href="https://metadata.aai.switch.ch/entities/eduid"
+                                                class="underline">Switch edu-ID Metadata</a>
+                                        </li>
+                                        <li>
+                                            OpenID Connect Endpoint: https://login.eduid.ch/idp/profile/oidc/authorize <br>
+                                            Well-Known Config: <a
+                                                href="https://login.eduid.ch/.well-known/openid-configuration"
+                                                class="underline">Switch edu-ID OpenID Connect</a>
+                                        </li>
+                                    </ul>
+                                <br>
+                                Ideally, the Identity Provider is added to the Discovery Service (WAYF) using a
+                                display name specific to the library, e.g. «Library X via Switch edu-ID».
+                                This makes it easier for users to select the correct Identity Provider instead of the generic name "Switch edu-ID".
+                            </div>
+                        </div>
+                        <div class="flex flex-col mt-10">
+                            <div class="font-bold">
+                                4. Carrying out the Authorization
                             </div>
                             <div class="pl-5 mt-2">
                                 To ensure that only authorized users can access your services, you must carry out
                                 authorization.
                                 <br>
                                 <div class="font-bold mt-5">
-                                    3a. Authorization based on user attribute "eduPersonEntitlement"
+                                    4a. Authorization based on user attribute "eduPersonEntitlement"
                                 </div>
                                 <div class="pl-5 mt-2">
                                     To ensure that only authorized users can access your services, you must carry out
@@ -218,19 +236,17 @@
                                     </div>
                                 </div>
                                 <div class="font-bold mt-5">
-                                    3b. (Optional): Support more than one IdPs per licence
+                                    4b. (Optional): Support more than one IdPs per licence
                                 </div>
                                 <div class="pl-5 mt-2">
                                     This point is only necessary if the library for which the SLSKey access is to be set up has already configured access to your platform for its institutional users.
-                                    In this case, your platform must be able to support more than one IdP EntityID per licence.
-                                    Users authenticating with Switch edu-ID must be able to access the same content as institutional users using the institutional Shibboleth login.
-                                </div>
-
+                                    In this case, your platform should be able to support more than one IdP Entity-ID per licence.
+                                    Where licence terms allow, users authenticating via the Switch edu-ID IdP should be able to access the same content as users authenticating via the institutional IdP.                                </div>
                             </div>
                         </div>
                         <div class="flex flex-col mt-10">
                             <div class="font-bold">
-                                4. Support multiple different licence holders (libraries) using the same IdP (Switch edu-ID)
+                                5. Support multiple different licence holders (libraries) using the same IdP (Switch edu-ID)
                             </div>
                             <div class="pl-5 mt-2">
                                 Library users can be authorised by different libraries to access their resources via

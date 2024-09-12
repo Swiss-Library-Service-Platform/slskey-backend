@@ -21,11 +21,11 @@
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
                     <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Only import if user already activated" />
                     <DefaultButton v-if="!importStarted" @click="startImport"
-                        class="w-fit py-2">
+                        class="w-fit">
                         Start Import
                     </DefaultButton>
                     <DefaultButton v-if="importStarted" @click="stopImport"
-                        class="w-fit text-white bg-color-blocked py-2">
+                        class="text-color-blocked w-fit">
                         Stop Import
                     </DefaultButton>
                 </div>

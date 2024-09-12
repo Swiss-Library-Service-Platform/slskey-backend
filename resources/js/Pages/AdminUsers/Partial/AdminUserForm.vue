@@ -58,10 +58,10 @@
                 </table>
                 <h1 class="text-lg underline">{{ $t('admin_users.permission_groups_add') }}</h1>
                 <div class="flex flex-row w-full items-center gap-x-8">
-                    <SelectInput class="w-full" v-model="this.newSlskeyGroup" :options="this.availableSlskeyGroups.data">
+                    <SelectInput class="w-full" v-model="this.newSlskeyGroup" :options="this.availableSlskeyGroups.data"
+                        @change="addGroup()">
                     </SelectInput>
-                    <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSlskeyGroupToAdd" :tooltip="$t('admin_users.add_slskey_group')" />
+                
                 </div>
             </div>
             <!-- Bottom Buttons-->
@@ -73,7 +73,8 @@
                             :tooltip="$t('admin_users.cancel')">
                             {{ $t('admin_users.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="resetPassword()" class="text-color-one w-fit"
+                        <DefaultButton v-if="!isCreating && !form.is_edu_id
+                        " @click="resetPassword()" class="text-color-one w-fit"
                             icon="key" :tooltip="$t('admin_users.reset_password')">
                             {{ $t('admin_users.reset_password') }}
                         </DefaultButton>

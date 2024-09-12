@@ -4,10 +4,6 @@
         <div class="my-8 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
 
             <div class="w-full flex flex-row justify-between pb-4 border-b">
-                <div class="text-2xl">
-                    Mass Import
-                </div>
-
                 <div class="flex flex-row justify-start text-xl">
                     <div class="flex flex-col justify-between mr-4">
                         <p id="progress-text">Total Users:</p>
@@ -19,7 +15,7 @@
 
                 <div>
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
-                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Only import if user already activated" />
+                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Check if active" />
                     <DefaultButton v-if="!importStarted" @click="startImport"
                         class="w-fit">
                         Start Import

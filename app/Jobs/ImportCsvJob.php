@@ -26,6 +26,7 @@ class ImportCsvJob implements ShouldQueue
 
     protected $importRows;
     protected $checkIsActive;
+    protected $setHistoryActivationDate;
     protected $testRun;
 
     protected $activationService;
@@ -43,10 +44,11 @@ class ImportCsvJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($importRows, $checkIsActive, $testRun)
+    public function __construct($importRows, $checkIsActive, $setHistoryActivationDate, $testRun)
     {
         $this->importRows = $importRows;
         $this->checkIsActive = $checkIsActive;
+        $this->setHistoryActivationDate = $setHistoryActivationDate;
         $this->testRun = $testRun;
     }
 
@@ -69,7 +71,7 @@ class ImportCsvJob implements ShouldQueue
                 break;
             }
 
-            $result = $this->processImportRow($row, $this->testRun, $this->checkIsActive);
+            $result = $this->processImportRow($row,  $this->checkIsActive, $this->setHistoryActivationDate, $this->testRun);
 
             event(new DataImportProgressEvent(
                 $currentRow,
@@ -88,7 +90,7 @@ class ImportCsvJob implements ShouldQueue
     /**
      * Process the import row (same logic as your original processImportRow method)
      */
-    private function processImportRow(array $row, bool $testRun, bool $checkIsActive): array
+    private function processImportRow(array $row, bool $checkIsActive, bool $setHistoryActivationDate, bool $testRun): array
     {
         // Get slskey group
         $slskeyGroup = SlskeyGroup::where('slskey_code', $row['slskey_code'])->first();
@@ -169,7 +171,7 @@ class ImportCsvJob implements ShouldQueue
             null, // author
             $almaUser,
             $almaUserWebhookActivationMail,
-            $activationDate, // FIXME: not always set this!! only e.g. ETH, ABN, ...
+            $setHistoryActivationDate ? $activationDate : null,
         );
 
         // Error handling
@@ -189,6 +191,7 @@ class ImportCsvJob implements ShouldQueue
 
         // Set Historic: Activation Date and Expiration Date
         if ($activationDate) {
+            // Always do this, this is not slskeyhistory, therefore not used for reporting.
             $this->activationService->updateActivationDate($row['primary_id'], $slskeyGroup->slskey_code, $activationDate);
         }
         if ($expirationDate) {

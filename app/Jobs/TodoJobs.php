@@ -21,6 +21,7 @@ TODO: Verifier
 
 TODO: Cloud App
       - Icon Jiggle Bug wenn geöffnet wird
+      - "No eduid" bereits in Liste anzeigen, nicht erst beim aktivieren
 
 TODO: Participage page: 
       - Motivation / Vorteile aufzählen

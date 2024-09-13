@@ -20,8 +20,6 @@ class ImportController extends Controller
 
     protected $almaApiService;
 
-    protected $isCancelled = false;
-
     /**
      * ImportController constructor.
      *
@@ -76,10 +74,10 @@ class ImportController extends Controller
     {
         $importRows = Request::input('importRows');
         $checkIsActive = Request::input('checkIsActive');
+        $setHistoryActivationDate = Request::input('setHistoryActivationDate');
         $testRun = Request::input('testRun');
-
         Cache::put('is_import_cancelled', false, 60);
-        ImportCsvJob::dispatch($importRows, $checkIsActive, $testRun)->onConnection('redis_import_job');
+        ImportCsvJob::dispatch($importRows, $checkIsActive, $setHistoryActivationDate, $testRun)->onConnection('redis_import_job');
 
         return Response(200);
     }
@@ -91,7 +89,6 @@ class ImportController extends Controller
      */
     public function cancelImport()
     {
-        $this->isCancelled = true;
         Cache::put('is_import_cancelled', true, 60);
 
         return Response('CANCELLED');

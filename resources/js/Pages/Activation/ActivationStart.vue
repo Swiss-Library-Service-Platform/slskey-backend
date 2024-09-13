@@ -3,7 +3,7 @@
     <AppLayout :title="$t('activation.title')" :breadCrumbs="[{ name: $t('activation.title') }]">
 
 
-        <div class="w-fit mt-5 mb-10 justify-center align-center flex py-8 bg-white gap-5 rounded-md gap-y-4 px-8 shadow-md">
+        <div class="w-fit my-8 justify-center align-center flex py-8 bg-white gap-5 rounded-md gap-y-4 px-8 shadow-md">
             <div class="w-96 flex flex-col gap-y-8">
 
                 <div>
@@ -16,9 +16,9 @@
                 </div>
 
                 <TextInput @enter="activate" v-model="inputIdentifier" :placeholder="$t('activation.identifier')"></TextInput>
-                <ActionButton :disabled="!inputIdentifier" @click.prevent="activate" icon="search" :loading="loading">
+                <DefaultButton :disabled="!inputIdentifier || loading" @click.prevent="activate" icon="search" :loading="loading">
                     {{ $t('activation.search') }}
-                </ActionButton>
+                </DefaultButton>
 
             </div>
         </div>
@@ -29,12 +29,12 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '../../Shared/Forms/TextInput.vue';
-import ActionButton from '../../Shared/Buttons/ActionButton.vue';
+import DefaultButton from '../../Shared/Buttons/DefaultButton.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 // register globally
 export default {
-    components: { AppLayout, TextInput, ActionButton, Inertia },
+    components: { AppLayout, TextInput, DefaultButton, Inertia },
     props: {
         filters: Object,
         results: Object,

@@ -7,12 +7,10 @@ use App\Enums\TriggerEnums;
 use App\Enums\WebhookResponseEnums;
 use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Http\Controllers\Controller;
-use App\Interfaces\AlmaAPIInterface;
-use App\Interfaces\SwitchAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
@@ -23,19 +21,16 @@ use Illuminate\Validation\ValidationException;
  */
 class WebhooksController extends Controller
 {
-    protected $almaApiService;
-
-    protected $userService;
+    protected $activationService;
 
     /**
      * WebhooksController constructor.
      *
-     * @param  SwitchAPIInterface  $switchApiService
+     * @param  ActivationService  $activationService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, UserService $userService)
+    public function __construct(ActivationService $activationService)
     {
-        $this->almaApiService = $almaApiService;
-        $this->userService = $userService;
+        $this->activationService = $activationService;
     }
 
     /**
@@ -217,11 +212,11 @@ class WebhooksController extends Controller
         $institution = Request::input('institution.value');
 
         $trigger = TriggerEnums::WEBHOOK.' '.$cause.' '.$institution;
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyGroup->slskey_code,
-            null, // author
             $trigger,
+            null, // author
             $almaUser,
             $webhookActivationMail
         );
@@ -258,7 +253,7 @@ class WebhooksController extends Controller
         }
 
         $trigger = TriggerEnums::WEBHOOK.' '.$cause.' '.$institution;
-        $response = $this->userService->deactivateSlskeyUser(
+        $response = $this->activationService->deactivateSlskeyUser(
             $primaryId,
             $slskeyGroup->slskey_code,
             '',

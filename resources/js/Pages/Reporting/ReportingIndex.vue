@@ -1,22 +1,27 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
-
-        <div class="flex py-5 items-end justify-between flex-wrap">
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <div class="flex gap-x-16">
-                <FilterControl @reset="reset" v-if="slskeyGroups.data.length > 1">
+                <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
                         :options="slskeyGroups.data" />
                 </FilterControl>
                 <TabFilter :tab1="$t('reporting.display_tab1')" :tab2="$t('reporting.display_tab2')" icon1="view-list"
                     icon2="chart-square-bar" :label="$t('reporting.display')" v-model="displayTab" />
             </div>
-            <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
-                class="w-fit bg-color-slsp text-white py-2 mt-4">
-                {{ $t('reporting.change_settings') }}
-            </DefaultButton>
+            <div class="flex gap-x-4">
+                <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
+                    class="w-fit py-2 mt-4">
+                    {{ $t('reporting.change_settings') }}
+                </DefaultButton>
+                <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
+                    class="w-fit py-2 mt-4">
+                    {{ $t('reporting.export') }}
+                </DefaultButton>
+            </div>
         </div>
 
-        <div v-show="displayTab == 0" class="my-5 overflow-x-auto bg-white shadow-md rounded-md">
+        <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
@@ -68,8 +73,7 @@
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="slskeyHistories.length > 0">
                         <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
-                            class="hover:bg-gray-100 focus-within:bg-gray-100"
-                            :class="{ 'bg-color-lightgreen': index == 0 }">
+                            class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
 
                             <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">
                                 {{ formatMonth(historyMonth.month, historyMonth.year) }}
@@ -91,20 +95,20 @@
                             </td>
                             <td
                                 class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold border-r border-gray-table">
-                                <div v-if="historyMonth.monthly_change < 0">
+                                <div v-if="historyMonth.monthly_change_count < 0">
                                     <span class="text-red-500">
                                         -
                                     </span>
-                                    {{ Math.abs(historyMonth.monthly_change) }}
+                                    {{ Math.abs(historyMonth.monthly_change_count) }}
                                 </div>
-                                <div v-if="historyMonth.monthly_change == 0">
+                                <div v-if="historyMonth.monthly_change_count == 0">
                                     -
                                 </div>
-                                <div v-if="historyMonth.monthly_change > 0">
+                                <div v-if="historyMonth.monthly_change_count > 0">
                                     <span class="text-green-500">
                                         +
                                     </span>
-                                    {{ historyMonth.monthly_change }}
+                                    {{ historyMonth.monthly_change_count }}
                                 </div>
                             </td>
                             <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">
@@ -121,7 +125,7 @@
             </table>
         </div>
 
-        <div v-show="displayTab == 1" class="my-5 p-5 overflow-x-auto bg-white shadow-md rounded-md">
+        <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
             <canvas id="userChart"></canvas>
         </div>
     </AppLayout>
@@ -160,11 +164,13 @@ export default {
         slskeyHistories: Object,
         slskeyGroups: Object,
         selectedSlskeyCode: String,
+        firstDate: String,
     },
     data() {
         return {
             chart: null,
             displayTab: 0,
+            export_loading: false,
             form: {
                 slskeyCode: this.slskeyGroups.data.length === 1 ? this.slskeyGroups.data[0].value :
                     this.selectedSlskeyCode,
@@ -187,8 +193,31 @@ export default {
                 Inertia.get("/reporting/" + this.form.slskeyCode);
             }
         },
+        async export() {
+            this.export_loading = true;
+            axios({
+                url: 'reporting/export',
+                method: 'GET',
+                responseType: 'blob', // important
+                params: {
+                    slskeyCode: this.form.slskeyCode,
+                    firstDate: this.firstDate
+                }
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                console.log(response)
+                link.setAttribute('download', 'reporting.xlsx');
+                document.body.appendChild(link);
+                link.click();
+                this.export_loading = false;
+            }).catch((error) => {
+                console.log(error);
+                this.export_loading = false;
+            });
+        },
         initGraph() {
-            console.log("getting graph");
             Chart.register(LineController, LinearScale, CategoryScale, PointElement, LineElement);
             const ctx = document.getElementById('userChart').getContext('2d');
             if (this.chart) {

@@ -4,7 +4,7 @@
         { name: $t('publishers.title'), link: '/admin/publishers' },
         { name: $t('publishers.create_new') }
     ]">
-        <div class="mt-5 mb-10 bg-white shadow-md rounded-md">
+        <div class="my-8 bg-white shadow-md rounded-md">
             <PublisherForm :isCreating="true" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 @submit="savePublisher" @cancel="cancel" :availableProtocolOptions="availableProtocolOptions"
                 :availableStatusOptions="availableStatusOptions" />

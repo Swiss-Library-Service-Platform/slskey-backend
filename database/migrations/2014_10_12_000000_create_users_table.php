@@ -17,8 +17,10 @@ return new class () extends Migration {
             $table->string('user_identifier')->unique();
             $table->string('display_name');
             $table->boolean('is_edu_id')->default(false);
+            $table->boolean('is_alma')->default(false);
             $table->string('password');
             $table->string('password_change_at')->nullable();
+            $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

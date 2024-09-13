@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Database\Factories\Saml2TenantFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia;
@@ -9,22 +8,13 @@ use Inertia\Testing\AssertableInertia;
 test('it renders the landing index', function () {
     $response = $this->get('/login');
     $response->assertInertia(function (AssertableInertia $page) {
-        $page->component('Landing/LandingLoginIndex');
+        $page->component('Landing/LandingLoginEduID');
     });
 });
 
 test('it redirects to error page when no edu-ID configured', function () {
     $response = $this->get('/login/eduid');
     $response->assertStatus(404);
-});
-
-test('it redirects to edu-ID Login page', function () {
-    $tenant = Saml2TenantFactory::new()->eduid()->create();
-
-    // Check Redirect
-    $response = $this->get('/login/eduid');
-    $response->assertStatus(302)
-        ->assertRedirect("/saml2/{$tenant->uuid}/login?returnTo=".route('activation.start'));
 });
 
 test('it require to change the password', function () {
@@ -70,13 +60,13 @@ test('it changes the password', function () {
     $this->assertTrue(Hash::check('newpassword', $user->password));
 });
 
-test('it redirects edu-ID user to edu-ID logout page', function () {
-    $user = User::factory()->edu_id()->create();
-    $tenant = Saml2TenantFactory::new()->eduid()->create();
+test('it logs out a user and redirects to landing page', function () {
+    $this->seed('Database\Seeders\Test\TestSlskeyGroupSeeder');
+    $user = User::factory()->edu_id()->withRandomPermissions(1)->create();
     $this->actingAs($user);
-    $response = $this->get('/logout/eduid');
+    $response = $this->get('/logout/user');
     Auth::shouldReceive('logout');
-    $response->assertRedirect('/saml2/'.$tenant->uuid.'/logout');
+    $response->assertRedirect('/login');
 });
 
 test('logout fails for edu-ID if no edu-ID tenant is configured', function () {
@@ -85,14 +75,6 @@ test('logout fails for edu-ID if no edu-ID tenant is configured', function () {
     $response = $this->get('/logout/eduid');
     Auth::shouldReceive('logout');
     $response->assertStatus(404);
-});
-
-test('it logs out non edu-ID users and redirects to home page', function () {
-    $user = User::factory()->non_edu_id_password_changed()->create();
-    $this->actingAs($user);
-    $response = $this->get('/logout/eduid');
-    Auth::shouldReceive('logout');
-    $response->assertRedirect('/login');
 });
 
 test('it does redirect to no roles', function (User $user) {
@@ -110,12 +92,12 @@ test('it renders no roles page', function () {
     $response->assertStatus(200);
     $response->assertInertia(
         fn (AssertableInertia $page) => $page
-        ->component('Landing/LandingLoginIndex')
+        ->component('Landing/LandingLoginEduID')
         ->has('flash.error')
     );
 
     $response->assertInertia(function (AssertableInertia $page) {
-        $page->component('Landing/LandingLoginIndex');
+        $page->component('Landing/LandingLoginEduID');
         $page->has('flash.error');
         $page->where('flash.error', 'You have no permissions. Please contact SLSP.');
     });

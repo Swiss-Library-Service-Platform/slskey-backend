@@ -57,10 +57,9 @@
                 </table>
                 <div class="flex flex-row w-full items-center gap-x-8">
                     <SelectInput class="w-full" v-model="newSwitchGroup" :options="this.availableSwitchGroups.data"
-                        :placeholder="$t('publishers.switch_groups')">
+                        :placeholder="$t('publishers.switch_groups')"
+                        @change="addGroup()" >
                     </SelectInput>
-                    <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('publishers.add_switch_group')" />
                 </div>
             </div>
             <div class="border-t border-b border-default-gray"></div>
@@ -76,7 +75,7 @@
                             {{ $t('publishers.delete') }}
                         </DefaultButton>
                     </div>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('publishers.save')">
                         <span v-if="isCreating">{{ $t('publishers.create_new') }}</span>
                         <span v-else>

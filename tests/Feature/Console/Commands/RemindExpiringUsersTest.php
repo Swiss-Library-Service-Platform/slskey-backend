@@ -1,13 +1,13 @@
 <?php
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceSingleResponse;
 use App\Enums\WorkflowEnums;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 
@@ -25,7 +25,7 @@ it('has the correct signature', function () {
 it('does not send any reminders if there are no expiring activations', function () {
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });
 
 // Test with expiring activations
@@ -37,9 +37,9 @@ it('sends reminders for expiring activations', function () {
     // Create User and activation
     $remindedUser = SlskeyUser::factory()->create();
     $nonRemindedUser = SlskeyUser::factory()->create();
-    $userService = app(UserService::class);
-    $response = $userService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);#
-    $response = $userService->activateSlskeyUser($nonRemindedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
+    $activationService = app(ActivationService::class);
+    $response = $activationService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);#
+    $response = $activationService->activateSlskeyUser($nonRemindedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
     assertUserActivationActivated($remindedUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($nonRemindedUser->primary_id, $slskeyGroup->slskey_code);
 
@@ -56,7 +56,9 @@ it('sends reminders for expiring activations', function () {
     // Prepare Alma Request
     $almaUser = AlmaUser::factory()->make(['primary_id' => $remindedUser->primary_id, 'preferred_language' => 'en']);
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserByIdentifier')->andReturn(new AlmaServiceResponse(true, 200, $almaUser, ''));
+    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($remindedUser->primary_id, $slskeyGroup->alma_iz)->andReturn(
+        new AlmaServiceSingleResponse(true, $almaUser, null)
+    );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);
 
     // Mock mail service
@@ -65,7 +67,7 @@ it('sends reminders for expiring activations', function () {
     // Call command
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(1, $response);
+    $this->assertEquals(0, $response);
 
     // Assert DB
     assertUserActivationActivated($remindedUser->primary_id, $slskeyGroup->slskey_code);
@@ -76,5 +78,5 @@ it('sends reminders for expiring activations', function () {
     // Call command
     $command = $this->app->make(\App\Console\Commands\RemindExpiringUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });

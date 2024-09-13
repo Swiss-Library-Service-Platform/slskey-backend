@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public const MIGRATE_PRODUCTIVE_DATA = true;
+    public const MIGRATE_PRODUCTIVE_DATA = false;
     /**
      * Seed the application's database.
      *

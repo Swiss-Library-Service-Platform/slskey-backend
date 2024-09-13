@@ -16,7 +16,6 @@ export default {
 	},
 	props: {
 		action: String,
-		success: Number
 	},
 	data() {
 		return {
@@ -42,6 +41,10 @@ export default {
 				case 'EXPIRATION_ENABLED':
 				case 'EXPIRATION_DISABLED':
 					return 'clock';
+				case 'REMARK_UPDATED':
+				case 'SET_MEMBER_EDUCATION':
+				case 'UNSET_MEMBER_EDUCATION':
+					return 'pencil';
 				default:
 					return 'x-circle';
 			}
@@ -71,27 +74,29 @@ export default {
 					return this.$i18n.t('action_chip.reminded');
 				case 'NOTIFIED':
 					return this.$i18n.t('action_chip.notified');
+				case 'REMARK_UPDATED':
+					return this.$i18n.t('action_chip.remark_updated');
+				case 'SET_MEMBER_EDUCATION':
+					return this.$i18n.t('action_chip.set_member_education');
+				case 'UNSET_MEMBER_EDUCATION':
+					return this.$i18n.t('action_chip.unset_member_education');
 				default:
 					return this.action;
 			}
 		},
 		getClasses: function () {
-			if (this.success) {
-				switch (this.action) {
-					case 'BLOCKED_ACTIVE':
-					case 'BLOCKED_INACTIVE':
-						return 'text-color-blocked';
-					case 'ACTIVATED':
-					case 'REACTIVATED':
-					case 'EXTENDED':
-						return 'text-color-active';
-					case 'DEACTIVATED':
-						return 'text-color-deactivated';
-					default:
-						return 'text-color-deactivated';
-				}
-			} else {
-				return 'text-gray-table';
+			switch (this.action) {
+				case 'BLOCKED_ACTIVE':
+				case 'BLOCKED_INACTIVE':
+					return 'text-color-blocked';
+				case 'ACTIVATED':
+				case 'REACTIVATED':
+				case 'EXTENDED':
+					return 'text-color-active';
+				case 'DEACTIVATED':
+					return 'text-color-deactivated';
+				default:
+					return 'text-color-deactivated';
 			}
 		}
 	}

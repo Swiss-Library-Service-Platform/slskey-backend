@@ -17,7 +17,7 @@ const props = defineProps({
     href: {
         type: String
     },
-    isExternal: {
+    openInNewTab: {
         type: Boolean,
         default: false
     },
@@ -27,8 +27,8 @@ const props = defineProps({
 
 const linkClasses = computed(() => {
     return props.active
-        ? 'text-color-one inline-flex bg-white items-center pl-8 pr-12 py-2 my-1 font-medium text-lg text-white active:text-gray-800 active:bg-opacity-95 disabled:opacity-25 rounded '
-        : 'text-color-one inline-flex items-center pl-8 pr-12 py-2 my-1 font-medium text-lg text-white hover:bg-white disabled:opacity-25 rounded';
+        ? 'text-color-one inline-flex bg-color-slsp-bg items-center px-8 py-2 my-1 font-semibold text-lg text-white active:text-gray-800 active:bg-opacity-95 disabled:opacity-25 rounded '
+        : 'text-color-one inline-flex items-center px-8 py-2 my-1 font-medium text-lg text-white hover:bg-color-slsp-bg disabled:opacity-25 rounded';
 });
 const iconClasses = computed(() => {
     return props.active
@@ -39,7 +39,7 @@ const iconClasses = computed(() => {
 </script>
 
 <template>
-    <Link v-if="!isExternal" :id=id :type="type" :as="type" :href="href" :class="linkClasses">
+    <Link v-if="!openInNewTab" :id=id :type="type" :as="type" :href="href" :class="linkClasses">
     <span v-if="icon" :class="iconClasses">
         <Icon :icon="icon" />
     </span>

@@ -66,7 +66,7 @@
                         :tooltip="$t('switch_groups.cancel')">
                         {{ $t('switch_groups.cancel') }}
                     </DefaultButton>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('switch_groups.save')">
                         {{ $t('switch_groups.save') }}
                     </DefaultButton>

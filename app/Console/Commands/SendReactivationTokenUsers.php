@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Enums\ActivationActionEnums;
 use App\Enums\TriggerEnums;
 use App\Enums\WorkflowEnums;
-use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;
@@ -13,7 +12,7 @@ use App\Services\MailService;
 use App\Services\TokenService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use App\Models\LogJob;
 
 class SendReactivationTokenUsers extends Command
 {
@@ -31,20 +30,17 @@ class SendReactivationTokenUsers extends Command
      */
     protected $description = 'Sends emails with reactivation-tokens to users with expiring activations. Should run every day.';
 
-    protected $almaApiService;
-
     protected $tokenService;
 
     protected $mailService;
 
-    protected $logger;
+    protected $textFileLogger;
 
-    public function __construct(AlmaAPIInterface $almaApiService, TokenService $tokenService, MailService $mailService)
+    public function __construct(TokenService $tokenService, MailService $mailService)
     {
-        $this->almaApiService = $almaApiService;
         $this->tokenService = $tokenService;
         $this->mailService = $mailService;
-        $this->logger = Log::channel('send-reactivation-token');
+        $this->textFileLogger = Log::channel('send-reactivation-token');
 
         parent::__construct();
     }
@@ -56,8 +52,7 @@ class SendReactivationTokenUsers extends Command
      */
     public function handle()
     {
-        $this->logger->info('---------- START ----------');
-        $this->logger->info("Sendind tokens to expiring users");
+        $this->textFileLogger->info("START Sendind tokens to expiring users");
 
         // Get all SLSKey Groups with expiring activations
         $slskeyGroups = SlskeyGroup::query()
@@ -66,8 +61,14 @@ class SendReactivationTokenUsers extends Command
             ->whereNotNull('webhook_mail_activation_days_send_before_expiry')
             ->get();
 
+        $tokensPerGroup = [];
+        $hasFail = false;
+
         foreach ($slskeyGroups as $slskeyGroup) {
-            $this->logger->info("Checking SLSKey Group $slskeyGroup->slskey_code for expiring activations.");
+            $countTotal = 0;
+            $countSuccess = 0;
+
+            $this->textFileLogger->info("Checking SLSKey Group $slskeyGroup->slskey_code for expiring activations.");
             // select expiring activations for this group that is exatcly $daysUntilExpiration days in the future
             $expiringActivations = SlskeyActivation::query()
                 ->where('slskey_group_id', $slskeyGroup->id)
@@ -78,37 +79,26 @@ class SendReactivationTokenUsers extends Command
                 ->get();
 
             if (! count($expiringActivations)) {
-                $this->logger->info("No expiring activations found for group $slskeyGroup->slskey_code.");
+                $this->textFileLogger->info("No expiring activations found for group $slskeyGroup->slskey_code.");
 
                 continue;
             }
 
+            $countTotal = count($expiringActivations);
+
             // Send reminder email to all users with expiring activations
             foreach ($expiringActivations as $activation) {
                 if (! $activation->webhook_activation_mail) {
-                    $this->logger->info("Ignored: No email address found for user $activation->slskey_user_id.");
+                    $this->textFileLogger->info("Ignored: No email address found for user $activation->slskey_user_id.");
 
                     continue;
                 }
                 $primaryId = $activation->slskeyUser->primary_id;
 
-                /* Add SlskeyHistory entry */
-                // Create History
-                $slskeyHistory = SlskeyHistory::create([
-                    'slskey_user_id' => $activation->slskeyUser->id,
-                    'slskey_group_id' => $slskeyGroup->id,
-                    'primary_id' => $primaryId,
-                    'action' => ActivationActionEnums::TOKEN_SENT,
-                    'author' => null,
-                    'trigger' => TriggerEnums::SYSTEM_TOKEN_EXPIRATION,
-                    'success' => false, // set it true after success
-                ]);
-
                 $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup);
 
                 if (! $response->success) {
-                    $this->logger->info("Error: Failed to create token for user $primaryId: $response->message");
-                    $slskeyHistory->setErrorMessage("Failed: $response->message");
+                    $this->textFileLogger->info("Error: Failed to create token for user $primaryId: $response->message");
 
                     continue;
                 }
@@ -116,16 +106,51 @@ class SendReactivationTokenUsers extends Command
                 // Send e-mail
                 $sent = $this->mailService->sendReactivationTokenUserMail($slskeyGroup, $activation->webhook_activation_mail, $response->reactivationLink);
 
-                if ($sent) {
-                    $this->logger->info("Success: Sent token to user $primaryId");
-                    $slskeyHistory->setSuccess(true);
-                } else {
-                    $slskeyHistory->setErrorMessage('Email failed');
-                    $this->logger->info("Error: Failed to send token to user $primaryId.");
+                if (! $sent) {
+                    $this->textFileLogger->info("Failed to send token to user $primaryId.");
+
+                    continue;
                 }
+
+                $this->textFileLogger->info("Success: Sent token to user $primaryId");
+
+                // Create History
+                $slskeyHistory = SlskeyHistory::create([
+                    'slskey_user_id' => $activation->slskeyUser->id,
+                    'slskey_group_id' => $slskeyGroup->id,
+                    'action' => ActivationActionEnums::TOKEN_SENT,
+                    'author' => null,
+                    'trigger' => TriggerEnums::SYSTEM_TOKEN_EXPIRATION,
+                ]);
+
+                $countSuccess++;
             }
+
+            $this->textFileLogger->info("Finished sending tokens to expiring users for group $slskeyGroup->slskey_code.");
+
+            $tokensPerGroup[] = [
+                'slskey_group' => $slskeyGroup->slskey_code,
+                'total' => $countTotal,
+                'success' => $countSuccess,
+                'failed' => $countTotal - $countSuccess,
+            ];
+            $hasFail = $hasFail || $countTotal - $countSuccess > 0;
         }
 
-        return 1;
+        $this->logJobResultToDatabase($tokensPerGroup, $hasFail);
+
+        // 0 = Success
+        // 2 = Invalid (No tokens to send)
+        return count($tokensPerGroup) > 0 ? 0 : 2;
+    }
+
+    protected function logJobResultToDatabase(array $databaseInfo, $hasFail = false)
+    {
+        $this->textFileLogger->info("Logging job result to database.");
+        LogJob::create([
+            'job' => class_basename(__CLASS__),
+            'info' => $databaseInfo, // json_encode($databaseInfo),
+            'has_fail' => $hasFail,
+        ]);
     }
 }

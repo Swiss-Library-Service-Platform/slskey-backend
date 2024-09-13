@@ -7,6 +7,7 @@ import { createI18n } from 'vue-i18n/index';
 import { defaultLocale, languages } from '../lang';
 import VueNumberInput from '@chenfengyuan/vue-number-input';
 import moment from 'moment'; // Import Moment.js
+import Notifications from '@kyvg/vue3-notification';
 
 const appName = 'SLSKey';
 
@@ -34,6 +35,7 @@ createInertiaApp({
             .use(plugin)
             .use(i18n)
             .use(momentPlugin)
+            .use(Notifications)
             .component("Link", Link)
             .component("Head", Head)
             .component(VueNumberInput.name, VueNumberInput)

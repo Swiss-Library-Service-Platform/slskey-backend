@@ -2,9 +2,12 @@
     <div  :class="$attrs.class">
         <!-- <CursorDefaultClickIcon v-if="icon == 'cursor_default_click'"/> -->
         <RefreshAutoIcon v-if="icon == 'auto_mode'"/>
-        <AccountSupervisorCircleOutline v-if="icon == 'cursor_default_click'"/>
+        <AccountSuper visorCircleOutline v-if="icon == 'cursor_default_click'"/>
         <FilterRemove :size="size" v-if="icon == 'filter_remove'"/>
         <Help :size="size" v-if="icon == 'help'"/>
+        <Sort size="18" v-if="icon == 'sort'"/>
+        <SortAscending size="18" v-if="icon == 'sort_ascending'"/>
+        <SortDescending size="18" v-if="icon == 'sort_descending'"/>
     </div>
 </template>
 
@@ -14,6 +17,9 @@ import RefreshAutoIcon from 'vue-material-design-icons/RefreshAuto.vue';
 import AccountSupervisorCircleOutline from 'vue-material-design-icons/AccountSupervisorCircleOutline.vue';
 import FilterRemove from 'vue-material-design-icons/FilterRemove.vue';
 import Help from 'vue-material-design-icons/Help.vue';
+import Sort from 'vue-material-design-icons/Sort.vue';
+import SortAscending from 'vue-material-design-icons/SortAscending.vue';
+import SortDescending from 'vue-material-design-icons/SortDescending.vue';
 
  
 export default {
@@ -22,7 +28,10 @@ export default {
         CursorDefaultClickIcon,
         AccountSupervisorCircleOutline,
         FilterRemove,
-        Help
+        Help,
+        Sort,
+        SortAscending,
+        SortDescending
     },
     props: {
         icon: {

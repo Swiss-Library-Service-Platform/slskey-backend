@@ -10,3 +10,22 @@
 @import 'tailwindcss/utilities';
 
 @import 'vue-select/dist/vue-select.css';
+@import '@vuepic/vue-datepicker/dist/main.css';
+
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #e9e9e9;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}

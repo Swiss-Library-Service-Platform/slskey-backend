@@ -10,7 +10,6 @@ use App\Services\API\AlmaAPIService;
 use Closure;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,48 +49,64 @@ class AuthCloudApp
 
             // If request is authentication, we need to check permissions
             if ($request->routeIs('cloudapp.authenticate')) {
-                // Check if there are slskeygroups for this institution
-                $slskeyGroups = SlskeyGroup::where('alma_iz', $decodedToken->inst_code)->get();
-
-                if ($slskeyGroups->isEmpty()) {
-                    return new Response('Authorization failed. No SLSKey Groups found for this institution.', 403);
+                // Add or Remove User Permissions based on Alma roles and Slskeygroups configurations
+                $permissionsResponse = $this->manageSlskeyGroupPermissions($decodedToken);
+                if ($permissionsResponse) {
+                    return $permissionsResponse;
                 }
+            }
 
-                // Check if user has alma permissions
-                $userHasAlmaPermission = $this->checkUserHasAlmaPermissions($decodedToken);
+            // Find user from token
+            $user = $this->findUserFromToken($decodedToken);
 
-                if (!$userHasAlmaPermission['success']) {
-                    // Check if permissions have to be removed
-                    $user = $this->findUserFromToken($decodedToken);
-                    if ($user) {
-                        foreach ($slskeyGroups as $slskeyGroup) {
-                            $user->removePermissions($slskeyGroup->slskey_code);
-                        }
-                    }
-
-                    return new Response("Authorization failed. {$userHasAlmaPermission['message']}", 403);
-                }
-
-                // Create or update User with SLSKey Group Permissions
-                $user = $this->createOrUpdateUserWithPermissionsForSlskeyGroups($decodedToken, $slskeyGroups);
-            } else {
-                // Find user from token
-                $user = $this->findUserFromToken($decodedToken);
-
-                if (!$user) {
-                    return new Response('Authorization failed. User not found.', 403);
-                }
+            if (!$user) {
+                return new Response('Authorization failed. User not found.', 403);
             }
 
             // Log the user in, so we can use Auth::user() in the controllers
             Auth::setUser($user);
-
-            // Store institution in session to make it available in the controllers
-            session(['alma_institution' => $decodedToken->inst_code]);
+            $user->updateLastLogin();
 
             return $next($request);
         } catch (\Exception $e) {
             return new Response("Authorization failed: {$e->getMessage()}", 401);
+        }
+    }
+
+    /**
+     * Manage SLSkey Group Permissions based on Alma Permisisons
+     * Returns error response if failed, null if success
+     *
+     * @param  object  $decodedToken
+     *
+     * @return Response|null
+     */
+    protected function manageSlskeyGroupPermissions($decodedToken)
+    {
+        // Check if there are slskeygroups for this institution
+        $slskeyGroups = SlskeyGroup::where('alma_iz', $decodedToken->inst_code)->get();
+
+        if ($slskeyGroups->isEmpty()) {
+            return new Response('Authorization failed. No SLSKey Groups found for this institution.', 403);
+        }
+
+        $user = $this->findUserFromToken($decodedToken);
+
+        // Get SlskeyGroups that are allowed for user
+        foreach ($slskeyGroups as $slskeyGroup) {
+            $isPermitted = $this->checkSlskeyGroupPermitted($slskeyGroup, $decodedToken);
+            if ($isPermitted) {
+                $user = $this->createOrUpdateUserWithPermissionsForSlskeyGroup($decodedToken, $slskeyGroup);
+            } else {
+                if ($user) {
+                    $user->removePermissions($slskeyGroup->slskey_code);
+                }
+            }
+        }
+
+        // Check if user has any permissions
+        if (!$user || !$user->hasAnyPermissions()) {
+            return new Response("Authorization failed. User has no permissions for any SLSKey Groups", 403);
         }
     }
 
@@ -128,62 +143,61 @@ class AuthCloudApp
      */
     protected function findUserFromToken(object $token)
     {
-        return User::where('user_identifier', $token->sub)->first();
+        return User::where('user_identifier', "$token->inst_code-$token->sub")->first();
     }
 
     /**
-     * Check if the user has permissions in Alma.
+     * Check if the user has permissions in Alma for selected SLSKeyGroup
      *
+     * @param SlskeyGroup $slskeyGroup
      * @param object $token
      * @return [success, message]
      */
-    protected function checkUserHasAlmaPermissions(object $token)
+    protected function checkSlskeyGroupPermitted(SlskeyGroup $slskeyGroup, object $token): bool
     {
-        $institution = $token->inst_code;
-        $username = $token->sub;
-        $token = config("services.alma.api_keys.$institution");
-        if (!$token) {
-            return [
-                'success' => false,
-                'message' => 'No API token configured for this IZ.'
-            ];
+        // is Cloud app forbidden by configuration of SLSKeyGroup
+        if (!$slskeyGroup->cloud_app_allow) {
+            return false;
         }
 
-        $this->almaApiService->setApiKey($token);
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($username);
+        // Get staff user from alma Iz
+        $institution = $token->inst_code;
+        $username = $token->sub;
+        $almaServiceResponse = $this->almaApiService->getStaffUserFromSingleIz($username, $institution);
 
         if (!$almaServiceResponse->success) {
-            return [
-                'success' => false,
-                'message' => $almaServiceResponse->errorText
-            ];
+            return false;
         }
 
         $almaUser = $almaServiceResponse->almaUser;
 
         if ($almaUser->record_type != AlmaEnums::RECORD_TYPE_STAFF_USER) {
-            return [
-                'success' => false,
-                'message' => 'User is not a staff user in Alma.'
-            ];
+            // User is not a staff user in Alma.
+            return false;
         }
 
-        // TODO: check if there are roles in the user for this institution
-        /*
-        $roles = $almaUser->roles;
-        if (!$roles) {
-            return [
-                'success' => false,
-                'message' => 'User has no roles in Alma.'
-            ];
+        // Check if Cloud App usage is limited to alma roles or scopes
+        if ($slskeyGroup->cloud_app_roles) {
+            $cloudAppRoles = explode(';', $slskeyGroup->cloud_app_roles);
+            $cloudAppRolesScopes = $slskeyGroup->cloud_app_roles_scopes ? explode(';', $slskeyGroup->cloud_app_roles_scopes) : null;
+            // Check if user has a role in almauser->roles, that exists in cloudAppRoles and scope exists in cloudAppRolesScopes
+            $hasRole = false;
+            foreach ($almaUser->roles as $role) {
+                if (in_array($role->role, $cloudAppRoles)) {
+                    if (!$cloudAppRolesScopes || in_array($role->scope, $cloudAppRolesScopes)) {
+                        $hasRole = true;
+
+                        break;
+                    }
+                }
+            }
+            if (!$hasRole) {
+                return false;
+            }
         }
-        */
 
         // Success
-        return [
-            'success' => true,
-            'message' => 'User has roles in Alma.'
-        ];
+        return true;
     }
 
     /**
@@ -193,19 +207,18 @@ class AuthCloudApp
      * @param array $slskeyGroups
      * @return User user
      */
-    protected function createOrUpdateUserWithPermissionsForSlskeyGroups(object $token, Collection $slskeyGroups)
+    protected function createOrUpdateUserWithPermissionsForSlskeyGroup(object $token, SlskeyGroup $slskeyGroup)
     {
         $user = User::updateOrCreate([
-            'user_identifier' => $token->sub,
+            'user_identifier' => "$token->inst_code-$token->sub",
         ], [
             'display_name' => $token->sub,
             'is_edu_id' => 0,
+            'is_alma' => 1,
             'password' => bcrypt(str_random(10)),
         ]);
 
-        foreach ($slskeyGroups as $slskeyGroup) {
-            $user->givePermissions($slskeyGroup->slskey_code);
-        }
+        $user->givePermissions($slskeyGroup->slskey_code);
 
         return $user;
     }

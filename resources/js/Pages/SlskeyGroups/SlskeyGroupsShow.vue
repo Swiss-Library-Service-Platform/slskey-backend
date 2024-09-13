@@ -4,7 +4,7 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: slskeyGroup.data.name }
     ]">
-        <div class="my-5 mb-20 bg-white shadow-md rounded-md">
+        <div class="w-max my-8 mb-20 bg-white shadow-md rounded-md">
             <SlskeyGroupForm :isCreating="false" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"
@@ -53,6 +53,7 @@ export default {
                 slskey_code: this.slskeyGroup.data.slskey_code,
                 workflow: this.slskeyGroup.data.workflow,
                 send_activation_mail: this.slskeyGroup.data.send_activation_mail,
+                show_member_educational_institution: this.slskeyGroup.data.show_member_educational_institution,
                 alma_iz: this.slskeyGroup.data.alma_iz,
                 webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,
                 webhook_custom_verifier_class: this.slskeyGroup.data.webhook_custom_verifier_class,
@@ -63,6 +64,9 @@ export default {
                 webhook_mail_activation_domains: this.slskeyGroup.data.webhook_mail_activation_domains,
                 webhook_mail_activation_days_send_before_expiry: this.slskeyGroup.data.webhook_mail_activation_days_send_before_expiry,
                 webhook_mail_activation_days_token_validity: this.slskeyGroup.data.webhook_mail_activation_days_token_validity,
+                cloud_app_allow: this.slskeyGroup.data.cloud_app_allow,
+                cloud_app_roles: this.slskeyGroup.data.cloud_app_roles,
+                cloud_app_roles_scopes: this.slskeyGroup.data.cloud_app_roles_scopes,
                 switchGroups: this.slskeyGroup.data.switchGroups
             })
         }

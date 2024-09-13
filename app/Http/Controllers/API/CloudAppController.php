@@ -6,23 +6,23 @@ use App\Enums\TriggerEnums;
 use App\Http\Controllers\Controller;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class CloudAppController extends Controller
 {
-    protected $userService;
+    protected $activationService;
 
     /**
      * CloudAppController constructor.
      *
-     * @param UserService $userService
+     * @param ActivationService $activationService
      */
-    public function __construct(UserService $userService)
+    public function __construct(ActivationService $activationService)
     {
-        $this->userService = $userService;
+        $this->activationService = $activationService;
     }
 
     /**
@@ -46,8 +46,7 @@ class CloudAppController extends Controller
         $primaryId = Request::route()->parameter('primary_id');
 
         // Get Institution code from session (Set by middleware)
-        $instCode = session('alma_institution');
-        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId, $instCode);
+        $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId); //, $instCode);
 
         return new JsonResponse($slskeyGroups);
     }
@@ -63,10 +62,12 @@ class CloudAppController extends Controller
         Request::validate([
             'slskey_code' => ['required', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:255'],
+            'member_of_education_institution' => ['required', 'boolean'],
             'alma_user' => ['required'],
         ]);
         $slskeyCode = Request::input('slskey_code');
         $remark = Request::input('remark');
+        $isMemberOfEducationInstitution = Request::input('member_of_education_institution');
         $primaryId = Request::route()->parameter('primary_id');
 
         // Assuming $jsonData contains your JSON data
@@ -74,11 +75,11 @@ class CloudAppController extends Controller
         $almaUser = AlmaUser::fromApiResponse($almaUserInput);
 
         // Activate user via SWITCH API
-        $response = $this->userService->activateSlskeyUser(
+        $response = $this->activationService->activateSlskeyUser(
             $primaryId,
             $slskeyCode,
-            Auth::user()->display_name,
             TriggerEnums::CLOUD_APP,
+            Auth::user()->display_name,
             $almaUser,
             null // webhook activation mail
         );
@@ -88,7 +89,10 @@ class CloudAppController extends Controller
         }
 
         // Set Remark
-        $this->userService->setActivationRemark($primaryId, $slskeyCode, $remark);
+        $this->activationService->setActivationRemark($primaryId, $slskeyCode, $remark);
+
+        // Set Member Educational Institution
+        $this->activationService->setActivationMemberEducationalInstitution($primaryId, $slskeyCode, $isMemberOfEducationInstitution);
 
         return new JsonResponse($response->message);
     }

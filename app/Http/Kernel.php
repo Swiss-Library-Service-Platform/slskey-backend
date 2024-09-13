@@ -38,7 +38,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Localization::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
-            \App\Http\Middleware\MiddlewareSharedData::class,
         ],
         'saml' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -78,5 +77,6 @@ class Kernel extends HttpKernel
         'auth.webhooks' => \App\Http\Middleware\AuthWebhooks::class,
         'auth.cloudapp' => \App\Http\Middleware\AuthCloudApp::class,
         'auth.permission_check' => \App\Http\Middleware\AuthPermissionCheck::class,
+        'log.api' => \App\Http\Middleware\LogApiRequests::class,
     ];
 }

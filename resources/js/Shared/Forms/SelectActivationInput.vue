@@ -1,31 +1,34 @@
 <template>
-    <div class="flex flex-row justify-between mb-2 items-baseline"
-        :class="{ 'border-b border-color-gray-table': index < options.length - 1 }" v-for="(option, index) in options">
-        <label v-if="option.name" :class="{
-            'italic text-gray-disabled cursor-not-allowed border-color-gray-disabled':
-                (option.workflow == 'Webhook') || (option.activation && option.activation.blocked),
-        }" class="form-label flex items-center cursor-pointer" :for="getId(option.value)">
+    <div class="flex flex-col rounded border border-gray-300">
+        <div class="py-4 flex flex-row justify-between items-center px-4"
+            :class="{ 'border-b border-color-gray-table': index < options.length - 1 }"
+            v-for="(option, index) in options">
+            <label v-if="option.name" :class="{
+                'italic text-gray-disabled cursor-not-allowed border-color-gray-disabled':
+                    (option.workflow == 'Webhook') || (option.activation && option.activation.blocked),
+            }" class=" flex items-center cursor-pointer" :for="getId(option.value)">
 
-            <input v-if="option.workflow != 'Webhook'" :checked="option.value == this.modelValue" :id="getId(option.value)" ref="input"
-                v-bind="{ ...$attrs, class: null }"
-                class="form-checkbox rounded shadow-sm border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50"
-                :class="{ error: error }" type="checkbox" @change="clickOption(option.value, $event)"
-                :disabled="(option.workflow == 'Webhook') || (option.activation && option.activation.blocked)" />
+                <input v-if="option.workflow != 'Webhook'" :checked="option.value == this.modelValue"
+                    :id="getId(option.value)" ref="input" v-bind="{ ...$attrs, class: null }"
+                    class="text-color-slsp rounded shadow-sm border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50"
+                    :class="{ error: error }" type="checkbox" @change="clickOption(option.value, $event)"
+                    :disabled="(option.workflow == 'Webhook') || (option.activation && option.activation.blocked)" />
 
-            <MaterialIcon v-else icon="auto_mode"/>
+                <MaterialIcon v-else icon="auto_mode" />
 
-            <span class="text-lg ml-4">
+                <span class="text-md ml-4">
 
-                <!-- 
+                    <!-- 
                 <SlskeyGroupNameAndIcon :disabled="option.workflow === 'Webhook'" :workflow="option.workflow" :slskeyGroupName="option.name" />
-            --> 
-                {{ option.name }}
-            </span>
-        </label>
-        <div class="ml-4">
-            <UserStatusChip :activation="option.activation" />
+            -->
+                    {{ option.name }}
+                </span>
+            </label>
+            <div class="ml-4">
+                <UserStatusChip v-if="option.activation" :activation="option.activation" />
+            </div>
+            <div v-if="error" class="form-error">{{ error }}</div>
         </div>
-        <div v-if="error" class="form-error">{{ error }}</div>
     </div>
 </template>
 

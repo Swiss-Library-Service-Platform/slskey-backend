@@ -14,9 +14,22 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Interfaces\AlmaAPIInterface;
 
 class AdminUsersController extends Controller
 {
+    protected $almaApiService;
+
+    /**
+     * SlskeyGroupsController constructor.
+     *
+     * @param AlmaAPIInterface $almaApiService
+     */
+    public function __construct(AlmaAPIInterface $almaApiService)
+    {
+        $this->almaApiService = $almaApiService;
+    }
+
     /**
      * Index route for Admin Users
      *
@@ -24,13 +37,14 @@ class AdminUsersController extends Controller
      */
     public function index(): Response
     {
-        $adminUsers = User::query()->get();
-
+        $adminUsersPortal = User::where('is_alma', 0)->filter(Request::all())->get();
+        $adminUsersAlma = User::where('is_alma', 1)->filter(Request::all())->get();
         $slskeyGroups = SlskeyGroup::query()->get();
 
         return Inertia::render('AdminUsers/AdminUsersIndex', [
             'filters' => Request::all(),
-            'adminUsers' => AdminUserResource::collection($adminUsers),
+            'adminUsersPortal' => AdminUserResource::collection($adminUsersPortal),
+            'adminUsersAlma' => AdminUserResource::collection($adminUsersAlma),
             'slskeyGroups' => SlskeyGroupAdminResource::collection($slskeyGroups),
         ]);
     }
@@ -108,7 +122,7 @@ class AdminUsersController extends Controller
         $this->managePermissions($user);
 
         // Redirect to index route
-        return Redirect::route('admin.users.index')->with('success', 'admin_user_created');
+        return Redirect::route('admin.users.index')->with('success', __('flashMessages.admin_user_created'));
     }
 
     /**
@@ -204,5 +218,21 @@ class AdminUsersController extends Controller
 
         return Redirect::route('admin.users.index')
             ->with('success', __('flashMessages.admin_user_password_reset'));
+    }
+
+    /**
+     * Find edu-ID Primary Identifier from email using Alma API
+     *
+     * @param string $email
+     * @return array
+     */
+    public function findEduIdPrimaryIdentifier(string $email): array
+    {
+        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($email, '41SLSP_NETWORK');
+
+        return [
+            'user' => $almaServiceResponse?->almaUser,
+            'message' => $almaServiceResponse?->errorText,
+        ];
     }
 }

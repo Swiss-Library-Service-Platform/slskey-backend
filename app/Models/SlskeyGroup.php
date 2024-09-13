@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class SlskeyGroup extends Model
 {
@@ -24,6 +25,7 @@ class SlskeyGroup extends Model
         'workflow',
         'send_activation_mail',
         'alma_iz',
+        'show_member_educational_institution',
         'webhook_secret',
         'webhook_custom_verifier',
         'webhook_custom_verifier_class',
@@ -33,6 +35,20 @@ class SlskeyGroup extends Model
         'webhook_mail_activation_domains',
         'webhook_mail_activation_days_send_before_expiry',
         'webhook_mail_activation_days_token_validity',
+        'cloud_app_allow',
+        'cloud_app_roles',
+        'cloud_app_roles_scopes'
+    ];
+
+    /**
+     * Searchable fields
+     *
+     * @var array
+     */
+    protected static $searchable = [
+        'name',
+        'slskey_code',
+        'alma_iz',
     ];
 
     /**
@@ -154,6 +170,7 @@ class SlskeyGroup extends Model
                     'value' => $slskeyGroup->slskey_code,
                     'workflow' => $slskeyGroup->workflow,
                     'activation' => $activation ?? null,
+                    'show_member_educational_institution' => $slskeyGroup->show_member_educational_institution,
                 ];
             });
     }
@@ -225,6 +242,7 @@ class SlskeyGroup extends Model
             return true;
         }
 
+        // Check if the email template exists
         $baseDirectory = 'views/emails/activation/';
         try {
             $emailFiles = scandir(resource_path($baseDirectory . $this->slskey_code));
@@ -253,5 +271,30 @@ class SlskeyGroup extends Model
 
         // If all checks pass, return true
         return true;
+    }
+
+    /**
+     * Filter
+     *
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        $searchableColumns = static::$searchable;
+
+        /*
+        ------    Search Filter -------
+        */
+        $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
+            $query->where(function ($query) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+                }
+            });
+        });
+
+        return $query;
     }
 }

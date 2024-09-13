@@ -1,25 +1,28 @@
 <template>
     <AppLayout :title="$t('slskey_groups.title')" :breadCrumbs="[{ name: $t('slskey_groups.title') }]">
 
-        <!--
-        <div class="flex py-5 gap-4 items-end">
-            <SelectFilter v-model="selectedUser" :label="$t('admin_users.title')" :options="adminUsers" />
-            <SelectFilter v-model="selectedGroup" :label="$t('slskey_code')" :options="slskeyGroups" />
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
+            <FilterControl @reset="reset">
+                <SearchFilter v-model="form.search" :label="$t('slskey_groups.title')" />
+            </FilterControl>
+            <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2">
+                {{ $t('slskey_groups.create_new') }}
+            </DefaultButton>
         </div>
-        -->
-        <DefaultButton @click="createGroup" icon="plus" class="w-fit bg-color-slsp text-white py-2 mt-5">
-            {{ $t('slskey_groups.create_new') }}
-        </DefaultButton>
-        <div class="mt-5 mb-10 bg-white shadow-md rounded-md">
+
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.name') }} </th>
-                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.webhook_custom_verifier_class') }} </th>
-                        <!-- <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.switch_groups_count') }} </th> -->
-                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.publishers_title') }}
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.alma_iz') }} </th>
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.send_activation_mail_title') }} </th>
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{
+                            $t('slskey_groups.webhook_custom_verifier_class') }} </th>
+                        <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.switch_groups_count') }}
                         </th>
+                        <!--<th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.publishers_title') </th> }}-->
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.active_user_count') }}
                         </th>
                     </tr>
@@ -46,17 +49,38 @@
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                {{ group.webhook_custom_verifier_class }}
+                                {{ group.alma_iz }}
                                 </Link>
                             </td>
-                            <!--
+
+                            <td class="align-top">
+                                <Link v-if="group.send_activation_mail"
+                                class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+                                    :href="`/admin/groups/${group.slskey_code}`">
+                                    Yes
+                                </Link>
+                            </td>
+
+                            <td class="align-top">
+                                <Link v-if="group.webhook_custom_verifier_class"
+                                    class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+                                    :href="`/admin/groups/${group.slskey_code}`">
+                                {{ group.webhook_custom_verifier_class }}
+                                </Link>
+                                <Link v-if="group.webhook_mail_activation"
+                                    class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+                                    :href="`/admin/groups/${group.slskey_code}`">
+                                {{ $t('slskey_groups.webhook_mail_activation_title') }}
+                                </Link>
+                            </td>
+
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">
-                                    {{ group.switchGroupsCount }}
+                                {{ group.switchGroupsCount }}
                                 </Link>
                             </td>
-                            -->
+                            <!--
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap"
                                     :href="`/admin/groups/${group.slskey_code}`">
@@ -66,6 +90,7 @@
                                 </span>
                                 </Link>
                             </td>
+                            -->
 
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
@@ -95,26 +120,54 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import { Inertia } from '@inertiajs/inertia';
 import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
-import SlskeyGroupNameAndIcon from '../../Shared/SlskeyGroupNameAndIcon.vue';
+import SlskeyGroupNameAndIcon from '@/Shared/SlskeyGroupNameAndIcon.vue';
+import FilterControl from '@/Shared/Filters/FilterControl.vue';
+import SearchFilter from '@/Shared/Filters/SearchFilter.vue';
+import throttle from "lodash/throttle"
+import omitBy from 'lodash/omitBy'
+import axios from 'axios';
+
 export default {
     components: {
         AppLayout,
-        SelectFilter,
+        SearchFilter,
+        FilterControl,
         Inertia,
         DefaultButton,
         SlskeyGroupNameAndIcon
     },
     props: {
-        slskeyGroups: Object
+        slskeyGroups: Object,
+        filters: Object
     },
     data() {
         return {
-
+            form: {
+                search: this.filters.search
+            }
         }
     },
     methods: {
         createGroup() {
             Inertia.visit('/admin/groups/create');
+        },
+        reset() {
+            this.form = {
+                search: ''
+            }
+        }
+    },
+    watch: {
+        form: {
+            deep: true,
+            handler: throttle(function (new_value, old_value) {
+                Inertia.get('/admin/groups', omitBy(this.form, _.overSome([_.isNil, _.isNaN])),
+                    {
+                        preserveState: true,
+                        replace: true
+                    }
+                )
+            }, 500)
         }
     }
 }

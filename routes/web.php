@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PublishersController;
 use App\Http\Controllers\Admin\SlskeyGroupsController;
 use App\Http\Controllers\Admin\SlskeyHistoryController;
 use App\Http\Controllers\Admin\SwitchGroupsController;
+use App\Http\Controllers\Admin\LogJobController;
 use App\Http\Controllers\Auth\LandingController;
 use App\Http\Controllers\Main\ActivationController;
 use App\Http\Controllers\Main\ReportingController;
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 // Landing and Login
 Route::get('/login', [LandingController::class, 'index'])
-    ->name('login');
+    ->name('loginform');
 Route::get('/login/eduid', [LandingController::class, 'loginEduID'])
     ->name('login_eduid');
 Route::get('/login/changepassword', [LandingController::class, 'changePassword'])
@@ -47,22 +48,21 @@ Route::get('/reactivate/{token}', [ReactivationTokenController::class, 'reactiva
 Route::get('/reactivate/{token}/renew', [ReactivationTokenController::class, 'renew'])
     ->name('token.renew');
 
-// Logout
-Route::get('logout/eduid', [LandingController::class, 'logoutEduID'])
-    ->name('logout_eduid');
-
 // Publisher Participate Info Page
 Route::get('/participate', [LandingController::class, 'participate'])
     ->name('participate');
+Route::get('/publishers', [LandingController::class, 'participate'])
+    ->name('publishers');
 
 // Authenticated Routes
 Route::middleware([
     config('jetstream.auth_session'),
     'auth.check',
 ])->group(function () {
-    /* -------------------------
-            Activation
-    ------------------------- */
+    // Logout
+    Route::get('logout/user', [LandingController::class, 'logoutUsernamePassword'])
+        ->name('logout_username_password');
+
     // Start / Preview
     Route::get('/', [ActivationController::class, 'start'])
         ->name('activation.start');
@@ -88,6 +88,9 @@ Route::middleware([
             ->name('activation.expiration.disable');
         Route::delete('activation/{primary_id}/expiration', [ActivationController::class, 'enableExpiration'])
             ->name('activation.expiration.enable');
+        // Member of Educational Institution
+        Route::post('activation/{primary_id}/member_educational_institution', [ActivationController::class, 'changeMemberEducationalInstitution'])
+            ->name('activation.member');
     });
 
     // User Management
@@ -106,6 +109,8 @@ Route::middleware([
     // Reporting
     Route::get('/reporting', [ReportingController::class, 'index'])
         ->name('reporting.index');
+    Route::get('/reporting/export', [ReportingController::class, 'export'])
+        ->name('reporting.export');
     Route::get('reporting/{identifier}', [ReportingController::class, 'showReportSettings'])
         ->name('reporting.show');
     Route::post('reporting/{identifier}', [ReportingController::class, 'addReportingEmail'])
@@ -176,6 +181,8 @@ Route::middleware([
             ->name('admin.users.destroy');
         Route::put('/admin/users/{user_identifier}/resetpassword', [AdminUsersController::class, 'resetPassword'])
             ->name('admin.users.resetpassword');
+        Route::get('/admin/users/findeduid/{user_identifier}', [AdminUsersController::class, 'findEduIdPrimaryIdentifier'])
+            ->name('admin.users.findeduid');
 
         // Mass Import
         Route::get('admin/import', [ImportController::class, 'index'])
@@ -186,6 +193,10 @@ Route::middleware([
             ->name('admin.import.store');
         Route::post('admin/import/stop', [ImportController::class, 'cancelImport'])
             ->name('admin.import.stop');
+
+        // API Logs
+        Route::get('/admin/logjob', [LogJobController::class, 'index'])
+            ->name('admin.logjob.index');
     });
 
     // Localization

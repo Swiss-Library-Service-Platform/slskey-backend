@@ -58,13 +58,15 @@
         <GlobeAltIcon v-if="icon === 'globe-alt'" />
         <InformationCircleIcon v-if="icon === 'information-circle'" />
         <ChartSquareBarIcon v-if="icon === 'chart-square-bar'" />
+        <CloudIcon v-if="icon === 'cloud'" />
+        <AcademicCapIcon v-if="icon === 'academic-cap'" />
     </div>
 </template>
 
 <script>
 import {
     ChevronLeftIcon, ChevronRightIcon, PlusIcon, FingerPrintIcon,
-    SearchIcon, ClockIcon, ExclamationIcon, ChevronDownIcon, LightningBoltIcon, ExclamationCircleIcon, LinkIcon
+    SearchIcon, ClockIcon, ExclamationIcon, ChevronDownIcon, LightningBoltIcon, LinkIcon
 } from '@heroicons/vue/solid'
 import {
     DocumentDownloadIcon, TrashIcon, SaveIcon, ViewListIcon, PhoneIcon,
@@ -75,7 +77,7 @@ import {
     ArrowSmDownIcon, ArrowSmUpIcon, ArrowCircleRightIcon, HandIcon, MailIcon, BookOpenIcon,
     CursorClickIcon, RefreshIcon, ChevronDoubleRightIcon, ChipIcon, QuestionMarkCircleIcon, LogoutIcon, AnnotationIcon,
     LockClosedIcon, InformationCircleIcon, GlobeAltIcon,
-    ChartSquareBarIcon
+    ChartSquareBarIcon, CloudIcon, AcademicCapIcon, ExclamationCircleIcon
 } from '@heroicons/vue/outline'
 export default {
     components: {
@@ -87,9 +89,11 @@ export default {
         CursorClickIcon,
         RefreshIcon,
         ChipIcon,
+        CloudIcon,
         HandIcon,
         CheckIcon,
         ChevronLeftIcon,
+        AcademicCapIcon,
         ChevronRightIcon,
         ChevronDoubleRightIcon,
         PlusIcon,

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\AuthCloudApp;
-use App\Models\AlmaUser;
 use App\Models\User;
 
 beforeEach(function () {
@@ -12,7 +11,9 @@ it('fails the activation, because no slskey code given', function () {
     $almaUsername = 'Admin';
     $almaInstCode = '12345';
     $slskeyCode = 'man1';
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+
+    $username = "$almaInstCode-$almaUsername";
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
 
     getMockedAuthCloudApp($almaUsername, $almaInstCode);
     $identifier = '123';
@@ -32,7 +33,9 @@ it('fails the activation, because no alma user given', function () {
     $almaUsername = 'Admin';
     $almaInstCode = '12345';
     $slskeyCode = 'man1';
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+    $username = "$almaInstCode-$almaUsername";
+
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
 
     getMockedAuthCloudApp($almaUsername, $almaInstCode);
     $identifier = '123';
@@ -53,7 +56,9 @@ it('fails the activation, because primary is is not an edu id', function () {
     $almaUsername = 'Admin';
     $almaInstCode = '12345';
     $slskeyCode = 'man1';
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+    $username = "$almaInstCode-$almaUsername";
+
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
 
     getMockedAuthCloudApp($almaUsername, $almaInstCode);
     $identifier = '123';
@@ -64,6 +69,7 @@ it('fails the activation, because primary is is not an edu id', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(400);
@@ -74,7 +80,9 @@ it('succeeds the activation & extension', function () {
     $almaUsername = 'Admin';
     $almaInstCode = '12345';
     $slskeyCode = 'man1';
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+    $username = "$almaInstCode-$almaUsername";
+
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
 
     getMockedAuthCloudApp($almaUsername, $almaInstCode);
 
@@ -88,6 +96,7 @@ it('succeeds the activation & extension', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(200);
@@ -100,6 +109,7 @@ it('succeeds the activation & extension', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(200);
@@ -113,7 +123,6 @@ it('succeeds the activation & extension', function () {
 
 function getMockedAuthCloudApp($almaUsername, $almaInstCode)
 {
-    session(['alma_institution' => $almaInstCode]);
     test()->mock(AuthCloudApp::class, function ($mock) use ($almaUsername, $almaInstCode) {
         $mock->shouldAllowMockingProtectedMethods();
         $mock->makePartial();

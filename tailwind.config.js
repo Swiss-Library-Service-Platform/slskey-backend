@@ -12,6 +12,13 @@ module.exports = {
 
     theme: {
         extend: {
+            minWidth: {
+               '0': '0',
+               '1/4': '25%',
+               '1/2': '50%',
+               '3/4': '75%',
+               'full': '100%',
+            },
             fontFamily: {
                 sans: ['Source Sans Pro', ...defaultTheme.fontFamily.sans],
             },
@@ -26,13 +33,14 @@ module.exports = {
               '18px': '18px',
               '32rem': '32rem',
               '36rem': '36rem',
+              '76': '19rem',
             }, 
             screens: {
                 '3xl': '1800px',
             },
             colors: {
                 // Gray for Background and Borders
-                'gray-background': '#e9e9e9',
+                'gray-background': '#e9e9e9', // '#e9e9e991', // '#e9e9e9',
                 'gray-table': '#c9c9c9', //'#e5e7eb',
                 'gray-disabled': '#d1d5db',
                 // Main colors
@@ -40,11 +48,10 @@ module.exports = {
                 'color-one-1': '#edf1f5', 
                 // SLSP
                 'color-slsp': '#4e4a99',
-                'color-slsp-light': '#e5e5f4',
                 'color-slsp-bg': '#4e4a9914',
-                'color-alma': '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
+                'color-alma': '#e2f5ff', // '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
                 // App layout
-                'color-header-bg': '#343a40',
+                'color-header-bg': process.env.APP_ENV == 'production' ?  '#343a40' : '#700d0ecf',
                 'color-header-text': '#fff',
                 // User Status - Font
                 'color-active': '#047d04',
@@ -58,5 +65,29 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    plugins: [
+        require('@tailwindcss/forms'), 
+        require('@tailwindcss/typography'),
+        function ({ addBase, theme }) {
+            addBase({
+                // this is needed to use the colors in the css
+              ':root': {
+                '--color-one': theme('colors.color-one'),
+                '--color-one-1': theme('colors.color-one-1'),
+                '--color-slsp': theme('colors.color-slsp'),
+                '--color-slsp-bg': theme('colors.color-slsp-bg'),
+                '--color-alma': theme('colors.color-alma'),
+                '--color-header-bg': theme('colors.color-header-bg'),
+                '--color-header-text': theme('colors.color-header-text'),
+                '--color-active': theme('colors.color-active'),
+                '--color-deactivated': theme('colors.color-deactivated'),
+                '--color-blocked': theme('colors.color-blocked'),
+                '--color-active-bg': theme('colors.color-active-bg'),
+                '--color-deactivated-bg': theme('colors.color-deactivated-bg'),
+                '--color-blocked-bg': theme('colors.color-blocked-bg'),
+
+              },
+            });
+          },
+    ],
 };

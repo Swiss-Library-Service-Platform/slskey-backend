@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response as HttpResponse;
 use Throwable;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ExceptionOccurred;
 
 class Handler extends ExceptionHandler
 {
@@ -33,6 +34,16 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $e);
+    }
+
+    public function report(Throwable $exception)
+    {
+        if ($this->shouldReport($exception)) {
+            Notification::route('mail', env('EXCEPTION_MAIL_RECIPIENT'))
+                        ->notify(new ExceptionOccurred($exception));
+        }
+
+        parent::report($exception);
     }
 
     /**

@@ -18,8 +18,6 @@
                     </p>
                 </Transition>
             </template>
-
-
         </h2>
     </div>
 </template>

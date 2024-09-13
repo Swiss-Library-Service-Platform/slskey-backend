@@ -1,6 +1,8 @@
 <template>
     <Menu as="div" class="relative inline-block text-left">
         <div>
+            <!-- Old Menu Button with Logout Menu -->
+            <!-- 
             <MenuButton v-on:pointerenter="isShowing = true" v-on:pointerleave="isShowing = false"
                 class="gtouch-none whitespace-nowrap text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
                 <Icon icon="user-circle" class="w-6 mr-2"></Icon>
@@ -8,6 +10,17 @@
                 {{ $page.props.auth.user?.display_name }}
 
             </MenuButton>
+            -->
+
+            <!-- New Profile without Logout Menu -->
+            <MenuButton 
+                class="gtouch-none cursor-default whitespace-nowrap text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md">
+                <Icon icon="user-circle" class="w-6 mr-2"></Icon>
+
+                {{ $page.props.auth.user?.display_name }}
+
+            </MenuButton>
+
         </div>
 
         <transition v-show="isShowing" v-on:pointerenter="isShowing = true" v-on:pointerleave="isShowing = false"

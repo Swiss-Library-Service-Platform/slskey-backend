@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use App\Models\AlmaUser;
 
-class AlmaServiceResponse
+class AlmaServiceMultiResponse
 {
     /**
      * Indicates if the request was successful.
@@ -14,18 +14,11 @@ class AlmaServiceResponse
     public bool $success;
 
     /**
-     * The status code of the response.
-     *
-     * @var integer
-     */
-    public int $statusCode;
-
-    /**
      * The Alma user object.
      *
      * @var AlmaUser|null
      */
-    public ?AlmaUser $almaUser;
+    public ?array $almaUsers;
 
     /**
      * The error text if the request was not successful.
@@ -39,14 +32,13 @@ class AlmaServiceResponse
      *
      * @param boolean $success
      * @param integer $statusCode
-     * @param AlmaUser|null $almaUser
+     * @param Array<AlmaUser>|null $almaUsers
      * @param string|null $errorText
      */
-    public function __construct(bool $success, int $statusCode, ?AlmaUser $almaUser, ?string $errorText = null)
+    public function __construct(bool $success, ?array $almaUsers, ?string $errorText = null)
     {
         $this->success = $success;
-        $this->statusCode = $statusCode;
-        $this->almaUser = $almaUser;
+        $this->almaUsers = $almaUsers;
         $this->errorText = $errorText;
     }
 }

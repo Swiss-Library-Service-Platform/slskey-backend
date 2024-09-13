@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -29,7 +30,9 @@ class User extends Authenticatable
         'user_identifier', // either edu-ID primary ID or Username
         'display_name',
         'is_edu_id',
+        'is_alma',
         'password',
+        'last_login'
     ];
 
     /**
@@ -53,6 +56,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * Permissions relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(config('roles.models.permission'))->withTimestamps();
+    }
+
+    /**
      * Check if user is SLSP Admin
      *
      * @return boolean
@@ -60,6 +73,26 @@ class User extends Authenticatable
     public function isSLSPAdmin(): bool
     {
         return $this->hasRole('slskeyadmin');
+    }
+
+    /**
+     * Check if user has any permissions
+     *
+     * @return boolean
+     */
+    public function hasAnyPermissions(): bool
+    {
+        return $this->getPermissions()->count() > 0;
+    }
+
+    /**
+     * Get number of permissions
+     *
+     * @return int
+     */
+    public function getNumberOfPermissions(): int
+    {
+        return $this->getPermissions()->count();
     }
 
     /**
@@ -89,13 +122,13 @@ class User extends Authenticatable
     /**
      * Get the SlskeyGroup IDs that the User has permissions for.
      *
-     * @return Collection
+     * @return array
      */
-    public function getSlskeyGroupsPermissionsIds(): Collection
+    public function getSlskeyGroupsPermissionsIds(): array
     {
         return $this->getPermissions()->map(function ($permission) {
             return SlskeyGroup::where('slskey_code', $permission->slug)->first()->id;
-        });
+        })->toArray();
     }
 
     /**
@@ -121,6 +154,17 @@ class User extends Authenticatable
     {
         $this->password = Hash::make($password);
         $this->password_change_at = null;
+        $this->save();
+    }
+
+    /**
+     * Update Last Login
+     *
+     * @return void
+     */
+    public function updateLastLogin(): void
+    {
+        $this->last_login = now();
         $this->save();
     }
 
@@ -182,5 +226,39 @@ class User extends Authenticatable
     public function removeAllPermissions(): void
     {
         $this->detachAllPermissions();
+    }
+
+    /**
+     * Filter
+     *
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        $searchableColumns = static::$searchable;
+
+        /*
+        ------    Search Filter -------
+        */
+        $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
+            $query->where(function ($query) use ($search, $searchableColumns) {
+                foreach ($searchableColumns as $column) {
+                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+                }
+            });
+        });
+
+        /*
+        ------    SLSKey Group -------
+        */
+        $query->when($filters['slskeyCode'] ?? null, function ($query, $slskeyGroup) {
+            $query->whereHas('permissions', function ($query) use ($slskeyGroup) {
+                $query->where('slug', $slskeyGroup);
+            });
+        });
+
+        return $query;
     }
 }

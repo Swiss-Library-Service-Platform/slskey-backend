@@ -171,9 +171,14 @@ class SlskeyUser extends Model
         ------    Search Filter -------
         */
         $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
-            $query->where(function ($query) use ($search, $searchableColumns) {
-                foreach ($searchableColumns as $column) {
-                    $query->orWhere($column, 'LIKE', '%'.$search.'%');
+            $searchTerms = explode(' ', $search);
+            $query->where(function ($query) use ($searchTerms, $searchableColumns) {
+                foreach ($searchTerms as $term) {
+                    $query->where(function ($query) use ($term, $searchableColumns) {
+                        foreach ($searchableColumns as $column) {
+                            $query->orWhere($column, 'LIKE', '%'.$term.'%');
+                        }
+                    });
                 }
             });
         });
@@ -186,59 +191,64 @@ class SlskeyUser extends Model
             // When no order is set, order by id desc
             return $query->orderBy('id', 'desc');
         }, function ($query, $sort_by) use ($filters) {
+            // Sort by activation date
             if ($sort_by == 'activation_date') {
+                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
                 if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
                         SELECT max(activation_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
                         ORDER BY activation_date DESC
                         LIMIT 1
                     ) DESC');
                 } else {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT min(activation_date)
+                        SELECT max(activation_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
-                        ORDER BY activation_date ASC
+                        ORDER BY activation_date DESC
                         LIMIT 1
                     ) ASC');
                 }
             }
+            // Sort by expiration date
             if ($sort_by == 'expiration_date') {
+                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
                 if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
                         SELECT max(expiration_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
                         ORDER BY expiration_date DESC
                         LIMIT 1
                     ) DESC');
                 } else {
-                    // this is very slow, but it works
+                    // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT min(expiration_date)
+                        SELECT max(expiration_date)
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
+                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
                         group by slskey_user_id
-                        ORDER BY expiration_date ASC
+                        ORDER BY expiration_date DESC
                         LIMIT 1
                     ) ASC');
                 }
             }
-            if ($sort_by == 'primary_id') {
-                if ($filters['sortAsc'] == 'false') {
-                    // this is very slow, but it works
-                    $query->orderByDesc('primary_id');
-                } else {
-                    $query->orderBy('primary_id');
-                }
+
+            if ($sort_by == 'full_name') {
+                $query->orderBy('first_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc')
+                    ->orderBy('last_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc');
             }
         });
 
@@ -255,9 +265,12 @@ class SlskeyUser extends Model
 
             $query->whereHas('slskeyActivations', function ($query) use ($status, $slskeyCode, $activationStart, $activationEnd) {
                 // Check for permissions again here, otherwise it looks up all users/activations for given filters
-                $slspEmployee = Auth::user()->isSLSPAdmin();
+
+                /** @var \App\Models\User */
+                $user = Auth::user();
+                $slspEmployee = $user->isSLSPAdmin();
                 if (! $slspEmployee) {
-                    $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+                    $permissions = $user->getSlskeyGroupsPermissionsIds();
                     $query = $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
                         $query->whereIn('id', $permissions);
                     });
@@ -319,10 +332,12 @@ class SlskeyUser extends Model
         }
 
         // SLSP Super Admin
-        $slspEmployee = Auth::user()->isSLSPAdmin();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
         if (! $slspEmployee) {
             // SLSKey Group Permissions
-            $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+            $permissions = $user->getSlskeyGroupsPermissionsIds();
 
             // Filter for users with permitted activation
             $query->whereHas('slskeyActivations.slskeyGroup', function ($query) use ($permissions) {
@@ -353,10 +368,12 @@ class SlskeyUser extends Model
                 }
 
                 // Filter for permitted activations
-                $slspEmployee = Auth::user()->isSLSPAdmin();
+                /** @var \App\Models\User */
+                $user = Auth::user();
+                $slspEmployee = $user->isSLSPAdmin();
                 if (! $slspEmployee) {
                     // SLSKey Group Permissions
-                    $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+                    $permissions = $user->getSlskeyGroupsPermissionsIds();
 
                     // Filter for users with permitted activation
                     $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
@@ -365,7 +382,7 @@ class SlskeyUser extends Model
                 }
 
                 // Define Fields to be Eager Loaded
-                $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation']);
+                $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution']);
             },
         ]);
 
@@ -382,23 +399,20 @@ class SlskeyUser extends Model
     public function scopeWithPermittedHistories(Builder $query): Builder
     {
         // SLSP Super Admin
-        $slspEmployee = Auth::user()->isSLSPAdmin();
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
         if ($slspEmployee) {
             return $query->with(['slskeyHistories.slskeyGroup:id,name,slskey_code']);
         }
 
         // SLSKey Group Permissions
-        $permissions = Auth::user()->getSlskeyGroupsPermissionsIds();
+        $permissions = $user->getSlskeyGroupsPermissionsIds();
 
         // return only permitted activation of users
         return $query->with([
-            'slskeyHistories' => function ($query) use ($permissions, $slspEmployee) {
+            'slskeyHistories' => function ($query) use ($permissions) {
                 $query->whereIn('slskey_group_id', $permissions)->with(['slskeyGroup:id,name,slskey_code']);
-
-                // Only show successful history, if not SLSP admin
-                if (! $slspEmployee) {
-                    $query->where('success', 1);
-                }
             },
         ]);
     }

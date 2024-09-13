@@ -12,10 +12,12 @@ it('succeeds to find 1 group, with no user activations', function () {
     $almaUsername = 'Admin';
     $slskeyCode = 'man1';
     $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCode)->first();
-    $almaIz = $slskeyGroup->alma_iz;
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+    $almaInstCode = $slskeyGroup->alma_iz;
+    $username = "$almaInstCode-$almaUsername";
 
-    getMockedAuthCloudApp($almaUsername, $almaIz);
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
+
+    getMockedAuthCloudApp($almaUsername, $almaInstCode);
 
     $identifier = '123@eduid.ch';
 
@@ -38,10 +40,12 @@ it('succeeds to find 1 group, with 1 user activations', function () {
     $almaUsername = 'Admin';
     $slskeyCode = 'man1';
     $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCode)->first();
-    $almaIz = $slskeyGroup->alma_iz;
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCode)->create();
+    $almaInstCode = $slskeyGroup->alma_iz;
+    $username = "$almaInstCode-$almaUsername";
 
-    getMockedAuthCloudApp($almaUsername, $almaIz);
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCode)->create();
+
+    getMockedAuthCloudApp($almaUsername, $almaInstCode);
 
     $slskeyUser = SlskeyUser::query()->inRandomOrder()->first();
     $identifier = $slskeyUser->primary_id;
@@ -76,10 +80,12 @@ it('succeeds to find 2 groups, with 1 user activations', function () {
     $almaUsername = 'Admin';
     $slskeyCodes = ['man1', 'man2'];
     $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCodes[0])->first();
-    $almaIz = $slskeyGroup->alma_iz;
-    $user = User::factory(['user_identifier' => $almaUsername])->edu_id()->withPermissions($slskeyCodes)->create();
+    $almaInstCode = $slskeyGroup->alma_iz;
+    $username = "$almaInstCode-$almaUsername";
 
-    getMockedAuthCloudApp($almaUsername, $almaIz);
+    $user = User::factory(['user_identifier' => $username])->edu_id()->withPermissions($slskeyCodes)->create();
+
+    getMockedAuthCloudApp($almaUsername, $almaInstCode);
 
     $slskeyUser = SlskeyUser::query()->inRandomOrder()->first();
     $identifier = $slskeyUser->primary_id;

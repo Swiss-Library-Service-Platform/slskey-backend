@@ -4,7 +4,7 @@
 		"activate_new": "Neuer Benutzer",
 		"activation_start": "Benutzer aktivieren",
 		"activation_start_info": "Suche nach einem Identifier in Alma",
-		"identifier": "Benutzer Identifier",
+		"identifier": "primary id / email / kennungen",
 		"remark_optional": "Anmerkung (optional):",
 		"search": "Suche",
 		"slskey_groups": "SLSKey Gruppen",
@@ -19,15 +19,20 @@
 		"extended": "Verlängert",
 		"notified": "Benutzer benachrichtigt",
 		"reactivated": "Reaktiviert",
+		"remark_updated": "Anmerkung aktualisiert",
 		"reminded": "Benutzer erinnert",
+		"set_member_education": "Mitglied Bildungsinstitution",
 		"token_sent": "Token gesendet",
-		"unblocked": "Entblockiert"
+		"unblocked": "Entblockiert",
+		"unset_member_education": "Nicht Mitglied Bildungsinstitution"
 	},
 	"admin_import": {
 		"title": "Massenimport"
 	},
 	"admin_users": {
 		"add_slskey_group": "SLSKey Gruppe hinzufügen",
+		"admin_portal": "Admin Portal",
+		"alma_app": "Alma Cloudapp",
 		"cancel": "Abbrechen",
 		"create_new": "Neuen Benutzer erstellen",
 		"delete": "Admin-Benutzer löschen",
@@ -37,6 +42,7 @@
 		"general": "Allgemeine Details",
 		"initial_password": "Erstes Passwort",
 		"is_edu_id": "Anmeldung über Switch edu-ID",
+		"last_login": "Letzte Anmeldung",
 		"no_records": "Keine Benutzer gefunden",
 		"no_slskeygroups": "Keine Berechtigungen vorhanden",
 		"permission_groups": "Aktive Berechtigungen",
@@ -44,19 +50,23 @@
 		"permissions": "Berechtigungen",
 		"reset_password": "Passwort zurücksetzen",
 		"save": "Benutzer speichern",
+		"search_eduid": "Search mail in Alma (press enter)",
 		"slsp_admin": "SLSP Administrator",
 		"title": "Admin-Benutzer",
-		"user_identifier": "Identifier (Benutzername oder edu-ID)",
+		"user_identifier": "Identifier",
 		"user_identifier_eduid": "edu-ID Identifier",
-		"user_identifier_username": "Benutzername"
+		"user_identifier_username": "Benutzername",
+		"user_type": "User Type"
 	},
 	"alma_user": {
 		"addresses": "Adressen",
 		"alma_details": "Alma Details",
+		"blocked": "Account ist geblockt in Alma.",
 		"email": "E-Mail",
 		"first_name": "Vorname",
 		"full_name": "Benutzername",
 		"last_name": "Nachname",
+		"no_address": "Keine Adresse in Alma",
 		"not_found": "Kein Benutzer in Alma gefunden",
 		"preferred_language": "Sprache",
 		"user_group": "Benutzergruppe"
@@ -66,20 +76,20 @@
 		"logout": "Abmelden"
 	},
 	"confirm_dialog": {
-        "cancel": "Abbrechen",
-        "confirm": "Bestätigen",
-        "title": "Bestätigung"
-    },
+		"cancel": "Abbrechen",
+		"confirm": "Bestätigen",
+		"title": "Bestätigung"
+	},
 	"eduid_status": "Edu-ID Status",
 	"history": {
 		"action": "Ereignis",
-		"author": "Autor",
+		"author": "Benutzer",
 		"date": "Datum",
 		"message": "Fehler",
 		"no_history": "Keine Historie",
 		"search": "Suche",
 		"time": "Zeit",
-		"title": "Historie Log",
+		"title": "Globale Historie",
 		"trigger": "Auslöser"
 	},
 	"landing": {
@@ -94,6 +104,18 @@
 		"french": "Französisch",
 		"german": "Deutsch",
 		"italian": "Italienisch"
+	},
+	"log_jobs": {
+		"has_fail": "Fehlgeschlagen",
+		"info": "Info",
+		"job": "Aufgabe",
+		"no_logs": "Keine Protokolle",
+		"time": "Zeit",
+		"title": "Job Protokolle"
+	},
+	"notifications": {
+		"error": "Fehler",
+		"success": "Erfolg"
 	},
 	"pagination": {
 		"empty": "{0} Ergebnisse",
@@ -156,6 +178,7 @@
 		"display_tab1": "Liste",
 		"display_tab2": "Diagramm",
 		"email": "E-Mail-Adresse",
+		"export": "Excel Download",
 		"extensions": "Verlängerungen",
 		"info": "E-Mail-Adressen für den monatlichen Bericht:",
 		"month": "Monat",
@@ -177,6 +200,10 @@
 		"active_user_count": "# Aktive Benutzer",
 		"alma_iz": "Alma IZ Code",
 		"cancel": "Abbrechen",
+		"cloud_app_allow": "Cloud-App-Nutzung erlauben",
+		"cloud_app_permissions": "Alma Cloud App",
+		"cloud_app_roles": "(Optional) Nutzung auf Alma-Rollen beschränken (durch Semikolon getrennt)",
+		"cloud_app_roles_scopes": "(Optional) Definierte Alma-Rollen auf Alma-Bereiche beschränken (durch Semikolon getrennt)",
 		"create_new": "SLSKey Gruppe erstellen",
 		"days_activation_duration": "Tage bis zum Ablauf",
 		"days_expiration_reminder": "Erinnerungszeit (Tage vor Ablauf)",
@@ -190,6 +217,8 @@
 		"no_switch_groups": "Keine zugehörigen Switch Gruppen",
 		"save": "SLSKey Gruppe aktualisieren",
 		"send_activation_mail": "Aktivierungsbenachrichtigung senden",
+		"send_activation_mail_title": "Notify",
+		"show_member_educational_institution": "Show Checkbox for 'In einer Bildungseinrichtung eingeschrieben'",
 		"slskey_code": "SLSKey Code",
 		"slskey_code_description": "SLSKey Gruppe",
 		"switch_groups": "Switch Gruppen",
@@ -205,6 +234,7 @@
 		"webhook_mail_activation_days_token_validity": "Token Gültigkeit in Tagen",
 		"webhook_mail_activation_domains": "Mail Aktivierungs Domains",
 		"webhook_mail_activation_domains_help": "Die in diesem Feld verfügbaren Listen sind im Projekt unter /storage/app/email_domain_lists gespeichert. Sie können dort neue Listen hinzufügen.",
+		"webhook_mail_activation_title": "Mail Activation",
 		"webhook_secret": "Webhook Secret",
 		"workflow": "Workflow"
 	},
@@ -229,12 +259,16 @@
 	},
 	"user_management": {
 		"activation": "Aktivierung",
+		"activation_activated_on": "aktiviert am",
+		"activation_blocked_on": "blockiert am",
+		"activation_deactivated_on": "deaktiviert am",
 		"activation_date": "Aktivierungsdatum",
 		"activation_end": "Ende",
 		"activation_start": "Start",
 		"block": "Blockieren",
 		"confirm_block_user": "diesen Benutzer sperren",
 		"confirm_block_user_2": "Der Benutzer kann für diese SLSKey-Gruppe erst aktiviert werden, wenn die Sperre aufgehoben ist!",
+		"confirm_change_member": "diesen Benutzer ändern zu 'In einer Bildungseinrichtung eingeschrieben = {0}'",
 		"confirm_deactivate_user": "diesen Benutzer deaktivieren",
 		"confirm_disable_expiration": "die automatische Ablauffrist dieses Benutzers deaktivieren",
 		"confirm_enable_expiration": "die automatische Ablauffrist dieses Benutzers aktivieren",
@@ -246,7 +280,11 @@
 		"disable_expiration": "Ablauf deaktivieren",
 		"enable_expiration": "Ablauf aktivieren",
 		"expiration_date": "Ablaufdatum",
-		"export": "Liste exportieren",
+		"export": "Excel Download",
+		"member_educational_institution": "Eingeschrieben in \n einer Bildungseinrichtung",
+		"member_educational_institution_info": "Schüler:innen, Lehrer:innen, Mitarbeitende von Primarstufe, Sekundarstufe I, Sekundarstufe II (Berufliche Grundbildung, Gymnasien, Fachmittelschulen) \n\n Studierende, Dozierende, Mitarbeitende der Tertiärstufe (Höhere Fachschulen, Fachhochschulen, Universitäten)",
+		"member_educational_institution_no": "Nein",
+		"member_educational_institution_yes": "Ja",
 		"new_activation": "Aktivieren / Verlängern",
 		"no_expiry_deactivated": "Ablauf deaktiviert",
 		"no_expiry_webhook": "Deaktivierung über Alma",
@@ -255,6 +293,7 @@
 		"no_webhook_activation_mail": "E-Mail widerrufen",
 		"remark": "Anmerkung",
 		"search": "Benutzername / Identifier",
+		"search_placeholder": "Suche",
 		"status": "Status",
 		"switch_status": "Switch Status",
 		"switch_status_active": "Aktiv",

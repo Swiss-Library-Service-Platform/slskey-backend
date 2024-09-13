@@ -21,8 +21,7 @@ class SlskeyHistoryMonth extends Model
         'reactivated_count',
         'deactivated_count',
         'blocked_active_count',
-
-        'monthly_change',
+        'monthly_change_count',
         'total_users'
     ];
 
@@ -57,12 +56,8 @@ class SlskeyHistoryMonth extends Model
 
         foreach ($dateCombinations as $key => $dateCombination) {
             $currentMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear($slskeyCodes, $dateCombination[0], $dateCombination[1]);
-            $monthlyChange = $currentMonth->activated_count + $currentMonth->reactivated_count - $currentMonth->deactivated_count - $currentMonth->blocked_active_count;
-            $totalUsers = $totalUsers += $monthlyChange;
-
+            $totalUsers += $currentMonth->monthly_change_count;
             $currentMonth->total_users = $totalUsers;
-            $currentMonth->monthly_change = $monthlyChange;
-
             $result[] = $currentMonth;
         }
 
@@ -84,7 +79,7 @@ class SlskeyHistoryMonth extends Model
     public static function getHistoryCountsForMonthAndYear(array $slskeyGroupIds, int $month, int $year): self
     {
         $query = SlskeyHistory::query();
-        $query = $query->where('success', true)->whereIn('action', ['ACTIVATED', 'DEACTIVATED', 'EXTENDED', 'REACTIVATED', 'BLOCKED_ACTIVE', 'BLOCKED_INACTIVE']);
+        $query = $query->whereIn('action', ['ACTIVATED', 'DEACTIVATED', 'EXTENDED', 'REACTIVATED', 'BLOCKED_ACTIVE', 'BLOCKED_INACTIVE']);
         $query = $query->whereIn('slskey_group_id', $slskeyGroupIds);
 
         $driverName = DB::connection()->getDriverName();
@@ -116,10 +111,11 @@ class SlskeyHistoryMonth extends Model
                 'reactivated_count' => 0,
                 'deactivated_count' => 0,
                 'blocked_active_count' => 0,
-                'monthly_change' => 0,
-                'total_users' => 0
+                'monthly_change_count' => 0,
             ]);
         } else {
+            $monthlyChange = $result->activated_count + $result->reactivated_count - $result->deactivated_count - $result->blocked_active_count;
+
             return new self([
                 'month' => $result->month,
                 'year' => $result->year,
@@ -128,8 +124,7 @@ class SlskeyHistoryMonth extends Model
                 'reactivated_count' => $result->reactivated_count,
                 'deactivated_count' => $result->deactivated_count,
                 'blocked_active_count' => $result->blocked_active_count,
-                'monthly_change' => 0,
-                'total_users' => 0
+                'monthly_change_count' => $monthlyChange,
             ]);
         }
     }

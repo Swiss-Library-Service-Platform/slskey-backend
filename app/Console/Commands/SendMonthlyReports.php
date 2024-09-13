@@ -8,6 +8,7 @@ use App\Models\SlskeyHistoryMonth;
 use App\Services\MailService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use App\Models\LogJob;
 
 class SendMonthlyReports extends Command
 {
@@ -27,12 +28,12 @@ class SendMonthlyReports extends Command
 
     protected $mailService;
 
-    protected $logger;
+    protected $textFileLogger;
 
     public function __construct(MailService $mailService)
     {
         $this->mailService = $mailService;
-        $this->logger = Log::channel('send-monthly-report');
+        $this->textFileLogger = Log::channel('send-monthly-report');
         parent::__construct();
     }
 
@@ -43,41 +44,73 @@ class SendMonthlyReports extends Command
      */
     public function handle()
     {
-        $this->logger->info('---------- START ----------');
-        $this->logger->info("Sending Monthly Reports");
+        $this->textFileLogger->info("START Sending Monthly Reports");
 
         // Get all SLSKey Groups with expiring activations
         $slskeyGroups = SlskeyGroup::all();
+        $sentReports = [];
 
         foreach ($slskeyGroups as $slskeyGroup) {
+            $countRecipients = 0;
+            $isSuccess = false;
+
             // Get all Report Emails for this SLSKey Group
             $reportEmailAddresses = $slskeyGroup->reportEmailAddresses->pluck('email_address')->toArray();
 
             if (count($reportEmailAddresses) == 0) {
-                $this->logger->info("$slskeyGroup->slskey_code: Error: No report email addresses found");
+                $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: No report email addresses found");
 
                 continue;
-            }
-
-            // Get last month
-            $currentMonth = date('m'); // FIXME: date('m', strtotime('-1 month'));
-            $currentYear = date('Y'); // FIXME: date('Y', strtotime('-1 month'));
-
-            // Get SlskeyActivations
-            $slskeyHistoryCount = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
-
-            // Total count
-            $totalCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
-
-            $sent = $this->mailService->sendMonthlyReportMail($slskeyGroup, $slskeyHistoryCount, $totalCount, $reportEmailAddresses);
-
-            if ($sent) {
-                $this->logger->info("$slskeyGroup->slskey_code: Success: Sent report to ".implode(', ', $reportEmailAddresses));
             } else {
-                $this->logger->info("$slskeyGroup->slskey_code: Error: Failed to send report to ".implode(', ', $reportEmailAddresses));
+                $countRecipients = count($reportEmailAddresses);
+
+                // Get last month
+                $currentMonth = date('m', strtotime('-1 month'));
+                $currentYear = date('Y', strtotime('-1 month'));
+
+                // Get Month History
+                $slskeyHistoryMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
+
+                // Total count
+                $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
+                $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
+                $sent = $this->mailService->sendMonthlyReportMail(
+                    $slskeyGroup,
+                    $slskeyHistoryMonth,
+                    $totalCurrentCount,
+                    $totalCurrentMemberEducationalInstitutionCount,
+                    $reportEmailAddresses
+                );
+
+                if ($sent) {
+                    $isSuccess = true;
+                    $this->textFileLogger->info("$slskeyGroup->slskey_code: Success: Sent report to " . implode(', ', $reportEmailAddresses));
+                } else {
+                    $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: Failed to send report to " . implode(', ', $reportEmailAddresses));
+                }
             }
+
+            $sentReports[] = [
+                'slskey_group' => $slskeyGroup->slskey_code,
+                'success' => $isSuccess,
+                'recipients' => $countRecipients,
+            ];
         }
 
-        return 1;
+        $this->logJobResultToDatabase($sentReports);
+
+        // 0 = Success
+        // 2 = Invalid (No reports to send)
+        return count($sentReports) > 0 ? 0 : 2;
+    }
+
+    protected function logJobResultToDatabase(array $databaseInfo)
+    {
+        $this->textFileLogger->info("Logging job result to database.");
+        LogJob::create([
+            'job' => class_basename(__CLASS__),
+            'info' => $databaseInfo, //json_encode($databaseInfo),
+            'has_fail' => count(array_filter(array_column($databaseInfo, 'success'), fn ($success) => !$success)),
+        ]);
     }
 }

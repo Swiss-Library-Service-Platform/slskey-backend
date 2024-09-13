@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class UserServiceResponse
+class ActivationServiceResponse
 {
     /**
      * Indicates if the request was successful.

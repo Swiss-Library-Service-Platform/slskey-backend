@@ -3,49 +3,37 @@
 ________________________________________________________________________
 Before Go Live:
 
-TODO: Add Cron Job for Jobs
+TODO: Fix all FIXMEs before Go Live!
 
-TODO: TEST: Server aufbauen
-
-TODO: Deployment Produktive
-      - Laravel Octane
-      - PHP FPM
-
-TODO: Was ist mit edu-ID Login
-      - Erstmal auf Eis
-
-TODO: wirklich den NZ API token nutzen für die alma calls? (z.b. activation preview)
+TODO: set Jobs in Kernel.php
 
 ________________________________________________________________________
-Nice to have:
+Later, nice to have:
+
+TODO: Verifier
+      - mehr infos sehen im Portal
+      - vielleicht sogar als Bibliotheksuser??
 
 TODO: Cloud App
       - Icon Jiggle Bug wenn geöffnet wird
+      - "No eduid" bereits in Liste anzeigen, nicht erst beim aktivieren
 
-TODO: Participage page: Motivation / Vorteile aufzählen
-
-TODO: Wrap activation in Transaction
-      -> mock a transaction for switch service api
-      -> remove first switch group from user when first was successful and second failed
+TODO: Participage page:
+      - Motivation / Vorteile aufzählen
 
 TODO: Test:
       - for each job
       - Add good test for Cloud App Auths
+      - Add good test for Alma Api Service (its all mocked)
 
 TODO: können wir mitbekommen wenn Switch edu-ID gelöscht wurde??
+
+TODO: SLskeyhistory bei Author den Namen anzeigen statt edu-ID/ user_identifier
 
 ________________________________________________________________________
 Feedback Bibliotheken:
 
 TODO: User needs some kind of "affiliation"? e.g. welche Bibliothek, welche Abteilung, etc.
       Beispiel: Aargau: sie wollen wissen, welche Bib genau einen User freigeschaltet hat
-
-________________________________________________________________________
-Import Tool
-
-TODO: user group sind IZ spezifisch
--> was bedeutet das: ImportTool Verifier sind nicht wirklich korrekt, weil sie nur die NZ API verwenden!
--> außer das Import Tool kann mit IZ API arbeiten statt NZ
--> wir brauchen jetzt auch Alma IZ API, also könnten wir das auch umstellen, theoretisch??
 
 */

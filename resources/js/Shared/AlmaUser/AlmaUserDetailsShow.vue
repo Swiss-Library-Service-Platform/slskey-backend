@@ -1,7 +1,7 @@
 <template>
-  <div class="w-fit bg-color-alma rounded-md px-8 py-6 flex flex-col">
+  <div class="w-fit bg-color-alma rounded-md p-8 flex flex-col">
     <div class="flex flex-row">
-      <div class="flex flex-col text-left mr-8">
+      <div class="flex flex-col text-left mr-8 whitespace-nowrap">
         <img class="h-16 w-16 mb-4" src="/images/alma_logo.png" />
         <span>{{ $t("alma_user.full_name") }}:</span>
         <span>{{ $t("alma_user.preferred_language") }}:</span>
@@ -11,9 +11,11 @@
         <span class="mt-4">{{ $t("alma_user.addresses") }}: </span>
       </div>
       <div class="flex flex-col text-left">
-        <div class="w-60 text-2xl h-16 mb-4 flex items-center justify-between"> 
-          <span> {{ $t("alma_user.alma_details") }} (NZ) </span>
-          <div v-if="loading" class="btn-spinner-black" /> 
+        <div class="w-60 h-16 mb-4 flex items-center justify-between">
+          <div class="flex flex-col">
+            <span class="text-2xl font-semibold"> {{ $t("alma_user.alma_details") }} </span>
+            <span class="text-lg"> {{ this.almaUser?.alma_iz }} </span>
+          </div>
         </div>
         <div class="flex flex-col text-left" v-if="this.almaUser">
           <span class="font-bo"> {{ this.almaUser?.full_name }} </span>
@@ -24,14 +26,24 @@
           <div class="font-bo mt-4 flex flex-col" v-for="address in this.almaUser?.addresses">
             <span class="underline" v-for="address_type in address.address_type"> {{ address_type.desc }}</span>
             <span> {{ address.line1 }} </span>
+            <span> {{ address.line2 }} </span>
+            <span> {{ address.line3 }} </span>
+            <span> {{ address.line4 }} </span>
             <span> {{ address.postal_code }} {{ address.city }} </span>
             <span> {{ address.state_province }} {{ address.country.desc }}</span>
           </div>
+          <div v-if="!this.almaUser?.addresses.length" class="text-color-blocked italic font-italic mt-4">
+            {{ $t("alma_user.no_address") }}
+          </div>
         </div>
-
       </div>
     </div>
-    <div v-if="!loading && !this.almaUser" class="text-color-blocked italic font-italic my-8">
+    <!-- show block flag if user is blocked -->
+    <div v-if="this.almaUser?.blocks.length"
+      class="mt-5 flex flex-col rounded text-center border border-color-blocked bg-color-blocked-bg font-semibold text-color-blocked">
+      {{ $t("alma_user.blocked") }}
+    </div>
+    <div v-if="!this.almaUser" class="text-color-blocked italic font-italic my-8">
       {{ $t("alma_user.not_found") }}
     </div>
   </div>
@@ -42,7 +54,6 @@ export default {
   components: {},
   props: {
     almaUser: Object,
-    loading: Boolean
   },
   data() {
     return {};

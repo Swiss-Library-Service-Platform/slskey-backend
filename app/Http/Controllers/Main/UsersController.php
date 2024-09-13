@@ -10,8 +10,9 @@ use App\Http\Resources\SlskeyUserResource;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,15 +23,17 @@ class UsersController extends Controller
 {
     protected $almaApiService;
 
-    protected $userService;
+    protected $activationService;
 
     /**
      * UsersController constructor.
+     * @param AlmaAPIInterface $almaApiService
+     * @param ActivationService $activationService
      */
-    public function __construct(AlmaAPIInterface $almaApiService, UserService $userService)
+    public function __construct(AlmaAPIInterface $almaApiService, ActivationService $activationService)
     {
         $this->almaApiService = $almaApiService;
-        $this->userService = $userService;
+        $this->activationService = $activationService;
     }
 
     /**
@@ -59,7 +62,7 @@ class UsersController extends Controller
 
         // If search filter is set and no results are found, query for Alma users
         if (Request::input('search') && $slskeyUsersWithPermissions->isEmpty()) {
-            $almaServiceResponse = $this->almaApiService->getUserByIdentifier(Request::input('search'));
+            $almaServiceResponse = $this->almaApiService->getUserFromSingleIz(Request::input('search'), '41SLSP_NETWORK');
             $almaUser = $almaServiceResponse->almaUser;
             if ($almaUser) {
                 $slskeyUsersWithPermissions = SlskeyUser::query()
@@ -106,10 +109,16 @@ class UsersController extends Controller
             return $activation->slskeyGroup->webhook_mail_activation;
         });
 
+        // Check if there is a slskeyGroup in users slskeyActviation which has 'show_member_educational_institution' set
+        $showMemberEducationalInstitution = $user->slskeyActivations->first(function ($activation) {
+            return $activation->slskeyGroup->show_member_educational_institution;
+        });
+
         // Render the UserDetail Inertia view with SlskeyUser and AlmaUser data
         return Inertia::render('Users/Detail/UserDetail', [
             'slskeyUser' => new SlskeyUserDetailResource($user),
-            'isWebhookMailActivation' => $webhookMailActivation ? true : false,
+            'isAnyWebhookMailActivation' => $webhookMailActivation ? true : false,
+            'isAnyShowMemberEducationalInstitution' => $showMemberEducationalInstitution ? true : false,
         ]);
     }
 
@@ -124,21 +133,26 @@ class UsersController extends Controller
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $identifier)
             ->whereHasPermittedActivations()
-            ->withPermittedActivations()
-            ->withPermittedHistories()
+            // ->withPermittedActivations()
+            // ->withPermittedHistories()
             ->firstOrFail();
 
         // Get Alma user data using the AlmaAPIInterface
-        $almaServiceResponse = $this->almaApiService->getUserByIdentifier($identifier);
-        $almaUser = $almaServiceResponse->almaUser;
 
-        if ($almaUser) {
-            $slskeyUser->updateUserDetails($almaUser);
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slskeyGroups = $user->isSLSPAdmin() ? ['41SLSP_NETWORK'] : SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->unique()->toArray();
+        $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
+        $almaUsers = $almaServiceResponse->almaUsers;
+
+        if ($almaUsers) {
+            // TODO: which one do we take to update?
+            $slskeyUser->updateUserDetails($almaUsers[0]);
         }
 
         // Render the UserDetail Inertia view with SlskeyUser and AlmaUser data
         return new JsonResponse([
-            'almaUser' => $almaUser,
+            'almaUsers' => $almaUsers,
         ]);
     }
 
@@ -162,20 +176,20 @@ class UsersController extends Controller
     public function getSwitchStatus(string $primaryId, string $slskeyCode): JsonResponse
     {
         // Query for SLSKey user by primary ID
-        $user = SlskeyUser::query()
+        $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
             ->whereHasPermittedActivations()
-            ->withPermittedActivations()
-            ->withPermittedHistories()
+            // ->withPermittedActivations()
+            // ->withPermittedHistories()
             ->first();
 
         // Abort with 404 if the user is not found
-        if (! $user) {
+        if (! $slskeyUser) {
             abort(404);
         }
 
         // Query for SLSKey user by primary ID
-        $response = $this->userService->verifySwitchStatusSlskeyUser($primaryId, $slskeyCode);
+        $response = $this->activationService->verifySwitchStatusSlskeyUser($primaryId, $slskeyCode);
 
         return new JsonResponse([
             'status' => $response->success,

@@ -16,6 +16,8 @@ class AlmaUser extends Model
      * @var array
      */
     protected $fillable = [
+        'alma_iz',
+
         'primary_id',
         'first_name',
         'last_name',
@@ -23,6 +25,7 @@ class AlmaUser extends Model
         'preferred_language',
         'preferred_email',
         'addresses',
+        'blocks',
 
         // for webhook checks
         'user_identifier',
@@ -51,9 +54,9 @@ class AlmaUser extends Model
         // Find preferred language
         $language = $apiData->preferred_language->value;
         // Set to english if its an exotic language :-)
-        if ($language != 'de' ||
-            $language != 'en' ||
-            $language != 'fr' ||
+        if ($language != 'de' &&
+            $language != 'en' &&
+            $language != 'fr' &&
             $language != 'it') {
             $language = 'en';
         }
@@ -65,7 +68,7 @@ class AlmaUser extends Model
         $roles = [];
         foreach ($apiData->user_role as $role) {
             if ($role->status->value == 'ACTIVE') {
-                $roles[] = $role->role_type->value;
+                $roles[] = new Role($role->role_type->value, $role->scope->value);
             }
         }
 
@@ -77,6 +80,7 @@ class AlmaUser extends Model
             'preferred_email' => $preferredEmail,
             'preferred_language' => $language,
             'addresses' => $apiData->contact_info->address ?? '',
+            'blocks' => $apiData->user_block ?? '',
 
             // for webhook checks
             'user_identifier' => $apiData->user_identifier,
@@ -105,11 +109,24 @@ class AlmaUser extends Model
             'preferred_language' => $jsonData['preferred_language'],
             'preferred_email' => $jsonData['preferred_email'],
             'addresses' => $jsonData['addresses'],
+            'blocks' => $jsonData['blocks'],
             'user_identifier' => $jsonData['user_identifier'],
             'user_group' => $jsonData['user_group'],
             'email' => $jsonData['email'],
             'record_type' => $jsonData['record_type'],
             'roles' => $jsonData['roles']
         ]);
+    }
+}
+
+class Role
+{
+    public $role;
+    public $scope;
+
+    public function __construct($role, $scope)
+    {
+        $this->role = $role;
+        $this->scope = $scope;
     }
 }

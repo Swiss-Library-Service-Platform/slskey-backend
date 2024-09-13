@@ -6,7 +6,7 @@ use App\Enums\WorkflowEnums;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Carbon\Carbon;
 
 it('is registered', function () {
@@ -23,7 +23,7 @@ it('has the correct signature', function () {
 it('does not deactivate any users if there are no expired activations', function () {
     $command = $this->app->make(\App\Console\Commands\DeactivateExpiredUsers::class);
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });
 
 // Test with expired activations
@@ -36,9 +36,9 @@ it('deactivates an expired user', function () {
     // Create User and activation
     $expiringUser = SlskeyUser::factory()->create();
     $activatedUser = SlskeyUser::factory()->create();
-    $userService = app(UserService::class);
-    $response = $userService->activateSlskeyUser($expiringUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);#
-    $response = $userService->activateSlskeyUser($activatedUser->primary_id, $slskeyGroup->slskey_code, null, 'Import Job', null, null);
+    $activationService = app(ActivationService::class);
+    $response = $activationService->activateSlskeyUser($expiringUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
+    $response = $activationService->activateSlskeyUser($activatedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
     assertUserActivationActivated($expiringUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($activatedUser->primary_id, $slskeyGroup->slskey_code);
     // Get Expiration Date and Travel in time past that date
@@ -54,10 +54,10 @@ it('deactivates an expired user', function () {
     $mockSwitchApiService = mockSwitchApiServiceDeactivation($mockSwitchApiService);
     $command = $this->app->make(\App\Console\Commands\DeactivateExpiredUsers::class);
     $response = $command->handle();
-    $this->assertEquals(1, $response);
+    $this->assertEquals(0, $response);
     assertUserActivationDeactivated($expiringUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($activatedUser->primary_id, $slskeyGroup->slskey_code);
     // Call command again
     $response = $command->handle();
-    $this->assertEquals(0, $response);
+    $this->assertEquals(2, $response);
 });

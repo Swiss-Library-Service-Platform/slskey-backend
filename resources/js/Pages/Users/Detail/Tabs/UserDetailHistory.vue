@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-md rounded-lg overflow-x-auto XXXborder XXXborder-gray-table">
+    <div class="rounded-md rounded-lg overflow-x-auto">
         <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
             <thead class="">
                <SlskeyHistoryHeader :showRelativeDate="true" />
@@ -7,9 +7,7 @@
             <tbody class="divide-y divide-gray-table">
                 <template v-if="slskeyHistories.length > 0">
 
-                    <tr v-for="history in slskeyHistories" :key="'user' + history.id"
-                        class=""
-                        :class="{ 'italic text-gray-table': !history.success }">
+                    <tr v-for="history in slskeyHistories" :key="'user' + history.id">
                         <SlskeyHistoryRow :showRelativeDate="true" :history="history" />
                     </tr>
                 </template>

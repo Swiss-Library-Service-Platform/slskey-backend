@@ -62,6 +62,7 @@ return [
     'user_extended' => 'Benutzer erfolgreich verlängert.',
     'user_expiration_disabled' => 'Benutzerablauf erfolgreich deaktiviert.',
     'user_expiration_enabled' => 'Benutzerablauf erfolgreich aktiviert.',
+    'user_member_educational_institution_changed' => 'Die Benutzeränderung wurde erfolgreich durchgeführt.',
     'user_reactivated' => 'Benutzer erfolgreich reaktiviert.',
     'user_unblocked' => 'Benutzer erfolgreich entsperrt.',
 ];

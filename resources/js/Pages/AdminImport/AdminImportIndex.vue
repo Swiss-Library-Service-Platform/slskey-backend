@@ -1,7 +1,7 @@
 
 <template>
     <AppLayout title="Import" :breadCrumbs="[{ name: $t('admin_users.title') }]">
-        <div class="mt-5 mb-10 w-fit flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
+        <div class="my-8 w-fit flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
 
             <div class="text-2xl">
                 Import CSV File
@@ -18,13 +18,15 @@
                 B: <b>primary id</b> - The primary id of the activation
                 <br>
                 <br>
-                <span class="italic"> For migration from old PURA database: </span>
+                <span class="italic"> And optionally for migration from old PURA database: </span>
                 <br>
                 C: <b>activation date</b> - The activation date of the activation
                 <br>
                 D: <b>expiration date</b> - The expiration date of the activation
                 <br>
                 E: <b>remarks</b> - The remarks of the activation
+                <br>
+                F: <b>member educational institution</b> - The member educational institution of the activation (1 or 0)
             </p>
 
             <div class="flex flex-col gap-y-4 border-t py-5">

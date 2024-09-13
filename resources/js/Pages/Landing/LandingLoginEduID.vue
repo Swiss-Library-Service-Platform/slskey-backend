@@ -7,6 +7,7 @@ import JetInput from '@/Jetstream/Input.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
+import Notifications from '@/Shared/Notifications.vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -23,22 +24,26 @@ const submit = () => {
     form.transform(data => ({
         ...data,
         remember: form.remember ? 'on' : '',
-    })).post(route('login'), {
-        onFinish: () => form.reset('password'),
+    })).post(route('loginform'), {
+        onFinish: () => {
+            if (form.errors.user_identifier || form.errors.password) {
+                form.reset('password');
+            }
+        },
     });
 };
 </script>
 
 <template>
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
-        <FlashMessages />
+        <Notifications />
 
         <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
-            <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start"> 
+            <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
                 <JetApplicationLogo class="h-auto" />
                 <span class="text-sm italic">
-                   {{ $t('landing.service') }} <a class="text-blue-800" href="https://slsp.ch">SLSP</a>.
+                    {{ $t('landing.service') }} <a class="text-blue-800" href="https://slsp.ch">SLSP</a>.
                 </span>
             </div>
 
@@ -49,8 +54,6 @@ const submit = () => {
                     <SwitchLoginButton href="/login/eduid">
                         {{ $t('landing.eduid') }}
                     </SwitchLoginButton>
-
-
 
                     <!-- Divider element "OR" -->
                     <div class="flex w-full items-center py-4">
@@ -70,7 +73,7 @@ const submit = () => {
                     </div>
 
 
-                    <form class="w-full" @submit.prevent="submit">
+                    <form class="w-full" @submit.prevent="submit" @keydown.enter="submit">
 
                         <div class="w-full mb-2">
                             <JetLabel for="user_identifier" value="Username" />
@@ -83,11 +86,11 @@ const submit = () => {
                             <JetInput id="password" v-model="form.password" type="password" class="mt-1 block w-full"
                                 required autocomplete="current-password" />
                         </div>
-                        <JetValidationErrors class="mb-4" />
+                        <!-- <JetValidationErrors class="mb-4" /> -->
 
                         <div class="w-full">
                             <DefaultButton @click="submit"
-                                class="bg-color-header-bg mt-4 w-full py-2 px-3 items-center text-white rounded-2xl	text-lg">
+                                class="mt-4 text-lg leading-6">
                                 {{ $t('landing.login') }}
                             </DefaultButton>
                         </div>

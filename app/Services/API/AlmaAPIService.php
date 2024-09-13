@@ -2,12 +2,13 @@
 
 namespace App\Services\API;
 
-use App\DTO\AlmaServiceResponse;
+use App\DTO\AlmaServiceMultiResponse;
+use App\DTO\AlmaServiceSingleResponse;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\AlmaUser;
 use DOMDocument;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\Utils;
 
 /**
  * Class AlmaAPIService
@@ -17,7 +18,11 @@ class AlmaAPIService implements AlmaAPIInterface
 {
     protected $apiKey;
 
+    protected $izCode;
+
     protected $baseUrl;
+
+    protected $STAFF_RECORD_TYPES = ['STAFF'];
 
     /**
      * AlmaAPIService constructor.
@@ -25,10 +30,11 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param  string  $baseUrl  Base URL for the Alma API.
      * @param  string  $apiKey  API key for authentication.
      */
-    public function __construct(string $baseUrl, string $apiKey)
+    public function __construct(string $baseUrl, string $izCode, string $apiKey)
     {
-        $this->apiKey = $apiKey;
         $this->baseUrl = $baseUrl;
+        $this->izCode = $izCode;
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -44,12 +50,100 @@ class AlmaAPIService implements AlmaAPIInterface
     /**
      * Set the API key.
      *
+     * @param string $izCode
      * @param string $apiKey
      * @return void
      */
-    public function setApiKey(string $apiKey): void
+    public function setApiKey(string $izCode, string $apiKey): void
     {
+        $this->izCode = $izCode;
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * Get a user from a single IZ, filter out staff user
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return AlmaServiceSingleResponse
+     */
+    public function getUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
+    {
+        $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
+        if ($result['success']) {
+            return new AlmaServiceSingleResponse(true, $result['data'], null);
+        } else {
+            return new AlmaServiceSingleResponse(false, null, $result['message']);
+        }
+    }
+
+    /**
+     * Get a staff user from a single IZ
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return AlmaServiceSingleResponse
+     */
+    public function getStaffUserFromSingleIz(string $identifier, string $izCode): AlmaServiceSingleResponse
+    {
+        $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode, true);
+        if ($result['success']) {
+            return new AlmaServiceSingleResponse(true, $result['data'], null);
+        } else {
+            return new AlmaServiceSingleResponse(false, null, $result['message']);
+        }
+    }
+
+    /**
+     * Get a user from multiple IZs
+     *
+     * @param string $identifier
+     * @param array $izCodes
+     * @return AlmaServiceMultiResponse
+    */
+    public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse
+    {
+        $almaUsers = [];
+        $error = '';
+        foreach ($izCodes as $izCode) {
+            $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
+            if (!$result['success']) {
+                $error = $error . "$izCode: {$result['message']} ";
+
+                continue;
+            }
+            $almaUsers[] = $result['data'];
+        }
+
+        if (empty($almaUsers)) {
+            return new AlmaServiceMultiResponse(false, null, $error);
+        }
+
+        return new AlmaServiceMultiResponse(true, $almaUsers, null);
+    }
+
+    /**
+     * Fetches a user by identifier for a given IZ code.
+     *
+     * @param string $identifier
+     * @param string $izCode
+     * @return array
+     */
+    private function fetchUserByIdentifierAndIzCode(string $identifier, string $izCode, bool $isStaffUser = false): array
+    {
+        $token = config("services.alma.api_keys.{$izCode}");
+        if (!$token) {
+            return ['success' => false, 'message' => "{$izCode}: Missing API Key in configuration."];
+        }
+
+        try {
+            $this->setApiKey($izCode, $token);
+            $almaUser = $this->getUserByIdentifier($identifier, $isStaffUser);
+
+            return ['success' => true, 'data' => $almaUser];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => "{$e->getMessage()}"];
+        }
     }
 
     /**
@@ -57,30 +151,126 @@ class AlmaAPIService implements AlmaAPIInterface
      *
      * @param  string  $identifier  Unique identifier (uniqueID, matriculation number, etc.).
      * @return AlmaUser|null User object or null if no user was found.
+     * @throws \Exception If the user is not found or multiple users are found.
      */
-    public function getUserByIdentifier(string $identifier): AlmaServiceResponse
+    private function getUserByIdentifier(string $identifier, bool $isStaffUser): AlmaUser
     {
         if (empty($identifier)) {
             return null;
         }
 
-        $action = '/users/'.$identifier;
-        [$statusCode, $response] = $this->makeRequest($action);
-
-        if ($statusCode != 200) {
-            $errorText = '';
-            if ($response instanceof DOMDocument) {
-                $errorText = $response->getElementsByTagName('errorMessage')->item(0)->nodeValue;
-            } elseif ($response->errorsExist) {
-                $errorText = $response->errorList->error[0]->errorMessage;
+        if ($isStaffUser) {
+            $foundUser = $this->findStaffUser($identifier);
+            if (!$foundUser) {
+                throw new \Exception("Staff User $identifier not found in $this->izCode");
             }
-
-            return new AlmaServiceResponse(false, $statusCode, null, $errorText);
+            if ($foundUser && !in_array($foundUser->record_type->value, $this->STAFF_RECORD_TYPES)) {
+                throw new \Exception('User is not a staff user.');
+            }
+        } else {
+            $foundUsers = $this->findUsersQueryParallel($identifier);
+            if (!$foundUsers) {
+                throw new \Exception("User $identifier not found in $this->izCode");
+            }
+            if (count($foundUsers) > 1) {
+                throw new \Exception('Multiple users found. Please provide a more specific identifier.');
+            }
+            $foundUser = $foundUsers[0];
         }
 
-        $almaUser = AlmaUser::fromApiResponse($response);
+        $almaUser = AlmaUser::fromApiResponse($foundUser);
+        $almaUser->alma_iz = $this->izCode;
 
-        return new AlmaServiceResponse(true, $statusCode, $almaUser, null);
+        return $almaUser;
+    }
+
+    /**
+     * Find Staff User Details in Alma API
+     *
+     * @param string $identifier
+     * @return object
+     */
+    private function findStaffUser(string $identifier): object
+    {
+        $client = new Client([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        $response = $client->get("$this->baseUrl/users/$identifier", [
+            'query' => [
+                'apikey' => $this->apiKey,
+            ],
+        ]);
+
+        $response = $this->decodeResponse($response->getBody()->getContents());
+
+        return $response;
+    }
+
+    /**
+     * Find Users in Alma API in parallel
+     * - find users with query identifier
+     * - find users with query primary_id
+     *
+     * @param [type] $identifier
+     * @return array
+     */
+    private function findUsersQueryParallel($identifier)
+    {
+        $client = new Client([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        // Define the two API endpoints
+        $endpoint = $this->baseUrl . '/users';
+        $queryPrimaryId = ['q' => "primary_id~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+        $queryIdentifiers = ['q' => "identifiers~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+        $queryEmail = ['q' => "email~$identifier", 'expand' => 'full', 'apikey' => $this->apiKey];
+
+        // Prepare the requests with query parameters
+        $promises = [
+            'primary_id' => $client->getAsync($endpoint, ['query' => $queryPrimaryId]),
+            'identifiers' => $client->getAsync($endpoint, ['query' => $queryIdentifiers]),
+            'email' => $client->getAsync($endpoint, ['query' => $queryEmail]),
+        ];
+
+        // Wait for both requests to complete
+        $responses = Utils::unwrap($promises);
+
+        // Process the responses and return the found users
+        $foundUsers = [];
+        foreach ($responses as $key => $response) {
+            $body = $response->getBody()->getContents();
+            $responseBody = $this->decodeResponse($body);
+            if ($responseBody->total_record_count > 0) {
+                foreach ($responseBody->user as $user) {
+                    $userExists = false;
+                    // Filter out certain record types (e.g. Staff), see config
+                    if (in_array($user->record_type->value, $this->STAFF_RECORD_TYPES)) {
+                        continue;
+                    }
+                    // Check if the user is already in the list
+                    foreach ($foundUsers as $foundUser) {
+                        if ($user->primary_id == $foundUser->primary_id) {
+                            $userExists = true;
+
+                            break;
+                        }
+                    }
+                    if (!$userExists) {
+                        $foundUsers[] = $user;
+                    }
+                }
+            }
+        }
+
+        return $foundUsers;
     }
 
     /**
@@ -91,59 +281,60 @@ class AlmaAPIService implements AlmaAPIInterface
      * @param  string[]  $queryParams  Query parameters.
      * @param  string  $bodyData  Request body data.
      * @return array [HTTP status code, API response].
-     */
+    */
+    /*
     private function makeRequest(
-        string $action,
-        string $actionType = 'GET',
-        array $queryParams = [],
-        string $bodyData = ''
+       string $action,
+       string $actionType = 'GET',
+       array $queryParams = [],
+       string $bodyData = ''
     ): array {
-        // Add the API key to the query parameters
-        $queryParams['apikey'] = $this->apiKey;
+       // Add the API key to the query parameters
+       $queryParams['apikey'] = $this->apiKey;
 
-        $url = $this->baseUrl.$action;
+       $url = $this->baseUrl . $action;
 
-        $client = new Client([
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-        ]);
+       $client = new Client([
+           'headers' => [
+               'Accept' => 'application/json',
+               'Content-Type' => 'application/json',
+           ],
+       ]);
 
-        $options = [
-            'query' => $queryParams,
-        ];
+       $options = [
+           'query' => $queryParams,
+       ];
 
-        if (! empty($bodyData)) {
-            $options['body'] = $bodyData;
-        }
+       if (!empty($bodyData)) {
+           $options['body'] = $bodyData;
+       }
 
-        try {
-            $response = $client->request($actionType, $url, $options);
+       try {
+           $response = $client->request($actionType, $url, $options);
 
-            $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
+           $statusCode = $response->getStatusCode();
+           $body = $response->getBody()->getContents();
 
-            $userData = $this->decodeResponse($body);
+           $responseBody = $this->decodeResponse($body);
 
-            return [$statusCode, $userData];
-        } catch (RequestException $e) {
-            // If the request has an exception, get the response from it
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody()->getContents();
+           return [$statusCode, $responseBody];
+       } catch (RequestException $e) {
+           // If the request has an exception, get the response from it
+           if ($e->hasResponse()) {
+               $response = $e->getResponse();
+               $statusCode = $response->getStatusCode();
+               $body = $response->getBody()->getContents();
 
-                $errorData = $this->decodeResponse($body);
+               $errorData = $this->decodeResponse($body);
 
-                return [$statusCode, $errorData];
-            }
+               return [$statusCode, $errorData];
+           }
 
-            // If there is no response, rethrow the exception
-            throw $e;
-        }
+           // If there is no response, rethrow the exception
+           throw $e;
+       }
     }
-
+   */
     /**
      * Decodes given response depending on the current format mode of the API.
      *
@@ -152,14 +343,14 @@ class AlmaAPIService implements AlmaAPIInterface
      */
     private function decodeResponse(string $response)
     {
-        if (! preg_match('/<error>/i', $response)) {
+        if (!preg_match('/<error>/i', $response)) {
             return json_decode($response);
         } else {
             $doc = new DOMDocument('1.0');
             $doc->preserveWhiteSpace = false;
             $doc->formatOutput = true;
 
-            if (! empty($response)) {
+            if (!empty($response)) {
                 $doc->loadXML($response);
             }
 

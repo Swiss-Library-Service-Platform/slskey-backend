@@ -3,7 +3,7 @@
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\UserService;
+use App\Services\ActivationService;
 use Inertia\Testing\AssertableInertia;
 
 beforeEach(function () {
@@ -85,8 +85,8 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
     assertUserActivationActivated($slskeyUser->primary_id, $slskeyGroup->slskey_code);
 
     // Deactivate user
-    $userService = app(UserService::class);
-    $userService->deactivateSlskeyUser($slskeyUser->primary_id, $slskeyGroup->slskey_code, null, null, 'Test');
+    $activationService = app(ActivationService::class);
+    $activationService->deactivateSlskeyUser($slskeyUser->primary_id, $slskeyGroup->slskey_code, null, null, 'Test');
     assertUserActivationDeactivated($slskeyUser->primary_id, $slskeyGroup->slskey_code);
 
     // Call token endpoint again

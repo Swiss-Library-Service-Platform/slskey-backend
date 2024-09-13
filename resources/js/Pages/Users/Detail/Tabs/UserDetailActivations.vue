@@ -1,7 +1,12 @@
 <template>
-  <div class="w-full overflow-x-auto rounded-lg rounded-lg XXXborder XXXborder-gray-table">
-    <table class="table-auto w-full divide-y divide-gray-table rounded-md">
-      <tbody class="divide-y divide-gray-table">
+  <div class="bg-white rounded-md shadow overflow-x-auto">
+    <div class="w-full border-b">
+      <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
+        {{ $t('user_management.new_activation') }}
+      </DefaultButton>
+    </div>
+    <table class="table-auto rounded-md">
+      <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
           <tr class="h-20">
@@ -12,7 +17,7 @@
               </div>
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
-              <td class="px-6 py-4" :class="{ 'w-full': index == slskeyUser.slskey_activations.length - 1 }">
+              <td class="px-6 py-4" :class="{ 'Xw-full': index == slskeyUser.slskey_activations.length - 1 }">
                 <div class="flex flex-row">
                   <SlskeyGroupNameAndIcon :workflow="activation.slskey_group.workflow"
                     :slskeyGroupName="activation.slskey_group.name" />
@@ -75,8 +80,7 @@
                         <!-- Block User -->
                         <DefaultConfirmDropdownLink v-if="!activation.blocked" class="bg-color-blocked py-1"
                           :activation="activation" :confirmText="$t('user_management.confirm_block_user')"
-                          @confirmed="block"
-                          :confirmText2="$t('user_management.confirm_block_user_2')">
+                          @confirmed="block" :confirmText2="$t('user_management.confirm_block_user_2')">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
                           {{ $t('user_management.block') }}
                         </DefaultConfirmDropdownLink>
@@ -93,17 +97,19 @@
                   </div>
                   <!-- Action Date -->
                   <div class="text-xs italic">
-                    {{ activation?.activation_date ? 'activated on ' + formatDate(activation.activation_date) : '' }}
-                    {{ activation?.deactivation_date ? 'deactivated on ' + formatDate(activation.deactivation_date) : ''
-                    }}
-                    {{ activation?.blocked_date ? 'blocked on ' + formatDate(activation.blocked_date) : '' }}
+                    {{ activation?.activation_date ? $t('user_management.activation_activated_on') + " " +
+                      formatDate(activation.activation_date) : '' }}
+                    {{ activation?.deactivation_date ? $t('user_management.activation_deactivated_on') + " " +
+                      formatDate(activation.deactivation_date) : '' }}
+                    {{ activation?.blocked_date ? $t('user_management.activation_blocked_on') + " " +
+                      formatDate(activation.blocked_date) : '' }}
                   </div>
                 </div>
               </td>
             </template>
           </tr>
           <!-- Activation Mail -->
-          <tr v-if="isWebhookMailActivation" class="h-20">
+          <tr v-if="isAnyWebhookMailActivation" class="h-20">
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
@@ -183,8 +189,43 @@
               </td>
             </template>
           </tr>
+          <!-- Member educational institution -->
+          <tr v-if="isAnyShowMemberEducationalInstitution" class="h-20">
+            <td class="py-4 px-8 text-left  font-bold pr-14">
+              <div class="flex flex-row items-center">
+                <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
+                <span class="flex flex-row items-end whitespace-pre-line">
+                  {{ $t("user_management.member_educational_institution") }}:
+                  <HelpIconWithPopup>
+                    {{ $t('user_management.member_educational_institution_info') }}
+                  </HelpIconWithPopup>
+                </span>
+
+              </div>
+            </td>
+            <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
+              <td class="px-6 py-4">
+                <div v-if="activation.slskey_group.show_member_educational_institution"
+                  class="flex flex-row items-center gap-4">
+                  <div v-if="activation.member_educational_institution">
+                    {{ $t("user_management.member_educational_institution_yes") }}
+                  </div>
+                  <div v-else>
+                    {{ $t("user_management.member_educational_institution_no") }}
+                  </div>
+                  <DefaultConfirmIconButton class="" icon="pencil"
+                    :tooltip="$t('user_management.confirm_change_member')"
+                    :confirmText="$t('user_management.confirm_change_member', [activation.member_educational_institution ? $t('user_management.member_educational_institution_no') : $t('user_management.member_educational_institution_yes')])"
+                    @confirmed="editMemberEducationalInstitution(activation)" />
+                </div>
+                <div v-else class="italic text-gray-disabled">
+                  <!-- Placeholder -->
+                </div>
+              </td>
+            </template>
+          </tr>
           <!-- Switch Status -->
-          <tr class="h-20" v-if="$page.props.slskeyadmin">
+          <tr class="h-20" v-if="$page.props.isSlskeyAdmin">
             <td class="py-4 px-8 text-left whitespace-nowrap font-bold">
               <div class="flex flex-row items-center">
                 <Icon icon="link" class="h-4 w-4 mr-2"></Icon>
@@ -214,13 +255,14 @@
       </tbody>
     </table>
   </div>
+
 </template>
 
 
 <script>
 import UserStatusChip from "@/Shared/UserStatusChip.vue";
 import { Inertia } from "@inertiajs/inertia";
-import ConfirmDialog from "../../../../Shared/ConfirmDialog.vue";
+import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
 import JetDropdown from '@/Jetstream/Dropdown.vue';
 import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
@@ -228,11 +270,15 @@ import DefaultConfirmButton from "@/Shared/Buttons/DefaultConfirmButton.vue";
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
 import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
-import LetterIcon from "../../../../Shared/LetterIcon.vue";
-import SlskeyGroupNameAndIcon from "../../../../Shared/SlskeyGroupNameAndIcon.vue";
+import LetterIcon from "@/Shared/LetterIcon.vue";
+import SlskeyGroupNameAndIcon from "@/Shared/SlskeyGroupNameAndIcon.vue";
+import DefaultButton from "@/Shared/Buttons/DefaultButton.vue";
+import DefaultConfirmIconButton from '@/Shared/Buttons/DefaultConfirmIconButton.vue';
+import HelpIconWithPopup from "@/Shared/HelpIconWithPopup.vue";
 
 export default {
   components: {
+    DefaultButton,
     Inertia,
     UserStatusChip,
     DefaultIconButton,
@@ -243,11 +289,14 @@ export default {
     DefaultConfirmDropdownLink,
     Icon,
     LetterIcon,
-    SlskeyGroupNameAndIcon
+    SlskeyGroupNameAndIcon,
+    DefaultConfirmIconButton,
+    HelpIconWithPopup
   },
   props: {
     slskeyUser: Object,
-    isWebhookMailActivation: Boolean
+    isAnyWebhookMailActivation: Boolean,
+    isAnyShowMemberEducationalInstitution: Boolean,
   },
   data() {
     return {
@@ -255,11 +304,15 @@ export default {
     };
   },
   mounted() {
-    if (this.$page.props.slskeyadmin) {
+    if (this.$page.props.isSlskeyAdmin) {
       this.getSwitchStatus();
     }
   },
   methods: {
+    activate: function () {
+      this.loading = true;
+      Inertia.get("/activation/" + this.slskeyUser.primary_id);
+    },
     getSwitchStatus: async function () {
       this.slskeyUser.slskey_activations.forEach(async (activation) => {
         activation.switchLoading = true;
@@ -330,6 +383,16 @@ export default {
         onSuccess: () => {
           activation.loading = false;
           this.getSwitchStatus();
+        },
+      });
+    },
+    editMemberEducationalInstitution: function (activation) {
+      Inertia.post(`/activation/${this.slskeyUser.primary_id}/member_educational_institution`, {
+        slskey_code: activation.slskey_group.slskey_code,
+        member_educational_institution: !activation.member_educational_institution
+      }, {
+        onSuccess: () => {
+          // this.getSwitchStatus();
         },
       });
     },

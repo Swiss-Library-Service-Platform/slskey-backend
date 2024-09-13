@@ -7,13 +7,17 @@
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_edu_id" v-model="form.is_edu_id"
                     :label="$t('admin_users.is_edu_id')" />
-                <div /> <!--Placeholder -->
+                <div v-if="!form.is_edu_id" /> <!--Placeholder -->
+                <TextInput v-if="form.is_edu_id" :label="$t('admin_users.search_eduid')" v-model="inputUserEmail"
+                    @keydown.enter="searchPrimaryId" />
+                
+                <TextInput disabled="true" :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
+                    :error="form.errors.display_name" />
+                <TextInput disabled="true" v-if="form.is_edu_id" :label="`${$t('admin_users.user_identifier_eduid')} *`"
+                    v-model="form.user_identifier" :error="form.errors.user_identifier" />
+
                 <TextInput v-if="!form.is_edu_id" :label="`${$t('admin_users.user_identifier_username')} *`"
                     v-model="form.user_identifier" :error="form.errors.user_identifier" />
-                <TextInput v-if="form.is_edu_id" :label="`${$t('admin_users.user_identifier_eduid')} *`"
-                    v-model="form.user_identifier" :error="form.errors.user_identifier" />
-                <TextInput :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
-                    :error="form.errors.display_name" />
                 <TextInput v-if="isCreating && !form.is_edu_id" :label="`${$t('admin_users.initial_password')} *`"
                     v-model="form.password" :error="form.errors.password" />
             </div>
@@ -54,10 +58,10 @@
                 </table>
                 <h1 class="text-lg underline">{{ $t('admin_users.permission_groups_add') }}</h1>
                 <div class="flex flex-row w-full items-center gap-x-8">
-                    <SelectInput class="w-full" v-model="this.newSlskeyGroup" :options="this.availableSlskeyGroups.data">
+                    <SelectInput class="w-full" v-model="this.newSlskeyGroup" :options="this.availableSlskeyGroups.data"
+                        @change="addGroup()">
                     </SelectInput>
-                    <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSlskeyGroupToAdd" :tooltip="$t('admin_users.add_slskey_group')" />
+                
                 </div>
             </div>
             <!-- Bottom Buttons-->
@@ -65,21 +69,22 @@
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">
-                        <DefaultButton @click="cancel()" class="bg-color-one py-1 text-white w-fit"
+                        <DefaultButton @click="cancel()" class="text-black w-fit"
                             :tooltip="$t('admin_users.cancel')">
                             {{ $t('admin_users.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="resetPassword()" class="py-1 text-color-one w-fit"
+                        <DefaultButton v-if="!isCreating && !form.is_edu_id
+                        " @click="resetPassword()" class="text-color-one w-fit"
                             icon="key" :tooltip="$t('admin_users.reset_password')">
                             {{ $t('admin_users.reset_password') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="py-1 text-color-blocked w-fit"
+                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="text-color-blocked w-fit"
                             icon="trash" :tooltip="$t('admin_users.delete')">
                             {{ $t('admin_users.delete') }}
                         </DefaultButton>
 
                     </div>
-                    <DefaultButton @click="submit()" class="bg-color-slsp py-1 text-white w-fit" icon="save"
+                    <DefaultButton @click="submit()" class="w-fit" icon="save"
                         :tooltip="$t('admin_users.create_new')">
                         <span v-if="isCreating">{{ $t('admin_users.create_new') }}</span>
                         <span v-else>
@@ -134,6 +139,7 @@ export default {
         return {
             form: this.modelValue,
             newSlskeyGroup: null,
+            inputUserEmail: null,
         }
     },
     emits: ['update:modelValue', 'submit'],
@@ -166,6 +172,25 @@ export default {
                     this.form.slskeyGroups.push(this.availableSlskeyGroups.data.find(group => group.slskey_code === this.newSlskeyGroup));
                 }
                 this.newSlskeyGroup = null;
+            }
+        },
+        async searchPrimaryId() {
+            try {
+                // Make an asynchronous request to fetch external user information
+                const response = await axios.get('/admin/users/findeduid/' + this.inputUserEmail);
+                if (response.data.user) {
+                    this.form.user_identifier = response.data.user.primary_id;
+                    this.form.display_name = response.data.user.first_name;
+                } else if (response.data.message) {
+                    this.$notify({
+                        title: 'Error',
+                        text: response.data.message,
+                        type: 'error',
+                        duration: 10000
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching external user information:', error);
             }
         },
     }

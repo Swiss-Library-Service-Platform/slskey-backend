@@ -19,7 +19,9 @@ class AdminUserResource extends JsonResource
             'user_identifier' => $this->user_identifier,
             'display_name' => $this->display_name,
             'is_edu_id' => $this->is_edu_id,
+            'is_alma' => $this->is_alma,
             'is_slsp_admin' => $this->isSLSPAdmin() ? 1 : 0,
+            'last_login' => $this->last_login,
             'slskeyGroups' => SlskeyGroupSelectResource::collection($this->getSlskeyGroupsPermissions()),
             // for dropdown:
             'name' => $this->user_identifier,

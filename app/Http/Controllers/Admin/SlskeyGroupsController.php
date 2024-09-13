@@ -24,7 +24,7 @@ class SlskeyGroupsController extends Controller
      */
     public function index(): Response
     {
-        $slskeyGroups = SlskeyGroup::query()->get();
+        $slskeyGroups = SlskeyGroup::query()->filter(Request::all())->get();
 
         return Inertia::render('SlskeyGroups/SlskeyGroupsIndex', [
             'filters' => Request::all(),
@@ -136,7 +136,11 @@ class SlskeyGroupsController extends Controller
             'slskey_code' => ['required', 'max:255', 'regex:/^[a-zA-Z0-9]+$/'],
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
+            'show_member_educational_institution' => ['numeric'],
             'alma_iz' => ['required', 'max:14'],
+            'cloud_app_allow' => ['numeric'],
+            'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
+            'cloud_app_roles_scopes' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
         ];
         if (Request::input('workflow') === 'Webhook') {
             $rules = array_merge($rules, [
@@ -153,7 +157,8 @@ class SlskeyGroupsController extends Controller
                 $rules['webhook_mail_activation_domains'] = ['required', 'max:255'];
                 $rules['webhook_mail_activation_days_send_before_expiry'] = ['required', 'integer'];
                 $rules['webhook_mail_activation_days_token_validity'] = ['required', 'integer'];
-                $rules['webhook_custom_verifier'] = ['prohibited_if:webhook_mail_activation,1'];
+                // webhook_custom_verifier should be 0 if webhook_mail_activation is 1
+                $rules['webhook_custom_verifier'] = ['nullable', 'integer', 'max:0'];
             } else {
                 $rules['days_activation_duration'] = ['prohibited'];
                 $rules['webhook_mail_activation_domains'] = ['prohibited'];

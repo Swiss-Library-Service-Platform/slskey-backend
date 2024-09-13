@@ -20,6 +20,7 @@ class SlskeyGroupAdminResource extends JsonResource
             'name' => $this->name,
             'workflow' => $this->workflow,
             'send_activation_mail' => $this->send_activation_mail,
+            'show_member_educational_institution' => $this->show_member_educational_institution,
             // Manual
             'days_activation_duration' => $this->days_activation_duration,
             'days_expiration_reminder' => $this->days_expiration_reminder,
@@ -28,6 +29,7 @@ class SlskeyGroupAdminResource extends JsonResource
             'webhook_custom_verifier' => $this->webhook_custom_verifier,
             'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
             'webhook_secret' => $this->webhook_secret,
+            'webhook_mail_activation' => $this->webhook_mail_activation,
             // Switch Group Count
             'switchGroupsCount' => $this->switchGroups->count(),
             // Active Users

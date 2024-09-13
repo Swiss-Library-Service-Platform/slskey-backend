@@ -1,31 +1,28 @@
 <template>
     <AppLayout title="Import" :breadCrumbs="[{ name: $t('admin_users.title') }]">
 
-        <div class="mt-5 mb-10 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
+        <div class="my-8 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
 
             <div class="w-full flex flex-row justify-between pb-4 border-b">
-                <div class="text-2xl">
-                    Mass Import
-                </div>
-
                 <div class="flex flex-row justify-start text-xl">
                     <div class="flex flex-col justify-between mr-4">
                         <p id="progress-text">Total Users:</p>
                     </div>
                     <div class="flex flex-col font-bold font-bold">
-                        <p id="progress-text">{{ this.progress }} / {{ this.importRows.length }} </p>
+                        <p id="progress-text">{{ this.processedRows }} / {{ this.importRows.length }} </p>
                     </div>
                 </div>
 
                 <div>
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
-                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="Only import if user already activated" />
+                    <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="(Migration) Only import if user already activated" />
+                    <checkbox-classic-input class="w-full" v-model="this.setHistoryActivationDate" label="(Migration) Set historic activation date" />
                     <DefaultButton v-if="!importStarted" @click="startImport"
-                        class="w-fit text-white bg-color-slsp py-2">
+                        class="w-fit">
                         Start Import
                     </DefaultButton>
                     <DefaultButton v-if="importStarted" @click="stopImport"
-                        class="w-fit text-white bg-color-blocked py-2">
+                        class="text-color-blocked w-fit">
                         Stop Import
                     </DefaultButton>
                 </div>
@@ -35,13 +32,13 @@
 
             <!-- Progress Bar -->
             <div class="relative">
-                <progress id="progress-bar w-full mt-5" :max="this.importRows.length" :value="progress"></progress>
-                <p class="absolute left-1/2 text-black font-bold top-2" id="progress-text">{{ ((progress /
+                <progress id="progress-bar w-full mt-5" :max="this.importRows.length" :value="processedRows"></progress>
+                <p class="absolute left-1/2 text-black font-bold top-2" id="progress-text">{{ ((processedRows /
                     this.importRows.length) * 100).toFixed(2) }}%</p>
             </div>
 
             <!-- Results -->
-            <div v-if="progress != 0" class="flex flex-col">
+            <div v-if="processedRows != 0" class="flex flex-col">
 
                 <div class="w-full flex flex-row justify-between pt-8 border-t">
                     <div class="text-2xl">
@@ -160,7 +157,7 @@ export default {
     },
     data() {
         return {
-            progress: 0,
+            processedRows: 0,
             importStarted: false,
             showErrors: false,
             successRows: 0,
@@ -169,6 +166,7 @@ export default {
             importRows: this.givenRows,
             doneRows: [],
             checkIsActive: 0,
+            setHistoryActivationDate: 0,
             testRun: 1
         }
     },
@@ -179,8 +177,7 @@ export default {
                 return;
             }
 
-            this.importStarted = true;
-            this.progress = 0;
+            this.processedRows = 0;
             this.successRows = 0;
             this.errorRows = 0;
             this.activeRows = 0;
@@ -189,9 +186,10 @@ export default {
             axios.post("/admin/import/store", {
                 importRows: this.importRows,
                 testRun: this.testRun,
-                checkIsActive: this.checkIsActive
+                checkIsActive: this.checkIsActive,
+                setHistoryActivationDate: this.setHistoryActivationDate
             }).then(() => {
-                this.importStarted = false;
+                this.importStarted = true;
             }).catch(error => {
                 alert(error);
             });
@@ -211,13 +209,16 @@ export default {
             // Listen for Import progress
             var channel = pusher.subscribe('import-progress');
             channel.bind('import-progress-row', (event) => {
-                console.log(event);
                 this.successRows = event.success ? this.successRows + 1 : this.successRows;
                 this.errorRows = event.success ? this.errorRows : this.errorRows + 1;
                 this.activeRows = event.isActive ? this.activeRows + 1 : this.activeRows;
                 
-                this.progress++;
+                this.processedRows++;
                 this.updateRow(event.currentRow, event);
+
+                if (this.processedRows == this.importRows.length) {
+                    this.importStarted = false;
+                }
             });
         },
         updateRow(index, event) {

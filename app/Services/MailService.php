@@ -11,6 +11,7 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistoryMonth;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 
 class MailService
 {
@@ -28,10 +29,9 @@ class MailService
     public function sendNotifyUserActivationMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser, ?string $webhookActivationMail = null): ?SentMessage
     {
         $mailObject = new NotifyUserActivationMail($slskeyGroup, $almaUser);
-        $toMail = $webhookActivationMail ?? $almaUser->preferred_email;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
+        $toMail = [ $webhookActivationMail ?? $almaUser->preferred_email ];
 
-        return Mail::to($toMail)->send($mailObject);
+        return $this->sendMail($toMail, $mailObject);
     }
 
     /**
@@ -45,10 +45,9 @@ class MailService
     public function sendReactivationTokenUserMail(SlskeyGroup $slskeyGroup, string $webhookActivationMail, string $reactivationLink): ?SentMessage
     {
         $mailObject = new ReactivationTokenUserMail($slskeyGroup, $reactivationLink);
-        $toMail = $webhookActivationMail;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
-
-        return Mail::to($toMail)->send($mailObject);
+        $toMail = [ $webhookActivationMail ];
+        
+        return $this->sendMail($toMail, $mailObject);
     }
 
     /**
@@ -61,10 +60,9 @@ class MailService
     public function sendRemindExpiringUserMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser): ?SentMessage
     {
         $mailObject = new RemindExpiringUserMail($slskeyGroup, $almaUser);
-        $toMail = $almaUser->preferred_email;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
+        $toMail = [ $almaUser->preferred_email ];
 
-        return Mail::to($toMail)->send($mailObject);
+        return $this->sendMail($toMail, $mailObject);
     }
 
     /**
@@ -80,8 +78,22 @@ class MailService
     {
         $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyHistoryMonth, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
         $toMails = $reportEmailAddresses;
-        $toMails = self::TEST_MODE ? self::TEST_RECIPIENT : $toMails;
+        
+        return $this->sendMail($toMails, $mailObject);
+    }
 
-        return Mail::to($toMails)->send($mailObject);
+    /*
+    * Send Mail.
+    *
+    * @param array $toMail
+    * @param Mailable $mailObject
+    * @param SlskeyGroup $slskeyGroup
+    * @return ?SentMessage
+    */
+    private function sendMail(array $toMail, Mailable $mailObject): ?SentMessage
+    {
+        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
+        $mail = Mail::to($toMail);
+        return $mail->send($mailObject);
     }
 }

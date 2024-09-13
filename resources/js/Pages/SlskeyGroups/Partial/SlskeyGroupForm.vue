@@ -17,9 +17,7 @@
                 <!-- Alma IZ -->
                 <text-input v-model="form.alma_iz" :error="form.errors.alma_iz"
                     :label="`${$t('slskey_groups.alma_iz')} *`" />
-                <!-- Activation Mail -->
-                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
-                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
+
                 <!-- Show Member Educational Institution -->
                 <checkbox-input class="w-full" :error="form.errors.show_member_educational_institution"
                     v-model="form.show_member_educational_institution"
@@ -98,6 +96,22 @@
                 </div>
             </template>
 
+            <!-- Mail settings -->
+            <div class="border-t border-b border-default-gray"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+                $t('slskey_groups.mail_settings') }}</h3>
+            <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+
+                <!-- Send Activation Mail -->
+                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
+                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
+
+                <!-- Reply To -->
+                <text-input v-model="form.reply_to" :error="form.errors.reply_to"
+                    :label="$t('slskey_groups.reply_to')" />
+            </div>
+
+
             <!-- Cloud App Permissions -->
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
@@ -106,12 +120,12 @@
 
                 <checkbox-input v-model="form.cloud_app_allow" :error="form.errors.cloud_app_allow"
                     :label="$t('slskey_groups.cloud_app_allow')" />
-                <div/>
+                <div />
                 <!-- Roles -->
-                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles" :error="form.errors.cloud_app_roles"
-                    :label="$t('slskey_groups.cloud_app_roles')" />
-                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes" :error="form.errors.cloud_app_roles_scopes"
-                    :label="$t('slskey_groups.cloud_app_roles_scopes')" />
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles"
+                    :error="form.errors.cloud_app_roles" :label="$t('slskey_groups.cloud_app_roles')" />
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes"
+                    :error="form.errors.cloud_app_roles_scopes" :label="$t('slskey_groups.cloud_app_roles_scopes')" />
             </div>
 
             <!-- Switch Groups -->
@@ -170,8 +184,7 @@
                             {{ $t('slskey_groups.delete') }}
                         </DefaultButton>
                     </div>
-                    <DefaultButton @click="submit()" class="w-fit" icon="save"
-                        :tooltip="$t('slskey_groups.save')">
+                    <DefaultButton @click="submit()" class="w-fit" icon="save" :tooltip="$t('slskey_groups.save')">
                         <span v-if="isCreating">{{ $t('slskey_groups.create_new') }}</span>
                         <span v-else>
                             {{ $t('slskey_groups.save') }}

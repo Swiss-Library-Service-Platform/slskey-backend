@@ -4,7 +4,7 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: slskeyGroup.data.name }
     ]">
-        <div class="my-8 mb-20 bg-white shadow-md rounded-md">
+        <div class="my-8 mb-20 bg-white shadow-md rounded-md w-max">
             <SlskeyGroupForm :isCreating="false" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"
@@ -53,6 +53,7 @@ export default {
                 slskey_code: this.slskeyGroup.data.slskey_code,
                 workflow: this.slskeyGroup.data.workflow,
                 send_activation_mail: this.slskeyGroup.data.send_activation_mail,
+                reply_to: this.slskeyGroup.data.reply_to,
                 show_member_educational_institution: this.slskeyGroup.data.show_member_educational_institution,
                 alma_iz: this.slskeyGroup.data.alma_iz,
                 webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,

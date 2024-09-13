@@ -215,6 +215,7 @@
 		"name": "Name",
 		"no_records": "Keine Benutzer gefunden",
 		"no_switch_groups": "Keine zugehörigen Switch Gruppen",
+		"reply_to": "Reply-To E-Mail",
 		"save": "SLSKey Gruppe aktualisieren",
 		"send_activation_mail": "Aktivierungsbenachrichtigung senden",
 		"send_activation_mail_title": "Notify",

@@ -7,6 +7,8 @@ use App\Models\SlskeyHistoryMonth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Address;
 
 class MonthlyReportMail extends Mailable
 {
@@ -36,6 +38,14 @@ class MonthlyReportMail extends Mailable
         $this->totalCurrentMemberEducationalInstitutionCount = $totalCurrentMemberEducationalInstitutionCount;
     }
 
+    public function envelope()
+    {
+        return new Envelope(
+            replyTo: $this->slskeyGroup->reply_to,
+            subject: 'Monthly Report for '.$this->slskeyGroup->name,
+        );
+    }
+
     /**
      * Build the message.
      *
@@ -43,15 +53,13 @@ class MonthlyReportMail extends Mailable
      */
     public function build(): MonthlyReportMail
     {
-        // Get subject
-        $subject = 'Monthly Report for '.$this->slskeyGroup->name;
-
         // Return mail object
-        return $this->subject($subject)->view('emails.report.monthlyreport', [
-            'slskeyHistory' => $this->slskeyHistoryMonth,
-            'slskeyGroup' => $this->slskeyGroup,
-            'totalCurrentCount' => $this->totalCurrentCount,
-            'totalCurrentMemberEducationalInstitutionCount' => $this->totalCurrentMemberEducationalInstitutionCount,
-        ]);
+        return $this->view('emails.report.monthlyreport', [
+                'slskeyHistory' => $this->slskeyHistoryMonth,
+                'slskeyGroup' => $this->slskeyGroup,
+                'totalCurrentCount' => $this->totalCurrentCount,
+                'totalCurrentMemberEducationalInstitutionCount' => $this->totalCurrentMemberEducationalInstitutionCount,
+            ]
+        );
     }
 }

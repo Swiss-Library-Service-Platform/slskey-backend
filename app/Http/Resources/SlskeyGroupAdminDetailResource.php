@@ -15,16 +15,16 @@ class SlskeyGroupAdminDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
+            // General
             'id' => $this->id,
             'slskey_code' => $this->slskey_code,
             'name' => $this->name,
             'workflow' => $this->workflow,
-            'send_activation_mail' => $this->send_activation_mail,
             'show_member_educational_institution' => $this->show_member_educational_institution,
-            // Manual
+            // Workflow Manual
             'days_activation_duration' => $this->days_activation_duration,
             'days_expiration_reminder' => $this->days_expiration_reminder,
-            // Webhook
+            // Workflow Webhook
             'alma_iz' => $this->alma_iz,
             'webhook_custom_verifier' => $this->webhook_custom_verifier,
             'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
@@ -38,6 +38,9 @@ class SlskeyGroupAdminDetailResource extends JsonResource
             'cloud_app_allow' => $this->cloud_app_allow,
             'cloud_app_roles' => $this->cloud_app_roles,
             'cloud_app_roles_scopes' => $this->cloud_app_roles_scopes,
+            // Mail settings
+            'reply_to' => $this->reply_to,
+            'send_activation_mail' => $this->send_activation_mail,
             // SwitchGroups
             'switchGroups' => $this->switchGroups,
         ];

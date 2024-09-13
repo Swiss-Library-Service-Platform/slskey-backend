@@ -4,7 +4,11 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: slskeyGroup.data.name }
     ]">
+<<<<<<< HEAD
         <div class="my-8 mb-20 bg-white shadow-md rounded-md w-max">
+=======
+        <div class="w-max my-8 mb-20 bg-white shadow-md rounded-md">
+>>>>>>> dev
             <SlskeyGroupForm :isCreating="false" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"

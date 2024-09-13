@@ -165,10 +165,8 @@
                 </table>
                 <div class="flex flex-row w-full items-center gap-x-8">
                     <SelectInput class="w-full" v-model="newSwitchGroup" :options="this.availableSwitchGroups.data"
-                        :placeholder="$t('slskey_groups.switch_groups')">
+                        :placeholder="$t('slskey_groups.switch_groups')" @change="addGroup()">
                     </SelectInput>
-                    <DefaultIconButton @click="addGroup()" class="bg-color-active py-1 text-white shrink-0" icon="plus"
-                        :disabled="!isNewSwitchGroupToAdd" :tooltip="$t('slskey_groups.add_switch_group')" />
                 </div>
             </div>
             <div class="border-t border-b border-default-gray"></div>

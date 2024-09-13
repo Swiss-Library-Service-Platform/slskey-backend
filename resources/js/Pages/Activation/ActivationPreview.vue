@@ -24,7 +24,7 @@
           <!-- Selection SLSKey Code -->
           <div class="" Xv-if="this.slskeyGroups.length > 1">
 
-            <label class="form-label mb-1" :for="id">
+            <label class="form-label mb-1">
               {{ $t("slskey_groups.slskey_code_description") }}:
             </label>
             <SelectActivationInput v-model="this.selectedSlskeyCode" :options="this.slskeyGroups" />
@@ -101,7 +101,7 @@ export default {
       loading: false,
       selectedSlskeyCode: this.preselectedSlskeyCode,
       inputRemark: this.getCurrentRemark(this.preselectedSlskeyCode),
-      inputMemberEducationalInstitution: false,
+      inputMemberEducationalInstitution: 0,
       showMemberEducationalInstitution: this.getCurrentShowMemberEducationalInstitution(this.preselectedSlskeyCode),
     };
   },
@@ -131,14 +131,22 @@ export default {
       if (slskeyGroup) {
         return slskeyGroup.show_member_educational_institution;
       }
-      return false;
+      return 0;
     },
+    getCurrentInputMemberEducationalInstitution: function (selectedSlskeyCode) {
+      const slskeyGroup = this.slskeyGroups.find((group) => group.value === selectedSlskeyCode);
+      if (slskeyGroup) {
+        return slskeyGroup.activation.member_educational_institution;
+      }
+      return 0;
+    }
   },
   watch: {
     selectedSlskeyCode: function (newVal) {
       // find remark from from slskey activation of currently selected group and if found, set it as inputRemark
       this.inputRemark = this.getCurrentRemark(newVal);
       this.showMemberEducationalInstitution = this.getCurrentShowMemberEducationalInstitution(newVal);
+      this.inputMemberEducationalInstitution = this.getCurrentInputMemberEducationalInstitution(newVal);
     }
   },
 };

@@ -13,7 +13,7 @@
 
 <!-- Badges -->
 <p align="left">
-  <a href="https://github.com/Swiss-Library-Service-Platform/slskey-backend/actions/workflows/pest_tests.yml"><img src="https://github.com/Swiss-Library-Service-Platform/slskey-backend/actions/workflows/pest_tests.yml/badge.svg?branch=main" alt="Test Status"></a>
+  <a href="https://github.com/Swiss-Library-Service-Platform/slskey-backend/actions/workflows/pest_tests.yml"><img src="https://github.com/Swiss-Library-Service-Platform/slskey-backend/actions/workflows/pest_tests.yml/badge.svg" alt="Test Status"></a>
   <a href="https://github.com/Swiss-Library-Service-Platform/slskey-backend/actions/workflows/pest_tests.yml"><img src="https://raw.githubusercontent.com/Swiss-Library-Service-Platform/slskey-backend/coverage-badge/coverage.svg" alt="Coverage"></a>
 </p>
 

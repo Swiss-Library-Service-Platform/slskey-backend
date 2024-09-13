@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     /**
      * Permissions relationship
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function permissions()

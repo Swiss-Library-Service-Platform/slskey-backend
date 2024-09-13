@@ -73,7 +73,6 @@ Route::middleware([
     Route::middleware([
         'auth.permission_check',
     ])->group(function () {
-
         // Activate / Deactivate
         Route::post('activation/{primary_id}', [ActivationController::class, 'activate'])
             ->name('activation.activate');

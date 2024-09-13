@@ -6,7 +6,7 @@ Before Go Live:
 TODO: Fix all FIXMEs before Go Live!
 
 TODO: set Jobs in Kernel.php
-      
+
 ________________________________________________________________________
 Later, nice to have:
 
@@ -18,7 +18,7 @@ TODO: Cloud App
       - Icon Jiggle Bug wenn geöffnet wird
       - "No eduid" bereits in Liste anzeigen, nicht erst beim aktivieren
 
-TODO: Participage page: 
+TODO: Participage page:
       - Motivation / Vorteile aufzählen
 
 TODO: Test:

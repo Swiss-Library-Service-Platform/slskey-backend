@@ -4,7 +4,7 @@
         { name: $t('switch_groups.title'), link: '/admin/switchgroups' },
         { name: switchGroup.data.name }
     ]">
-        <div class="my-8 bg-white shadow-md rounded-md">
+        <div class="w-max my-8 bg-white shadow-md rounded-md">
             <SwitchGroupForm :modelValue="form" @submit="saveSwitchGroup"
                 @cancel="cancel"  />
         </div>

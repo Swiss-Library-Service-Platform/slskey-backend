@@ -534,15 +534,6 @@ class ActivationService
         // Update SLSKey Activation
         $activation->setMemberEducationalInstitution($memberEducationalInstitution);
 
-        // Create History for Logging
-        $slskeyHistory = SlskeyHistory::create([
-            'slskey_user_id' => $slskeyUser->id,
-            'slskey_group_id' => $slskeyGroup->id,
-            'action' => $memberEducationalInstitution ? ActivationActionEnums::SET_MEMBER_EDUCATION : ActivationActionEnums::UNSET_MEMBER_EDUCATION,
-            'author' => Auth::user()?->user_identifier,
-            'trigger' =>  Auth::user() ? TriggerEnums::MANUAL_UI : 'system',
-        ]);
-
         return new ActivationServiceResponse(true, __("flashMessages.user_member_educational_institution_changed"));
     }
 

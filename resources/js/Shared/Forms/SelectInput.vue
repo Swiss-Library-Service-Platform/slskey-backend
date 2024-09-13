@@ -52,9 +52,11 @@ export default {
   watch: {
     selected(selected) {
       if (selected && selected.value) {
-        this.$emit('update:modelValue', selected.value)
+        this.$emit('update:modelValue', selected.value);
+        this.$emit('change', selected.value);
       } else {
         this.$emit('update:modelValue', null)
+        this.$emit('change', null)
       }
     },
   },

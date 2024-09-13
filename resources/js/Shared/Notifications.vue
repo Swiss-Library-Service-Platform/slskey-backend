@@ -42,11 +42,11 @@ export default {
       if (flash.success) {
         setTimeout(() => {
           this.showSuccessNotification(flash.success);
-        }, 1); // FIXME: timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
+        }, 1); // timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
       } else if (flash.error) {
         setTimeout(() => {
           this.showErrorNotification(flash.error);
-        }, 1); // FIXME: timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
+        }, 1); // timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
       }
     },
     handleErrors(errors) {

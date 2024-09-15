@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,12 +20,18 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (config('app.env') == 'production') {
-            /*
-            // FIXME: Schedule the commands here
-
+            // Deactivate expired users
             $schedule->command('job:deactivate-expired-users')
-                ->dailyOn(0, '06:00'); //UTC time
-            */
+                ->dailyAt('06:00'); //UTC time
+            // Remind users with expiring activations
+            $schedule->command('job:remind-expiring-users')
+                ->dailyAt('08:00'); //UTC time
+            // Send reactivation tokens
+            $schedule->command('job:send-reactivation-token')
+                ->dailyAt('10:00'); //UTC time
+            // Send monthly report
+            $schedule->command('job:send-monthly-report')
+                ->monthlyOn(1, '06:00'); //UTC time
         }
     }
 

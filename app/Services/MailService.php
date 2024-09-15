@@ -28,7 +28,7 @@ class MailService
     public function __construct()
     {
         $this->TEST_RECIPIENT = config('app.testenv_mail_recipient');
-        $this->TEST_MODE = true; // config('app.env') !== 'production'; FIXME
+        $this->TEST_MODE = config('app.env') !== 'production';
     }
 
     /**
@@ -104,8 +104,8 @@ class MailService
      */
     public function sendMail(Mailable $mailObject, array $toMails): ?SentMessage
     {
-        $toMails = $this->TEST_MODE ? $this->TEST_RECIPIENT : $toMails;
-        print_r($toMails);
+        $toMails = $this->TEST_MODE ? [ $this->TEST_RECIPIENT ] : $toMails;
+
         return Mail::to($toMails)->send($mailObject);
     }
 }

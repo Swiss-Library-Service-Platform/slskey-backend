@@ -108,7 +108,7 @@ class AlmaAPIService implements AlmaAPIInterface
         foreach ($izCodes as $izCode) {
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
-                $error = $error . "$izCode: {$result['message']} ";
+                $error = $error . $result['message'] . '. ';
 
                 continue;
             }

@@ -101,7 +101,7 @@ export default {
       loading: false,
       selectedSlskeyCode: this.preselectedSlskeyCode,
       inputRemark: this.getCurrentRemark(this.preselectedSlskeyCode),
-      inputMemberEducationalInstitution: 0,
+      inputMemberEducationalInstitution: this.getCurrentInputMemberEducationalInstitution(this.preselectedSlskeyCode),
       showMemberEducationalInstitution: this.getCurrentShowMemberEducationalInstitution(this.preselectedSlskeyCode),
     };
   },

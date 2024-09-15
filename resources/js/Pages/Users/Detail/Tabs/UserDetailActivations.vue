@@ -5,7 +5,7 @@
         {{ $t('user_management.new_activation') }}
       </DefaultButton>
     </div>
-    <table class="table-auto rounded-md">
+    <table class="table-auto rounded-md mb-4">
       <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->

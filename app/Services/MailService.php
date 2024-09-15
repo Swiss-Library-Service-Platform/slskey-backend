@@ -11,27 +11,40 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistoryMonth;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
+use App\Models\SlskeyActivation;
+use App\Models\SlskeyHistory;
+use App\Enums\ActivationActionEnums;
+use App\Enums\TriggerEnums;
+use Illuminate\Mail\Mailable;
 
 class MailService
 {
-    public const TEST_RECIPIENT = 'sascha.villing@slsp.ch';
-    public const TEST_MODE = true; // FIXME: set to false on prod, but true on dev and testing
+    public $TEST_RECIPIENT;
+    public $TEST_MODE;
+
+    /**
+     * MailService constructor.
+     */
+    public function __construct()
+    {
+        $this->TEST_RECIPIENT = config('app.testenv_mail_recipient');
+        $this->TEST_MODE = true; // config('app.env') !== 'production'; FIXME
+    }
 
     /**
      * Send Notify User Activation Mail.
      *
      * @param SlskeyGroup $slskeyGroup
      * @param AlmaUser $almaUser
-     * @param string|null $webhookActivationMail
+     * @param SlskeyActivation $activation
      * @return ?SentMessage
      */
-    public function sendNotifyUserActivationMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser, ?string $webhookActivationMail = null): ?SentMessage
+    public function sendNotifyUserActivationMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser, SlskeyActivation $activation): ?SentMessage
     {
         $mailObject = new NotifyUserActivationMail($slskeyGroup, $almaUser);
-        $toMail = $webhookActivationMail ?? $almaUser->preferred_email;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
-
-        return Mail::to($toMail)->send($mailObject);
+        $toMails = [ $activation->webhookActivationMail ?? $almaUser->preferred_email ]; 
+        
+        return $this->sendMail($mailObject, $toMails);
     }
 
     /**
@@ -45,10 +58,9 @@ class MailService
     public function sendReactivationTokenUserMail(SlskeyGroup $slskeyGroup, string $webhookActivationMail, string $reactivationLink): ?SentMessage
     {
         $mailObject = new ReactivationTokenUserMail($slskeyGroup, $reactivationLink);
-        $toMail = $webhookActivationMail;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
-
-        return Mail::to($toMail)->send($mailObject);
+        $toMails = [ $webhookActivationMail ];
+        
+        return $this->sendMail($mailObject, $toMails);
     }
 
     /**
@@ -61,10 +73,9 @@ class MailService
     public function sendRemindExpiringUserMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser): ?SentMessage
     {
         $mailObject = new RemindExpiringUserMail($slskeyGroup, $almaUser);
-        $toMail = $almaUser->preferred_email;
-        $toMail = self::TEST_MODE ? self::TEST_RECIPIENT : $toMail;
+        $toMails = [ $almaUser->preferred_email ];
 
-        return Mail::to($toMail)->send($mailObject);
+        return $this->sendMail($mailObject, $toMails);
     }
 
     /**
@@ -80,8 +91,21 @@ class MailService
     {
         $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyHistoryMonth, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
         $toMails = $reportEmailAddresses;
-        $toMails = self::TEST_MODE ? self::TEST_RECIPIENT : $toMails;
 
+        return $this->sendMail($mailObject, $toMails);
+    }
+
+    /**
+     * Send Mail.
+     *
+     * @param Mailable $mailObject
+     * @param array $toMails
+     * @return ?SentMessage
+     */
+    public function sendMail(Mailable $mailObject, array $toMails): ?SentMessage
+    {
+        $toMails = $this->TEST_MODE ? $this->TEST_RECIPIENT : $toMails;
+        print_r($toMails);
         return Mail::to($toMails)->send($mailObject);
     }
 }

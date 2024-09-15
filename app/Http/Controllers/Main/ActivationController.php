@@ -118,7 +118,7 @@ class ActivationController extends Controller
         Request::validate([
             'slskey_code' => ['required', 'string', 'max:255'],
             'remark' => ['nullable', 'string', 'max:255'],
-            'member_educational_institution' => ['boolean'],
+            'member_educational_institution' => ['integer', 'nullable'],
             'alma_user' => ['required', 'array'],
         ]);
         $slskeyCode = Request::input('slskey_code');

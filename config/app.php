@@ -222,4 +222,13 @@ return [
     */
 
     'help_page' => env('HELP_PAGE', 'https://slsp.ch'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Mail settings
+    |--------------------------------------------------------------------------
+    |
+    */
+    'exception_mail_recipient' => env('EXCEPTION_MAIL_RECIPIENT', ''),
+    'testenv_mail_recipient' => env('TESTENV_MAIL_RECIPIENT', ''),
 ];

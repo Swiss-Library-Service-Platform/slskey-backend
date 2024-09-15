@@ -38,7 +38,11 @@ Route::get('/login/changepassword', [LandingController::class, 'changePassword']
 Route::post('/login/changepassword', [LandingController::class, 'setPassword'])
     ->name('login_setpassword');
 
-// No Roles Error Page
+// Forward from old PURA backend to new SLSKey when logged in in old PURA
+Route::get('/migration', [LandingController::class, 'migration'])
+    ->name('migration');
+
+    // No Roles Error Page
 Route::get('/noroles', [LandingController::class, 'noroles'])
     ->name('noroles');
 

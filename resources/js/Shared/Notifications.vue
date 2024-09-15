@@ -47,11 +47,23 @@ export default {
         setTimeout(() => {
           this.showErrorNotification(flash.error);
         }, 1); // timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
+      } else if (flash.info) {
+        setTimeout(() => {
+          this.showInfoNotification(flash.info);
+        }, 1); // timeout is a hack to make sure the notification is shown after the page is rendered. Dont ask me why.
       }
     },
     handleErrors(errors) {
       Object.keys(errors).forEach(key => {
         this.showErrorNotification(errors[key]);
+      });
+    },
+    showInfoNotification(message) {
+      this.$notify({
+        title: this.$t('notifications.info'),
+        text: message,
+        type: 'info',
+        duration: 10000
       });
     },
     showErrorNotification(message) {

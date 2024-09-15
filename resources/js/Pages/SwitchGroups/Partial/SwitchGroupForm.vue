@@ -62,7 +62,7 @@
             <div class="border-t border-b border-default-gray"></div>
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
-                    <DefaultButton @click="cancel()" class="bg-color-one py-1 text-white w-fit"
+                    <DefaultButton @click="cancel()" class="text-color-blocked w-fit"
                         :tooltip="$t('switch_groups.cancel')">
                         {{ $t('switch_groups.cancel') }}
                     </DefaultButton>

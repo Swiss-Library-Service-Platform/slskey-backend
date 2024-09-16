@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
             $schedule->command('job:deactivate-expired-users')
                 ->dailyAt('06:00'); //UTC time
             // Remind users with expiring activations
-            $schedule->command('job:remind-expiring-users')
+            $schedule->command('job:send-remind-expiring-users')
                 ->dailyAt('08:00'); //UTC time
             // Send reactivation tokens
             $schedule->command('job:send-reactivation-token')

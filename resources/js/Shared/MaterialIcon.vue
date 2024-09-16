@@ -2,7 +2,7 @@
     <div  :class="$attrs.class">
         <!-- <CursorDefaultClickIcon v-if="icon == 'cursor_default_click'"/> -->
         <RefreshAutoIcon v-if="icon == 'auto_mode'"/>
-        <AccountSuper visorCircleOutline v-if="icon == 'cursor_default_click'"/>
+        <AccountSupervisorCircleOutline v-if="icon == 'cursor_default_click'"/>
         <FilterRemove :size="size" v-if="icon == 'filter_remove'"/>
         <Help :size="size" v-if="icon == 'help'"/>
         <Sort size="18" v-if="icon == 'sort'"/>

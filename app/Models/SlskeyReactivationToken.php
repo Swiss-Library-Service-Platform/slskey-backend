@@ -22,6 +22,7 @@ class SlskeyReactivationToken extends Model
         'token_expiration_date',
         'token_used',
         'token_used_date',
+        'created_at',
     ];
 
     /**

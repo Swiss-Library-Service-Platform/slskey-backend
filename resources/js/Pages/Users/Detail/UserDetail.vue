@@ -40,9 +40,12 @@
                     <template v-if="almaLoading">
                         <AlmaUserDetailsLoad />
                     </template>
-                    <template v-else>
+                    <template v-if="!almaLoading && almaUsers">
                         <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id"
                             :almaUser="almaUser" />
+                    </template>
+                    <template v-if="!almaLoading && !almaUsers">
+                        <AlmaUserDetailsShow :almaUser="null" />
                     </template>
                 </div>
                 <div class="bg-white rounded shadow pt-4" v-show="activeTab === 2">

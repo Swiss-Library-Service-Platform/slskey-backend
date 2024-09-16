@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         if ($this->shouldReport($exception)) {
-            Notification::route('mail', env('EXCEPTION_MAIL_RECIPIENT'))
+            Notification::route('mail', config('app.exception_mail_recipient'))
                         ->notify(new ExceptionOccurred($exception));
         }
 

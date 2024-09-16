@@ -10,6 +10,8 @@ class TriggerEnums
 
     public const MANUAL_UI = 'SLSKey UI';
 
+    public const SYSTEM = 'System';
+
     public const SYSTEM_EXPIRATION = 'System Expiration Job';
 
     public const SYSTEM_MASS_IMPORT = 'System Mass Import';

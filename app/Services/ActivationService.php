@@ -87,12 +87,10 @@ class ActivationService
             return $this->logAndReturnError($primaryId, $action, 'no_edu_id');
         }
 
-        // Get SWITCH groups
-        /* FIXME: remove comment
+        // Get SWITCH groups 
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
-        */
 
         // Check if Activation Mail is defined when configured
         if (!$slskeyGroup->checkActivationMailDefinedIfSendActivationMailIsTrue()) {
@@ -163,15 +161,23 @@ class ActivationService
 
         // Send notify email to user, if group has enabled email feature
         /*
-        FIXME: dont notify users when importing MBA
+        //  FIXME: dont notify users when importing MBA
         if (
             $slskeyGroup->send_activation_mail &&
             $almaUser
         ) {
-            $sent = $this->mailService->sendNotifyUserActivationMail($slskeyGroup, $activation, $almaUser, $trigger);
+            $sent = $this->mailService->sendNotifyUserActivationMail($slskeyGroup, $almaUser, $activation);
+            SlskeyHistory::create([
+                'slskey_user_id' => $activation->slskey_user_id,
+                'slskey_group_id' => $slskeyGroup->id,
+                'action' => ActivationActionEnums::NOTIFIED,
+                'author' => null,
+                'trigger' => TriggerEnums::SYSTEM,
+            ]);
         }
         */
-
+        
+        
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
 
         // $message = __("flashMessages.$messageCode") . ': ' . $successMessage;
@@ -216,11 +222,9 @@ class ActivationService
         }
 
         // Deactivate User via SWITCH API
-        /* FIXME: remove comment
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
-        */
 
         try {
             foreach ($slskeyGroup->switchGroups as $switchGroup) {
@@ -290,13 +294,10 @@ class ActivationService
             return $this->logAndReturnError($primaryId, $action, 'no_activation');
         }
 
-        /*
         // Deactivate User via SWITCH API
-        /* FIXME: remove comment
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
-        */
 
         try {
             foreach ($slskeyGroup->switchGroups as $switchGroup) {

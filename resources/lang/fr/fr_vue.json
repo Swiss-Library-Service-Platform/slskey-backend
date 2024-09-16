@@ -115,6 +115,7 @@
     },
     "notifications": {
         "error": "Erreur",
+        "info": "Info",
         "success": "Succès"
     },
     "pagination": {

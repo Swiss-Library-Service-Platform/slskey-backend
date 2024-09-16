@@ -100,6 +100,7 @@ class RemindExpiringUsers extends Command
                 }
                 $almaUser = $almaServiceResponse->almaUser;
 
+                // For Migration Comment out from here: /*
                 $sent = $this->mailService->sendRemindExpiringUserMail($slskeyGroup, $almaUser);
 
                 if (! $sent) {
@@ -107,8 +108,6 @@ class RemindExpiringUsers extends Command
 
                     continue;
                 }
-
-                $activation->setReminded(true);
 
                 // Create History
                 SlskeyHistory::create([
@@ -118,6 +117,9 @@ class RemindExpiringUsers extends Command
                     'author' => null,
                     'trigger' => TriggerEnums::SYSTEM_REMIND_EXPIRATION,
                 ]);
+                // For Migration Comment out until here: /*
+
+                $activation->setReminded(true);
 
                 $this->textFileLogger->info("Sent reminder to user $primaryId to $almaUser->preferred_email.");
 

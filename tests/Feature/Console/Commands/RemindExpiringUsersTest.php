@@ -38,7 +38,7 @@ it('sends reminders for expiring activations', function () {
     $remindedUser = SlskeyUser::factory()->create();
     $nonRemindedUser = SlskeyUser::factory()->create();
     $activationService = app(ActivationService::class);
-    $response = $activationService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null,  null, null);#
+    $response = $activationService->activateSlskeyUser($remindedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);#
     $response = $activationService->activateSlskeyUser($nonRemindedUser->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
     assertUserActivationActivated($remindedUser->primary_id, $slskeyGroup->slskey_code);
     assertUserActivationActivated($nonRemindedUser->primary_id, $slskeyGroup->slskey_code);

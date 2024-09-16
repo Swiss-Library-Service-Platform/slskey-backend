@@ -71,7 +71,7 @@ class ImportCsvJob implements ShouldQueue
                 break;
             }
 
-            $result = $this->processImportRow($row,  $this->checkIsActive, $this->setHistoryActivationDate, $this->testRun);
+            $result = $this->processImportRow($row, $this->checkIsActive, $this->setHistoryActivationDate, $this->testRun);
 
             event(new DataImportProgressEvent(
                 $currentRow,

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Database\Factories\Saml2TenantFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia;

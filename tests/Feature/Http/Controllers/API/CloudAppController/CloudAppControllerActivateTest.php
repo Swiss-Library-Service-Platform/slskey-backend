@@ -69,6 +69,7 @@ it('fails the activation, because primary is is not an edu id', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(400);
@@ -95,6 +96,7 @@ it('succeeds the activation & extension', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(200);
@@ -107,6 +109,7 @@ it('succeeds the activation & extension', function () {
         'slskey_code' => $slskeyCode,
         'remark' => 'test',
         'alma_user' => getAlmaUserData($identifier),
+        'member_of_education_institution' => true,
     ]);
 
     $response->assertStatus(200);

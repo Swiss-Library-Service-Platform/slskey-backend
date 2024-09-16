@@ -191,9 +191,8 @@ class SlskeyUser extends Model
             // When no order is set, order by id desc
             return $query->orderBy('id', 'desc');
         }, function ($query, $sort_by) use ($filters) {
-
             // Sort by activation date
-            if ($sort_by == 'activation_date') {                   
+            if ($sort_by == 'activation_date') {
                 $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
                 if ($filters['sortAsc'] == 'false') {
                     // this is slow, but it works
@@ -246,7 +245,7 @@ class SlskeyUser extends Model
                     ) ASC');
                 }
             }
-            
+
             if ($sort_by == 'full_name') {
                 $query->orderBy('first_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc')
                     ->orderBy('last_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc');

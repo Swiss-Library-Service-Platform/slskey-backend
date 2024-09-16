@@ -119,4 +119,17 @@ class LandingController extends Controller
     {
         return Inertia::render('Landing/ParticipateIndex', []);
     }
+
+    /**
+     * Migration:
+     * Forward page to forward users that try to log into old PURA page
+     * @return Response
+     */
+    public function migration(): Response
+    {
+        return Inertia::render('Landing/LandingLoginEduID', [
+            'flash.info' =>'Your access to the old PURA system has been disabled. You have been forwarded to the new SLSKey backend. Please login below.',
+        ]);
+    }
+
 }

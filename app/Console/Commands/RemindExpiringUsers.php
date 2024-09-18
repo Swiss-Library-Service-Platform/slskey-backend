@@ -92,7 +92,7 @@ class RemindExpiringUsers extends Command
 
                 $primaryId = $activation->slskeyUser->primary_id;
                 // Get Alma User Details of user
-                $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($primaryId, $slskeyGroup->alma_iz);
+                $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($primaryId, '41SLSP_NETWORK');
                 if (! $almaServiceResponse->success) {
                     $this->textFileLogger->info("Failed to get Alma user details for user $primaryId: $almaServiceResponse->errorText");
 

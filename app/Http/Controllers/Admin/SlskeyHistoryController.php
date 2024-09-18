@@ -9,6 +9,7 @@ use App\Models\SlskeyHistory;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Resources\SlskeyHistoryResource;
 
 class SlskeyHistoryController extends Controller
 {
@@ -41,7 +42,7 @@ class SlskeyHistoryController extends Controller
         });
 
         return Inertia::render('SlskeyHistory/SlskeyHistoryIndex', [
-            'slskeyHistories' => $slskeyHistories,
+            'slskeyHistories' => SlskeyHistoryResource::collection($slskeyHistories),
             'filters' => Request::all(),
             'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
             'triggers' => $triggerValues,

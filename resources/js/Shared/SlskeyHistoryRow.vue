@@ -41,13 +41,13 @@
         </div>
     </td>
     <td class="align-top">
-        <Link v-if="$page.props.isSlskeyAdmin" :href="`/admin/users/${history.author}`">
+        <Link v-if="$page.props.isSlskeyAdmin && history.author_display" :href="`/admin/users/${history.author}`">
             <div class="underline flex px-4 py-3 pr-8 whitespace-nowrap">
-            {{ history.author }}
+            {{ history.author_display }}
         </div>
         </Link>
         <div v-else class="flex px-4 py-3 whitespace-nowrap">
-            {{ history.author }}
+            {{ history.author_display ?? history.author }}
         </div>
     </td>
    

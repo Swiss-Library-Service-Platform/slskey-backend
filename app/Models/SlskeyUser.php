@@ -189,7 +189,7 @@ class SlskeyUser extends Model
 
         $query->when($filters['sortBy'] ?? function ($query) {
             // When no order is set, order by id desc
-            return $query->orderBy('created_at', 'desc');
+            return $query->orderBy('created_at', 'asc');
         }, function ($query, $sort_by) use ($filters) {
             // Sort by activation date
             if ($sort_by == 'activation_date') {
@@ -208,7 +208,7 @@ class SlskeyUser extends Model
                 } else {
                     // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT max(activation_date)
+                        SELECT max(COALESCE(activation_date, \'9999-12-31\'))
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
                         AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
@@ -235,7 +235,7 @@ class SlskeyUser extends Model
                 } else {
                     // this is slow, but it works
                     $query->orderByRaw('(
-                        SELECT max(expiration_date)
+                        SELECT max(COALESCE(expiration_date, \'9999-12-31\'))
                         FROM slskey_activations
                         WHERE slskey_user_id = slskey_users.id
                         AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')

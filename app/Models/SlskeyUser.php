@@ -188,7 +188,7 @@ class SlskeyUser extends Model
         */
 
         $query->when($filters['sortBy'] ?? function ($query) {
-            // When no order is set, order by id desc
+            // When no order is set
             return $query->orderBy('created_at', 'asc');
         }, function ($query, $sort_by) use ($filters) {
             // Sort by activation date

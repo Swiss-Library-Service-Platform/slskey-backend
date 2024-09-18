@@ -73,7 +73,7 @@ class MailService
     public function sendRemindExpiringUserMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser): ?SentMessage
     {
         $mailObject = new RemindExpiringUserMail($slskeyGroup, $almaUser);
-        $toMails = [ $almaUser->preferred_email ];
+        $toMails = [ $almaUser->preferred_email ];
 
         return $this->sendMail($mailObject, $toMails);
     }
@@ -105,7 +105,6 @@ class MailService
     public function sendMail(Mailable $mailObject, array $toMails): ?SentMessage
     {
         $toMails = $this->TEST_MODE ? [ $this->TEST_RECIPIENT ] : $toMails;
-
         return Mail::to($toMails)->send($mailObject);
     }
 }

@@ -26,7 +26,7 @@ class SlskeyHistoryResource extends JsonResource
 
             'slskey_user' => $this->slskeyUser,
             'slskey_group' => $this->slskeyGroup,
-            'author_display' => User::where('user_identifier', $this->author)->first()?->display_name,
+            'author_display' => $this->user()?->display_name,
         ];
     }
 }

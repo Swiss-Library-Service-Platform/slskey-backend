@@ -59,6 +59,16 @@ class SlskeyHistory extends Model
     }
 
     /**
+     * Get the User from the author
+     * 
+     * @return User
+     */
+    public function user()
+    {
+        return User::where('user_identifier', $this->author)->first();
+    }
+
+    /**
      * Set the SlskeyUserId of the SlskeyHistory.
      *
      * @param string $slskeyUserId

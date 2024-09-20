@@ -42,7 +42,7 @@ class SlskeyHistoryController extends Controller
         });
 
         return Inertia::render('SlskeyHistory/SlskeyHistoryIndex', [
-            'slskeyHistories' => SlskeyHistoryResource::collection($slskeyHistories),
+            'slskeyHistories' => $slskeyHistories,
             'filters' => Request::all(),
             'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
             'triggers' => $triggerValues,

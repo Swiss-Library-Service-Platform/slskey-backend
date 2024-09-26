@@ -135,7 +135,7 @@ export default {
     },
     getCurrentInputMemberEducationalInstitution: function (selectedSlskeyCode) {
       const slskeyGroup = this.slskeyGroups.find((group) => group.value === selectedSlskeyCode);
-      if (slskeyGroup) {
+      if (slskeyGroup && slskeyGroup.activation) {
         return slskeyGroup.activation.member_educational_institution;
       }
       return 0;

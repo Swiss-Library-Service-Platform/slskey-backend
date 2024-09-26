@@ -26,7 +26,7 @@ const submit = () => {
         ...data,
         _token: csrfToken,
         remember: form.remember ? 'on' : '',
-    })).post(route('loginform'), {
+    })).post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };

@@ -55,13 +55,13 @@ class LandingController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return Redirect::route('loginform');
+            return Redirect::route('login');
         }
         // Clear local sessions
         Session::flush();
         Auth::logout();
 
-        return Redirect::route('loginform');
+        return Redirect::route('login');
     }
 
     /**

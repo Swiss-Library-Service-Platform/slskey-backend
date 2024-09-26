@@ -27,7 +27,7 @@
 
 SLSKey is a service to provide access to electronic resources for libraries and their users. It is a service by the Swiss Library Service Platform (SLSP).
 
-It leverages the SWITCH edu-ID service to authenticate users and provide access to electronic resources.
+It leverages the [Switch edu-ID](https://eduid.ch/) service to authenticate users and provide access to electronic resources.
 
 For more information, please visit the internal SLSPhere documentation in Confluence.
 

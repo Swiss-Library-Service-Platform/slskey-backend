@@ -77,7 +77,7 @@ class SlskeyReactivationToken extends Model
      */
     public function getLinkFromToken(): string
     {
-        return env('APP_URL').'/reactivate/'.$this->token;
+        return config('app.url').'/reactivate/'.$this->token;
     }
 
     /**

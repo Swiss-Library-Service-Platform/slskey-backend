@@ -56,7 +56,7 @@ it('sends reminders for expiring activations', function () {
     // Prepare Alma Request
     $almaUser = AlmaUser::factory()->make(['primary_id' => $remindedUser->primary_id, 'preferred_language' => 'en']);
     $almaApiServiceMock = Mockery::mock(AlmaAPIInterface::class);
-    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($remindedUser->primary_id, $slskeyGroup->alma_iz)->andReturn(
+    $almaApiServiceMock->shouldReceive('getUserFromSingleIz')->with($remindedUser->primary_id, '41SLSP_NETWORK')->andReturn(
         new AlmaServiceSingleResponse(true, $almaUser, null)
     );
     App::instance(AlmaAPIInterface::class, $almaApiServiceMock);

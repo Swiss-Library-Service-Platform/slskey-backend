@@ -55,6 +55,7 @@ export default {
                 send_activation_mail: this.slskeyGroup.data.send_activation_mail,
                 show_member_educational_institution: this.slskeyGroup.data.show_member_educational_institution,
                 alma_iz: this.slskeyGroup.data.alma_iz,
+                mail_sender_address: this.slskeyGroup.data.mail_sender_address,
                 webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,
                 webhook_custom_verifier_class: this.slskeyGroup.data.webhook_custom_verifier_class,
                 webhook_secret: this.slskeyGroup.data.webhook_secret,

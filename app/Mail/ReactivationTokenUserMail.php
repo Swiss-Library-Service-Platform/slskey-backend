@@ -41,9 +41,15 @@ class ReactivationTokenUserMail extends Mailable
         $slskeyCode = $this->slskeyGroup->slskey_code;
         $subject = self::EMAIL_SUBJECTS;
 
+        // From Sender
+        $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
+        $fromName = 'SLSKey - ' . $this->slskeyGroup->name ?? config('mail.from.name');
+
         // Return mail object
-        return $this->subject($subject)->view('emails.token.'.$slskeyCode.'.email', [
-            'reactivationLink' => $this->reactivationLink,
+        return $this->subject($subject)
+            ->from($fromAddress, $fromName)
+            ->view('emails.token.'.$slskeyCode.'.email', [
+                'reactivationLink' => $this->reactivationLink,
         ]);
     }
 }

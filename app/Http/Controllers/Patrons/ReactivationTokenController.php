@@ -155,10 +155,10 @@ class ReactivationTokenController extends Controller
         }
 
         // Send mail
-        $this->mailService->sendReactivationTokenUserMail($slskeyReactivationToken->slskeyGroup, $slskeyActivation->webhook_activation_mail, $response->reactivationLink);
+        $this->mailService->sendReactivationTokenUserMail($slskeyActivation->slskeyGroup, $slskeyActivation->webhook_activation_mail, $response->reactivationLink);
 
         return Inertia::render('ReactivationToken/ReactivationRenewed', [
-            'slskeyGroup' => SlskeyGroupPublicResource::make($slskeyReactivationToken->slskeyGroup),
+            'slskeyGroup' => SlskeyGroupPublicResource::make($slskeyActivation->slskeyGroup),
         ]);
     }
 }

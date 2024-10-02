@@ -1,132 +1,138 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
-        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-            <div class="flex gap-x-16">
-                <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">
-                    <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
-                        :options="slskeyGroups.data" />
-                </FilterControl>
-                <TabFilter :tab1="$t('reporting.display_tab1')" :tab2="$t('reporting.display_tab2')" icon1="view-list"
-                    icon2="chart-square-bar" :label="$t('reporting.display')" v-model="displayTab" />
+        <div class="flex flex-col w-fit">
+
+            <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
+                <div class="flex gap-x-16">
+                    <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">
+                        <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                            :options="slskeyGroups.data" />
+                    </FilterControl>
+                    <TabFilter :tab1="$t('reporting.display_tab1')" :tab2="$t('reporting.display_tab2')"
+                        icon1="view-list" icon2="chart-square-bar" :label="$t('reporting.display')"
+                        v-model="displayTab" />
+                </div>
+                <div class="flex gap-x-4">
+                    <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
+                        class="w-fit py-2 mt-4">
+                        {{ $t('reporting.change_settings') }}
+                    </DefaultButton>
+                    <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
+                        class="w-fit py-2 mt-4">
+                        {{ $t('reporting.export') }}
+                    </DefaultButton>
+                </div>
             </div>
-            <div class="flex gap-x-4">
-                <DefaultButton :disabled="!form.slskeyCode" icon="mail" @click="changeSettings()"
-                    class="w-fit py-2 mt-4">
-                    {{ $t('reporting.change_settings') }}
-                </DefaultButton>
-                <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
-                    class="w-fit py-2 mt-4">
-                    {{ $t('reporting.export') }}
-                </DefaultButton>
-            </div>
-        </div>
 
-        <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
-            <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
-                <thead class="">
-                    <tr>
-                        <th class="py-4 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
-                            {{ $t('reporting.month') }}
-                        </th>
-                        <th colspan="3"
-                            class="pt-4 pb-2 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
-                            {{ $t('reporting.activations') }}
-                        </th>
-                        <th colspan="2"
-                            class="pt-4 pb-2 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
-                            {{ $t('reporting.deactivations') }}
-                        </th>
-                        <th class="py-4 px-6 text-center whitespace-nowrap border-r border-gray-table">
-                            {{ $t('reporting.monthly_change') }}
-                        </th>
-                        <th class="py-4 px-6 text-center whitespace-nowrap">
-                            {{ $t('reporting.total_activations') }}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th
-                            class="pt-2 pb-4 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
-                        </th>
-                        <th class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap ">
-                            {{ $t('reporting.new_users') }}
-                        </th>
-                        <th class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap ">
-                            {{ $t('reporting.reactivations') }}
-                        </th>
-                        <th
-                            class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
-                            {{ $t('reporting.extensions') }}
-                        </th>
-
-                        <th class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap ">
-                            {{ $t('reporting.deactivations') }}
-                        </th>
-                        <th
-                            class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
-                            {{ $t('reporting.blocks') }}
-                        </th>
-                        <th class="pt-2 pb-4 px-6 text-center whitespace-nowrap border-r border-gray-table">
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-table">
-                    <template v-if="slskeyHistories.length > 0">
-                        <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
-                            class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
-
-                            <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                {{ formatMonth(historyMonth.month, historyMonth.year) }}
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
-                                {{ historyMonth.activated_count }}
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 ">
-                                {{ historyMonth.reactivated_count }}
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                {{ historyMonth.extended_count }}
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
-                                {{ historyMonth.deactivated_count }}
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                {{ historyMonth.blocked_active_count }}
-                            </td>
-                            <td
-                                class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold border-r border-gray-table">
-                                <div v-if="historyMonth.monthly_change_count < 0">
-                                    <span class="text-red-500">
-                                        -
-                                    </span>
-                                    {{ Math.abs(historyMonth.monthly_change_count) }}
-                                </div>
-                                <div v-if="historyMonth.monthly_change_count == 0">
-                                    -
-                                </div>
-                                <div v-if="historyMonth.monthly_change_count > 0">
-                                    <span class="text-green-500">
-                                        +
-                                    </span>
-                                    {{ historyMonth.monthly_change_count }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">
-                                {{ historyMonth.total_users }}
-                            </td>
-                        </tr>
-                    </template>
-                    <template v-else>
+            <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
+                <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+                    <thead class="">
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap"> No reporting data found.</td>
+                            <th
+                                class="py-4 px-10 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
+                                {{ $t('reporting.month') }}
+                            </th>
+                            <th colspan="3"
+                                class="pt-4 pb-2 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
+                                {{ $t('reporting.activations') }}
+                            </th>
+                            <th colspan="2"
+                                class="pt-4 pb-2 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
+                                {{ $t('reporting.deactivations') }}
+                            </th>
+                            <th class="py-4 px-10 text-center whitespace-nowrap border-r border-gray-table">
+                                {{ $t('reporting.monthly_change') }}
+                            </th>
+                            <th class="py-4 px-10 text-center whitespace-nowrap">
+                                {{ $t('reporting.total_activations') }}
+                            </th>
                         </tr>
-                    </template>
-                </tbody>
-            </table>
-        </div>
+                        <tr>
+                            <th
+                                class="pt-2 pb-4 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
+                            </th>
 
-        <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
-            <canvas id="userChart"></canvas>
+                            <th class="pt-2 pb-4 px-6 pl-10 text-center font-normal italic whitespace-nowrap ">
+                                {{ $t('reporting.new_users') }}
+                            </th>
+                            <th class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap ">
+                                {{ $t('reporting.reactivations') }}
+                            </th>
+                            <th
+                                class="pt-2 pb-4 px-6 pr-10 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
+                                {{ $t('reporting.extensions') }}
+                            </th>
+
+                            <th class="pt-2 pb-4 px-6 pl-10 text-center font-normal italic whitespace-nowrap ">
+                                {{ $t('reporting.deactivations') }}
+                            </th>
+                            <th
+                                class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
+                                {{ $t('reporting.blocks') }}
+                            </th>
+                            <th class="pt-2 pb-4 px-6 pr-10 text-center whitespace-nowrap border-r border-gray-table">
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-table">
+                        <template v-if="slskeyHistories.length > 0">
+                            <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
+                                class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
+
+                                <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">
+                                    {{ formatMonth(historyMonth.month, historyMonth.year) }}
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
+                                    {{ historyMonth.activated_count }}
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 ">
+                                    {{ historyMonth.reactivated_count }}
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
+                                    {{ historyMonth.extended_count }}
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
+                                    {{ historyMonth.deactivated_count }}
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
+                                    {{ historyMonth.blocked_active_count }}
+                                </td>
+                                <td
+                                    class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold border-r border-gray-table">
+                                    <div v-if="historyMonth.monthly_change_count < 0">
+                                        <span class="text-red-500">
+                                            -
+                                        </span>
+                                        {{ Math.abs(historyMonth.monthly_change_count) }}
+                                    </div>
+                                    <div v-if="historyMonth.monthly_change_count == 0">
+                                        -
+                                    </div>
+                                    <div v-if="historyMonth.monthly_change_count > 0">
+                                        <span class="text-green-500">
+                                            +
+                                        </span>
+                                        {{ historyMonth.monthly_change_count }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">
+                                    {{ historyMonth.total_users }}
+                                </td>
+                            </tr>
+                        </template>
+                        <template v-else>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap"> No reporting data found.</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
+                <canvas id="userChart"></canvas>
+            </div>
         </div>
     </AppLayout>
 </template>

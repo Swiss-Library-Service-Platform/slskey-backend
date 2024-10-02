@@ -323,9 +323,17 @@ class SwitchAPIService implements SwitchAPIInterface
     public function userIsOnAllGroups(string $userExternalId, array $groupIds)
     {
         //$internalId = $this->createSwitchUser($userExternalId);
-        $internalId = $this->getSwitchUserInfoFromExternalId($userExternalId)->id;
+        try {
+            $internalId = $this->getSwitchUserInfoFromExternalId($userExternalId . '1')->id;
+        } catch (\Exception $e) {
+            throw new \Exception("Switch Error: User " . $userExternalId . " not found");
+        }
 
-        $switchUser = $this->getSwitchUserInfo($internalId);
+        try {
+            $switchUser = $this->getSwitchUserInfo($internalId);
+        } catch (\Exception $e) {
+            throw new \Exception("Switch Error: Switch Info for user " . $userExternalId . " not found");
+        }
 
         // check if switchUser has all groups that are passed in
         $switchUserGroups = array_map(function ($object) {

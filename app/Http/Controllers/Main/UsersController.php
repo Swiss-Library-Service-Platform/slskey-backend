@@ -193,6 +193,7 @@ class UsersController extends Controller
 
         return new JsonResponse([
             'status' => $response->success,
+            'message' => $response->message,
         ]);
     }
 }

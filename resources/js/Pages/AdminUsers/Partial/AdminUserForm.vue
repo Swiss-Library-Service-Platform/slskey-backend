@@ -11,7 +11,7 @@
                 <TextInput v-if="form.is_edu_id" :label="$t('admin_users.search_eduid')" v-model="inputUserEmail"
                     @keydown.enter="searchPrimaryId" />
                 
-                <TextInput disabled="true" :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
+                <TextInput :disabled="form.is_edu_id" :label="`${$t('admin_users.display_name')} *`" v-model="form.display_name"
                     :error="form.errors.display_name" />
                 <TextInput disabled="true" v-if="form.is_edu_id" :label="`${$t('admin_users.user_identifier_eduid')} *`"
                     v-model="form.user_identifier" :error="form.errors.user_identifier" />

@@ -57,6 +57,7 @@ class ReportingController extends Controller
         // Get first Slskeyhistory activation month and year
         $firstHistory = SlskeyHistory::query()
             ->whereIn('slskey_group_id', $slskeyGroupIds)
+            ->where('action', 'ACTIVATED')
             ->orderBy('created_at', 'asc')
             ->first();
         $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');

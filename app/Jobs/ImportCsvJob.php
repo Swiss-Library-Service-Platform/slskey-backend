@@ -17,6 +17,10 @@ use App\Services\API\AlmaAPIService;
 use App\Services\ActivationService;
 use Carbon\Carbon;
 
+/*
+    ATTENTION: if any changes are made to this file, please restart supervisor service on the productive/stating environemnt
+    sudo systemctl restart supervisor
+*/
 class ImportCsvJob implements ShouldQueue
 {
     use Dispatchable;

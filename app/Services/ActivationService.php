@@ -160,8 +160,6 @@ class ActivationService
         ]);
 
         // Send notify email to user, if group has enabled email feature
-        /*
-        //  FIXME: dont notify users when importing MBA
         if (
             $slskeyGroup->send_activation_mail &&
             $almaUser
@@ -174,9 +172,7 @@ class ActivationService
                 'author' => null,
                 'trigger' => TriggerEnums::SYSTEM,
             ]);
-        }
-        */
-        
+        }  
         
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
 

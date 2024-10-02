@@ -10,7 +10,7 @@
                 {{ $t("reactivation_token.token_expired.token_expired_1") }}
             </div>
             <div>
-                {{ $t("reactivation_token.token_expired.token_expired_1") }}
+                {{ $t("reactivation_token.token_expired.token_expired_2") }}
             </div>
             <div>
                 <a class="text-blue-800" :href="renewTokenLink">

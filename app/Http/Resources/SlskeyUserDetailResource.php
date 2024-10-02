@@ -21,7 +21,7 @@ class SlskeyUserDetailResource extends JsonResource
             'primary_id' => $this->primary_id,
             'full_name' => $fullName,
             'slskey_activations' => $this->slskeyActivations,
-            'slskey_histories' => $this->slskeyHistories->sortByDesc('created_at')->values()->all(),
+            'slskey_histories' => SlskeyHistoryResource::collection($this->slskeyHistories->sortByDesc('created_at')),
         ];
     }
 }

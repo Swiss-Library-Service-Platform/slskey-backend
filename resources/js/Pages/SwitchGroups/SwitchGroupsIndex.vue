@@ -42,7 +42,7 @@
                                 </Link>
                             </td>
                             <td class="align-top">
-                                <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-1"
+                                <Link class="flex flex-row px-6 py-3 whitespace-nowrap gap-x-1"
                                     :href="`/admin/switchgroups/${group.id}`">
                                 <div class="w-fit p-1 rounded-md bg-color-alma" v-for="publisher in group.publishers"
                                     :key="publisher.id">

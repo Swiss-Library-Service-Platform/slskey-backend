@@ -24,7 +24,7 @@ const submit = () => {
     form.transform(data => ({
         ...data,
         remember: form.remember ? 'on' : '',
-    })).post(route('loginform'), {
+    })).post(route('login'), {
         onFinish: () => {
             if (form.errors.user_identifier || form.errors.password) {
                 form.reset('password');

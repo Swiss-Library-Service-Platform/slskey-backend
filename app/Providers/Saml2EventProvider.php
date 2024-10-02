@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
-use App\Models\LogDefault;
 
 class Saml2EventProvider extends ServiceProvider
 {

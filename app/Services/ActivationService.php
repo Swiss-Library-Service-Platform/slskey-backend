@@ -16,7 +16,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\TriggerEnums;
 
-
 class ActivationService
 {
     protected $switchApiService;
@@ -87,7 +86,7 @@ class ActivationService
             return $this->logAndReturnError($primaryId, $action, 'no_edu_id');
         }
 
-        // Get SWITCH groups 
+        // Get SWITCH groups
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
@@ -172,8 +171,8 @@ class ActivationService
                 'author' => null,
                 'trigger' => TriggerEnums::SYSTEM,
             ]);
-        }  
-        
+        }
+
         $messageCode = $action === ActivationActionEnums::ACTIVATED ? 'user_activated' : ($action === ActivationActionEnums::EXTENDED ? 'user_extended' : 'user_reactivated');
 
         // $message = __("flashMessages.$messageCode") . ': ' . $successMessage;

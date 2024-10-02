@@ -50,7 +50,6 @@ class MigrateTokens extends Command
             if ($sheet->getName() == 'Tabelle1') {
                 $i = 0;
                 foreach ($sheet->getRowIterator() as $rowNumber => $row) {
-
                     $cells = $row->getCells();
                     $i++;
 
@@ -65,21 +64,24 @@ class MigrateTokens extends Command
                     $lastName = $cells[8];
                     $activationMail = $cells[9];
 
-                    if ($eduId == '') continue;
-                    
+                    if ($eduId == '') {
+                        continue;
+                    }
+
                     echo $i . " - " . $eduId . " - ";
 
                     // Check if Token used => we don't need to migrate it
                     if ($dateUsed != 'NULL') {
-                        echo ("Token already used. " . "\r\n");
+                        echo("Token already used. " . "\r\n");
                         $countTokenAlreadyUsed++;
+
                         continue;
                     }
 
                     // Get SlskeyUser or create empty one
                     $slskeyUser = SlskeyUser::where('primary_id', $eduId)->first();
                     if (!$slskeyUser) {
-                        echo ("SlskeyUser not found. " . "\r\n");
+                        echo("SlskeyUser not found. " . "\r\n");
                         $countNotFound++;
                         $slskeyUser = SlskeyUser::create([
                             'primary_id' => $eduId,
@@ -94,11 +96,11 @@ class MigrateTokens extends Command
 
                     if ($slskeyActivation) {
                         // Users that are still active.
-                        echo ("SlskeyActivation already exists. " . "\r\n");
+                        echo("SlskeyActivation already exists. " . "\r\n");
                         $countAlreadyActive++;
                     } else {
                         // Users that have been disabled already in old system.
-                        echo ("Creating new SlskeyActivation. " . "\r\n");
+                        echo("Creating new SlskeyActivation. " . "\r\n");
                         $slskeyActivation = SlskeyActivation::create([
                             'slskey_user_id' => $slskeyUser->id,
                             'slskey_group_id' => $slskeyGroupMBA->id,
@@ -112,7 +114,7 @@ class MigrateTokens extends Command
                             'blocked_date' => null,
                             'reminded' => false,
                             'webhook_activation_mail' => $activationMail,
-                            'member_educational_institution' => false 
+                            'member_educational_institution' => false
                         ]);
                     }
                     // add one month and 14 days to dateTokenCreated, but leave dateTokenCreated unchanged
@@ -139,17 +141,16 @@ class MigrateTokens extends Command
                         'created_at' => $dateTokenCreated,
                     ]);
 
-
-                    echo ("Token created. Created at: " . $dateTokenCreated . ". Expiration Date: " . $tokenExpirationDate . "\r\n");
+                    echo("Token created. Created at: " . $dateTokenCreated . ". Expiration Date: " . $tokenExpirationDate . "\r\n");
                     $countMigrated++;
-                    
                 }
             }
         }
-        echo ("Updated " . $countMigrated . " rows from a total of " . $i . " rows.\r\n");
-        echo ("Tokens already used: " . $countTokenAlreadyUsed . "\r\n");
-        echo ("Users already active: " . $countAlreadyActive . "\r\n");
-        echo ("Users not found: " . $countNotFound . "\r\n");
+        echo("Updated " . $countMigrated . " rows from a total of " . $i . " rows.\r\n");
+        echo("Tokens already used: " . $countTokenAlreadyUsed . "\r\n");
+        echo("Users already active: " . $countAlreadyActive . "\r\n");
+        echo("Users not found: " . $countNotFound . "\r\n");
+
         return Command::SUCCESS;
     }
 }

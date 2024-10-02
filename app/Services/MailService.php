@@ -12,9 +12,6 @@ use App\Models\SlskeyHistoryMonth;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
 use App\Models\SlskeyActivation;
-use App\Models\SlskeyHistory;
-use App\Enums\ActivationActionEnums;
-use App\Enums\TriggerEnums;
 use Illuminate\Mail\Mailable;
 
 class MailService
@@ -42,8 +39,8 @@ class MailService
     public function sendNotifyUserActivationMail(SlskeyGroup $slskeyGroup, AlmaUser $almaUser, SlskeyActivation $activation): ?SentMessage
     {
         $mailObject = new NotifyUserActivationMail($slskeyGroup, $almaUser);
-        $toMails = [ $activation->webhookActivationMail ?? $almaUser->preferred_email ]; 
-        
+        $toMails = [ $activation->webhookActivationMail ?? $almaUser->preferred_email ];
+
         return $this->sendMail($mailObject, $toMails);
     }
 
@@ -59,7 +56,7 @@ class MailService
     {
         $mailObject = new ReactivationTokenUserMail($slskeyGroup, $reactivationLink);
         $toMails = [ $webhookActivationMail ];
-        
+
         return $this->sendMail($mailObject, $toMails);
     }
 
@@ -105,6 +102,7 @@ class MailService
     public function sendMail(Mailable $mailObject, array $toMails): ?SentMessage
     {
         $toMails = $this->TEST_MODE ? [ $this->TEST_RECIPIENT ] : $toMails;
+
         return Mail::to($toMails)->send($mailObject);
     }
 }

@@ -9,7 +9,6 @@ use App\Models\SlskeyHistory;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Http\Resources\SlskeyHistoryResource;
 
 class SlskeyHistoryController extends Controller
 {

@@ -91,6 +91,11 @@ class ReactivationTokenController extends Controller
             null // webhook activation mail
         );
 
+        // TODO: fix problem
+        // last activation call is taking too long
+        // seems like its getting triggered twice, cause we get two history entries
+        // and first one is not finished, when second one is triggered
+        // but when i do setUserActivationDate() before the activation, it takes the old expiration date (which is in a few days)
         $slskeyReactivationToken->setUsed();
 
         // Get new activation status

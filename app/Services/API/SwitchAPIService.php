@@ -324,7 +324,7 @@ class SwitchAPIService implements SwitchAPIInterface
     {
         //$internalId = $this->createSwitchUser($userExternalId);
         try {
-            $internalId = $this->getSwitchUserInfoFromExternalId($userExternalId . '1')->id;
+            $internalId = $this->getSwitchUserInfoFromExternalId($userExternalId)->id;
         } catch (\Exception $e) {
             throw new \Exception("Switch Error: User " . $userExternalId . " not found");
         }

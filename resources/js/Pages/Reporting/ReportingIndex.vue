@@ -1,7 +1,6 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
-        <div class="flex flex-col w-fit">
-
+        <div class="flex flex-col w-fit min-w-3/4">
             <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
                 <div class="flex gap-x-16">
                     <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">

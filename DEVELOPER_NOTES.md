@@ -162,7 +162,7 @@ This information should be given to the Identity Provider. In the case of Switch
 
 Please note: Switch edu-ID (Resource Registry) is asking for a certificate of the SP. </br>
 The X509 Certificate for the SP should be created independently of the tenant creation. </br>
-And the values should be entered in the .env file. `SAML2_SP_CERT_x509` and `SAML2_SP_CERT_PRIVATEKEY` should be the path to the certificate and key file. </br>
+And the values should be entered in the .env file in `SAML2_SP_CERT_x509` and `SAML2_SP_CERT_PRIVATEKEY`. </br>
 
 ### Two examples:
 

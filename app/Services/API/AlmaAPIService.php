@@ -170,7 +170,7 @@ class AlmaAPIService implements AlmaAPIInterface
         } else {
             $foundUsers = $this->findUsersQueryParallel($identifier);
             if (!$foundUsers) {
-                throw new \Exception("User $identifier not found in $this->izCode");
+                throw new \Exception("User $identifier not found in Alma IZ $this->izCode");
             }
             if (count($foundUsers) > 1) {
                 throw new \Exception('Multiple users found. Please provide a more specific identifier.');

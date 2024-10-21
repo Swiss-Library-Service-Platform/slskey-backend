@@ -37,8 +37,8 @@ class AdminUsersController extends Controller
      */
     public function index(): Response
     {
-        $adminUsersPortal = User::where('is_alma', 0)->filter(Request::all())->get();
-        $adminUsersAlma = User::where('is_alma', 1)->filter(Request::all())->get();
+        $adminUsersPortal = User::where('is_alma', 0)->filter(Request::all())->orderByPermissionId()->get();
+        $adminUsersAlma = User::where('is_alma', 1)->filter(Request::all())->orderByPermissionId()->get();
         $slskeyGroups = SlskeyGroup::query()->get();
 
         return Inertia::render('AdminUsers/AdminUsersIndex', [

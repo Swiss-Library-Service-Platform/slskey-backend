@@ -74,6 +74,16 @@ class SlskeyGroup extends Model
     }
 
     /**
+     * Get Slskey Users
+     *
+     * @return HasMany
+     */
+    public function slskeyActivations(): HasMany
+    {
+        return $this->hasMany(SlskeyActivation::class);
+    }
+
+    /**
      * Get Report Email Addresses
      *
      * @return HasMany
@@ -84,15 +94,30 @@ class SlskeyGroup extends Model
     }
 
     /**
+     * Get Active User Primary IDs
+     * 
+     * @return array
+     */
+    public function getActiveUserPrimaryIds(): array
+    {
+        $slskeyActivations = $this->slskeyActivations()
+            ->with('slskeyUser')
+            ->where('activated', 1)
+            ->get();
+
+        return $slskeyActivations->pluck('slskeyUser.primary_id')->toArray();
+    }
+
+    /**
      * Get Active User Count
      *
      * @return integer
      */
     public function activeUserCount(): int
     {
-        $slskeyActivations = SlskeyActivation::where('slskey_group_id', $this->id)->where('activated', 1)->get();
-
-        return $slskeyActivations->count();
+        return SlskeyActivation::where('slskey_group_id', $this->id)
+                               ->where('activated', 1)
+                               ->count();
     }
 
     /**

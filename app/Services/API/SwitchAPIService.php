@@ -377,7 +377,7 @@ class SwitchAPIService implements SwitchAPIInterface
      *
      * @throws \Exception
      */
-    protected function getSwitchUserInfo(string $internalId)
+    public function getSwitchUserInfo(string $internalId)
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Users/'.$internalId);
         if ($statusCode != 200) {
@@ -476,6 +476,22 @@ class SwitchAPIService implements SwitchAPIInterface
     }
 
     /**
+     * Get the members of a group.
+     * 
+     * @param  string  $groupId  Group id
+     * @return array<mixed>
+     */
+    public function getMembersForGroupId(string $groupId): array
+    {
+        [$statusCode, $responseBody] = $this->makeRequest('GET', 'Groups/'.$groupId);
+        if ($statusCode != 200) {
+            throw new \Exception("Status code: $groupId $statusCode");
+        }
+
+        return $responseBody->members;
+    }
+
+    /**
      * Get the number of members in a group.
      *
      * @param  string  $groupId  Group id
@@ -485,12 +501,9 @@ class SwitchAPIService implements SwitchAPIInterface
      */
     public function getMembersCountForGroupId(string $groupId)
     {
-        [$statusCode, $responseBody] = $this->makeRequest('GET', 'Groups/'.$groupId);
-        if ($statusCode != 200) {
-            throw new \Exception("Status code: $groupId $statusCode");
-        }
+        $members = $this->getMembersForGroupId($groupId);
 
-        return count($responseBody->members);
+        return count($members);
     }
 
     /**

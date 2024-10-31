@@ -133,8 +133,6 @@ class UsersController extends Controller
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $identifier)
             ->whereHasPermittedActivations()
-            // ->withPermittedActivations()
-            // ->withPermittedHistories()
             ->firstOrFail();
 
         // Get Alma user data using the AlmaAPIInterface
@@ -179,8 +177,6 @@ class UsersController extends Controller
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
             ->whereHasPermittedActivations()
-            // ->withPermittedActivations()
-            // ->withPermittedHistories()
             ->first();
 
         // Abort with 404 if the user is not found

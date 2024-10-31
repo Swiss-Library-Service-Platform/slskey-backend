@@ -15,6 +15,7 @@
 
                 <div>
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
+                    <checkbox-classic-input class="w-full" v-model="this.withoutExternalApis" label="Retrieve and save Alma Infos" />
                     <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="(Migration) Only import if user already activated" />
                     <checkbox-classic-input class="w-full" v-model="this.setHistoryActivationDate" label="(Migration) Set historic activation date" />
                     <DefaultButton v-if="!importStarted" @click="startImport"
@@ -166,6 +167,7 @@ export default {
             importRows: this.givenRows,
             doneRows: [],
             checkIsActive: 0,
+            withoutExternalApis: 0,
             setHistoryActivationDate: 0,
             testRun: 1
         }
@@ -186,6 +188,7 @@ export default {
             axios.post("/admin/import/store", {
                 importRows: this.importRows,
                 testRun: this.testRun,
+                withoutExternalApis: this.withoutExternalApis,
                 checkIsActive: this.checkIsActive,
                 setHistoryActivationDate: this.setHistoryActivationDate
             }).then(() => {

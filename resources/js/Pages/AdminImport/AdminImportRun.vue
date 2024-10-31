@@ -15,7 +15,7 @@
 
                 <div>
                     <checkbox-classic-input class="w-full" v-model="this.testRun" label="Test run" />
-                    <checkbox-classic-input class="w-full" v-model="this.withoutExternalApis" label="Retrieve and save Alma Infos" />
+                    <checkbox-classic-input class="w-full" v-model="this.withoutExternalApis" label="Import without using Alma + Switch API" />
                     <checkbox-classic-input class="w-full" v-model="this.checkIsActive" label="(Migration) Only import if user already activated" />
                     <checkbox-classic-input class="w-full" v-model="this.setHistoryActivationDate" label="(Migration) Set historic activation date" />
                     <DefaultButton v-if="!importStarted" @click="startImport"

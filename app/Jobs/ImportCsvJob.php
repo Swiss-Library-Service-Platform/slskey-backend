@@ -13,6 +13,10 @@ use App\Events\DataImportProgressEvent;
 use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
+use App\Models\SlskeyUser;
+use App\Models\SlskeyActivation;
+use App\Models\SlskeyHistory;
+use App\Enums\ActivationActionEnums;
 use App\Services\API\AlmaAPIService;
 use App\Services\ActivationService;
 use Carbon\Carbon;
@@ -110,6 +114,7 @@ class ImportCsvJob implements ShouldQueue
             return $this->activateWithoutExternalApis(
                 $row['primary_id'],
                 $slskeyGroup->slskey_code,
+                $testRun
             );
         }
 
@@ -229,20 +234,33 @@ class ImportCsvJob implements ShouldQueue
         ];
     }
 
-    private function activateWithoutExternalApis($primaryId, $slskeyCode)
+    private function activateWithoutExternalApis($primaryId, $slskeyCode, $testRun)
     {
         $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
         // Get SLSKey Group
         $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
         // Check if primaryId is edu-ID.
         if (!SlskeyUser::isPrimaryIdEduId($primaryId)) {
-            return $this->logAndReturnError($primaryId, $action, 'no_edu_id');
+            return [
+                'success' => false,
+                'message' => 'Primary ID is not an edu-ID',
+                'isActive' => false
+            ];
         }
         // Check if SLSKey activation exists
         $activation = null;
         if ($slskeyUser) {
             $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)
                 ->where('slskey_group_id', '=', $slskeyGroup->id)->first();
+        }
+        // Check if test run
+        if ($testRun) {
+            return [
+                'success' => true,
+                'message' => 'User is ready to be activated',
+                'isActive' => $activation !== null,
+                'isVerified' => true,
+            ];
         }
         // Create User
         if (!$slskeyUser) {
@@ -266,11 +284,16 @@ class ImportCsvJob implements ShouldQueue
                 'blocked' => false,
                 'blocked_date' => null,
                 'remark' => null,
-                'webhook_activation_mail' => $webhookActivationMail,
+                'webhook_activation_mail' => null,
             ]);
         } else {
-            // Update SLSKey Activation
-            $activation->setActivated($activationDate, $expirationDate);
+            // Error if already activated
+            return [
+                'success' => false,
+                'message' => 'User already has activation',
+                'isActive' => true,
+                'isVerified' => true,
+            ];
         }
         // Create History for Logging
         $slskeyHistory = SlskeyHistory::create([

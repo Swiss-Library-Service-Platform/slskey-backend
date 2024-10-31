@@ -95,7 +95,7 @@ class SlskeyGroup extends Model
 
     /**
      * Get Active User Primary IDs
-     * 
+     *
      * @return array
      */
     public function getActiveUserPrimaryIds(): array

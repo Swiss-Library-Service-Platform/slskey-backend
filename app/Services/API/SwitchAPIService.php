@@ -477,7 +477,7 @@ class SwitchAPIService implements SwitchAPIInterface
 
     /**
      * Get the members of a group.
-     * 
+     *
      * @param  string  $groupId  Group id
      * @return array<mixed>
      */

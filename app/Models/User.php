@@ -263,8 +263,8 @@ class User extends Authenticatable
     }
 
     /**
-     * Order by 
-     * 
+     * Order by
+     *
      * @param Builder $query
      * @param string $orderBy
      * @param string $orderDirection

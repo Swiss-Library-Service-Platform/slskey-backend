@@ -18,7 +18,6 @@ use App\Models\SlskeyHistory;
 use App\Enums\ActivationActionEnums;
 use App\Enums\TriggerEnums;
 
-
 class DiffSwitchSlskeyJob implements ShouldQueue
 {
     use Dispatchable;
@@ -30,7 +29,6 @@ class DiffSwitchSlskeyJob implements ShouldQueue
     protected $slskeyCode;
     protected $createUsers;
     protected $timestampedDir;
-
 
     /**
      * The number of seconds the job can run before timing out.
@@ -52,7 +50,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
         $this->timestampedDir = 'diff/' . now()->format('Ymd_His');
         Storage::makeDirectory($this->timestampedDir);
     }
-    
+
     /**
      * Handle the job
      * Inject dependencies
@@ -71,11 +69,11 @@ class DiffSwitchSlskeyJob implements ShouldQueue
         $counter = 0;
         $switchMembersExternalId = collect();
 
-        $switchMembersInternalId->take(100)->each(function ($member) use ($switchAPIService, &$switchMembersExternalId, &$counter) {
+        $switchMembersInternalId->take(100)->each(function ($member) use (&$switchMembersExternalId, &$counter) {
             // FIXME: reactivate later
             //$switchMember = $switchAPIService->getSwitchUserInfo($member->value);
             //$switchMembersExternalId->push($switchMember->externalID);
-            
+
             // Mock data
             $eduID = rand(100000000000, 999999999999) . '@eduid.ch';
             $switchMembersExternalId->push($eduID);
@@ -105,7 +103,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
 
     /**
      * Write data to csv
-     * 
+     *
      * @param array $slskeyMembers
      * @param array $switchMembers
      */
@@ -117,7 +115,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
 
     /**
      * Helper function to write data to a CSV file
-     * 
+     *
      * @param string $fileName
      * @param Collection $data
      */
@@ -141,7 +139,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
 
     /**
      * Write summary to txt file
-     * 
+     *
      * @param string $switchGroupId
      * @param string $slskeyCode
      * @param int $countSlskeyMembers
@@ -175,10 +173,9 @@ class DiffSwitchSlskeyJob implements ShouldQueue
         fclose($txt);
     }
 
-
     /**
      * Create Slskey Users
-     * 
+     *
      * @param array $switchNotInSlskey
      */
     public function createSlskeyUsers($switchNotInSlskey)
@@ -191,6 +188,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
             // Check if the user is an edu id
             if (!SlskeyUser::isPrimaryIdEduId($switchUser)) {
                 $notEduId[] = $switchUser;
+
                 continue;
             }
 
@@ -212,7 +210,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
             // Check if Activation exists
             $activation = SlskeyActivation::where('slskey_user_id', $slskeyUser->id)->where('slskey_group_id', $slskeyGroup->id)->first();
             if ($activation) {
-                // Do nothing ? 
+                // Do nothing ?
             } else {
                 // Add Activation
                 $activation = SlskeyActivation::create([
@@ -237,10 +235,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
                 ]);
 
                 $activated[] = $switchUser;
-
             }
-
-        
         }
 
         return [$activated, $notEduId];

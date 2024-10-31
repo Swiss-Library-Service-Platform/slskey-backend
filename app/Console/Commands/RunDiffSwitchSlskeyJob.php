@@ -9,7 +9,7 @@ class RunDiffSwitchSlskeyJob extends Command
 {
     /**
      * The name and signature of the console command.
-     * Called by the command: 
+     * Called by the command:
      * php artisan app:run-diff-switch-slskey-job {switchGroupId} {slskeyCode}
      *
      * @var string

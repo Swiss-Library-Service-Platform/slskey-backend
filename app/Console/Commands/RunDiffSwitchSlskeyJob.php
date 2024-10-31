@@ -14,7 +14,7 @@ class RunDiffSwitchSlskeyJob extends Command
      *
      * @var string
      */
-    protected $signature = 'app:run-diff-switch-slskey-job {switchGroupId} {slskeyCode} {createUsers?}';
+    protected $signature = 'app:run-diff {switchGroupId} {slskeyCode}';
 
     /**
      * The console command description.
@@ -30,14 +30,13 @@ class RunDiffSwitchSlskeyJob extends Command
     {
         $switchGroupId = $this->argument('switchGroupId');
         $slskeyCode = $this->argument('slskeyCode');
-        $createUsers = $this->argument('createUsers');
 
         echo "Switch Group ID: $switchGroupId\n";
         echo "Slskey Code: $slskeyCode\n";
         echo "\n";
         echo "Starting job...\n";
-        echo "Results will be stored in the storage/diff directory.\n";
+        echo "Results will be stored in the storage/app/diff directory.\n";
 
-        $job = DiffSwitchSlskeyJob::dispatch($switchGroupId, $slskeyCode, $createUsers)->onConnection('redis_import_job');
+        $job = DiffSwitchSlskeyJob::dispatch($switchGroupId, $slskeyCode)->onConnection('redis_import_job');
     }
 }

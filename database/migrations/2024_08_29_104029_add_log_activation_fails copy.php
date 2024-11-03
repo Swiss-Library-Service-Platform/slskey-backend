@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('log_job', function (Blueprint $table) {
             $table->id();
             $table->string('job');
-            $table->string('info');
+            $table->text('info');
             $table->boolean('has_fail')->default(false);
             $table->timestamp('logged_at')->useCurrent();
         });

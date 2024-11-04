@@ -96,7 +96,8 @@ class SlskeyHistoryMonth extends Model
                     CAST(SUM(CASE WHEN action = "EXTENDED" THEN 1 ELSE 0 END) AS SIGNED) as extended_count,
                     CAST(SUM(CASE WHEN action = "REACTIVATED" THEN 1 ELSE 0 END) AS SIGNED) as reactivated_count,
                     CAST(SUM(CASE WHEN action = "DEACTIVATED" THEN 1 ELSE 0 END) AS SIGNED) as deactivated_count,
-                    CAST(SUM(CASE WHEN action = "BLOCKED_ACTIVE" THEN 1 ELSE 0 END) AS SIGNED) as blocked_active_count'
+                    CAST(SUM(CASE WHEN action = "BLOCKED_ACTIVE" THEN 1 ELSE 0 END) AS SIGNED) as blocked_active_count,
+                    CAST(SUM(CASE WHEN action = "BLOCKED_INACTIVE" THEN 1 ELSE 0 END) AS SIGNED) as blocked_inactive_count'
             )
             ->groupBy('year', 'month')
             ->first();

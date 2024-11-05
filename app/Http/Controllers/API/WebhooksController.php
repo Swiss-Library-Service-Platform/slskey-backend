@@ -244,11 +244,15 @@ class WebhooksController extends Controller
         $cause = Request::input('webhook_user.cause');
         $institution = Request::input('institution.value');
 
-        if (! $hasCustomVerification && (! $slskeyUser || ! $slskeyUser->hasActiveActivation($slskeyGroup->id))) {
+        if (! $slskeyUser) {
+            return new Response(WebhookResponseEnums::SKIPPED_NON_EXISTING);
+        }
+
+        if (! $hasCustomVerification && ! $slskeyUser->hasActiveActivation($slskeyGroup->id)) {
             return new Response(WebhookResponseEnums::SKIPPED_INACTIVE_VERIFICATION);
         }
 
-        if (! $slskeyUser || ! $slskeyUser->hasActiveActivation($slskeyGroup->id)) {
+        if (! $slskeyUser->hasActiveActivation($slskeyGroup->id)) {
             return new Response(WebhookResponseEnums::SKIPPED_INACTIVE);
         }
 

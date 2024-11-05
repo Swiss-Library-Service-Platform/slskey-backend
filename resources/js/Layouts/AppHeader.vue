@@ -35,6 +35,7 @@ export default {
 					<img src="/images/slskey_logo_small_white.png" class="h-9 w-auto mr-4" />
 					<h2 class="text-3xl text-color-header-text font-extrabold">
 						SLSKey
+						<span v-if="$page.props.appEnv != 'production'" class="text-xs text-red-500 uppercase">Test</span>
 					</h2>
 
 					</Link>

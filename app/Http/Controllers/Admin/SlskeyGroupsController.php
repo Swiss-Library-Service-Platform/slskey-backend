@@ -137,6 +137,7 @@ class SlskeyGroupsController extends Controller
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
             'show_member_educational_institution' => ['numeric'],
+            'mail_sender_address' => ['nullable', 'max:255', 'email'],
             'alma_iz' => ['required', 'max:14'],
             'cloud_app_allow' => ['numeric'],
             'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],

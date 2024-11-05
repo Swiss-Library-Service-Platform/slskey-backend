@@ -54,6 +54,7 @@ export default {
                 send_activation_mail: 0,
                 show_member_educational_institution: 0,
                 alma_iz: null,
+                mail_sender_address: null,
                 webhook_custom_verifier: 0,
                 webhook_custom_verifier_class: null,
                 webhook_secret: null,

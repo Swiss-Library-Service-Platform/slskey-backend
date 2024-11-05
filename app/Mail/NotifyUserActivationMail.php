@@ -48,10 +48,14 @@ class NotifyUserActivationMail extends Mailable
         // Get subject
         $slskeyCode = $this->slskeyGroup->slskey_code;
         $subject = self::EMAIL_SUBJECTS[$this->almaUser->preferred_language];
+        $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
+        $fromName = 'SLSKey - ' . $this->slskeyGroup->name;
 
         // Return mail object
-        return $this->subject($subject)->view('emails.activation.'.$slskeyCode.'.'.$this->almaUser->preferred_language.'.email', [
-            'almaUser' => $this->almaUser
+        return $this->subject($subject)
+            ->from($fromAddress, $fromName)
+            ->view('emails.activation.'.$slskeyCode.'.'.$this->almaUser->preferred_language.'.email', [
+                'almaUser' => $this->almaUser
         ]);
     }
 }

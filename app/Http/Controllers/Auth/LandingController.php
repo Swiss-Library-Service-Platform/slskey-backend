@@ -128,8 +128,7 @@ class LandingController extends Controller
     public function migration(): Response
     {
         return Inertia::render('Landing/LandingLoginEduID', [
-            'flash.info' =>'Your access to the old PURA system has been disabled. You have been forwarded to the new SLSKey backend. Please login below.',
+            'flash.info' => 'Your access to the old PURA system has been disabled. You have been forwarded to the new SLSKey backend. Please login below.',
         ]);
     }
-
 }

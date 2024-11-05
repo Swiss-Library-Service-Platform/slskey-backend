@@ -60,7 +60,7 @@ class SlskeyHistory extends Model
 
     /**
      * Get the User from the author
-     * 
+     *
      * @return User
      */
     public function user()

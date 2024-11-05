@@ -42,7 +42,7 @@ Route::post('/login/changepassword', [LandingController::class, 'setPassword'])
 Route::get('/migration', [LandingController::class, 'migration'])
     ->name('migration');
 
-    // No Roles Error Page
+// No Roles Error Page
 Route::get('/noroles', [LandingController::class, 'noroles'])
     ->name('noroles');
 

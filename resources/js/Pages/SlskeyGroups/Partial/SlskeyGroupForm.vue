@@ -20,6 +20,9 @@
                 <!-- Activation Mail -->
                 <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
                     v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
+                <!-- Mail Sender -->
+                <text-input v-model="form.mail_sender_address" :error="form.errors.mail_sender_address"
+                    :label="$t('slskey_groups.mail_sender_address')" :helpText="$t('slskey_groups.mail_sender_address_help')" />
                 <!-- Show Member Educational Institution -->
                 <checkbox-input class="w-full" :error="form.errors.show_member_educational_institution"
                     v-model="form.show_member_educational_institution"

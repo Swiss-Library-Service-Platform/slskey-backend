@@ -261,4 +261,23 @@ class User extends Authenticatable
 
         return $query;
     }
+
+    /**
+     * Order by
+     *
+     * @param Builder $query
+     * @param string $orderBy
+     * @param string $orderDirection
+     * @return Builder
+     */
+    public function scopeOrderByPermissionId(Builder $query): Builder
+    {
+        // order by slskeygroup permissions of user
+        return $query->orderByRaw('(
+            SELECT GROUP_CONCAT(permissions.id ORDER BY permissions.id ASC)
+            FROM permissions
+            JOIN permission_user ON permissions.id = permission_user.permission_id
+            WHERE permission_user.user_id = users.id
+        )');
+    }
 }

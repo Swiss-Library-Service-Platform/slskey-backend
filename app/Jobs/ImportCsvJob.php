@@ -13,6 +13,10 @@ use App\Events\DataImportProgressEvent;
 use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Interfaces\AlmaAPIInterface;
 use App\Models\SlskeyGroup;
+use App\Models\SlskeyUser;
+use App\Models\SlskeyActivation;
+use App\Models\SlskeyHistory;
+use App\Enums\ActivationActionEnums;
 use App\Services\API\AlmaAPIService;
 use App\Services\ActivationService;
 use Carbon\Carbon;
@@ -29,9 +33,10 @@ class ImportCsvJob implements ShouldQueue
     use SerializesModels;
 
     protected $importRows;
+    protected $testRun;
+    protected $withoutExternalApis;
     protected $checkIsActive;
     protected $setHistoryActivationDate;
-    protected $testRun;
 
     protected $activationService;
     protected $almaApiService;
@@ -48,12 +53,13 @@ class ImportCsvJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($importRows, $checkIsActive, $setHistoryActivationDate, $testRun)
+    public function __construct($importRows, $testRun, $withoutExternalApis, $checkIsActive, $setHistoryActivationDate)
     {
         $this->importRows = $importRows;
+        $this->testRun = $testRun;
+        $this->withoutExternalApis = $withoutExternalApis;
         $this->checkIsActive = $checkIsActive;
         $this->setHistoryActivationDate = $setHistoryActivationDate;
-        $this->testRun = $testRun;
     }
 
     /**
@@ -75,7 +81,7 @@ class ImportCsvJob implements ShouldQueue
                 break;
             }
 
-            $result = $this->processImportRow($row, $this->checkIsActive, $this->setHistoryActivationDate, $this->testRun);
+            $result = $this->processImportRow($row, $this->testRun, $this->withoutExternalApis, $this->checkIsActive, $this->setHistoryActivationDate);
 
             event(new DataImportProgressEvent(
                 $currentRow,
@@ -94,13 +100,22 @@ class ImportCsvJob implements ShouldQueue
     /**
      * Process the import row (same logic as your original processImportRow method)
      */
-    private function processImportRow(array $row, bool $checkIsActive, bool $setHistoryActivationDate, bool $testRun): array
+    private function processImportRow(array $row, bool $testRun, bool $withoutExternalApis, bool $checkIsActive, bool $setHistoryActivationDate): array
     {
         // Get slskey group
         $slskeyGroup = SlskeyGroup::where('slskey_code', $row['slskey_code'])->first();
 
         if (!$slskeyGroup) {
             return ['success' => false, 'message' => 'SlskeyGroup not found', 'isActive' => false];
+        }
+
+        // Activate without external APIs
+        if ($withoutExternalApis) {
+            return $this->activateWithoutExternalApis(
+                $row['primary_id'],
+                $slskeyGroup->slskey_code,
+                $testRun
+            );
         }
 
         $isActive = null;
@@ -215,6 +230,85 @@ class ImportCsvJob implements ShouldQueue
             'message' => $response->message,
             'isActive' => $isActive,
             'isVerified' => $userIsVerified,
+        ];
+    }
+
+    private function activateWithoutExternalApis($primaryId, $slskeyCode, $testRun)
+    {
+        $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
+        // Get SLSKey Group
+        $slskeyGroup = SlskeyGroup::where('slskey_code', '=', $slskeyCode)->first();
+        // Check if primaryId is edu-ID.
+        if (!SlskeyUser::isPrimaryIdEduId($primaryId)) {
+            return [
+                'success' => false,
+                'message' => 'Primary ID is not an edu-ID',
+                'isActive' => false
+            ];
+        }
+        // Check if SLSKey activation exists
+        $activation = null;
+        if ($slskeyUser) {
+            $activation = SlskeyActivation::where('slskey_user_id', '=', $slskeyUser->id)
+                ->where('slskey_group_id', '=', $slskeyGroup->id)->first();
+        }
+        // Check if test run
+        if ($testRun) {
+            return [
+                'success' => true,
+                'message' => 'User is ready to be activated',
+                'isActive' => $activation !== null,
+                'isVerified' => true,
+            ];
+        }
+        // Create User
+        if (!$slskeyUser) {
+            $slskeyUser = SlskeyUser::create([
+                'primary_id' => $primaryId,
+                'first_name' => 'Anon',
+                'last_name' => str(rand(1000, 9999)),
+            ]);
+        }
+        $activationDate = now();
+        $expirationDate = null;
+        if (!$activation) {
+            // Create SLSKey Activation
+            $activation = SlskeyActivation::create([
+                'slskey_user_id' => $slskeyUser->id,
+                'slskey_group_id' => $slskeyGroup->id,
+                'activated' => true,
+                'activation_date' => $activationDate,
+                'expiration_date' => $expirationDate,
+                'deactivation_date' => null,
+                'blocked' => false,
+                'blocked_date' => null,
+                'remark' => null,
+                'webhook_activation_mail' => null,
+            ]);
+        } else {
+            // Error if already activated
+            return [
+                'success' => false,
+                'message' => 'User already has activation',
+                'isActive' => true,
+                'isVerified' => true,
+            ];
+        }
+        // Create History for Logging
+        $slskeyHistory = SlskeyHistory::create([
+            'slskey_user_id' => $slskeyUser->id,
+            'slskey_group_id' => $slskeyGroup->id,
+            'action' => ActivationActionEnums::ACTIVATED,
+            'author' => null,
+            'trigger' => TriggerEnums::SYSTEM_MASS_IMPORT,
+            'created_at' => $activationDate,
+        ]);
+
+        return [
+            'success' => true,
+            'message' => 'Activated without external APIs',
+            'isActive' => true,
+            'isVerified' => true,
         ];
     }
 }

@@ -25,6 +25,8 @@ class WebhookResponseEnums
     // SKIPPED ACTIONS (Already in correct state)
     public const SKIPPED_ACTIVE = 'Skipped: User already active'; // User already in the state that it should be
 
+    public const SKIPPED_NON_EXISTING = 'Skipped: User does not exist'; // User already in the state that it should be
+
     public const SKIPPED_INACTIVE = 'Skipped: User already inactive'; // User already in the state that it should be
 
     public const SKIPPED_INACTIVE_VERIFICATION = 'Skipped: Unverified User already inactive'; // User already in the state that it should be

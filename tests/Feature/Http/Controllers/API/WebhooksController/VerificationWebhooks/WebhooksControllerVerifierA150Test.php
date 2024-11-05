@@ -39,7 +39,7 @@ it('skips webhook because missing verification', function () {
 
     // Activate but skipped
     $response->assertStatus(200);
-    $response->assertSeeText(WebhookResponseEnums::SKIPPED_INACTIVE_VERIFICATION);
+    $response->assertSeeText(WebhookResponseEnums::SKIPPED_NON_EXISTING);
     assertUserActivationMissing($primaryId, $this->slskeyCode);
 });
 

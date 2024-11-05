@@ -10,12 +10,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('log_job', function (Blueprint $table) {
-            $table->id();
-            $table->string('job');
-            $table->text('info');
-            $table->boolean('has_fail')->default(false);
-            $table->timestamp('logged_at')->useCurrent();
+        Schema::table('slskey_groups', function (Blueprint $table) {
+            $table->string('mail_sender_address')->nullable()->after('show_member_educational_institution');
         });
     }
 
@@ -24,6 +20,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('log_job');
+        Schema::table('slskey_groups', function (Blueprint $table) {
+            $table->dropColumn('mail_sender_address');
+        });
     }
 };

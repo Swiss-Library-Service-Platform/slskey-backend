@@ -73,11 +73,12 @@ class ImportController extends Controller
     public function store(Request $request): Response
     {
         $importRows = Request::input('importRows');
+        $testRun = Request::input('testRun');
+        $withoutExternalApis = Request::input('withoutExternalApis');
         $checkIsActive = Request::input('checkIsActive');
         $setHistoryActivationDate = Request::input('setHistoryActivationDate');
-        $testRun = Request::input('testRun');
         Cache::put('is_import_cancelled', false, 60);
-        ImportCsvJob::dispatch($importRows, $checkIsActive, $setHistoryActivationDate, $testRun)->onConnection('redis_import_job');
+        ImportCsvJob::dispatch($importRows, $testRun, $withoutExternalApis, $checkIsActive, $setHistoryActivationDate)->onConnection('redis_import_job');
 
         return Response(200);
     }

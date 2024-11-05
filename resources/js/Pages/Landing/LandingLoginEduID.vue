@@ -51,23 +51,26 @@ const submit = () => {
 
                 <div class="flex flex-col items-center justify-center">
 
-                    <SwitchLoginButton href="/login/eduid">
-                        {{ $t('landing.eduid') }}
-                    </SwitchLoginButton>
+                    <div class="flex w-full flex-col items-center xtext-gray-table">
+                        <!-- {{ $t('landing.clicktologin') }} -->
+                        <SwitchLoginButton href="/login/eduid">
+                            {{ $t('landing.eduid') }}
+                        </SwitchLoginButton>
+                    </div>
 
                     <!-- Divider element "OR" -->
                     <div class="flex w-full items-center py-4">
                         <div class="flex flex-col w-full items-center my-4">
                             <div class="flex-grow"></div>
-                            <div class="border-t w-full mx-2"></div>
+                            <div class="border-t border-black w-full mx-2"></div>
                             <div class="flex-grow"></div>
                         </div>
-                        <div class="border uppercase p-1 text-gray-table text-sm">
+                        <div class="border uppercase p-1 border-black rounded-md text-sm">
                             {{ $t('landing.orvia') }}
                         </div>
                         <div class="flex flex-col w-full items-center my-4">
                             <div class="flex-grow"></div>
-                            <div class="border-t w-full mx-2"></div>
+                            <div class="border-t border-black w-full mx-2"></div>
                             <div class="flex-grow"></div>
                         </div>
                     </div>
@@ -89,8 +92,7 @@ const submit = () => {
                         <!-- <JetValidationErrors class="mb-4" /> -->
 
                         <div class="w-full">
-                            <DefaultButton @click="submit"
-                                class="mt-4 text-lg leading-6">
+                            <DefaultButton @click="submit" class="mt-4 text-lg leading-6">
                                 {{ $t('landing.login') }}
                             </DefaultButton>
                         </div>

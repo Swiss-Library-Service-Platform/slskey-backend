@@ -216,6 +216,8 @@
 		"name": "Name",
 		"no_records": "Keine Benutzer gefunden",
 		"no_switch_groups": "Keine zugehörigen Switch Gruppen",
+		"mail_sender_address": "E-Mail Sender Address",
+		"mail_sender_address_help": "This address will be used for all outgoing emails related to this SLSKey group. The emails are defined as forwarding emails in Infomaniak.",
 		"save": "SLSKey Gruppe aktualisieren",
 		"send_activation_mail": "Aktivierungsbenachrichtigung senden",
 		"send_activation_mail_title": "Notify",

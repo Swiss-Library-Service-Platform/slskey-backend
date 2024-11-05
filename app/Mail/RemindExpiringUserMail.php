@@ -51,9 +51,15 @@ class RemindExpiringUserMail extends Mailable
         $slskeyCode = $this->slskeyGroup->slskey_code;
         $subject = self::EMAIL_SUBJECTS[$language];
 
+        // From Sender
+        $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
+        $fromName = 'SLSKey - ' . $this->slskeyGroup->name ?? config('mail.from.name');
+
         // Return mail object
-        return $this->subject($subject)->view('emails.remind.'.$slskeyCode.'.'.$language.'.email', [
-            'slskeyUser' => $this->almaUser,
+        return $this->subject($subject)
+            ->from($fromAddress, $fromName)
+            ->view('emails.remind.'.$slskeyCode.'.'.$language.'.email', [
+                'slskeyUser' => $this->almaUser,
         ]);
     }
 }

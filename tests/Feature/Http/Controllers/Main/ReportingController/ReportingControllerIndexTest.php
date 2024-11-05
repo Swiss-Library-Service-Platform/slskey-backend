@@ -2,7 +2,7 @@
 
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use App\Models\User;
 
 beforeEach(function () {
@@ -28,12 +28,12 @@ it('succeeds to render reporting - no activations', function () {
     $response->assertInertia(
         fn ($assert) => $assert
             ->component('Reporting/ReportingIndex')
-            ->where('selectedSlskeyGroup', null)
+            ->where('selectedSlskeyCode', null)
             ->has(
-                'slskeyHistories',
+                'reportCounts',
                 1,
                 fn ($assert) => $assert
-                    ->where('total_users', 0)
+                    ->where('total_active_users', 0)
                     ->where('month', now()->format('m'))
                     ->where('year', now()->format('Y'))
                     ->etc()
@@ -69,23 +69,23 @@ it('succeeds reporting - activations', function () {
         ->orderBy('created_at', 'asc')
         ->first();
     $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');
-    $slskeyHistories = SlskeyHistoryMonth::getGroupedByMonthWithActionCounts($slskeyGroupIds, $firstDate);
+    $slskeyReportCount = SlskeyReportCounts::getGroupedByMonthWithActionCounts($slskeyGroupIds, $firstDate);
 
-    expect($slskeyHistories)->toBeGreaterThan(1);
-    $numberOfMonths = count($slskeyHistories);
-    $totalActivations = $slskeyHistories[0]->total_users;
+    expect($slskeyReportCount)->toBeGreaterThan(1);
+    $numberOfMonths = count($slskeyReportCount);
+    $totalActivations = $slskeyReportCount[0]->total_users;
 
     $response->assertInertia(
         fn ($assert) => $assert
             ->component('Reporting/ReportingIndex')
-            ->where('selectedSlskeyGroup', null)
+            ->where('selectedSlskeyCode', null)
             ->has(
-                'slskeyHistories',
+                'reportCounts',
                 $numberOfMonths,
                 fn ($assert) => $assert
                     ->where('month', now()->format('m'))
                     ->where('year', now()->format('Y'))
-                    ->where('total_users', $totalActivations)
+                    ->where('total_active_users', $totalActivations)
                     ->etc()
             )
             ->has('slskeyGroups')
@@ -132,7 +132,7 @@ it('succeeds reporting - activation - selected slskey group', function () {
         ->orderBy('created_at', 'asc')
         ->first();
     $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');
-    $slskeyHistories = SlskeyHistoryMonth::getGroupedByMonthWithActionCounts($selectedSlskeyGroupIds, $firstDate);
+    $slskeyHistories = SlskeyReportCounts::getGroupedByMonthWithActionCounts($selectedSlskeyGroupIds, $firstDate);
 
     expect($slskeyHistories)->toBeGreaterThan(1);
     $numberOfMonths = count($slskeyHistories);
@@ -141,14 +141,14 @@ it('succeeds reporting - activation - selected slskey group', function () {
     $response->assertInertia(
         fn ($assert) => $assert
             ->component('Reporting/ReportingIndex')
-            ->where('selectedSlskeyGroup', $selectedSlskeyGroup)
+            ->where('selectedSlskeyCode', $selectedSlskeyGroup)
             ->has(
-                'slskeyHistories',
+                'reportCounts',
                 $numberOfMonths,
                 fn ($assert) => $assert
                     ->where('month', now()->format('m'))
                     ->where('year', now()->format('Y'))
-                    ->where('total_users', $totalActivations)
+                    ->where('total_active_users', $totalActivations)
                     ->etc()
             )
             ->has('slskeyGroups')

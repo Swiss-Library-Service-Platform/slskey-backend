@@ -7,9 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\SlskeyGroupReportResource;
 use App\Http\Resources\SlskeyGroupSelectResource;
 use App\Models\ReportEmailAddress;
+use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistory;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -27,49 +27,13 @@ class ReportingController extends Controller
      */
     public function index(): Response
     {
-        // Get permitted SlskeyGroups for User
-        $slskeyGroups = SlskeyGroup::query()
-            ->wherePermissions()
-            ->get();
-
-        $slskeyGroupIds = $slskeyGroups->pluck('id')->toArray();
-
-        // Get selected SLSKeyCode
-        $selectedSlskeyCode = Request::input('slskeyCode');
-        $selectedSlskeyGroupId = null;
-
-        if ($selectedSlskeyCode) {
-            // Check if selected SLSKeyCode is existing
-            $selectedSlskeyGroupId = SlskeyGroup::query()
-                ->where('slskey_code', $selectedSlskeyCode)
-                ->firstOrFail()
-                ->id;
-
-            // Check permissions for selected SLSKeyCode
-            if (!in_array($selectedSlskeyGroupId, $slskeyGroupIds)) {
-                abort(403);
-            }
-        }
-
-        // Set filter to selected SLSKeyCode or all permitted SLSKeyCodes
-        $slskeyGroupIds = $selectedSlskeyGroupId ? [$selectedSlskeyGroupId] : $slskeyGroupIds;
-
-        // Get first Slskeyhistory activation month and year
-        $firstHistory = SlskeyHistory::query()
-            ->whereIn('slskey_group_id', $slskeyGroupIds)
-            ->where('action', 'ACTIVATED')
-            ->orderBy('created_at', 'asc')
-            ->first();
-        $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');
-
-        // Get SlskeyActivations
-        $slskeyHistories = SlskeyHistoryMonth::getGroupedByMonthWithActionCounts($slskeyGroupIds, $firstDate);
+        $data = $this->getReportData();
 
         return Inertia::render('Reporting/ReportingIndex', [
-            'slskeyHistories' => $slskeyHistories,
-            'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
-            'selectedSlskeyGroup' => $selectedSlskeyCode,
-            'firstDate' => $firstDate,
+            'reportCounts' => $data['reportCounts'],
+            'slskeyGroups' => SlskeyGroupSelectResource::collection($data['slskeyGroups']),
+            'selectedSlskeyCode' => $data['selectedSlskeyCode'],
+            'isAnyEducationalUsers' => $data['isAnyEducationalUsers'],
         ]);
     }
 
@@ -80,23 +44,10 @@ class ReportingController extends Controller
      */
     public function export()
     {
-        // Get permitted SlskeyGroups for User
-        $firstDate = Request::input('firstDate');
+        $data = $this->getReportData();
+        $reportCounts = $data['reportCounts']->toArray();
 
-        // Get selected SLSKeyCode
-        $selectedSlskeyCode = Request::input('slskeyCode');
-        $selectedSlskeyGroupId = null;
-
-        if ($selectedSlskeyCode) {
-            // Check if selected SLSKeyCode is existing
-            $selectedSlskeyGroupId = SlskeyGroup::where('slskey_code', $selectedSlskeyCode)
-                ->wherePermissions()
-                ->firstOrFail()
-                ->id;
-        }
-        $slskeyGroupIds = $selectedSlskeyGroupId ? [$selectedSlskeyGroupId] : SlskeyGroup::wherePermissions()->get()->pluck('id')->toArray();
-
-        return Excel::download(new ReportingExport($slskeyGroupIds, $firstDate), 'report.xlsx');
+        return Excel::download(new ReportingExport($reportCounts, $data['isAnyEducationalUsers']), 'report.xlsx');
     }
 
     /**
@@ -212,5 +163,70 @@ class ReportingController extends Controller
 
         return Redirect::back()
             ->with('success', __('flashMessages.reportmail_deleted'));
+    }
+
+    /**
+     * Get report data
+     *
+     * @return array
+     */
+    private function getReportData(): array
+    {
+        // Get permitted SlskeyGroups for User
+        $slskeyGroups = SlskeyGroup::query()
+            ->wherePermissions()
+            ->get();
+
+        $slskeyGroupIds = $slskeyGroups->pluck('id')->toArray();
+
+        // Get selected SLSKeyCode
+        $selectedSlskeyCode = Request::input('slskeyCode');
+        $selectedSlskeyGroupId = null;
+
+        if ($selectedSlskeyCode) {
+            // Check if selected SLSKeyCode is existing
+            $selectedSlskeyGroupId = SlskeyGroup::query()
+                ->where('slskey_code', $selectedSlskeyCode)
+                ->firstOrFail()
+                ->id;
+
+            // Check permissions for selected SLSKeyCode
+            if (!in_array($selectedSlskeyGroupId, $slskeyGroupIds)) {
+                abort(403);
+            }
+        }
+
+        // Set filter to selected SLSKeyCode or all permitted SLSKeyCodes
+        $selectedSlskeyGroupIds = $selectedSlskeyGroupId ? [$selectedSlskeyGroupId] : $slskeyGroupIds;
+        if ($selectedSlskeyCode) {
+            // Get the report counts for the selected SLSKeyCode
+            $reportCounts = SlskeyReportCounts::query()
+                ->whereIn('slskey_group_id', $selectedSlskeyGroupIds)
+                ->orderBy('year', 'desc')
+                ->orderBy('month', 'desc')
+                ->get();
+        } else {
+            // Get all report counts and accumulate them
+            $reportCounts = SlskeyReportCounts::query()
+                ->whereIn('slskey_group_id', $selectedSlskeyGroupIds)
+                ->orderBy('year', 'desc')
+                ->orderBy('month', 'desc')
+                ->groupBy('year', 'month')
+                ->selectRaw('year, month, sum(activated_count) as activated_count, sum(extended_count) as extended_count, sum(reactivated_count) as reactivated_count, sum(deactivated_count) as deactivated_count, sum(blocked_active_count) as blocked_active_count, sum(blocked_inactive_count) as blocked_inactive_count, sum(monthly_change_count) as monthly_change_count, sum(total_active_users) as total_active_users, sum(total_active_educational_users) as total_active_educational_users')
+                ->get();
+        }
+
+        // Add current month to report counts
+        $currentMonthCounts = SlskeyReportCounts::getCurrentMonthCounts($selectedSlskeyGroupIds);
+        $reportCounts->prepend($currentMonthCounts);
+
+        $isAnyEducationalUsers = SlskeyActivation::whereIn('slskey_group_id', $selectedSlskeyGroupIds)->where('activated', 1)->where('member_educational_institution', 1)->exists();
+
+        return [
+            'reportCounts' => $reportCounts,
+            'slskeyGroups' => $slskeyGroups,
+            'selectedSlskeyCode' => $selectedSlskeyCode,
+            'isAnyEducationalUsers' => $isAnyEducationalUsers,
+        ];
     }
 }

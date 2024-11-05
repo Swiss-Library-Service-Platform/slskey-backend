@@ -84,6 +84,16 @@ class SlskeyGroup extends Model
     }
 
     /**
+     * Get the report counts
+     *
+     * @return HasMany
+     */
+    public function reportCounts(): HasMany
+    {
+        return $this->hasMany(SlskeyReportCounts::class);
+    }
+
+    /**
      * Get Report Email Addresses
      *
      * @return HasMany

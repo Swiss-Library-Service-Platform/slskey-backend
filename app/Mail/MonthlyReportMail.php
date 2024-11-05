@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -15,7 +15,7 @@ class MonthlyReportMail extends Mailable
 
     public $slskeyGroup;
 
-    public $slskeyHistoryMonth;
+    public $slskeyReportCount;
 
     public $totalCurrentCount;
 
@@ -25,13 +25,13 @@ class MonthlyReportMail extends Mailable
      * Create a new message instance.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param SlskeyHistoryMonth $slskeyHistory
+     * @param SlskeyReportCounts $slskeyReportCount
      * @param integer $totalCurrentCount
      */
-    public function __construct(SlskeyGroup $slskeyGroup, SlskeyHistoryMonth $slskeyHistoryMonth, int $totalCurrentCount, int $totalCurrentMemberEducationalInstitutionCount)
+    public function __construct(SlskeyGroup $slskeyGroup, SlskeyReportCounts $slskeyReportCount, int $totalCurrentCount, int $totalCurrentMemberEducationalInstitutionCount)
     {
         $this->slskeyGroup = $slskeyGroup;
-        $this->slskeyHistoryMonth = $slskeyHistoryMonth;
+        $this->slskeyReportCount = $slskeyReportCount;
         $this->totalCurrentCount = $totalCurrentCount;
         $this->totalCurrentMemberEducationalInstitutionCount = $totalCurrentMemberEducationalInstitutionCount;
     }
@@ -48,7 +48,7 @@ class MonthlyReportMail extends Mailable
 
         // Return mail object
         return $this->subject($subject)->view('emails.report.monthlyreport', [
-            'slskeyHistory' => $this->slskeyHistoryMonth,
+            'slskeyHistory' => $this->slskeyReportCount,
             'slskeyGroup' => $this->slskeyGroup,
             'totalCurrentCount' => $this->totalCurrentCount,
             'totalCurrentMemberEducationalInstitutionCount' => $this->totalCurrentMemberEducationalInstitutionCount,

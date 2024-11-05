@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
-class SlskeyHistoryMonth extends Model
+class SlskeyReportCounts extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+    use HasFactory;
+
+    // Define the table if it doesn't follow Laravel's naming convention
+    protected $table = 'slskey_report_counts';
+
     protected $fillable = [
+        'slskey_group_id',
         'month',
         'year',
         'activated_count',
@@ -21,9 +24,66 @@ class SlskeyHistoryMonth extends Model
         'reactivated_count',
         'deactivated_count',
         'blocked_active_count',
+        'blocked_inactive_count',
         'monthly_change_count',
-        'total_users'
+        'total_active_users',
+        'total_active_educational_users'
     ];
+
+    // Optionally, define default values for the properties
+    protected $attributes = [
+       'activated_count' => 0,
+       'extended_count' => 0,
+       'reactivated_count' => 0,
+       'deactivated_count' => 0,
+       'blocked_active_count' => 0,
+       'blocked_inactive_count' => 0,
+       'monthly_change_count' => 0,
+       'total_active_users' => 0,
+       'total_active_educational_users' => 0,
+    ];
+
+    /**
+     * Get Slskey Group
+     *
+     * @return BelongsTo
+     */
+    public function slskeyGroup(): BelongsTo
+    {
+        return $this->belongsTo(SlskeyGroup::class);
+    }
+
+    /**
+     * Get the history counts for a specific month and year
+     * They are not stored in the database yet, but calculated on the fly
+     *
+     * @param array $slskeyGroupIds
+     * @param string $month
+     * @param string $year
+     * @return SlskeyReportCounts
+     */
+    public static function getCurrentMonthCounts(array $slskeyGroupIds): array
+    {
+        $currentMonth = now()->format('m');
+        $currentYear = now()->format('Y');
+        $currentMonth =  self::getHistoryCountsForMonthAndYear($slskeyGroupIds, $currentMonth, $currentYear);
+        $totalCurrentCount = SlskeyActivation::whereIn('slskey_group_id', $slskeyGroupIds)->where('activated', 1)->count();
+        $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::whereIn('slskey_group_id', $slskeyGroupIds)->where('activated', 1)->where('member_educational_institution', 1)->count();
+
+        return [
+            'month' => $currentMonth->month,
+            'year' => $currentMonth->year,
+            'activated_count' => $currentMonth->activated_count,
+            'extended_count' => $currentMonth->extended_count,
+            'reactivated_count' => $currentMonth->reactivated_count,
+            'deactivated_count' => $currentMonth->deactivated_count,
+            'blocked_active_count' => $currentMonth->blocked_active_count,
+            'blocked_inactive_count' => $currentMonth->blocked_inactive_count,
+            'monthly_change_count' => $currentMonth->monthly_change_count,
+            'total_active_users' => $totalCurrentCount,
+            'total_active_educational_users' => $totalCurrentMemberEducationalInstitutionCount
+        ];
+    }
 
     /**
      * Get the SlskeyGroup that the SlskeyHistory belongs to.
@@ -55,7 +115,7 @@ class SlskeyHistoryMonth extends Model
         $totalUsers = 0;
 
         foreach ($dateCombinations as $key => $dateCombination) {
-            $currentMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear($slskeyCodes, $dateCombination[0], $dateCombination[1]);
+            $currentMonth = self::getHistoryCountsForMonthAndYear($slskeyCodes, $dateCombination[0], $dateCombination[1]);
             $totalUsers += $currentMonth->monthly_change_count;
             $currentMonth->total_users = $totalUsers;
             $result[] = $currentMonth;
@@ -112,6 +172,7 @@ class SlskeyHistoryMonth extends Model
                 'reactivated_count' => 0,
                 'deactivated_count' => 0,
                 'blocked_active_count' => 0,
+                'blocked_inactive_count' => 0,
                 'monthly_change_count' => 0,
             ]);
         } else {
@@ -125,6 +186,7 @@ class SlskeyHistoryMonth extends Model
                 'reactivated_count' => $result->reactivated_count,
                 'deactivated_count' => $result->deactivated_count,
                 'blocked_active_count' => $result->blocked_active_count,
+                'blocked_inactive_count' => $result->blocked_inactive_count,
                 'monthly_change_count' => $monthlyChange,
             ]);
         }

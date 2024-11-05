@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use App\Services\MailService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -69,14 +69,19 @@ class SendMonthlyReports extends Command
                 $currentYear = date('Y', strtotime('-1 month'));
 
                 // Get Month History
-                $slskeyHistoryMonth = SlskeyHistoryMonth::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
+                $slskeyReportCount = SlskeyReportCounts::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
 
                 // Total count
                 $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
                 $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
+
+                // Save report counts
+                $this->saveReportCounts($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
+
+                // Send report
                 $sent = $this->mailService->sendMonthlyReportMail(
                     $slskeyGroup,
-                    $slskeyHistoryMonth,
+                    $slskeyReportCount,
                     $totalCurrentCount,
                     $totalCurrentMemberEducationalInstitutionCount,
                     $reportEmailAddresses
@@ -102,6 +107,25 @@ class SendMonthlyReports extends Command
         // 0 = Success
         // 2 = Invalid (No reports to send)
         return count($sentReports) > 0 ? 0 : 2;
+    }
+
+    protected function saveReportCounts($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount)
+    {
+        $reportCount = [
+            'month' => $slskeyReportCount->month,
+            'year' => $slskeyReportCount->year,
+            'activated_count' => $slskeyReportCount->activated_count,
+            'extended_count' => $slskeyReportCount->extended_count,
+            'reactivated_count' => $slskeyReportCount->reactivated_count,
+            'deactivated_count' => $slskeyReportCount->deactivated_count,
+            'blocked_active_count' => $slskeyReportCount->blocked_active_count,
+            'blocked_inactive_count' => $slskeyReportCount->blocked_inactive_count,
+            'monthly_change_count' => $slskeyReportCount->monthly_change_count,
+            'total_active_users' => $totalCurrentCount,
+            'total_active_educational_users' => $totalCurrentMemberEducationalInstitutionCount,
+        ];
+
+        $slskeyGroup->reportCounts()->create($reportCount);
     }
 
     protected function logJobResultToDatabase(array $databaseInfo)

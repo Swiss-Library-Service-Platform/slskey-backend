@@ -193,6 +193,8 @@
         },
         "title": "Rapports",
         "total_activations": "Utilisateurs actifs",
+        "total_active_users": "Utilisateurs actifs",
+		"total_active_educational_users": "Etablissement d'enseignement",
         "reactivations": "Réactivations"
     },
     "slskey_groups": {

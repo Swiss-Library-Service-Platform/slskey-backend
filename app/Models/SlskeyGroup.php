@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 
+
 class SlskeyGroup extends Model
 {
     use HasFactory;
@@ -81,6 +82,16 @@ class SlskeyGroup extends Model
     public function slskeyActivations(): HasMany
     {
         return $this->hasMany(SlskeyActivation::class);
+    }
+
+    /**
+     * Get the report counts
+     * 
+     * @return HasMany
+     */
+    public function reportCounts(): HasMany
+    {
+        return $this->hasMany(SlskeyReportCounts::class);
     }
 
     /**

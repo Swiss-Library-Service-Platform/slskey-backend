@@ -1,6 +1,6 @@
 <template>
     <AppLayout :title="$t('reporting.title')" :breadCrumbs="[{ name: $t('reporting.title') }]">
-        <div class="flex flex-col w-fit min-w-3/4">
+        <!-- <div class="flex flex-col w-fit min-w-3/4 overflow-x-auto">-->
             <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
                 <div class="flex gap-x-16">
                     <FilterControl @reset="reset" v-if="$page.props.numberOfPermittedSlskeyGroups > 1">
@@ -42,7 +42,7 @@
                             <th class="py-4 px-10 text-center whitespace-nowrap border-r border-gray-table">
                                 {{ $t('reporting.monthly_change') }}
                             </th>
-                            <th class="py-4 px-10 text-center whitespace-nowrap">
+                            <th colspan="2" class="py-4 px-10 text-center whitespace-nowrap">
                                 {{ $t('reporting.total_activations') }}
                             </th>
                         </tr>
@@ -71,52 +71,63 @@
                             </th>
                             <th class="pt-2 pb-4 px-6 pr-10 text-center whitespace-nowrap border-r border-gray-table">
                             </th>
-
+                            <th v-if="isAnyEducationalUsers"
+                                class="pt-2 pb-4 px-6 pl-10 text-center font-normal italic whitespace-nowrap ">
+                                {{ $t('reporting.total_active_users') }}
+                            </th>
+                            <th v-if="isAnyEducationalUsers"
+                                class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
+                                {{ $t('reporting.total_active_educational_users') }}
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-table">
-                        <template v-if="slskeyHistories.length > 0">
-                            <tr v-for="(historyMonth, index) in slskeyHistories" :key="'user' + historyMonth.id"
+                        <template v-if="reportCounts.length > 0">
+                            <tr v-for="(reportCount, index) in reportCounts" :key="'user' + reportCount.id"
                                 class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
 
                                 <td class="px-6 py-3 text-left whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                    {{ formatMonth(historyMonth.month, historyMonth.year) }}
+                                    {{ formatMonth(reportCount.month, reportCount.year) }}
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
-                                    {{ historyMonth.activated_count }}
+                                    {{ reportCount.activated_count }}
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 ">
-                                    {{ historyMonth.reactivated_count }}
+                                    {{ reportCount.reactivated_count }}
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                    {{ historyMonth.extended_count }}
+                                    {{ reportCount.extended_count }}
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4">
-                                    {{ historyMonth.deactivated_count }}
+                                    {{ reportCount.deactivated_count }}
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 border-r border-gray-table">
-                                    {{ historyMonth.blocked_active_count }}
+                                    {{ reportCount.blocked_active_count }}
                                 </td>
                                 <td
                                     class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold border-r border-gray-table">
-                                    <div v-if="historyMonth.monthly_change_count < 0">
+                                    <div v-if="reportCount.monthly_change_count < 0">
                                         <span class="text-red-500">
                                             -
                                         </span>
-                                        {{ Math.abs(historyMonth.monthly_change_count) }}
+                                        {{ Math.abs(reportCount.monthly_change_count) }}
                                     </div>
-                                    <div v-if="historyMonth.monthly_change_count == 0">
+                                    <div v-if="reportCount.monthly_change_count == 0">
                                         -
                                     </div>
-                                    <div v-if="historyMonth.monthly_change_count > 0">
+                                    <div v-if="reportCount.monthly_change_count > 0">
                                         <span class="text-green-500">
                                             +
                                         </span>
-                                        {{ historyMonth.monthly_change_count }}
+                                        {{ reportCount.monthly_change_count }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">
-                                    {{ historyMonth.total_users }}
+                                    {{ reportCount.total_active_users }}
+                                </td>
+                                <td v-if="isAnyEducationalUsers"
+                                    class="px-6 py-3 text-center whitespace-nowrap gap-y-4 font-semibold">
+                                    {{ reportCount.total_active_educational_users }}
                                 </td>
                             </tr>
                         </template>
@@ -132,7 +143,7 @@
             <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
                 <canvas id="userChart"></canvas>
             </div>
-        </div>
+        <!--</div>-->
     </AppLayout>
 </template>
 
@@ -166,10 +177,10 @@ export default {
         colors
     },
     props: {
-        slskeyHistories: Object,
+        reportCounts: Object,
         slskeyGroups: Object,
         selectedSlskeyCode: String,
-        firstDate: String,
+        isAnyEducationalUsers: Boolean,
     },
     data() {
         return {
@@ -206,7 +217,6 @@ export default {
                 responseType: 'blob', // important
                 params: {
                     slskeyCode: this.form.slskeyCode,
-                    firstDate: this.firstDate
                 }
             }).then((response) => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -232,10 +242,10 @@ export default {
             this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: this.slskeyHistories.map(history => this.formatMonth(history.month, history.year)).reverse(),
+                    labels: this.reportCounts.map(history => this.formatMonth(history.month, history.year)).reverse(),
                     datasets: [{
                         label: 'Number of users',
-                        data: this.slskeyHistories.map(history => history.total_users).reverse(),
+                        data: this.reportCounts.map(history => history.total_active_users).reverse(),
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: '#4e4a99',
                         borderWidth: 1

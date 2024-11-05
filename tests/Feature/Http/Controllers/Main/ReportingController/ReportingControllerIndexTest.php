@@ -2,7 +2,7 @@
 
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use App\Models\User;
 
 beforeEach(function () {
@@ -69,7 +69,7 @@ it('succeeds reporting - activations', function () {
         ->orderBy('created_at', 'asc')
         ->first();
     $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');
-    $slskeyHistories = SlskeyHistoryMonth::getGroupedByMonthWithActionCounts($slskeyGroupIds, $firstDate);
+    $slskeyHistories = SlskeyReportCounts::getGroupedByMonthWithActionCounts($slskeyGroupIds, $firstDate);
 
     expect($slskeyHistories)->toBeGreaterThan(1);
     $numberOfMonths = count($slskeyHistories);
@@ -132,7 +132,7 @@ it('succeeds reporting - activation - selected slskey group', function () {
         ->orderBy('created_at', 'asc')
         ->first();
     $firstDate = $firstHistory ? $firstHistory->created_at : date('Y-m-d');
-    $slskeyHistories = SlskeyHistoryMonth::getGroupedByMonthWithActionCounts($selectedSlskeyGroupIds, $firstDate);
+    $slskeyHistories = SlskeyReportCounts::getGroupedByMonthWithActionCounts($selectedSlskeyGroupIds, $firstDate);
 
     expect($slskeyHistories)->toBeGreaterThan(1);
     $numberOfMonths = count($slskeyHistories);

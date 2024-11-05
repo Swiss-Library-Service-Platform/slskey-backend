@@ -184,7 +184,7 @@
 		"info": "E-Mail-Adressen für den monatlichen Bericht:",
 		"month": "Monat",
 		"monthly_change": "Monatliche Änderung",
-		"new_users": "Neue Benutzer",
+		"new_users": "Neu",
 		"no_emails": "Keine E-Mail-Empfänger bisher",
 		"recipients": "Aktuelle E-Mail-Empfänger",
 		"settings": {
@@ -193,6 +193,8 @@
 		},
 		"title": "Berichte",
 		"total_activations": "Aktive Benutzer",
+		"total_active_users": "Insgesamt",
+		"total_active_educational_users": "Bildungsbereich",
 		"reactivations": "Reaktivierungen"
 	},
 	"slskey_groups": {

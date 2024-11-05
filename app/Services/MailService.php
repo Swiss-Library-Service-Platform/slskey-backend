@@ -8,7 +8,7 @@ use App\Mail\ReactivationTokenUserMail;
 use App\Mail\RemindExpiringUserMail;
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
-use App\Models\SlskeyHistoryMonth;
+use App\Models\SlskeyReportCounts;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
 use App\Models\SlskeyActivation;
@@ -79,14 +79,14 @@ class MailService
      * Send Monthly Report Mail.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param SlskeyHistoryMonth $slskeyHistory
+     * @param SlskeyReportCounts $slskeyReportCount
      * @param integer $totalCount
      * @param array $reportEmailAddresses
      * @return ?SentMessage
      */
-    public function sendMonthlyReportMail(SlskeyGroup $slskeyGroup, SlskeyHistoryMonth $slskeyHistoryMonth, int $totalCurrentCount, int $totalCurrentMemberEducationalInstitutionCount, array $reportEmailAddresses): ?SentMessage
+    public function sendMonthlyReportMail(SlskeyGroup $slskeyGroup, SlskeyReportCounts $slskeyReportCount, int $totalCurrentCount, int $totalCurrentMemberEducationalInstitutionCount, array $reportEmailAddresses): ?SentMessage
     {
-        $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyHistoryMonth, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
+        $mailObject = new MonthlyReportMail($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
         $toMails = $reportEmailAddresses;
 
         return $this->sendMail($mailObject, $toMails);

@@ -30,17 +30,17 @@ class SlskeyReportCounts extends Model
         'total_active_educational_users'
     ];
 
-     // Optionally, define default values for the properties
-     protected $attributes = [
-        'activated_count' => 0,
-        'extended_count' => 0,
-        'reactivated_count' => 0,
-        'deactivated_count' => 0,
-        'blocked_active_count' => 0,
-        'blocked_inactive_count' => 0,
-        'monthly_change_count' => 0,
-        'total_active_users' => 0,
-        'total_active_educational_users' => 0,
+    // Optionally, define default values for the properties
+    protected $attributes = [
+       'activated_count' => 0,
+       'extended_count' => 0,
+       'reactivated_count' => 0,
+       'deactivated_count' => 0,
+       'blocked_active_count' => 0,
+       'blocked_inactive_count' => 0,
+       'monthly_change_count' => 0,
+       'total_active_users' => 0,
+       'total_active_educational_users' => 0,
     ];
 
     /**
@@ -52,7 +52,6 @@ class SlskeyReportCounts extends Model
     {
         return $this->belongsTo(SlskeyGroup::class);
     }
-
 
     /**
      * Get the history counts for a specific month and year
@@ -70,7 +69,7 @@ class SlskeyReportCounts extends Model
         $currentMonth =  self::getHistoryCountsForMonthAndYear($slskeyGroupIds, $currentMonth, $currentYear);
         $totalCurrentCount = SlskeyActivation::whereIn('slskey_group_id', $slskeyGroupIds)->where('activated', 1)->count();
         $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::whereIn('slskey_group_id', $slskeyGroupIds)->where('activated', 1)->where('member_educational_institution', 1)->count();
-        
+
         return [
             'month' => $currentMonth->month,
             'year' => $currentMonth->year,

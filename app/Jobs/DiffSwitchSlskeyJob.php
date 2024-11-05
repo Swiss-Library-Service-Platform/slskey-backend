@@ -12,11 +12,6 @@ use App\Models\SwitchGroup;
 use App\Models\SlskeyGroup;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use App\Models\SlskeyUser;
-use App\Models\SlskeyActivation;
-use App\Models\SlskeyHistory;
-use App\Enums\ActivationActionEnums;
-use App\Enums\TriggerEnums;
 use App\Interfaces\AlmaAPIInterface;
 
 class DiffSwitchSlskeyJob implements ShouldQueue
@@ -159,6 +154,4 @@ class DiffSwitchSlskeyJob implements ShouldQueue
 
         fclose($txt);
     }
-
-
 }

@@ -74,7 +74,7 @@ class SendMonthlyReports extends Command
                 // Total count
                 $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
                 $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
-                
+
                 // Save report counts
                 $this->saveReportCounts($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
 

@@ -81,7 +81,7 @@ class ImportCsvJob implements ShouldQueue
                 break;
             }
 
-            $result = $this->processImportRow($row,  $this->testRun, $this->withoutExternalApis, $this->checkIsActive, $this->setHistoryActivationDate);
+            $result = $this->processImportRow($row, $this->testRun, $this->withoutExternalApis, $this->checkIsActive, $this->setHistoryActivationDate);
 
             event(new DataImportProgressEvent(
                 $currentRow,
@@ -117,7 +117,6 @@ class ImportCsvJob implements ShouldQueue
                 $testRun
             );
         }
-
 
         $isActive = null;
         if ($checkIsActive) {

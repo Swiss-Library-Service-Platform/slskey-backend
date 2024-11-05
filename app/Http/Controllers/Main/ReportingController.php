@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Main;
 
 use App\Exports\ReportingExport;
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
-
 
 class ReportingController extends Controller
 {

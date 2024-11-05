@@ -7,7 +7,6 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyReportCounts;
 use App\Models\SlskeyHistory;
 
-
 class CreateSlskeyReportCounts extends Command
 {
     /**
@@ -33,7 +32,6 @@ class CreateSlskeyReportCounts extends Command
         $slskeyGroups = SlskeyGroup::all();
 
         foreach ($slskeyGroups as $slskeyGroup) {
-
             // Get first Slskeyhistory activation month and year
             $firstHistory = SlskeyHistory::query()
                 ->where('slskey_group_id', $slskeyGroup->id)

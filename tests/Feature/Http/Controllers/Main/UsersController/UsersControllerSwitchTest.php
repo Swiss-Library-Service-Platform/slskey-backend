@@ -26,8 +26,7 @@ it('succeeds to get switch status disabled', function () {
     mockSwitchApiServiceUserIsOnAllGroups(false);
 
     $identifier = SlskeyUser::query()
-        ->whereHasPermittedActivations()
-        ->withPermittedActivations()
+        ->filterWithPermittedActivations()
         ->first()->primary_id;
     $slskeyCode = 'man1';
 
@@ -48,8 +47,7 @@ it('succeeds to get switch status enabled', function () {
     mockSwitchApiServiceUserIsOnAllGroups(true);
 
     $identifier = SlskeyUser::query()
-        ->whereHasPermittedActivations()
-        ->withPermittedActivations()
+        ->filterWithPermittedActivations()
         ->first()->primary_id;
     $slskeyCode = 'man1';
 

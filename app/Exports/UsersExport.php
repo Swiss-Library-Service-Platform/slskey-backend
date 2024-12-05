@@ -75,8 +75,7 @@ class UsersExport implements FromArray, WithHeadings, WithMapping
     {
         $slskeyActivationRows = [];
 
-        SlskeyUser::whereHasPermittedActivations()
-            ->withPermittedActivations()
+        SlskeyUser::filterWithPermittedActivations()
             ->filter(Request::all())
             // we need to do this on costs of performance, but otherwise memory will be exhausted
             ->chunk(3000, function ($slskeyUsers) use (&$slskeyActivationRows) {

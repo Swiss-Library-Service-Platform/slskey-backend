@@ -55,7 +55,7 @@ Run following command to run tests without coverage analysis: </br>
 `vendor/bin/pest --no-coverage`
 
 <b> Please note: </b> </br>
-If many tests fail, it is possible that it is because of the config.
+If many tests fail, it is possibly because of the config.
 Therefore run `php artisan config:clear and re-run the tests.
 
 ### Test Coverage

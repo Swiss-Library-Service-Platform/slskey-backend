@@ -109,10 +109,22 @@ class ImportCsvJob implements ShouldQueue
             return ['success' => false, 'message' => 'SlskeyGroup not found', 'isActive' => false];
         }
 
+        // Check if we want to set Activation or Expiration Date
+        try {
+            $activationDate = $row['activation_date'] && $row['activation_date'] != 'NULL' ? Carbon::parse($row['activation_date']) : null;
+            $expirationDate = $row['expiration_date'] && $row['expiration_date'] != 'NULL' ? Carbon::parse($row['expiration_date']) : null;
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => "Invalid date format: {$e->getMessage()}", 'isActive' => false];
+        }
+
         // Activate without external APIs
         if ($withoutExternalApis) {
             return $this->activateWithoutExternalApis(
                 $row['primary_id'],
+                $row['firstname'],
+                $row['lastname'],
+                $activationDate,
+                $expirationDate,
                 $slskeyGroup->slskey_code,
                 $testRun
             );
@@ -141,14 +153,6 @@ class ImportCsvJob implements ShouldQueue
             ];
         }
         $almaUser = $almaServiceResponse->almaUser;
-
-        // Check if we want to set Activation or Expiration Date
-        try {
-            $activationDate = $row['activation_date'] && $row['activation_date'] != 'NULL' ? Carbon::parse($row['activation_date']) : null;
-            $expirationDate = $row['expiration_date'] && $row['expiration_date'] != 'NULL' ? Carbon::parse($row['expiration_date']) : null;
-        } catch (\Exception $e) {
-            return ['success' => false, 'message' => "Invalid date format: {$e->getMessage()}", 'isActive' => $isActive];
-        }
 
         // Check for custom verification
         $userIsVerified = $slskeyGroup->checkCustomVerificationForUser($almaUser);
@@ -233,7 +237,7 @@ class ImportCsvJob implements ShouldQueue
         ];
     }
 
-    private function activateWithoutExternalApis($primaryId, $slskeyCode, $testRun)
+    private function activateWithoutExternalApis($primaryId, $firstname, $lastname, $activationDate, $expirationDate, $slskeyCode, $testRun)
     {
         $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
         // Get SLSKey Group
@@ -265,12 +269,11 @@ class ImportCsvJob implements ShouldQueue
         if (!$slskeyUser) {
             $slskeyUser = SlskeyUser::create([
                 'primary_id' => $primaryId,
-                'first_name' => 'Anon',
-                'last_name' => str(rand(1000, 9999)),
+                'first_name' => $firstname,
+                'last_name' => $lastname,
             ]);
         }
-        $activationDate = now();
-        $expirationDate = null;
+
         if (!$activation) {
             // Create SLSKey Activation
             $activation = SlskeyActivation::create([
@@ -301,7 +304,7 @@ class ImportCsvJob implements ShouldQueue
             'action' => ActivationActionEnums::ACTIVATED,
             'author' => null,
             'trigger' => TriggerEnums::SYSTEM_MASS_IMPORT,
-            'created_at' => $activationDate,
+            'created_at' => now(),
         ]);
 
         return [

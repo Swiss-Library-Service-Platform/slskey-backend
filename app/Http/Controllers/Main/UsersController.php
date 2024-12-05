@@ -54,8 +54,7 @@ class UsersController extends Controller
 
         // Query for SlskeyUsers with specified permissions, ordering, and filtering
         $slskeyUsersWithPermissions = SlskeyUser::query()
-            ->whereHasPermittedActivations($slskeyCode)
-            ->withPermittedActivations($slskeyCode)
+            ->filterWithPermittedActivations($slskeyCode)
             ->filter(Request::all())
             ->paginate($perPage)
             ->withQueryString();
@@ -67,8 +66,7 @@ class UsersController extends Controller
             if ($almaUser) {
                 $slskeyUsersWithPermissions = SlskeyUser::query()
                     ->where('primary_id', $almaUser->primary_id)
-                    ->whereHasPermittedActivations($slskeyCode)
-                    ->withPermittedActivations($slskeyCode)
+                    ->filterWithPermittedActivations($slskeyCode)
                     ->filter(Request::except('search'))
                     ->paginate($perPage)
                     ->withQueryString();
@@ -94,8 +92,7 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $user = SlskeyUser::query()
             ->where('primary_id', $identifier)
-            ->whereHasPermittedActivations()
-            ->withPermittedActivations()
+            ->filterWithPermittedActivations()
             ->withPermittedHistories()
             ->first();
 

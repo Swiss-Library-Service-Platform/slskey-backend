@@ -319,7 +319,7 @@ class SlskeyUser extends Model
      * @param string|null $slskeyCode
      * @return Builder
      */
-    public function scopeFilterWithActivationsNew2(Builder $query, ?string $slskeyCode = null): Builder
+    public function scopeFilterWithPermittedActivations(Builder $query, ?string $slskeyCode = null): Builder
     {
         // Get current user and their permissions
         /** @var \App\Models\User */
@@ -370,59 +370,6 @@ class SlskeyUser extends Model
     }
 
     /**
-     * Get Users with their permitted Activations
-     *
-     * @param Builder $query
-     * @param string|null $slskeyCode
-     * @return Builder
-     */
-    public function scopeWithPermittedActivationsNew(Builder $query, ?string $slskeyCode = null): Builder
-    {
-        // SLSP Super Admin
-        $user = Auth::user();
-        $isSLSPAdmin = $user->isSLSPAdmin();
-
-        // SLSKey Group Permissions
-        $permissions = $isSLSPAdmin ? [] : $user->getSlskeyGroupsPermissionsIds();
-
-        // Join with slskeyActivations and slskeyGroups
-        $query->join('slskey_activations', 'slskey_users.id', '=', 'slskey_activations.slskey_user_id')
-              ->join('slskey_groups', 'slskey_activations.slskey_group_id', '=', 'slskey_groups.id');
-
-        // Apply filters
-        if ($slskeyCode) {
-            $query->where('slskey_groups.slskey_code', $slskeyCode);
-        }
-
-        if (!$isSLSPAdmin) {
-            $query->whereIn('slskey_groups.id', $permissions);
-        }
-
-        // Select distinct users
-        $query->select('slskey_users.*')->distinct();
-
-        // Eager load the permitted activations
-        $query->with(['slskeyActivations' => function ($query) use ($slskeyCode, $permissions, $isSLSPAdmin) {
-            if ($slskeyCode) {
-                $query->whereHas('slskeyGroup', function ($query) use ($slskeyCode) {
-                    $query->where('slskey_code', $slskeyCode);
-                });
-            }
-
-            if (!$isSLSPAdmin) {
-                $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
-                    $query->whereIn('id', $permissions);
-                });
-            }
-
-            // Define Fields to be Eager Loaded
-            $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution']);
-        }]);
-
-        return $query;
-    }
-
-    /**
      * Get Users that have permitted Activations
      *
      * @param Builder $query
@@ -455,48 +402,6 @@ class SlskeyUser extends Model
             });
         }
 
-        return $query;
-    }
-
-    /**
-     * Get Users With their permitted Activations
-     *
-     * @param Builder $query
-     * @param string|null $slskeyCode
-     * @return Builder
-     */
-    public function scopeWithPermittedActivations(Builder $query, ?string $slskeyCode = null): Builder
-    {
-        // Affiliate slskeyActivations, but only desired ones
-        $query->with([
-            'slskeyActivations' => function ($query) use ($slskeyCode) {
-                // Optionally Filter by SLSKey code
-                if ($slskeyCode) {
-                    $query->whereHas('slskeyGroup', function ($query) use ($slskeyCode) {
-                        $query->where('slskey_code', $slskeyCode);
-                    });
-                }
-
-                // Filter for permitted activations
-                /** @var \App\Models\User */
-                $user = Auth::user();
-                $slspEmployee = $user->isSLSPAdmin();
-                if (! $slspEmployee) {
-                    // SLSKey Group Permissions
-                    $permissions = $user->getSlskeyGroupsPermissionsIds();
-
-                    // Filter for users with permitted activation
-                    $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
-                        $query->whereIn('id', $permissions);
-                    });
-                }
-
-                // Define Fields to be Eager Loaded
-                $query->with(['slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution']);
-            },
-        ]);
-
-        // Return the query
         return $query;
     }
 

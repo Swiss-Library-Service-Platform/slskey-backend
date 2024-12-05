@@ -314,7 +314,7 @@ class SlskeyUser extends Model
 
     /**
      * Filter Users with Activations
-     * 
+     *
      * @param Builder $query
      * @param string|null $slskeyCode
      * @return Builder
@@ -368,7 +368,6 @@ class SlskeyUser extends Model
 
         return $query;
     }
-
 
     /**
      * Get Users with their permitted Activations

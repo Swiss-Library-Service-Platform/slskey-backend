@@ -1,4 +1,5 @@
 <?php
+
 /* -------------------
     DB Assert Helper Functions
 ------------------- */

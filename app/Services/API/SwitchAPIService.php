@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Client for SWITCH Edu-ID Shared Attributes API
  *

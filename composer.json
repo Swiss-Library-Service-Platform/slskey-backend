@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "24slides/laravel-saml2": "^2.4",
+        "biiiiiigmonster/hasin": "^3.0",
         "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "firebase/php-jwt": "^6.10",

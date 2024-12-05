@@ -54,8 +54,7 @@ class UsersController extends Controller
 
         // Query for SlskeyUsers with specified permissions, ordering, and filtering
         $slskeyUsersWithPermissions = SlskeyUser::query()
-            ->whereHasPermittedActivations($slskeyCode)
-            ->withPermittedActivations($slskeyCode)
+            ->filterWithActivationsNew2($slskeyCode)
             ->filter(Request::all())
             ->paginate($perPage)
             ->withQueryString();

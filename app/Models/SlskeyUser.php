@@ -313,6 +313,64 @@ class SlskeyUser extends Model
     }
 
     /**
+     * Filter Users with Activations
+     * 
+     * @param Builder $query
+     * @param string|null $slskeyCode
+     * @return Builder
+     */
+    public function scopeFilterWithActivationsNew2(Builder $query, ?string $slskeyCode = null): Builder
+    {
+        // Get current user and their permissions
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $slspEmployee = $user->isSLSPAdmin();
+        $permissions = $slspEmployee ? [] : $user->getSlskeyGroupsPermissionsIds();
+
+        // Use 'whereHasIn' from third-party package, as it improves performance
+        $query->whereHasIn('slskeyActivations', function ($subQuery) use ($slskeyCode, $permissions, $slspEmployee) {
+            // Filter by SLSKey code
+            if ($slskeyCode) {
+                $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($slskeyCode) {
+                    $groupQuery->where('slskey_code', $slskeyCode);
+                });
+            }
+
+            // Apply permissions if not SLSP employee
+            if (! $slspEmployee) {
+                $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
+                    $groupQuery->whereIn('id', $permissions);
+                });
+            }
+        });
+
+        // Eager load activations and related data
+        $query->with([
+            'slskeyActivations' => function ($subQuery) use ($slskeyCode, $permissions, $slspEmployee) {
+                // Filter by SLSKey code
+                if ($slskeyCode) {
+                    $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($slskeyCode) {
+                        $groupQuery->where('slskey_code', $slskeyCode);
+                    });
+                }
+
+                // Apply permissions if not SLSP employee
+                if (! $slspEmployee) {
+                    $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
+                        $groupQuery->whereIn('id', $permissions);
+                    });
+                }
+
+                // Eager load SLSKey Group details
+                $subQuery->with('slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution');
+            }
+        ]);
+
+        return $query;
+    }
+
+
+    /**
      * Get Users with their permitted Activations
      *
      * @param Builder $query

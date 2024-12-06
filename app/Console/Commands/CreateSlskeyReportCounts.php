@@ -29,7 +29,10 @@ class CreateSlskeyReportCounts extends Command
     public function handle()
     {
         echo "Creating Slskey Report Counts...\n";
-        $slskeyGroups = SlskeyGroup::all();
+
+        $slskeyGroups = SlskeyGroup::query()
+            ->where('slskey_code', 'a150') // replace with your slskey code
+            ->get();
 
         foreach ($slskeyGroups as $slskeyGroup) {
             // Get first Slskeyhistory activation month and year

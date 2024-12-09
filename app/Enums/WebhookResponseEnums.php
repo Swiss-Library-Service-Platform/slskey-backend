@@ -12,7 +12,9 @@ class WebhookResponseEnums
     public const REMOVED_ACTIVATION_MAIL = 'Revoked Activation Mail'; // User lost activation mail
 
     // IGNORED ACTIONS
-    public const IGNORED_VERIFICATION = 'Ignored: Missing verification'; // User has not passed the custom verifier
+    public const IGNORED = 'Ignored'; // User has been ignored, nothing to do
+
+    public const IGNORED_CREATION = 'Ignored: Created user misses verification'; // User has not passed the custom verifier
 
     public const IGNORED_NON_EDUID = 'Ignored: No edu-ID'; // User is not an edu-ID user
 
@@ -25,9 +27,9 @@ class WebhookResponseEnums
     // SKIPPED ACTIONS (Already in correct state)
     public const SKIPPED_ACTIVE = 'Skipped: User already active'; // User already in the state that it should be
 
-    public const SKIPPED_NON_EXISTING = 'Skipped: User does not exist'; // User already in the state that it should be
+    public const SKIPPED_NON_EXISTING = 'Skipped: Updated user does not exist in SLSKey'; // User already in the state that it should be
 
-    public const SKIPPED_INACTIVE = 'Skipped: User already inactive'; // User already in the state that it should be
+    public const SKIPPED_INACTIVE = 'Skipped: Updated user already inactive'; // User already in the state that it should be
 
     public const SKIPPED_INACTIVE_VERIFICATION = 'Skipped: Unverified User already inactive'; // User already in the state that it should be
 

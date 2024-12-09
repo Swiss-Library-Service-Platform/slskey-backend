@@ -17,7 +17,7 @@ it('fails webhook because missing verification', function () {
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", getCreatedUserData($primaryId));
 
     $response->assertStatus(200);
-    $response->assertSeeText(WebhookResponseEnums::IGNORED_VERIFICATION);
+    $response->assertSeeText(WebhookResponseEnums::IGNORED_CREATION);
     assertUserActivationMissing($primaryId, $this->slskeyCode);
 });
 

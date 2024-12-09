@@ -173,9 +173,13 @@ class WebhooksController extends Controller
 
         // Check for Activation
         if (
-            ($event === AlmaEnums::EVENT_CREATED && $hasCustomVerification) ||
+            ($event === AlmaEnums::EVENT_CREATED) ||
             ($event === AlmaEnums::EVENT_UPDATED && $status === AlmaEnums::USER_STATUS_ACTIVE && $hasCustomVerification)
         ) {
+            // Check if user has custom verification
+            if (! $hasCustomVerification) {
+                return response(WebhookResponseEnums::IGNORED_CREATION);
+            }
             // Check if already active
             if ($slskeyUser && $slskeyUser->hasActiveActivation($slskeyGroup->id)) {
                 return response(WebhookResponseEnums::SKIPPED_ACTIVE);
@@ -194,7 +198,7 @@ class WebhooksController extends Controller
         }
 
         // Nothing happened
-        return new Response(WebhookResponseEnums::IGNORED_VERIFICATION);
+        return new Response(WebhookResponseEnums::IGNORED);
     }
 
     /**

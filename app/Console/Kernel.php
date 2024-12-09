@@ -19,6 +19,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if (config('app.env') == 'production') {
+            // Send monthly report
+            $schedule->command('job:send-monthly-report')
+                ->monthlyOn(1, '04:00'); //UTC time
             // Deactivate expired users
             $schedule->command('job:deactivate-expired-users')
                 ->dailyAt('06:00'); //UTC time
@@ -28,9 +31,6 @@ class Kernel extends ConsoleKernel
             // Send reactivation tokens
             $schedule->command('job:send-reactivation-token')
                 ->dailyAt('10:00'); //UTC time
-            // Send monthly report
-            $schedule->command('job:send-monthly-report')
-                ->monthlyOn(1, '06:00'); //UTC time
         }
     }
 

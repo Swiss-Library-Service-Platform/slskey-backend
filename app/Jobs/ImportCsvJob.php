@@ -126,7 +126,8 @@ class ImportCsvJob implements ShouldQueue
                 $activationDate,
                 $expirationDate,
                 $slskeyGroup->slskey_code,
-                $testRun
+                $testRun,
+                $setHistoryActivationDate
             );
         }
 
@@ -237,7 +238,7 @@ class ImportCsvJob implements ShouldQueue
         ];
     }
 
-    private function activateWithoutExternalApis($primaryId, $firstname, $lastname, $activationDate, $expirationDate, $slskeyCode, $testRun)
+    private function activateWithoutExternalApis($primaryId, $firstname, $lastname, $activationDate, $expirationDate, $slskeyCode, $testRun, $setHistoryActivationDate = false): array
     {
         $slskeyUser = SlskeyUser::where('primary_id', '=', $primaryId)->first();
         // Get SLSKey Group
@@ -304,7 +305,7 @@ class ImportCsvJob implements ShouldQueue
             'action' => ActivationActionEnums::ACTIVATED,
             'author' => null,
             'trigger' => TriggerEnums::SYSTEM_MASS_IMPORT,
-            'created_at' => now(),
+            'created_at' => $setHistoryActivationDate ? $activationDate : null,
         ]);
 
         return [

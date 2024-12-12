@@ -270,8 +270,14 @@ class ImportCsvJob implements ShouldQueue
         if (!$slskeyUser) {
             $slskeyUser = SlskeyUser::create([
                 'primary_id' => $primaryId,
-                'first_name' => $firstname,
-                'last_name' => $lastname,
+                'first_name' => $firstname ?? str(random_int(0, 1000)),
+                'last_name' => $lastname ?? str(random_int(0, 1000)),
+            ]);
+        } else {
+            // Update User
+            $slskeyUser->update([
+                'first_name' => $firstname ?? $slskeyUser->first_name,
+                'last_name' => $lastname ?? $slskeyUser->last_name,
             ]);
         }
 
@@ -305,7 +311,7 @@ class ImportCsvJob implements ShouldQueue
             'action' => ActivationActionEnums::ACTIVATED,
             'author' => null,
             'trigger' => TriggerEnums::SYSTEM_MASS_IMPORT,
-            'created_at' => $setHistoryActivationDate ? $activationDate : null,
+            'created_at' => $setHistoryActivationDate ? $activationDate : now(),
         ]);
 
         return [

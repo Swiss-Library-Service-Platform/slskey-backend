@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Enums\TriggerEnums;
+use App\Enums\WorkflowEnums;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SlskeyUserResource;
 use App\Interfaces\AlmaAPIInterface;
@@ -92,8 +93,16 @@ class ActivationController extends Controller
 
         // SLSKey Groups
         $slskeyGroups = SlskeyGroup::getPermittedGroupsWithUserActivations($primaryId);
-        // Preselect SLSKey Code, if only 1 available group, and group is not blocked
-        $preselectedSlskeyCode = count($slskeyGroups) != 1 ? null : (!$slskeyGroups[0]['activation'] || !$slskeyGroups[0]['activation']['blocked'] ? $slskeyGroups[0]['value'] : null);
+
+        // Preselect SLSKey Code, if only 1 available group, not webhook, and group is not blocked
+        $preselectedSlskeyCode = null;
+        if (count($slskeyGroups) == 1) {
+            $group = $slskeyGroups[0];
+            $activation = $group['activation'];
+            if ((! $activation || ! $activation['blocked']) && $group['workflow'] !== WorkflowEnums::WEBHOOK) {
+                $preselectedSlskeyCode = $group['value'];
+            }
+        }
 
         return Inertia::render('Activation/ActivationPreview', [
             'identifier' => $identifier,

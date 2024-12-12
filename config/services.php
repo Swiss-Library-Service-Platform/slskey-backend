@@ -21,6 +21,7 @@ return [
             '41SLSP_HPH' => env('ALMA_HPH_API_KEY', '---'),
             '41SLSP_ETH' => env('ALMA_ETH_API_KEY', '---'),
             '41SLSP_RZS' => env('ALMA_RZS_API_KEY', '---'),
+            '41SLSP_BCUFR' => env('ALMA_BCUFR_API_KEY', '---'),
         ]
     ],
 

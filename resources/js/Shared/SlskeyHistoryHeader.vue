@@ -7,7 +7,7 @@
         <th v-if="showPrimaryId" class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_user.primary_id') }} </th>
         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.action') }} </th>
         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.trigger') }} </th>
-        <th class="w-full py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.author') }} </th>
+        <th v-if="showAuthor" class="w-full py-4 px-4 text-left whitespace-nowrap"> {{ $t('history.author') }} </th>
     </tr>
 </template>
 
@@ -23,7 +23,11 @@ export default {
     },
     props: {
         showRelativeDate: Boolean,
-        showPrimaryId: Boolean
+        showPrimaryId: Boolean,
+        showAuthor: {
+            type: Boolean,
+            default: true
+        }
     },
 }
 </script>

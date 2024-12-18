@@ -16,13 +16,13 @@
             <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
                 <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
                     <thead class="">
-                        <SlskeyHistoryHeader :showPrimaryId="true" />
+                        <SlskeyHistoryHeader :showPrimaryId="true"  :showAuthor="false"  />
                     </thead>
                     <tbody class="divide-y divide-gray-table">
                         <template v-if="slskeyHistories.data.length > 0">
                             <tr v-for="history in slskeyHistories.data" :key="'user' + history.id"
                                 class="hover:bg-gray-100 focus-within:bg-gray-100">
-                                <SlskeyHistoryRow :showPrimaryId="true" :history="history" />
+                                <SlskeyHistoryRow :showPrimaryId="true" :history="history" :showAuthor="false" />
                             </tr>
                         </template>
                         <template v-else>

@@ -40,13 +40,8 @@
             {{ history.trigger }}
         </div>
     </td>
-    <td class="align-top">
-        <Link v-if="$page.props.isSlskeyAdmin && history.author_display" :href="`/admin/users/${history.author}`">
-            <div class="underline flex px-4 py-3 pr-8 whitespace-nowrap">
-            {{ history.author_display }}
-        </div>
-        </Link>
-        <div v-else class="flex px-4 py-3 whitespace-nowrap">
+    <td v-if="showAuthor" class="align-top">
+        <div class="flex px-4 py-3 whitespace-nowrap">
             {{ history.author_display ?? history.author }}
         </div>
     </td>
@@ -67,7 +62,11 @@ export default {
     props: {
         history: Object,
         showRelativeDate: Boolean,
-        showPrimaryId: Boolean
+        showPrimaryId: Boolean,
+        showAuthor: {
+            type: Boolean,
+            default: true
+        }
     },
     methods: {
         formatDate(date) {

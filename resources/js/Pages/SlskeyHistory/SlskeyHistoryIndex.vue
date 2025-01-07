@@ -1,43 +1,42 @@
 <template>
     <AppLayout :title="$t('history.title')" :breadCrumbs="[{ name: $t('history.title') }]">
-        <div class="flex flex-col w-fit">
 
-            <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-                <FilterControl @reset="reset">
-                    <SearchFilter v-model="form.primaryId" :label="$t('slskey_user.primary_id')"
-                        :placeholder="$t('history.search')" />
-                    <DatePickerFilter :label="$t('history.date')" v-model="form.date" />
-                    <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
-                        :options="slskeyGroups.data" />
-                    <SelectFilter v-model="form.trigger" :label="$t('history.trigger')" :options="triggers" />
-                </FilterControl>
-            </div>
-
-            <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
-                <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
-                    <thead class="">
-                        <SlskeyHistoryHeader :showPrimaryId="true"  :showAuthor="false"  />
-                    </thead>
-                    <tbody class="divide-y divide-gray-table">
-                        <template v-if="slskeyHistories.data.length > 0">
-                            <tr v-for="history in slskeyHistories.data" :key="'user' + history.id"
-                                class="hover:bg-gray-100 focus-within:bg-gray-100">
-                                <SlskeyHistoryRow :showPrimaryId="true" :history="history" :showAuthor="false" />
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $t('history.no_history') }}.</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="mb-8">
-                <Pagination :pages="slskeyHistories" v-model="form.perPage" />
-            </div>
+        <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
+            <FilterControl @reset="reset">
+                <SearchFilter v-model="form.primaryId" :label="$t('slskey_user.primary_id')"
+                    :placeholder="$t('history.search')" />
+                <DatePickerFilter :label="$t('history.date')" v-model="form.date" />
+                <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                    :options="slskeyGroups.data" />
+                <SelectFilter v-model="form.trigger" :label="$t('history.trigger')" :options="triggers" />
+            </FilterControl>
         </div>
+
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
+            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
+                <thead class="">
+                    <SlskeyHistoryHeader :showPrimaryId="true" :showAuthor="false" />
+                </thead>
+                <tbody class="divide-y divide-gray-table">
+                    <template v-if="slskeyHistories.data.length > 0">
+                        <tr v-for="history in slskeyHistories.data" :key="'user' + history.id"
+                            class="hover:bg-gray-100 focus-within:bg-gray-100">
+                            <SlskeyHistoryRow :showPrimaryId="true" :history="history" :showAuthor="false" />
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $t('history.no_history') }}.</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="mb-8">
+            <Pagination :pages="slskeyHistories" v-model="form.perPage" />
+        </div>
+
     </AppLayout>
 </template>
 

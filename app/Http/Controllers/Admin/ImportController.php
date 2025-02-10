@@ -50,12 +50,29 @@ class ImportController extends Controller
     public function preview(): InertiaResponse | RedirectResponse
     {
         $file = Request::file('csv_file');
-        $path = $file->storeAs('csv', 'uploaded_file.csv', 'public');
-        $importRows = $this->readCSVFile(storage_path('app/public/'.$path));
 
-        // Process the CSV file as needed
+        if (!$file) {
+            \Log::error('No file was uploaded.');
+            return Redirect::back()
+                ->with('error', "No file was uploaded.");
+        }
+
+        $path = $file->storeAs('csv', 'uploaded_file.csv', 'public');
+        $fullPath = storage_path('app/public/csv/uploaded_file.csv');
+
+        // Log the path to ensure it is correct
+        \Log::info('CSV file path: ' . $fullPath);
+
+        if (!is_file($fullPath)) {
+            \Log::error('The path is not a valid file: ' . $fullPath);
+            return Redirect::back()
+                ->with('error', "The uploaded file could not be found.");
+        }
+
         try {
+            $importRows = $this->readCSVFile($fullPath);
         } catch (\Exception $e) {
+            \Log::error('Error while reading CSV file: ' . $e->getMessage());
             return Redirect::back()
                 ->with('error', "Error while reading CSV file: {$e->getMessage()}");
         }

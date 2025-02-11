@@ -11,10 +11,11 @@ jobs:
         with:
           fetch-depth: 2
       - name: "laravel-pint"
-        uses: aglipanci/laravel-pint-action@0.1.0
+        uses: aglipanci/laravel-pint-action@latest
         with:
           testMode: true
           configPath: "pint.json"
+          pintVersion: 1.16.0
           # preset: laravel
  
       # - name: Commit changes

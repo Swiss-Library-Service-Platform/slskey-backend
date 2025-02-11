@@ -38,6 +38,16 @@
                 <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                     <!-- Webhook Activation -->
                     <template v-if="form.workflow === 'Webhook'">
+                        <div class="col-span-2 text-sm text-gray-500">
+                            Set the following as webhook URL in Alma:<br>
+                            <ul class="list-disc list-inside">
+                                <li>For users to be persisted: <span class="underline">https://slskey2.swisscovery.network/api/v1/webhooks/{{ form.slskey_code }}</span></li>
+                                <li>For users not to be persisted: <span class="underline">https://slskey2.swisscovery.network/api/v1/webhooks-proxy/{{ form.slskey_code }}</span></li>
+                            </ul>
+                            <br>
+                            For certain institutions (e.g. RZS) users are not persisted in the SLSKey database. <br>
+                            SLSKey will simply activate/deactivate users in Switch without persisting them. Users won't appear in the User Management.
+                        </div>
                         <text-input v-model="form.webhook_secret" :error="form.errors.webhook_secret"
                             :label="`${$t('slskey_groups.webhook_secret')} *`" />
                         <!-- 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CloudAppController;
 use App\Http\Controllers\API\WebhooksController;
+use App\Http\Controllers\API\WebhooksProxyController;
 use Illuminate\Support\Facades\Route;
 
 /*

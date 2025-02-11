@@ -85,20 +85,19 @@ class WebhooksProxyController extends Controller
             return response(WebhookResponseEnums::IGNORED_NON_EDUID);
         }
 
-        // TODO: Check if slskey group is proxy group
-
-
-        // Activate or deactivate user
-        if ($event == AlmaEnums::EVENT_UPDATED ||
+        // Activate user
+        if ($event == AlmaEnums::EVENT_CREATED ||
             $event == AlmaEnums::EVENT_UPDATED && $userStatus == AlmaEnums::USER_STATUS_ACTIVE) {
                 
             return $this->activateUser($primaryId, $slskeyGroup);
+        // Deactivate user
         } else if ($event == AlmaEnums::EVENT_DELETED ||
             $event == AlmaEnums::EVENT_UPDATED && $userStatus == AlmaEnums::USER_STATUS_INACTIVE) {
            
             return $this->deactivateUser($primaryId, $slskeyGroup);
         }
 
+        // Ignored
         return response(WebhookResponseEnums::IGNORED);
     }
 
@@ -162,7 +161,5 @@ class WebhooksProxyController extends Controller
             'author' => null
         ]);
     }
-
-
 
 }

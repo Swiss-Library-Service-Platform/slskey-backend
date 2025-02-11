@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Enums\AlmaEnums;
-use App\Enums\TriggerEnums;
 use App\Enums\WebhookResponseEnums;
-use App\Helpers\WebhookMailActivation\WebhookMailActivationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\AlmaUser;
+use App\Interfaces\SwitchAPIInterface;
+use App\Models\LogActivationFails;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
-use App\Services\ActivationService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Request;
@@ -100,6 +99,7 @@ class WebhooksProxyController extends Controller
             return $this->deactivateUser($primaryId, $slskeyGroup);
         }
 
+        return response(WebhookResponseEnums::IGNORED);
     }
 
     /**
@@ -108,7 +108,7 @@ class WebhooksProxyController extends Controller
      * @param string $primaryId
      * @param SlskeyGroup $slskeyGroup
      */
-    protected function activateUser(string $primaryId, string $slskeyGroup): Response
+    protected function activateUser(string $primaryId, SlskeyGroup $slskeyGroup): Response
     {
         try {
             // Activate user for all switch groups
@@ -128,9 +128,9 @@ class WebhooksProxyController extends Controller
     * Deactivates a user.
     *
     * @param string $primaryId
-    * @param string $slskeyCode
+    * @param SlskeyGroup $slskeyGroup
     */
-    protected function deactivateUser(string $primaryId, string $slskeyCode): Response
+    protected function deactivateUser(string $primaryId, SlskeyGroup $slskeyGroup): Response
     {
         try {
             // Deactivate user for all switch groups

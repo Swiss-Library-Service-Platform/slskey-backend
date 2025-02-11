@@ -121,11 +121,16 @@ class User extends Authenticatable
 
     /**
      * Get the SlskeyGroup IDs that the User has permissions for.
+     * Also returns all SlskeyGroup IDs if user is SLSP Admin.
      *
      * @return array
      */
     public function getSlskeyGroupsPermissionsIds(): array
     {
+        $isAdmin = $this->isSLSPAdmin();
+        if ($isAdmin) {
+            return SlskeyGroup::all()->pluck('id')->toArray();
+        }
         return $this->getPermissions()->map(function ($permission) {
             return SlskeyGroup::where('slskey_code', $permission->slug)->first()->id;
         })->toArray();

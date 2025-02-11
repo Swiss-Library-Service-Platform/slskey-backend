@@ -16,10 +16,3 @@ jobs:
           testMode: true
           configPath: "pint.json"
           pintVersion: 1.16.0
-          # preset: laravel
- 
-      # - name: Commit changes
-      #   uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: PHP Linting (Pint)
-      #     skip_fetch: true

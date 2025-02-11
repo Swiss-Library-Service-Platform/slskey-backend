@@ -41,4 +41,8 @@ class WebhookResponseEnums
     public const ERROR_NO_SLSKEY_GROUP = 'Error: No slskey group definition for this institution and Alma IZ'; // No slskey group definition for this institution and Alma IZ
 
     public const ERROR_INVALID_SECRET = 'Auth Error: Invalid secret'; // Invalid secret
+
+    public const ERROR_SWITCH_ACTIVATION = 'Error: Switch activation failed'; // Switch activation failed
+
+    public const ERROR_SWITCH_DEACTIVATION = 'Error: Switch deactivation failed'; // Switch deactivation failed
 }

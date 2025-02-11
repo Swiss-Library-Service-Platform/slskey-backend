@@ -131,6 +131,7 @@ class RemindExpiringUsers extends Command
 
         // 0 = Success
         // 2 = Invalid (No expiring activations)
+
         return $countSuccess > 0 ? 0 : 2;
     }
 
@@ -147,5 +148,7 @@ class RemindExpiringUsers extends Command
             'info' => $databaseInfo, // json_encode($databaseInfo),
             'has_fail' => $countFailed > 0,
         ]);
+
+        return;
     }
 }

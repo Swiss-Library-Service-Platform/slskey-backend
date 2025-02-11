@@ -22,6 +22,18 @@ Route::middleware([
         ->name('webhooks');
 });
 
+// Get Endpoint for initial challenge (During setup of webhook)
+Route::get('/webhooks-proxy/{slskey_code}', [WebhooksProxyController::class, 'challenge'])
+    ->name('webhooks-proxy.challenge');
+
+Route::middleware([
+    'auth.webhooks',
+])->group(function () {
+    // POST Endpoint for Alma Webhooks
+    Route::post('/webhooks-proxy/{slskey_code}', [WebhooksProxyController::class, 'processWebhook'])
+        ->name('webhooks-proxy');
+});
+
 /*
 |--------------------------------------------------------------------------
 |   Alma Cloud App

@@ -72,7 +72,7 @@ class WebhooksProxyController extends Controller
 
         // Pathparameter slskey_code
         $slskeyCode = Request::route()->parameter('slskey_code');
-        
+
         // Alma User Data
         $primaryId = Request::input('webhook_user.user.primary_id');
         $userStatus = Request::input('webhook_user.user.status.value');
@@ -88,12 +88,10 @@ class WebhooksProxyController extends Controller
         // Activate user
         if ($event == AlmaEnums::EVENT_CREATED ||
             $event == AlmaEnums::EVENT_UPDATED && $userStatus == AlmaEnums::USER_STATUS_ACTIVE) {
-                
             return $this->activateUser($primaryId, $slskeyGroup);
-        // Deactivate user
-        } else if ($event == AlmaEnums::EVENT_DELETED ||
+            // Deactivate user
+        } elseif ($event == AlmaEnums::EVENT_DELETED ||
             $event == AlmaEnums::EVENT_UPDATED && $userStatus == AlmaEnums::USER_STATUS_INACTIVE) {
-           
             return $this->deactivateUser($primaryId, $slskeyGroup);
         }
 
@@ -114,12 +112,13 @@ class WebhooksProxyController extends Controller
             foreach ($slskeyGroup->switchGroups as $switchGroup) {
                 $this->switchApiService->activatePublisherForUser($primaryId, $switchGroup->switch_group_id);
             }
-    
         } catch (Exception $e) {
             // Log error
             $this->logError($primaryId, $e->getMessage());
+
             return response(WebhookResponseEnums::ERROR_SWITCH_ACTIVATION);
         }
+
         return response(WebhookResponseEnums::ACTIVATED);
     }
 
@@ -136,15 +135,15 @@ class WebhooksProxyController extends Controller
             foreach ($slskeyGroup->switchGroups as $switchGroup) {
                 $this->switchApiService->removeUserFromGroupAndVerify($primaryId, $switchGroup->switch_group_id);
             }
-
         } catch (Exception $e) {
             // Log error
             $this->logError($primaryId, $e->getMessage());
+
             return response(WebhookResponseEnums::ERROR_SWITCH_DEACTIVATION);
         }
+
         return response(WebhookResponseEnums::DEACTIVATED);
     }
-
 
     /*
     * Logs an error.
@@ -161,5 +160,4 @@ class WebhooksProxyController extends Controller
             'author' => null
         ]);
     }
-
 }

@@ -131,6 +131,7 @@ class User extends Authenticatable
         if ($isAdmin) {
             return SlskeyGroup::all()->pluck('id')->toArray();
         }
+
         return $this->getPermissions()->map(function ($permission) {
             return SlskeyGroup::where('slskey_code', $permission->slug)->first()->id;
         })->toArray();

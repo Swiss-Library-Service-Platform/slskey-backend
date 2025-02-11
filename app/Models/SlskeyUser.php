@@ -325,23 +325,23 @@ class SlskeyUser extends Model
         $permissions = $user->getSlskeyGroupsPermissionsIds();
 
         // Use 'whereHasIn' from third-party package, as it improves performance
-        $query->whereHasIn('slskeyActivations', function ($subQuery) use ($slskeyCode, $permissions, $slspEmployee) {
+        $query->whereHasIn('slskeyActivations', function ($subQuery) use ($slskeyCode, $permissions) {
             // Filter by permissions
             $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
                 $groupQuery->whereIn('id', $permissions);
             });
-        
+
             // Filter by SLSKey code
             if ($slskeyCode) {
                 $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($slskeyCode) {
                     $groupQuery->where('slskey_code', $slskeyCode);
                 });
-            }   
+            }
         });
 
         // Eager load activations and related data
         $query->with([
-            'slskeyActivations' => function ($subQuery) use ($slskeyCode, $permissions, $slspEmployee) {
+            'slskeyActivations' => function ($subQuery) use ($slskeyCode, $permissions) {
                 // Filter by permissions
                 $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
                     $groupQuery->whereIn('id', $permissions);

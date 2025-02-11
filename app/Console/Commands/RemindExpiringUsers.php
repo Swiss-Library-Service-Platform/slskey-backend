@@ -131,6 +131,7 @@ class RemindExpiringUsers extends Command
 
         // 0 = Success
         // 2 = Invalid (No expiring activations)
+        
         return $countSuccess > 0 ? 0 : 2;
     }
 

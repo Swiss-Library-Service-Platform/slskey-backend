@@ -17,6 +17,7 @@ Route::get('/webhooks/{slskey_code}', [WebhooksController::class, 'challenge'])
 
 Route::middleware([
     'auth.webhooks',
+    'throttle:webhook',
 ])->group(function () {
     // POST Endpoint for Alma Webhooks
     Route::post('/webhooks/{slskey_code}', [WebhooksController::class, 'processWebhook'])
@@ -29,6 +30,7 @@ Route::get('/webhooks-proxy/{slskey_code}', [WebhooksProxyController::class, 'ch
 
 Route::middleware([
     'auth.webhooks',
+    'throttle:webhook',
 ])->group(function () {
     // POST Endpoint for Alma Webhooks
     Route::post('/webhooks-proxy/{slskey_code}', [WebhooksProxyController::class, 'processWebhook'])

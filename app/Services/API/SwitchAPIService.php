@@ -519,7 +519,7 @@ class SwitchAPIService implements SwitchAPIInterface
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Users?filter=externalID eq '.$externalId);
         if ($statusCode != 200) {
-            throw new \Exception();
+            throw new \Exception("Status code: $statusCode");
         }
 
         return $responseBody;

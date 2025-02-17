@@ -15,6 +15,7 @@ use App\Models\SlskeyUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\TriggerEnums;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ActivationService
 {
@@ -216,19 +217,14 @@ class ActivationService
             return $this->logAndReturnError($primaryId, ActivationActionEnums::DEACTIVATED, 'no_activation');
         }
 
-        // Deactivate User via SWITCH API
+        // Check if group has SWITCH groups
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
 
+        // Deactivate User via SWITCH API
         try {
-            foreach ($slskeyGroup->switchGroups as $switchGroup) {
-                // If user has different activation for same SWITCH Group, dont remove user from the SWITCH group
-                if ($slskeyUser->hasActiveActivationForSwitchGroupViaDifferentGroup($switchGroup->switch_group_id, $slskeyGroup->id)) {
-                    continue;
-                }
-                $this->switchApiService->removeUserFromGroupAndVerify($primaryId, $switchGroup->switch_group_id);
-            }
+            $this->deactivateUserFromSwitchGroups($slskeyUser, $slskeyGroup);
         } catch (\Exception $e) {
             return $this->logAndReturnError($primaryId, ActivationActionEnums::DEACTIVATED, 'switch_api_error', $e->getMessage());
         }
@@ -289,15 +285,14 @@ class ActivationService
             return $this->logAndReturnError($primaryId, $action, 'no_activation');
         }
 
-        // Deactivate User via SWITCH API
+        // Check if group has SWITCH groups
         if ($slskeyGroup->switchGroups->count() === 0) {
             return $this->logAndReturnError($primaryId, $action, 'no_switch_group');
         }
 
+        // Deactivate User via SWITCH API
         try {
-            foreach ($slskeyGroup->switchGroups as $switchGroup) {
-                $this->switchApiService->removeUserFromGroupAndVerify($primaryId, $switchGroup->switch_group_id);
-            }
+            $this->deactivateUserFromSwitchGroups($slskeyUser, $slskeyGroup);
         } catch (\Exception $e) {
             return $this->logAndReturnError($primaryId, $action, 'switch_api_error', $e->getMessage());
         }
@@ -700,5 +695,28 @@ class ActivationService
 
         // return new ActivationServiceResponse(false, $errorMessage);
         return new ActivationServiceResponse(false, $flashMessage);
+    }
+
+    /*
+    * Deactivate user from SWITCH groups.
+    *
+    * @param SlskeyUser $slskeyUser
+    * @param SlskeyGroup $slskeyGroup
+    */
+    protected function deactivateUserFromSwitchGroups(SlskeyUser $slskeyUser, SlskeyGroup $slskeyGroup): void 
+    {
+        try {
+            foreach ($slskeyGroup->switchGroups as $switchGroup) {
+                if ($slskeyUser->hasActiveActivationForSwitchGroupViaDifferentGroup($switchGroup->switch_group_id, $slskeyGroup->id)) {
+                    continue;
+                }
+                $this->switchApiService->removeUserFromGroupAndVerify($slskeyUser->primary_id, $switchGroup->switch_group_id);
+            }
+            return; // User was found and deactivated
+        } catch (NotFoundHttpException $e) {
+            return; // User was not found in Switch
+        } catch (\Exception $e) {
+            throw $e; // Rethrow other exceptions
+        }
     }
 }

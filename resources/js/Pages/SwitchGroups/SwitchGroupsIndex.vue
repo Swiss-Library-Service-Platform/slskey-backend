@@ -5,6 +5,8 @@
             <FilterControl @reset="reset">
                 <SelectFilter v-model="form.slskeyCode"
                     :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
+                <SearchFilter v-model="form.publisher" :label="$t('switch_groups.publishers_title')"
+                    :placeholder="$t('switch_groups.publishers_title')" />
             </FilterControl>
             <DefaultButton @click="createGroup" icon="plus" class="w-fit">
                 {{ $t('switch_groups.create_new') }}
@@ -81,24 +83,27 @@ import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import { Inertia } from '@inertiajs/inertia';
 import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
 import FilterControl from '../../Shared/Filters/FilterControl.vue';
+import SearchFilter from '@/Shared/Filters/SearchFilter.vue';
+
 export default {
     components: {
         AppLayout,
         SelectFilter,
         Inertia,
         DefaultButton,
-        FilterControl
+        FilterControl,
+        SearchFilter
     },
     props: {
         switchGroups: Object,
         slskeyGroups: Object,
         filters: Object,
-
     },
     data() {
         return {
             form: {
                 slskeyCode: this.filters.slskeyCode,
+                publisher: this.filters.publisher,
             }
         }
     },

@@ -89,6 +89,13 @@ class SwitchGroup extends Model
             });
         }
 
+        if (
+            array_key_exists('publisher', $filters)
+        ) {
+            $publisher = $filters['publisher'] ?? null;
+            $query->where('publishers', 'like', '%' . $publisher . '%');
+        }
+
         return $query;
     }
 }

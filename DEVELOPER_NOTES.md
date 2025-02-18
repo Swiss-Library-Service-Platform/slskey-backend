@@ -21,6 +21,7 @@
 8. [Enhancements](#enhancements)
     1. [New SLSKey Group + API Key](#new-slskey-group--api-key)
     2. [Custom Webhook Verifier](#custom-webhook-verifier)
+9. [Custom Report about Activations (AKB)](#custom-report-about-activations-akb)
 
 
 ## Technology Stack
@@ -217,3 +218,23 @@ The class should implement the `CustomWebhookVerifierInterface` interface. </br>
 The interface requires the implementation of the `verify` method. </br>
 The verify method is injected with the Alma User and should return a boolean, that is true if the user is authorised and false if not. </br>
 Look at existing implementations for reference. </br>
+
+## Custom Report about Activations (AKB)
+To create a custom report about activations, deactivations, etc run a query directly on the database. </br>
+For example, AKB (Aargauer Kantonsbibliothek) requested a report about activations. </br>
+
+This is a example query to get the complete history for selected SLSKey groups. </br>
+```
+SELECT slskey_groups.slskey_code, slskey_users.primary_id, slskey_histories.created_at, slskey_histories.action, slskey_histories.trigger, slskey_histories.author
+FROM slskey_histories
+INNER JOIN  slskey_users
+ON slskey_histories.slskey_user_id = slskey_users.id
+INNER JOIN slskey_groups
+ON slskey_histories.slskey_group_id = slskey_groups.id
+WHERE (slskey_groups.id = 545 # Find the group ID in the slskey_groups table
+OR slskey_groups.id = 544)
+AND slskey_histories.action != "REMINDED"
+AND slskey_histories.action != "TOKEN_SENT"
+AND slskey_histories.action != "NOTIFIED"
+AND slskey_histories.action != "EXPIRATION_DISABLED";
+```

@@ -139,22 +139,6 @@ export default {
             return this.newSwitchGroup && !this.form.switchGroups.map(group => group.id).includes(this.newSwitchGroup);
         }
     },
-    watch: {
-        'form.workflow': function (workflow) {
-            if (workflow === 'Manual') {
-                this.form.webhook_custom_verifier = '';
-                this.form.webhook_secret = '';
-            } else {
-                this.form.days_activation_duration = null;
-                this.form.days_expiration_reminder = null;
-            }
-        },
-        'form.webhook_mail_activation': function (mail_activation) {
-            if (!mail_activation) {
-                this.form.days_activation_duration = null;
-            }
-        }
-    },
     methods: {
         submit(store) {
             this.$emit('submit', store);

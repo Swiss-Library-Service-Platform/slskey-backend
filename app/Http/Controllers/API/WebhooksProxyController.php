@@ -78,7 +78,11 @@ class WebhooksProxyController extends Controller
         $userStatus = Request::input('webhook_user.user.status.value');
         $event = Request::input('event.value');
 
+        // Check slskeygroup persistent
         $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCode)->first();
+        if ($slskeyGroup->webhook_persistent) {
+            return response(WebhookResponseEnums::ERROR_PERSISTENT);
+        }
 
         // Ignore non-eduID Alma Users
         if (! SlskeyUser::isPrimaryIdEduId($primaryId)) {

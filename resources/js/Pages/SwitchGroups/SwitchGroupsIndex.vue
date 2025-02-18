@@ -1,16 +1,21 @@
 <template>
     <AppLayout :title="$t('switch_groups.title')" :breadCrumbs="[{ name: $t('switch_groups.title') }]">
-       
+
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
             <FilterControl @reset="reset">
-                <SelectFilter v-model="form.slskeyCode"
-                    :label="$t('slskey_groups.slskey_code_description')" :options="slskeyGroups.data" />
+                <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                    :options="slskeyGroups.data" />
                 <SearchFilter v-model="form.publisher" :label="$t('switch_groups.publishers_title')"
                     :placeholder="$t('switch_groups.publishers_title')" />
             </FilterControl>
-            <DefaultButton @click="createGroup" icon="plus" class="w-fit">
-                {{ $t('switch_groups.create_new') }}
-            </DefaultButton>
+            <div class="flex gap-x-4">
+                <DefaultButton icon="documentDownload" @click.prevent="this.export" class="w-fit py-2 mt-4">
+                    {{ $t('switch_groups.export') }}
+                </DefaultButton>
+                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4">
+                    {{ $t('switch_groups.create_new') }}
+                </DefaultButton>
+            </div>
         </div>
 
         <div class="my-8 overflow-x-auto mb-10 bg-white shadow-md rounded-md">
@@ -114,6 +119,38 @@ export default {
         reset() {
             this.form = {
                 slskeyCode: null,
+            }
+        },
+        async export() {
+            try {
+                this.export_loading = true;
+                const response = await axios({
+                    url: '/admin/switchgroups/publishers/download',
+                    method: 'GET',
+                    responseType: 'blob'
+                });
+
+                // Create blob link to download
+                const blob = new Blob([response.data], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `publishers_${new Date().toISOString().split('T')[0]}.csv`);
+
+                // Append to html link element page
+                document.body.appendChild(link);
+
+                // Start download
+                link.click();
+
+                // Clean up and remove the link
+                link.parentNode.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Download failed:', error);
+                // You might want to add proper error handling here
+            } finally {
+                this.export_loading = false;
             }
         },
     },

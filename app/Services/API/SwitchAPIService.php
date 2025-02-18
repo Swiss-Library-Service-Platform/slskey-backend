@@ -30,6 +30,7 @@ namespace App\Services\API;
 use App\Interfaces\SwitchAPIInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class SwitchSharedAttributesAPIClient
@@ -513,11 +514,14 @@ class SwitchAPIService implements SwitchAPIInterface
      * @param  string  $internalId  User external id
      * @return mixed
      *
-     * @throws \Exception
+     * @throws 
      */
     protected function getSwitchUserInfoFromExternalId(mixed $externalId)
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Users?filter=externalID eq '.$externalId);
+        if ($statusCode == 404) {
+            throw new NotFoundHttpException("User not found");
+        }
         if ($statusCode != 200) {
             throw new \Exception("Status code: $statusCode");
         }

@@ -27,13 +27,15 @@ class WebhookResponseEnums
     // SKIPPED ACTIONS (Already in correct state)
     public const SKIPPED_ACTIVE = 'Skipped: User already active'; // User already in the state that it should be
 
-    public const SKIPPED_NON_EXISTING = 'Skipped: Updated user does not exist in SLSKey'; // User already in the state that it should be
+    public const SKIPPED_NON_EXISTING = 'Skipped: User to deactivate does not exist in SLSKey'; // User already in the state that it should be
 
-    public const SKIPPED_INACTIVE = 'Skipped: Updated user already inactive'; // User already in the state that it should be
+    public const SKIPPED_INACTIVE = 'Skipped: User to deactivate is already inactive'; // User already in the state that it should be
 
     public const SKIPPED_INACTIVE_VERIFICATION = 'Skipped: Unverified User already inactive'; // User already in the state that it should be
 
     // ERRORS
+    public const ERROR_PERSISTENT = "Error: SlskeyGroup settings does not match webhook URL set in Alma"; // SlskeyGroup settings does not match webhook URL set in Alma
+    
     public const ERROR_VERIFIER = 'Custom Verification Error: '; // Custom verification error
 
     public const ERROR_NO_INSTITUTION = 'Auth Error: No institution code provided'; // No institution code provided

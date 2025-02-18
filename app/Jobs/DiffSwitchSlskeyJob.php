@@ -22,7 +22,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
     use SerializesModels;
 
     protected $switchGroupId;
-    protected $slskeyCode;
+    protected $slskeyCodes;
     protected $timestampedDir;
 
     /**
@@ -37,10 +37,10 @@ class DiffSwitchSlskeyJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($switchGroupId, $slskeyCode)
+    public function __construct($switchGroupId, array $slskeyCodes)
     {
         $this->switchGroupId = $switchGroupId;
-        $this->slskeyCode = $slskeyCode;
+        $this->slskeyCodes = $slskeyCodes;
         $this->timestampedDir = 'diff/' . now()->format('Ymd_His');
         Storage::makeDirectory($this->timestampedDir);
     }
@@ -55,34 +55,37 @@ class DiffSwitchSlskeyJob implements ShouldQueue
     public function handle(SwitchAPIInterface $switchAPIService, AlmaAPIInterface $almaAPIService)
     {
         $switchGroup = SwitchGroup::where('switch_group_id', $this->switchGroupId)->first();
-        $slskeyGroup = SlskeyGroup::where('slskey_code', $this->slskeyCode)->first();
+        $slskeyMembers = collect();
+
+        foreach ($this->slskeyCodes as $slskeyCode) {
+            $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCode)->first();
+            $slskeyMembers = $slskeyMembers->merge($slskeyGroup->getActiveUserPrimaryIds());
+        }
 
         $switchMembersInternalId = $switchAPIService->getMembersForGroupId($switchGroup->switch_group_id);
-        $slskeyMembers = $slskeyGroup->getActiveUserPrimaryIds();
 
         $switchMembersInternalId = collect($switchMembersInternalId);
         $counter = 0;
         $switchMembersExternalId = collect();
 
-        $switchMembersInternalId->take(100)->each(function ($member) use (&$switchMembersExternalId, &$counter, $switchAPIService) {
+        $switchMembersInternalId->each(function ($member) use (&$switchMembersExternalId, &$counter, $switchAPIService) {
             // FIXME: reactivate later
             $switchMember = $switchAPIService->getSwitchUserInfo($member->value);
             $switchMembersExternalId->push($switchMember->externalID);
-
             $counter++;
             if ($counter % 500 == 0) {
                 sleep(1); // FIXME: Sleep for 5 seconds after every 10 requests
             }
         });
 
-        $slskeyMembers = collect($slskeyMembers);
+        $slskeyMembers = $slskeyMembers->unique();
         $switchMembers = collect($switchMembersExternalId);
 
         $slskeyNotInSwitch = $slskeyMembers->diff($switchMembers);
         $switchNotInSlskey = $switchMembers->diff($slskeyMembers);
 
         $this->writeDataToCsv($slskeyNotInSwitch, $switchNotInSlskey);
-        $this->writeTxtSummary($this->switchGroupId, $this->slskeyCode, count($slskeyMembers), count($switchMembers), $slskeyNotInSwitch, $switchNotInSlskey);
+        $this->writeTxtSummary($this->switchGroupId, $this->slskeyCodes, count($slskeyMembers), count($switchMembers), $slskeyNotInSwitch, $switchNotInSlskey);
     }
 
     /**
@@ -116,7 +119,7 @@ class DiffSwitchSlskeyJob implements ShouldQueue
 
         // write into csv:
         foreach ($data as $item) {
-            fputcsv($csv, [$this->slskeyCode, $item], ';');
+            fputcsv($csv, [$item], ';');
         }
 
         fclose($csv);
@@ -126,13 +129,13 @@ class DiffSwitchSlskeyJob implements ShouldQueue
      * Write summary to txt file
      *
      * @param string $switchGroupId
-     * @param string $slskeyCode
+     * @param array $slskeyCodes
      * @param int $countSlskeyMembers
      * @param int $countSwitchMembers
      * @param array $slskeyMembers
      * @param array $switchMembers
      */
-    public function writeTxtSummary($switchGroupId, $slskeyCode, $countSlskeyMembers, $countSwitchMember, $slskeyNotInSwitch, $switchNotInSlskey)
+    public function writeTxtSummary($switchGroupId, $slskeyCodes, $countSlskeyMembers, $countSwitchMembers, $slskeyNotInSwitch, $switchNotInSlskey)
     {
         $txtFilePath = storage_path('app/' . $this->timestampedDir . '/summary.txt');
 
@@ -144,12 +147,12 @@ class DiffSwitchSlskeyJob implements ShouldQueue
         $txt = fopen($txtFilePath, 'w');
 
         fwrite($txt, 'Switch Group ID: ' . $switchGroupId . PHP_EOL);
-        fwrite($txt, 'Slskey Code: ' . $slskeyCode . PHP_EOL);
+        fwrite($txt, 'Slskey Codes: ' . implode(', ', $slskeyCodes) . PHP_EOL);
 
         fwrite($txt, 'Total Number of Slskey members: ' . $countSlskeyMembers . PHP_EOL);
         fwrite($txt, 'Number of Slskey members not in Switch: ' . count($slskeyNotInSwitch) . PHP_EOL);
 
-        fwrite($txt, 'Total Number of Switch members: ' . $countSwitchMember . PHP_EOL);
+        fwrite($txt, 'Total Number of Switch members: ' . $countSwitchMembers . PHP_EOL);
         fwrite($txt, 'Number of Switch members not in Slskey: ' . count($switchNotInSlskey) . PHP_EOL);
 
         fclose($txt);

@@ -58,6 +58,7 @@ export default {
                 webhook_custom_verifier: 0,
                 webhook_custom_verifier_class: null,
                 webhook_secret: null,
+                webhook_persistent: 0,
                 days_activation_duration: null,
                 days_expiration_reminder: null,
                 webhook_mail_activation: 0,

@@ -2,7 +2,12 @@
   <div :class="$attrs.class">
     <SwitchGroup>
       <div class="">
-        <SwitchLabel v-if="label" class="mr-4 form-label">{{ label }}</SwitchLabel>
+        <div class="flex flex-row items-center">
+          <SwitchLabel v-if="label" class="mr-4 form-label">{{ label }}</SwitchLabel>
+          <HelpIconWithPopup class="mt-1 mb-2" v-if="helpText">
+            {{ helpText }}
+          </HelpIconWithPopup>
+        </div>
         <Switch v-model="selected" name :id="id" v-bind="{ ...$attrs, class: null }" :class="{
           error: error,
           'bg-color-one-1': !selected,
@@ -23,6 +28,7 @@
 <script>
 import { v4 as uuid } from 'uuid';
 import { Switch, SwitchLabel, SwitchGroup } from '@headlessui/vue';
+import HelpIconWithPopup from '../HelpIconWithPopup.vue';
 
 export default {
   inheritAttrs: false,
@@ -36,6 +42,7 @@ export default {
     error: String,
     label: String,
     modelValue: Number,
+    helpText: String,
   },
   emits: ["update:modelValue"],
   data() {
@@ -51,6 +58,6 @@ export default {
       this.selected = newValue === 1 ? true : false;
     },
   },
-  components: { Switch, SwitchLabel, SwitchGroup }
+  components: { Switch, SwitchLabel, SwitchGroup, HelpIconWithPopup },
 }
 </script>

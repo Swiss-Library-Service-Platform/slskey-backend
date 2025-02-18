@@ -109,4 +109,49 @@ class SwitchGroupsController extends Controller
         return Redirect::route('admin.switchgroups.index')
             ->with('success', __('flashMessages.switch_group_updated'));
     }
+
+    public function downloadPublishers()
+    {
+        $publishers = SwitchGroup::query()
+            ->select('publishers')
+            ->get()
+            ->map(function ($switchGroup) {
+                return $switchGroup->getPublisherArrayFromPublisherString();
+            })
+            // trim whitepsace
+            ->flatten()
+            ->map(function ($publisher) {
+                return trim($publisher);
+            })
+            ->filter(function ($publisher) {
+                return !str_contains(strtolower($publisher), 'offen');
+            })
+            ->unique()
+            ->sort()
+            ->values()
+            ->toArray();
+    
+        $fileName = 'publishers_' . date('Y-m-d') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
+        ];
+    
+        return response()->stream(function() use ($publishers) {
+            $handle = fopen('php://output', 'w');
+            
+            // Add UTF-8 BOM for proper Excel encoding
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            // Write data
+            foreach ($publishers as $publisher) {
+                fputcsv($handle, [$publisher]);
+            }
+            
+            fclose($handle);
+        }, 200, $headers);
+    }
 }

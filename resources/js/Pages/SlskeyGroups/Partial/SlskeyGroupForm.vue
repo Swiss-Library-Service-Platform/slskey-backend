@@ -22,7 +22,8 @@
                     v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
                 <!-- Mail Sender -->
                 <text-input v-model="form.mail_sender_address" :error="form.errors.mail_sender_address"
-                    :label="$t('slskey_groups.mail_sender_address')" :helpText="$t('slskey_groups.mail_sender_address_help')" />
+                    :label="$t('slskey_groups.mail_sender_address')"
+                    :helpText="$t('slskey_groups.mail_sender_address_help')" />
                 <!-- Show Member Educational Institution -->
                 <checkbox-input class="w-full" :error="form.errors.show_member_educational_institution"
                     v-model="form.show_member_educational_institution"
@@ -38,25 +39,20 @@
                 <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                     <!-- Webhook Activation -->
                     <template v-if="form.workflow === 'Webhook'">
-                        <div class="col-span-2 text-sm text-gray-500">
-                            Set the following as webhook URL in Alma:<br>
-                            <ul class="list-disc list-inside">
-                                <li>For users to be persisted: <span class="underline">https://slskey2.swisscovery.network/api/v1/webhooks/{{ form.slskey_code }}</span></li>
-                                <li>For users not to be persisted: <span class="underline">https://slskey2.swisscovery.network/api/v1/webhooks-proxy/{{ form.slskey_code }}</span></li>
-                            </ul>
-                            <br>
-                            For certain institutions (e.g. RZS) users are not persisted in the SLSKey database. <br>
-                            SLSKey will simply activate/deactivate users in Switch without persisting them. Users won't appear in the User Management.
-                        </div>
+                        <!-- switch for webhook non persistent -->
+                        <checkbox-input v-model="form.webhook_persistent" :error="form.errors.webhook_persistent"
+                            :label="$t('slskey_groups.webhook_persistent')" :helpText="$t('slskey_groups.webhook_persistent_help')" />
                         <text-input v-model="form.webhook_secret" :error="form.errors.webhook_secret"
                             :label="`${$t('slskey_groups.webhook_secret')} *`" />
-                        <!-- 
-                        <select-input v-model="form.webhook_custom_verifier" :error="form.errors.webhook_custom_verifier"
-                            :options="availableWebhookCustomVerifiers"
-                            :helpText="$t('slskey_groups.webhook_custom_verifier_help')"
-                            :label="$t('slskey_groups.webhook_custom_verifier')" />
-                        <div></div>
-                        -->
+                        <div class="col-span-2 text-sm text-gray-500">
+                            Set the following as webhook URL in Alma: <br>
+                            <span v-if="form.webhook_persistent" class="underline">
+                                {{ $page.props.appUrl }} /api/v1/webhooks/{{ form.slskey_code }}
+                            </span>
+                            <span v-if="!form.webhook_persistent" class="underline">
+                                {{ $page.props.appUrl }}/api/v1/webhooks-proxy/{{ form.slskey_code }}
+                            </span>
+                        </div>
                     </template>
                     <!-- Manual Activation -->
                     <template v-else>
@@ -70,8 +66,8 @@
                     </template>
                 </div>
             </template>
-            <!-- Webhook Email Actviation -->
-            <template v-if="form.workflow == 'Webhook'" class="border-t border-b border-default-gray">
+            <!-- Webhook Custom Verification -->
+            <template v-if="form.workflow == 'Webhook' && form.webhook_persistent" class="border-t border-b border-default-gray">
                 <div class="border-t border-b border-default-gray"></div>
                 <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">
                     {{ $t('slskey_groups.webhook_activation_details') }}</h3>
@@ -119,12 +115,12 @@
 
                 <checkbox-input v-model="form.cloud_app_allow" :error="form.errors.cloud_app_allow"
                     :label="$t('slskey_groups.cloud_app_allow')" />
-                <div/>
+                <div />
                 <!-- Roles -->
-                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles" :error="form.errors.cloud_app_roles"
-                    :label="$t('slskey_groups.cloud_app_roles')" />
-                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes" :error="form.errors.cloud_app_roles_scopes"
-                    :label="$t('slskey_groups.cloud_app_roles_scopes')" />
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles"
+                    :error="form.errors.cloud_app_roles" :label="$t('slskey_groups.cloud_app_roles')" />
+                <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes"
+                    :error="form.errors.cloud_app_roles_scopes" :label="$t('slskey_groups.cloud_app_roles_scopes')" />
             </div>
 
             <!-- Switch Groups -->
@@ -181,8 +177,7 @@
                             {{ $t('slskey_groups.delete') }}
                         </DefaultButton>
                     </div>
-                    <DefaultButton @click="submit()" class="w-fit" icon="save"
-                        :tooltip="$t('slskey_groups.save')">
+                    <DefaultButton @click="submit()" class="w-fit" icon="save" :tooltip="$t('slskey_groups.save')">
                         <span v-if="isCreating">{{ $t('slskey_groups.create_new') }}</span>
                         <span v-else>
                             {{ $t('slskey_groups.save') }}
@@ -251,9 +246,11 @@ export default {
                 this.form.webhook_secret = null;
                 this.form.webhook_custom_verifier = 0;
                 this.form.webhook_custom_verifier_class = null;
+                this.form.webhook_persistent = 0;
             } else {
                 this.form.days_activation_duration = null;
                 this.form.days_expiration_reminder = null;
+                this.form.webhook_persistent = 1;
             }
         },
         'form.webhook_mail_activation': function (webhook_mail_activation) {

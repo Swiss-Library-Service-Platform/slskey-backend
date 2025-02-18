@@ -28,6 +28,7 @@ class SlskeyGroup extends Model
         'show_member_educational_institution',
         'mail_sender_address',
         'webhook_secret',
+        'webhook_persistent',
         'webhook_custom_verifier',
         'webhook_custom_verifier_class',
         'days_activation_duration',

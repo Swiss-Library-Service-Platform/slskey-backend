@@ -146,6 +146,7 @@ class SlskeyGroupsController extends Controller
         if (Request::input('workflow') === 'Webhook') {
             $rules = array_merge($rules, [
                 'webhook_secret' => ['required', 'max:255'],
+                'webhook_persistent' => ['boolean'],
                 'webhook_custom_verifier' => ['nullable', 'max:255'],
                 'webhook_custom_verifier_class' => ['nullable', 'max:255'],
                 'days_expiration_reminder' => ['nullable', 'integer', 'max:0'], // NULL or 0
@@ -170,6 +171,7 @@ class SlskeyGroupsController extends Controller
         if (Request::input('workflow') === 'Manual') {
             $rules = array_merge($rules, [
                 'webhook_secret' => ['prohibited'],
+                'webhook_persistent' =>['nullable', 'integer', 'max:0'],
                 // webhook_custom_verifier: only int 0 allowed
                 'webhook_custom_verifier' => ['nullable', 'integer', 'max:0'],
                 'webhook_custom_verifier_class' => ['prohibited'],

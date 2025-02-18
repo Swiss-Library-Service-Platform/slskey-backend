@@ -234,6 +234,9 @@
 		"webhook_custom_verifier_class": "Verifier Class",
 		"webhook_custom_verifier_help": "Custom User Verifier are stored in the project in App/Helpers/CustomWebhookVerifier. You can add new verifiers there.",
 		"webhook_details": "Webhook Details",
+		"webhook_persistent": "Persist user in SLSKey DB",
+		"webhook_persistent_title": "Webhook Persist User",
+		"webhook_persistent_help": "For certain institutions (e.g. RZS) users are not persisted in the SLSKey database. SLSKey will simply activate/deactivate users via Switch API without persisting them. Users won't appear in the User Management. Custom verifications are not supported in this case currently.",
 		"webhook_mail_activation": "Activate Users based on E-Mail (MBA-Community)",
 		"webhook_mail_activation_days_send_before_expiry": "Token Mail Time (Days before Expiry)",
 		"webhook_mail_activation_days_token_validity": "Token Validity in Days",
@@ -249,6 +252,7 @@
 	"switch_groups": {
 		"cancel": "Cancel",
 		"create_new": "Create Switch Group",
+		"export": "Download Publisher CSV",
 		"general": "General Details",
 		"members_count": "Number of active edu-ID Accounts",
 		"members_count_title": "Accounts",

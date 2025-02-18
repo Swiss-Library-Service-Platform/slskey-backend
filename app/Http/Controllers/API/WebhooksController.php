@@ -89,6 +89,10 @@ class WebhooksController extends Controller
 
         // Handle Activation based on Email Domain
         $slskeyGroup = SlskeyGroup::where('slskey_code', $slskeyCode)->first();
+        if (! $slskeyGroup->webhook_persistent) {
+            return response(WebhookResponseEnums::ERROR_PERSISTENT);
+        }
+        
         if ($slskeyGroup->webhook_mail_activation) {
             return $this->handleEmailDomainActivation($slskeyGroup, $almaUser);
         }

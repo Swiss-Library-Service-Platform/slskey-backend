@@ -30,6 +30,7 @@ class SlskeyGroupAdminDetailResource extends JsonResource
             'webhook_custom_verifier' => $this->webhook_custom_verifier,
             'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
             'webhook_secret' => $this->webhook_secret,
+            'webhook_persistent' => $this->webhook_persistent,
             // Webhook Email Activation
             'webhook_mail_activation' => $this->webhook_mail_activation,
             'webhook_mail_activation_domains' => $this->webhook_mail_activation_domains,

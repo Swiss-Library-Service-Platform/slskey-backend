@@ -59,6 +59,7 @@ export default {
                 webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,
                 webhook_custom_verifier_class: this.slskeyGroup.data.webhook_custom_verifier_class,
                 webhook_secret: this.slskeyGroup.data.webhook_secret,
+                webhook_persistent: this.slskeyGroup.data.webhook_persistent,
                 days_activation_duration: this.slskeyGroup.data.days_activation_duration,
                 days_expiration_reminder: this.slskeyGroup.data.days_expiration_reminder,
                 webhook_mail_activation: this.slskeyGroup.data.webhook_mail_activation,

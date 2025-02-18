@@ -155,6 +155,8 @@ Route::middleware([
             ->name('admin.switchgroups.show');
         Route::put('/admin/switchgroups/{switchGroup}', [SwitchGroupsController::class, 'update'])
             ->name('admin.switchgroups.update');
+        Route::get('/admin/switchgroups/publishers/download', [SwitchGroupsController::class, 'downloadPublishers'])
+            ->name('admin.switchgroups.publishers.download');
 
         // Publishers
         Route::get('/admin/publishers', [PublishersController::class, 'index'])

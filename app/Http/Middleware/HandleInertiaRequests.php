@@ -68,6 +68,7 @@ class HandleInertiaRequests extends Middleware
             'locale' => App::currentLocale(),
             'numberOfPermittedSlskeyGroups' => $numberOfPermittedSlskeyGroups,
             'isSlskeyAdmin' => $isAdmin,
+            'appUrl' => config('app.url'),
             'helpUrl' => $helpUrl,
             'logoutUrl' => $tenantId ? route('saml.logout', [
                 'uuid' => $tenantId,

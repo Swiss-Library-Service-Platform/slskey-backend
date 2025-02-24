@@ -6,6 +6,7 @@ import NavLink from '../Shared/Buttons/NavLink.vue';
 import NavButton from '../Shared/Buttons/NavButton.vue';
 import Icon from '../Shared/Icon.vue';
 import { Inertia } from '@inertiajs/inertia';
+import axios from 'axios';
 
 export default {
 	components: {
@@ -20,7 +21,14 @@ export default {
 		isSlskeyAdmin: Boolean,
 	},
 	methods: {
-		onLogout() {
+		async onLogout() {
+            // Call local logout route in background
+            try {
+                await axios.get(route('logout_username_password'));
+            } catch (error) {
+                console.error('Error during local logout:', error);
+            }
+			// Logout using SAML Logout route, global IdP Logout
 			window.location.href = this.$page.props.logoutUrl;
 		}
 	},
@@ -64,7 +72,7 @@ export default {
 					{{ $t('app_header.logout') }}
 				</NavLink>
 				<!-- Logout edu-ID -->
-				<NavButton v-else icon="logout" :onClick="onLogout">
+				<NavButton v-if="$page.props.auth.user.is_edu_id" icon="logout" :onClick="onLogout">
 					{{ $t('app_header.logout') }}
 				</NavButton>
 			</div>

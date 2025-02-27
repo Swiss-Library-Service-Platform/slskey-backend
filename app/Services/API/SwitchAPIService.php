@@ -514,7 +514,7 @@ class SwitchAPIService implements SwitchAPIInterface
      * @param  string  $internalId  User external id
      * @return mixed
      *
-     * @throws 
+     * @throws
      */
     protected function getSwitchUserInfoFromExternalId(mixed $externalId)
     {

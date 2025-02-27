@@ -53,6 +53,7 @@ class ImportController extends Controller
 
         if (!$file) {
             \Log::error('No file was uploaded.');
+
             return Redirect::back()
                 ->with('error', "No file was uploaded.");
         }
@@ -65,6 +66,7 @@ class ImportController extends Controller
 
         if (!is_file($fullPath)) {
             \Log::error('The path is not a valid file: ' . $fullPath);
+
             return Redirect::back()
                 ->with('error', "The uploaded file could not be found.");
         }
@@ -73,6 +75,7 @@ class ImportController extends Controller
             $importRows = $this->readCSVFile($fullPath);
         } catch (\Exception $e) {
             \Log::error('Error while reading CSV file: ' . $e->getMessage());
+
             return Redirect::back()
                 ->with('error', "Error while reading CSV file: {$e->getMessage()}");
         }

@@ -130,7 +130,7 @@ class SwitchGroupsController extends Controller
             ->sort()
             ->values()
             ->toArray();
-    
+
         $fileName = 'publishers_' . date('Y-m-d') . '.csv';
         $headers = [
             'Content-Type' => 'text/csv',
@@ -139,18 +139,18 @@ class SwitchGroupsController extends Controller
             'Pragma' => 'no-cache',
             'Expires' => '0'
         ];
-    
-        return response()->stream(function() use ($publishers) {
+
+        return response()->stream(function () use ($publishers) {
             $handle = fopen('php://output', 'w');
-            
+
             // Add UTF-8 BOM for proper Excel encoding
             fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
-            
+
             // Write data
             foreach ($publishers as $publisher) {
                 fputcsv($handle, [$publisher]);
             }
-            
+
             fclose($handle);
         }, 200, $headers);
     }

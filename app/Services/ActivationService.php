@@ -703,7 +703,7 @@ class ActivationService
     * @param SlskeyUser $slskeyUser
     * @param SlskeyGroup $slskeyGroup
     */
-    protected function deactivateUserFromSwitchGroups(SlskeyUser $slskeyUser, SlskeyGroup $slskeyGroup): void 
+    protected function deactivateUserFromSwitchGroups(SlskeyUser $slskeyUser, SlskeyGroup $slskeyGroup): void
     {
         try {
             foreach ($slskeyGroup->switchGroups as $switchGroup) {
@@ -712,6 +712,7 @@ class ActivationService
                 }
                 $this->switchApiService->removeUserFromGroupAndVerify($slskeyUser->primary_id, $switchGroup->switch_group_id);
             }
+
             return; // User was found and deactivated
         } catch (NotFoundHttpException $e) {
             return; // User was not found in Switch

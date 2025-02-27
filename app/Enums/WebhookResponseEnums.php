@@ -35,7 +35,7 @@ class WebhookResponseEnums
 
     // ERRORS
     public const ERROR_PERSISTENT = "Error: SlskeyGroup settings does not match webhook URL set in Alma"; // SlskeyGroup settings does not match webhook URL set in Alma
-    
+
     public const ERROR_VERIFIER = 'Custom Verification Error: '; // Custom verification error
 
     public const ERROR_NO_INSTITUTION = 'Auth Error: No institution code provided'; // No institution code provided

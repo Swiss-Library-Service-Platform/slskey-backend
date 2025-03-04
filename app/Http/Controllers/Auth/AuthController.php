@@ -13,7 +13,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
-class LandingController extends Controller
+class AuthController extends Controller
 {
     /**
      * Index route for Landing

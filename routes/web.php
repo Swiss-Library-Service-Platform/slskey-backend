@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\SlskeyGroupsController;
 use App\Http\Controllers\Admin\SlskeyHistoryController;
 use App\Http\Controllers\Admin\SwitchGroupsController;
 use App\Http\Controllers\Admin\LogJobController;
-use App\Http\Controllers\Auth\LandingController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Main\ActivationController;
 use App\Http\Controllers\Main\ReportingController;
 use App\Http\Controllers\Main\UsersController;
@@ -29,21 +29,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Landing and Login
-Route::get('/login', [LandingController::class, 'index'])
+Route::get('/login', [AuthController::class, 'index'])
     ->name('login');
-Route::get('/login/eduid', [LandingController::class, 'loginEduID'])
+Route::get('/login/eduid', [AuthController::class, 'loginEduID'])
     ->name('login_eduid');
-Route::get('/login/changepassword', [LandingController::class, 'changePassword'])
+Route::get('/login/changepassword', [AuthController::class, 'changePassword'])
     ->name('login_changepassword');
-Route::post('/login/changepassword', [LandingController::class, 'setPassword'])
+Route::post('/login/changepassword', [AuthController::class, 'setPassword'])
     ->name('login_setpassword');
 
 // Forward from old PURA backend to new SLSKey when logged in in old PURA
-Route::get('/migration', [LandingController::class, 'migration'])
+Route::get('/migration', [AuthController::class, 'migration'])
     ->name('migration');
 
 // No Roles Error Page
-Route::get('/noroles', [LandingController::class, 'noroles'])
+Route::get('/noroles', [AuthController::class, 'noroles'])
     ->name('noroles');
 
 // Reactivation Token Routes
@@ -53,9 +53,9 @@ Route::get('/reactivate/{token}/renew', [ReactivationTokenController::class, 're
     ->name('token.renew');
 
 // Publisher Participate Info Page
-Route::get('/participate', [LandingController::class, 'participate'])
+Route::get('/participate', [AuthController::class, 'participate'])
     ->name('participate');
-Route::get('/publishers', [LandingController::class, 'participate'])
+Route::get('/publishers', [AuthController::class, 'participate'])
     ->name('publishers');
 
 // Authenticated Routes
@@ -64,7 +64,7 @@ Route::middleware([
     'auth.check',
 ])->group(function () {
     // Logout
-    Route::get('logout/user', [LandingController::class, 'logoutUsernamePassword'])
+    Route::get('logout/user', [AuthController::class, 'logoutUsernamePassword'])
         ->name('logout_username_password');
 
     // Start / Preview

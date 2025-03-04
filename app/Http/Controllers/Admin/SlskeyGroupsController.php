@@ -171,7 +171,7 @@ class SlskeyGroupsController extends Controller
         if (Request::input('workflow') === 'Manual') {
             $rules = array_merge($rules, [
                 'webhook_secret' => ['prohibited'],
-                'webhook_persistent' =>['nullable', 'integer', 'max:0'],
+                'webhook_persistent' => ['nullable', 'integer', 'max:0'],
                 // webhook_custom_verifier: only int 0 allowed
                 'webhook_custom_verifier' => ['nullable', 'integer', 'max:0'],
                 'webhook_custom_verifier_class' => ['prohibited'],

@@ -92,7 +92,7 @@ class WebhooksController extends Controller
         if (! $slskeyGroup->webhook_persistent) {
             return response(WebhookResponseEnums::ERROR_PERSISTENT);
         }
-        
+
         if ($slskeyGroup->webhook_mail_activation) {
             return $this->handleEmailDomainActivation($slskeyGroup, $almaUser);
         }

@@ -120,7 +120,7 @@ class ActivationService
         }
 
         $activationDate = now();
-        
+
         // Get Activation
         $newExpirationDate = null;
         if (($slskeyGroup->workflow === WorkflowEnums::WEBHOOK && $slskeyGroup->webhook_mail_activation) ||

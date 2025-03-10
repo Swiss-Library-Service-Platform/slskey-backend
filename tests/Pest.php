@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Dotenv;
 
 if (env('APP_ENV') !== 'testing') {
     exit("❌ Tests should not be run in production! Exiting...\n");

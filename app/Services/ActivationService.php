@@ -122,11 +122,11 @@ class ActivationService
         $activationDate = now();
 
         // Get Activation
-        $newExpirationDate = null;
+        $expirationDate = null;
         if (($slskeyGroup->workflow === WorkflowEnums::WEBHOOK && $slskeyGroup->webhook_mail_activation) ||
         ($slskeyGroup->workflow === WorkflowEnums::MANUAL && $slskeyGroup->days_activation_duration)
         ) {
-            $newExpirationDate = now()->addDays($slskeyGroup->days_activation_duration);
+            $expirationDate = now()->addDays($slskeyGroup->days_activation_duration);
         }
 
         $expirationDisabled = false;

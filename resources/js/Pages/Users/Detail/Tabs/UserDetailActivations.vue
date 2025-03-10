@@ -52,17 +52,19 @@
 
                         <!-- Disable Expiration -->
                         <DefaultConfirmDropdownLink class="bg-color-deactivated py-1"
-                          v-if="activation.activated && !activation.expiration_disabled" :activation="activation"
-                          :enterRemark="false" :confirmText="$t('user_management.confirm_disable_expiration')"
-                          @confirmed="disableExpiration" :disabled="activation.slskey_group.workflow === 'Webhook'">
+                          v-if="activation.activated && !activation.expiration_disabled && activation.slskey_group.days_activation_duration"
+                          :activation="activation" :enterRemark="false"
+                          :confirmText="$t('user_management.confirm_disable_expiration')" @confirmed="disableExpiration"
+                          :disabled="activation.slskey_group.workflow === 'Webhook'">
                           <Icon icon="clock" class="h-4 w-4"></Icon>
                           {{ $t('user_management.disable_expiration') }}
                         </DefaultConfirmDropdownLink>
 
                         <!-- Enable Expiration -->
                         <DefaultConfirmDropdownLink class="bg-color-deactivated py-1"
-                          v-if="activation.activated && !!activation.expiration_disabled" :activation="activation"
-                          :enterRemark="false" :confirmText="$t('user_management.confirm_enable_expiration')"
+                          v-if="activation.activated && !!activation.expiration_disabled && activation.slskey_group.days_activation_duration"
+                          :activation="activation" :enterRemark="false"
+                          :confirmText="$t('user_management.confirm_enable_expiration')"
                           :confirmText2="$t('user_management.confirm_enable_expiration_2') + activation.slskey_group.days_activation_duration + $t('user_management.confirm_enable_expiration_3')"
                           @confirmed="enableExpiration" :disabled="activation.slskey_group.workflow === 'Webhook'">
                           <Icon icon="clock-solid" class="h-4 w-4"></Icon>

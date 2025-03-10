@@ -209,6 +209,7 @@
 		"cloud_app_roles_scopes": "(Optional) Limit defined Alma roles to Alma scopes (semicolon separated)",
 		"create_new": "Create SLSKey Group",
 		"days_activation_duration": "Days until Expiration",
+		"days_activation_duration_placeholder": "No expiration",
 		"days_expiration_reminder": "Reminder Time (Days before Expiry)",
 		"days_expiration_reminder_placeholder": "No reminder",
 		"delete": "Delete Group",

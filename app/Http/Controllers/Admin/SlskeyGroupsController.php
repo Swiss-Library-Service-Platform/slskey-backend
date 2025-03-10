@@ -155,7 +155,7 @@ class SlskeyGroupsController extends Controller
             // Webhook Mail Activation
             $rules['webhook_mail_activation'] = ['boolean'];
             if (Request::input('webhook_mail_activation')) {
-                $rules['days_activation_duration'] = ['required', 'integer'];
+                $rules['days_activation_duration'] = ['nullable', 'integer']; // NULL or integer
                 $rules['webhook_mail_activation_domains'] = ['required', 'max:255'];
                 $rules['webhook_mail_activation_days_send_before_expiry'] = ['required', 'integer'];
                 $rules['webhook_mail_activation_days_token_validity'] = ['required', 'integer'];
@@ -176,7 +176,7 @@ class SlskeyGroupsController extends Controller
                 'webhook_custom_verifier' => ['nullable', 'integer', 'max:0'],
                 'webhook_custom_verifier_class' => ['prohibited'],
                 'days_expiration_reminder' => ['nullable', 'integer'],
-                'days_activation_duration' => ['required', 'integer'],
+                'days_activation_duration' => ['nullable', 'integer'],
             ]);
         }
 

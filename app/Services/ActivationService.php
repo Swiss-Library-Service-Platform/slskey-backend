@@ -119,13 +119,20 @@ class ActivationService
             $slskeyUser->updateUserDetails($almaUser);
         }
 
-        // Get Activation
         $activationDate = now();
-        $expirationDate = (
-            $slskeyGroup->workflow === WorkflowEnums::WEBHOOK && !$slskeyGroup->webhook_mail_activation ?
-            null : // No Expiration when normal Webhook apprach
-            now()->addDays($slskeyGroup->days_activation_duration) // Expiration Date when Email Domain Activation
-        );
+
+        // Get Activation
+        $expirationDate = null;
+        if (($slskeyGroup->workflow === WorkflowEnums::WEBHOOK && $slskeyGroup->webhook_mail_activation) ||
+        ($slskeyGroup->workflow === WorkflowEnums::MANUAL && $slskeyGroup->days_activation_duration)
+        ) {
+            $expirationDate = now()->addDays($slskeyGroup->days_activation_duration);
+        }
+
+        $expirationDisabled = false;
+        if ($slskeyGroup->workflow === WorkflowEnums::MANUAL && !$slskeyGroup->days_activation_duration) {
+            $expirationDisabled = true;
+        }
 
         if (!$activation) {
             // Create SLSKey Activation
@@ -135,6 +142,7 @@ class ActivationService
                 'activated' => true,
                 'activation_date' => $activationDate,
                 'expiration_date' => $expirationDate,
+                'expiration_disabled' => $expirationDisabled,
                 'deactivation_date' => null,
                 'blocked' => false,
                 'blocked_date' => null,
@@ -441,10 +449,12 @@ class ActivationService
         }
 
         // Update SLSKey Activation
-        $newExpirationDate = ($slskeyGroup->workflow === WorkflowEnums::WEBHOOK && !$slskeyGroup->webhook_mail_activation ?
-            null :
-            now()->addDays($slskeyGroup->days_activation_duration));
-        $activation->setExpirationEnabled($newExpirationDate);
+        if (($slskeyGroup->workflow === WorkflowEnums::WEBHOOK && $slskeyGroup->webhook_mail_activation) ||
+            ($slskeyGroup->workflow === WorkflowEnums::MANUAL && $slskeyGroup->days_activation_duration)
+        ) {
+            $newExpirationDate = now()->addDays($slskeyGroup->days_activation_duration);
+            $activation->setExpirationEnabled($newExpirationDate);
+        }
 
         // Create History for Logging
         $slskeyHistory = SlskeyHistory::create([

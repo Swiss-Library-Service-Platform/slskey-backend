@@ -58,7 +58,9 @@
                     <template v-else>
                         <number-input v-model="form.days_activation_duration"
                             :error="form.errors.days_activation_duration"
-                            :label="`${$t('slskey_groups.days_activation_duration')} *`" />
+                            :label="`${$t('slskey_groups.days_activation_duration')} *`" 
+                            :placeholder="$t('slskey_groups.days_activation_duration_placeholder')"
+                            />
                         <number-input v-model="form.days_expiration_reminder"
                             :error="form.errors.days_expiration_reminder"
                             :label="$t('slskey_groups.days_expiration_reminder')"

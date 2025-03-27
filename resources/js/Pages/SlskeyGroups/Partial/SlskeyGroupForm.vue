@@ -47,7 +47,7 @@
                         <div class="col-span-2 text-sm text-gray-500">
                             Set the following as webhook URL in Alma: <br>
                             <span v-if="form.webhook_persistent" class="underline">
-                                {{ $page.props.appUrl }} /api/v1/webhooks/{{ form.slskey_code }}
+                                {{ $page.props.appUrl }}/api/v1/webhooks/{{ form.slskey_code }}
                             </span>
                             <span v-if="!form.webhook_persistent" class="underline">
                                 {{ $page.props.appUrl }}/api/v1/webhooks-proxy/{{ form.slskey_code }}

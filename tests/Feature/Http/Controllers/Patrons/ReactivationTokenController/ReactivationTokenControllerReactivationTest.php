@@ -32,7 +32,7 @@ it('fails because token expired', function () {
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
     $slskeyGroup->webhook_token_reactivation_days_token_validity = 0; // Set validity to 0 days
-    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $activationMail);
+    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $activationMail, true);
 
     // Call token endpoint
     $response = $this->get($responseTokenService->reactivationLink);
@@ -62,7 +62,7 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
     $slskeyGroup->webhook_token_reactivation_days_token_validity = 1; // Set validity to 1 days
-    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail);
+    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
 
     // sleep 1 second
     sleep(1);

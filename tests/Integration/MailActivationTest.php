@@ -49,7 +49,7 @@ it('processes a typical webhook mail activation workflow', function () {
     $this->travel($this->slskeyGroup->days_activation_duration - $this->slskeyGroup->webhook_token_reactivation_days_send_before_expiry)->days();
     mockMailServiceTokenSend();
     $tokenService = App::make(\App\Services\TokenService::class);
-    $tokenServiceResponse = $tokenService->createTokenIfNotExisting($slskeyActivation->slskeyUser->id, $this->slskeyGroup, $this->activationMail);
+    $tokenServiceResponse = $tokenService->createTokenIfNotExisting($slskeyActivation->slskeyUser->id, $this->slskeyGroup, $this->activationMail, true);
     $command = $this->app->make(\App\Console\Commands\SendReactivationTokenUsers::class);
     $command->handle();
 

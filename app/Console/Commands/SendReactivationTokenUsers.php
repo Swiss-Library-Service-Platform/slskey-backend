@@ -101,7 +101,7 @@ class SendReactivationTokenUsers extends Command
                 }
                 $primaryId = $activation->slskeyUser->primary_id;
 
-                $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup, $recipientMail);
+                $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup, $recipientMail, $slskeyGroup->webhook_mail_activation);
 
                 if (! $response->success) {
                     $this->textFileLogger->info("Error: Failed to create token for user $primaryId: $response->message");

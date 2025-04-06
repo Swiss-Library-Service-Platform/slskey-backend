@@ -58,7 +58,7 @@ class ReactivationTokenController extends Controller
             ->where('slskey_group_id', $slskeyReactivationToken->slskey_group_id)
             ->first();
 
-        if ($slskeyReactivationToken->token_used) {
+        if ($slskeyReactivationToken->used) {
             // Link clicked twice
             // Or Outlook Safe Link prefetched the link and therefore activation was already done on the prefetch
             if ($slskeyActivation && $slskeyActivation->expiration_date) {
@@ -88,7 +88,7 @@ class ReactivationTokenController extends Controller
             TriggerEnums::USER_TOKEN_REACTIVATION,
             null, // Author
             null, // almaUser
-            null // webhook activation mail
+            null // webhook activation mail already set
         );
 
         // Set token as used
@@ -135,8 +135,7 @@ class ReactivationTokenController extends Controller
             ->where('slskey_group_id', $slskeyReactivationToken->slskey_group_id)
             ->first();
 
-        $slskeyGroup = $slskeyReactivationToken->slskeyGroup;
-        if ($slskeyGroup->webhook_mail_activation
+        if ($slskeyReactivationToken->created_from_mail_activation
             && ! $slskeyActivation->webhook_activation_mail) {
             return Inertia::render('ReactivationToken/ReactivationError', [
                 'token' => $token,
@@ -148,7 +147,7 @@ class ReactivationTokenController extends Controller
         $slskeyReactivationToken->setUsed();
 
         // Create new tokn and send via Mail
-        $response = $this->tokenService->createTokenIfNotExisting($slskeyReactivationToken->slskey_user_id, $slskeyReactivationToken->slskeyGroup, $slskeyReactivationToken->recipient_email);
+        $response = $this->tokenService->createTokenIfNotExisting($slskeyReactivationToken->slskey_user_id, $slskeyReactivationToken->slskeyGroup, $slskeyReactivationToken->recipient_email, $slskeyReactivationToken->created_from_mail_activation);
 
         if (! $response->success) {
             return Inertia::render('ReactivationToken/ReactivationError', [

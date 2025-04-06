@@ -4,30 +4,50 @@
             <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('slskey_groups.general') }}
             </h3>
-            <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+            <div class="grid grid-cols-2 px-8 pb-8  gap-8">
                 <!-- Name -->
                 <text-input v-model="form.name" :error="form.errors.name" :label="`${$t('slskey_groups.name')} *`" />
                 <!-- SLSKey Code -->
                 <text-input v-model="form.slskey_code" :error="form.errors.slskey_code" :disabled="!isCreating"
                     :label="`${$t('slskey_groups.slskey_code')} *`" />
-                <!-- Workflow -->
-                <select-input :options="availableWorkflows" :error="form.errors.workflow"
-                    :label="`${$t('slskey_groups.workflow')} *`" v-model="form.workflow">
-                </select-input>
                 <!-- Alma IZ -->
                 <text-input v-model="form.alma_iz" :error="form.errors.alma_iz"
                     :label="`${$t('slskey_groups.alma_iz')} *`" />
-                <!-- Activation Mail -->
-                <checkbox-input class="w-full" :error="form.errors.send_activation_mail"
-                    v-model="form.send_activation_mail" :label="$t('slskey_groups.send_activation_mail')" />
                 <!-- Mail Sender -->
                 <text-input v-model="form.mail_sender_address" :error="form.errors.mail_sender_address"
                     :label="$t('slskey_groups.mail_sender_address')"
                     :helpText="$t('slskey_groups.mail_sender_address_help')" />
-                <!-- Show Member Educational Institution -->
-                <checkbox-input class="w-full" :error="form.errors.show_member_educational_institution"
-                    v-model="form.show_member_educational_institution"
+
+                
+            </div>
+
+            <!-- Workflow -->
+            <div class="border-t border-b border-default-gray"></div>
+            <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+                $t('slskey_groups.workflow') }}</h3>
+            <div class="grid grid-cols-2 px-8 pb-8  gap-8">
+                <!-- Workflow -->
+                <select-input :options="availableWorkflows" :error="form.errors.workflow"
+                    :label="`${$t('slskey_groups.workflow')} *`" v-model="form.workflow">
+                </select-input>
+            </div>
+
+            <!-- Manual Activation Details -->
+            <div class="border-t border-b border-default-gray"></div>
+            <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                {{ $t('slskey_groups.activation_details') }}</h3>
+            <div class="grid grid-cols-2 px-8 pb-8  gap-8">
+                <!-- Switch for Manual Activation -->
+                <checkbox-input v-model="form.send_activation_mail" :error="form.errors.send_activation_mail"
+                :helpText="$t('slskey_groups.send_activation_mail_help')"
+                    :label="$t('slskey_groups.send_activation_mail')" />
+                <div />
+                <!-- Switch for Show Member Educational Institution -->
+                <checkbox-input v-model="form.show_member_educational_institution"
+                    :error="form.errors.show_member_educational_institution"
+                    :helpText="$t('slskey_groups.show_member_educational_institution_help')"
                     :label="$t('slskey_groups.show_member_educational_institution')" />
+                <div />
             </div>
 
             <!-- Webhook -->
@@ -36,7 +56,7 @@
                 <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
                     {{ form.workflow === 'Webhook' ? $t('slskey_groups.webhook_details') :
                         $t('slskey_groups.expiration_details') }}</h3>
-                <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+                <div class="grid grid-cols-2 px-8 pb-8  gap-8">
                     <!-- Webhook Activation -->
                     <template v-if="form.workflow === 'Webhook'">
                         <!-- switch for webhook non persistent -->
@@ -74,7 +94,7 @@
                 <div class="border-t border-b border-default-gray"></div>
                 <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
                     {{ $t('slskey_groups.webhook_activation_details') }}</h3>
-                <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+                <div class="grid grid-cols-2 px-8 pb-8  gap-8">
 
                     <!-- Custom Verifier -->
                     <checkbox-input v-model="form.webhook_custom_verifier_activation"
@@ -106,7 +126,7 @@
                 <div class="border-t border-b border-default-gray"></div>
                 <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
                     {{ $t('slskey_groups.webhook_deactivation_details') }}</h3>
-                <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+                <div class="grid grid-cols-2 px-8 pb-8  gap-8">
 
                     <!-- Verifier Deactivation -->
                     <checkbox-input v-model="form.webhook_custom_verifier_deactivation"
@@ -136,13 +156,13 @@
                     <div class="border-t border-b border-default-gray"></div>
                     <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
                         {{ $t('slskey_groups.webhook_token_reactivation_details') }}</h3>
-                    <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+                    <div class="grid grid-cols-2 px-8 pb-8  gap-8">
 
                         <!-- Token Reactivation -->
                         <checkbox-input v-model="form.webhook_token_reactivation"
                             :error="form.errors.webhook_token_reactivation"
                             :label="$t('slskey_groups.webhook_token_reactivation')" />
-                        <div/>
+                        <div />
                         <template v-if="form.webhook_token_reactivation">
                             <number-input v-model="form.webhook_token_reactivation_days_send_before_expiry"
                                 :error="form.errors.webhook_token_reactivation_days_send_before_expiry"
@@ -160,15 +180,17 @@
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('slskey_groups.cloud_app_permissions') }}</h3>
-            <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
+            <div class="grid grid-cols-2 px-8 pb-8  gap-8">
 
                 <checkbox-input v-model="form.cloud_app_allow" :error="form.errors.cloud_app_allow"
                     :label="$t('slskey_groups.cloud_app_allow')" />
                 <div />
                 <!-- Roles -->
                 <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles"
-                    :error="form.errors.cloud_app_roles" :label="$t('slskey_groups.cloud_app_roles')" />
+                    :placeholder="$t('slskey_groups.cloud_app_roles_placeholder')" :error="form.errors.cloud_app_roles"
+                    :label="$t('slskey_groups.cloud_app_roles')" />
                 <text-input v-if="form.cloud_app_allow" v-model="form.cloud_app_roles_scopes"
+                    :placeholder="$t('slskey_groups.cloud_app_roles_scopes_placeholder')"
                     :error="form.errors.cloud_app_roles_scopes" :label="$t('slskey_groups.cloud_app_roles_scopes')" />
             </div>
 
@@ -176,7 +198,7 @@
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-lg px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('slskey_groups.switch_groups') }}</h3>
-            <div class="grid grid-cols-1 px-8 pb-8 pt-4 gap-8">
+            <div class="grid grid-cols-1 px-8 pb-8  gap-8">
                 <table class="table-auto min-w-full rounded-sm">
                     <tbody class="">
                         <template v-if="form.switchGroups.length > 0">
@@ -200,7 +222,8 @@
                         </template>
                         <template v-else>
                             <tr>
-                                <td class="pl-6 py-2 whitespace-nowrap italic">{{ $t('slskey_groups.no_switch_groups')
+                                <td class="pl-6 py-2 whitespace-nowrap italic">{{
+                                    $t('slskey_groups.no_switch_groups')
                                 }}.</td>
                             </tr>
                         </template>

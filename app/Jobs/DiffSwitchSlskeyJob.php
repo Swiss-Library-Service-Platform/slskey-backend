@@ -69,7 +69,6 @@ class DiffSwitchSlskeyJob implements ShouldQueue
         $switchMembersExternalId = collect();
 
         $switchMembersInternalId->each(function ($member) use (&$switchMembersExternalId, &$counter, $switchAPIService) {
-            // FIXME: reactivate later
             $switchMember = $switchAPIService->getSwitchUserInfo($member->value);
             $switchMembersExternalId->push($switchMember->externalID);
             $counter++;

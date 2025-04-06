@@ -206,8 +206,8 @@
     "cancel": "Annuler",
     "cloud_app_allow": "Autoriser l'utilisation Cloud App",
     "cloud_app_permissions": "Alma Cloud App",
-    "cloud_app_roles": "(Facultatif) Limiter l'utilisation aux rôles Alma (séparés par des points-virgules)",
-    "cloud_app_roles_scopes": "(Facultatif) Limiter les rôles Alma définis aux portées Alma (séparées par des points-virgules)",
+    "cloud_app_roles": "Limiter l'utilisation aux rôles Alma (séparés par des points-virgules)",
+    "cloud_app_roles_scopes": "Limiter les rôles Alma définis aux portées Alma (séparées par des points-virgules)",
     "create_new": "Créer un groupe SLSKey",
     "days_activation_duration": "Jours avant expiration",
     "days_expiration_reminder": "Temps de rappel (jours avant expiration)",
@@ -224,7 +224,7 @@
     "save": "Mettre à jour le groupe SLSKey",
     "send_activation_mail": "Envoyer un e-mail de notification d'activation",
     "send_activation_mail_title": "Notify",
-    "show_member_educational_institution": "Show Checkbox for 'Inscrit dans un établissement d'enseignement'",
+    "show_member_educational_institution": "Distinction entre les utilisateurs éducatifs et non éducatifs",
     "slskey_code": "Code SLSKey",
     "slskey_code_description": "Groupe SLSKey",
     "switch_groups": "Groupes Switch",
@@ -252,7 +252,12 @@
     "webhook_deactivation_details": "Désactivation de la webhook",
     "webhook_deactivation_info": "Laissez les deux options vides pour désactiver tous les utilisateurs d'un IZ, lorsqu'ils sont supprimés ou inactifs en Alma.",
     "webhook_token_reactivation": "Envoyer un e-mail avec le lien de réactivation",
-    "webhook_token_reactivation_details": "E-mail de réactivation"
+    "webhook_token_reactivation_details": "E-mail de réactivation",
+    "cloud_app_roles_placeholder": "No limit",
+    "cloud_app_roles_scopes_placeholder": "No limit",
+    "activation_details": "Détails d'activation",
+    "send_activation_mail_help": "Send an email to the user when the user is activated. The email content must be defined on the SLSKey server in slskey-backend/resources/views/emails/activation/<slskey-code>.",
+    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks."
   },
   "slskey_user": {
     "primary_id": "ID Principal"

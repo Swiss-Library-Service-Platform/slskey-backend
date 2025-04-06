@@ -39,7 +39,8 @@ export default {
 
         <!-- Page Contents -->
         <!-- <main class="flex-1 Xoverflow-x-clip overflow-x-auto bg-gray-background pl-8 pr-8"> -->
-        <main class="flex-1 overflow-hidden pl-8 pr-8 bg-gray-background">
+        <!-- <main class="flex-1 overflow-hidden pl-8 pr-8 bg-gray-background"> -->
+        <main class="flex-1 overflow-x-hidden pl-8 pr-8 bg-gray-background">
             <slot />
         </main>
     </div>

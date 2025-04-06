@@ -206,8 +206,8 @@
     "cancel": "Cancel",
     "cloud_app_allow": "Allow Cloud App Usage",
     "cloud_app_permissions": "Alma Cloud App",
-    "cloud_app_roles": "(Optional) Limit usage to Alma roles (semicolon separated)",
-    "cloud_app_roles_scopes": "(Optional) Limit defined Alma roles to Alma scopes (semicolon separated)",
+    "cloud_app_roles": "Limit usage to Alma roles (semicolon separated)",
+    "cloud_app_roles_scopes": "Limit defined Alma roles to Alma scopes (semicolon separated)",
     "create_new": "Create SLSKey Group",
     "days_activation_duration": "Deactivate users after n days",
     "days_activation_duration_placeholder": "No auto expiration",
@@ -225,7 +225,7 @@
     "save": "Update SLSKey Group",
     "send_activation_mail": "Send Activation Notify Mail",
     "send_activation_mail_title": "Notify",
-    "show_member_educational_institution": "Show Checkbox for 'Member Educational Institution'",
+    "show_member_educational_institution": "Distinction between educational and non-educational users",
     "slskey_code": "SLSKey Code",
     "slskey_code_description": "SLSKey Group",
     "switch_groups": "Switch Groups",
@@ -252,7 +252,12 @@
     "webhook_mail_activation_title": "Mail Activation",
     "webhook_secret": "Webhook Secret",
     "webhook_token_reactivation": "Send email with reactivation link",
-    "workflow": "Workflow"
+    "workflow": "Workflow",
+    "cloud_app_roles_placeholder": "No limit",
+    "cloud_app_roles_scopes_placeholder": "No limit",
+    "activation_details": "Activation Details",
+    "send_activation_mail_help": "Send an email to the user when the user is activated. The email content must be defined on the SLSKey server in slskey-backend/resources/views/emails/activation/<slskey-code>.",
+    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks."
   },
   "slskey_user": {
     "primary_id": "Primary ID"

@@ -4,7 +4,7 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: $t('slskey_groups.create_new') }
     ]">
-        <div class="w-max my-8 bg-white shadow-md rounded-sm">
+        <div class="w-auto my-8 bg-white shadow-md rounded-sm">
             <SlskeyGroupForm :isCreating="true" :modelValue="form" :availableSwitchGroups="availableSwitchGroups" @submit="saveSlskeyGroup"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"

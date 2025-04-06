@@ -4,7 +4,7 @@
     <AppLayout :title="$t('reporting.title')"
         :breadCrumbs="[{ name: $t('reporting.title'), link: '/reporting' }, { name: slskeyGroup.data.name }]">
 
-        <div class="w-fit my-8 justify-center align-center flex flex-col py-8 bg-white gap-8 rounded-md gap-y-4 px-8 shadow-md">
+        <div class="w-fit my-8 justify-center align-center flex flex-col py-8 bg-white gap-8 rounded-sm gap-y-4 px-8 shadow-md">
             <div>
                 <div class="text-2xl">
                     {{ $t('reporting.recipients') }}
@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+            <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('reporting.email') }} </th>

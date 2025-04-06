@@ -16,7 +16,7 @@
     <div class="my-8 flex flex-row items-start gap-x-8">
 
       <div
-        class="justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-md gap-y-8 px-8 shadow-md">
+        class="justify-center align-center items-center flex flex-col py-8 bg-white gap-5 rounded-sm gap-y-8 px-8 shadow-md">
 
 
         <div class="flex flex-col justify-between gap-y-8" style="min-width: 450px;">

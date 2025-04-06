@@ -10,19 +10,21 @@
             </DefaultButton>
         </div>
 
-        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
-            <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
+            <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.name') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.alma_iz') }} </th>
+                        <!-- 
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{
                             $t('slskey_groups.webhook_persistent_title') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{
                             $t('slskey_groups.send_activation_mail_title') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{
                             $t('slskey_groups.webhook_custom_verifier_class') }} </th>
+                            -->
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.switch_groups_count') }}
                         </th>
                         <!--<th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.publishers_title') </th> }}-->
@@ -55,7 +57,7 @@
                                 {{ group.alma_iz }}
                                 </Link>
                             </td>
-
+                            <!-- 
                             <td class="align-top">
                                 <Link v-if="group.workflow === 'Webhook'"
                                     class=" flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
@@ -89,7 +91,7 @@
                                 {{ $t('slskey_groups.webhook_mail_activation_title') }}
                                 </Link>
                             </td>
-
+                            -->
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">

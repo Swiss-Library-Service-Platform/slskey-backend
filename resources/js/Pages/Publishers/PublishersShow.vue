@@ -4,7 +4,7 @@
         { name: $t('publishers.title'), link: '/admin/publishers' },
         { name: publisher.data.name }
     ]">
-        <div class="my-8 bg-white shadow-md rounded-md">
+        <div class="my-8 bg-white shadow-md rounded-sm">
             <PublisherForm :isCreating="false" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 :availableProtocolOptions="availableProtocolOptions" :availableStatusOptions="availableStatusOptions"
                     @submit=" savePublisher" @cancel="cancel" @delete="deletePublisher" />

@@ -1,5 +1,5 @@
 <template>
-	<div class="text-center text-md rounded-md items-center flex px-2" :class="getClasses()">
+	<div class="text-center text-md rounded-sm items-center flex px-2" :class="getClasses()">
 
 		<Icon :icon="this.getStatusIcon()" class="w-5 mr-2" />
 		{{ getStatus() }}

@@ -4,7 +4,7 @@
       name: slskeyGroup.data.name,
     },
   ]">
-    <div class="w-full mt-5 mb-10 align-center flex flex-row py-8 bg-white gap-5 rounded-md gap-y-4 px-8 shadow-md">
+    <div class="w-full mt-5 mb-10 align-center flex flex-row py-8 bg-white gap-5 rounded-sm gap-y-4 px-8 shadow-md">
       <Icon icon="check" class="w-12 h-12 mr-2"></Icon>
       <div class="flex flex-col">
         <div class="text-xl">{{ $t("reactivation_token.token_renewed.headline") }} </div>

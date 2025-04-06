@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-white rounded-md shadow overflow-x-auto">
+  <div class="bg-white rounded-sm shadow overflow-x-auto">
     <div class="w-full border-b">
       <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
         {{ $t('user_management.new_activation') }}
       </DefaultButton>
     </div>
-    <table class="table-auto rounded-md mb-4">
+    <table class="table-auto rounded-sm mb-4">
       <tbody class="Xdivide-y Xdivide-gray-table">
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
@@ -42,7 +42,7 @@
                     <!-- Edit Button -->
                     <JetDropdown align="right" width="48">
                       <template #trigger>
-                        <span class="inline-flex rounded-md">
+                        <span class="inline-flex rounded-sm">
                           <DefaultIconButton :loading="activation.loading" class="bg-white py-1 text-color-header-bg"
                             icon="pencil" tooltip="Actions" />
                         </span>

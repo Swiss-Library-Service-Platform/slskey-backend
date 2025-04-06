@@ -23,8 +23,8 @@
                 </div>
             </div>
 
-            <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
-                <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+            <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
+                <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
                     <thead class="">
                         <tr>
                             <th
@@ -140,7 +140,7 @@
                 </table>
             </div>
 
-            <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-md">
+            <div v-show="displayTab == 1" class="my-8 p-5 overflow-x-auto bg-white shadow-md rounded-sm">
                 <canvas id="userChart"></canvas>
             </div>
         <!--</div>-->

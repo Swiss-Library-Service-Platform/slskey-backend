@@ -3,7 +3,7 @@
     <AppLayout :title="$t('activation.title')" :breadCrumbs="[{ name: $t('activation.title') }]">
 
 
-        <div class="w-fit my-8 justify-center align-center flex py-8 bg-white gap-5 rounded-md gap-y-4 px-8 shadow-md">
+        <div class="w-fit my-8 justify-center align-center flex py-8 bg-white gap-5 rounded-sm gap-y-4 px-8 shadow-md">
             <div class="w-96 flex flex-col gap-y-8">
 
                 <div>

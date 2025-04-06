@@ -16,7 +16,7 @@
         <!-- <label v-if="this.values.length > 0" class="mt-4 form-label">{{ $t('maintainers_current')}}</label> -->
 
         <div class="mt-2" v-for="(value, index) in this.values">
-            <div class="bg-color-one-2 w-auto rounded-md p-2 transition duration-200 ease-out flex justify-start">
+            <div class="bg-color-one-2 w-auto rounded-sm p-2 transition duration-200 ease-out flex justify-start">
                 <p class="flex gap-2 overflow-visible text-m w-full whitespace-nowrap place-items-center justify-between">
                     
                     <span class="truncate">

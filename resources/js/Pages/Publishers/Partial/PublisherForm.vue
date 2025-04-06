@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('publishers.general') }}
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('publishers.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 gap-8">
                 <!-- Name -->
@@ -21,12 +21,12 @@
 
             </div>
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('publishers.switch_groups')
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('publishers.switch_groups')
             }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
 
                 <!-- Switch Groups -->
-                <table class="table-auto min-w-full rounded-md">
+                <table class="table-auto min-w-full rounded-sm">
                     <tbody class="">
                         <template v-if="form.switchGroups.length > 0">
                             <tr v-for="switchGroup in form.switchGroups" :key="'switchgroup' + switchGroup.id"

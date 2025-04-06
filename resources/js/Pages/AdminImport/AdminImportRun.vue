@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Import" :breadCrumbs="[{ name: $t('admin_users.title') }]">
 
-        <div class="my-8 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-md">
+        <div class="my-8 w-full flex flex-col p-6 gap-y-4 bg-white shadow-md rounded-sm">
 
             <div class="w-full flex flex-row justify-between pb-4 border-b">
                 <div class="flex flex-row justify-start text-xl">
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- Result Table -->
-                <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+                <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
                     <thead class="">
                         <tr>
                             <th class="py-4 pr-6 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }}

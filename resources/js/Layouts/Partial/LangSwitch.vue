@@ -2,7 +2,7 @@
     <Menu as="div" class="relative inline-block text-left">
         <div>
             <MenuButton v-on:pointerenter="isShowing = true" v-on:pointerleave="isShowing = false"
-                class="gtouch-none text-white leading-4 rounded-md flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
+                class="gtouch-none text-white leading-4 rounded-sm flex items-center w-full justify-center py-1.5 px-3 text-md hover:text-opacity-70">
                 <Icon  icon="chevron-down" class="w-6 h-6 mr-2"></Icon>
                 {{ this.$i18n.locale }}
             </MenuButton>
@@ -14,7 +14,7 @@
             leave-active-class="transition duration-200 ease-in" leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0">
             <MenuItems static
-                class="absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                class="absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1">
                     <MenuItem class=" hover:bg-color-one-1 hover:text-color-one" v-slot="{ active }"
                         v-for="(lang, i) in languages" :key="`Lang${i}`">

@@ -63,7 +63,7 @@ export default {
         title: this.$t('notifications.info'),
         text: message,
         type: 'info',
-        duration: 10000
+        duration: 100000
       });
     },
     showErrorNotification(message) {
@@ -96,7 +96,7 @@ export default {
 
   .vue-notification {
     border-left-width: 10px;
-    border-radius: 10px;
+    border-radius: 4px;
     padding-left: 1rem;
     padding-right: 1rem;
 

@@ -19,8 +19,8 @@
         </div>
 
         <!-- Admin Portal Users -->
-        <div v-show="displayTab == 0" class="overflow-x-auto my-8 bg-white shadow-md rounded-md">
-            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
+        <div v-show="displayTab == 0" class="overflow-x-auto my-8 bg-white shadow-md rounded-sm">
+            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.user_identifier') }} </th>
@@ -72,8 +72,8 @@
         </div>
 
         <!-- Alma Users -->
-        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-md">
-            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
+        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-sm">
+            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('admin_users.user_identifier') }} </th>

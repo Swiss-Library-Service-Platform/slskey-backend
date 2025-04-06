@@ -38,7 +38,7 @@ const submit = () => {
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
         <Notifications />
 
-        <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-lg shadow-lg">
+        <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-md shadow-lg">
             <div class="w-80 px-8 pb-8 pt-16 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
                 <JetApplicationLogo class="h-auto" />
@@ -52,25 +52,29 @@ const submit = () => {
                 <div class="flex flex-col items-center justify-center">
 
                     <div class="flex w-full flex-col items-center xtext-gray-table">
-                        <!-- {{ $t('landing.clicktologin') }} -->
+                        <span class="text-sm italic text-gray-table">
+                            {{ $t('landing.clicktologin') }}
+                        </span>
+
                         <SwitchLoginButton href="/login/eduid">
                             {{ $t('landing.eduid') }}
                         </SwitchLoginButton>
+                        
                     </div>
 
                     <!-- Divider element "OR" -->
                     <div class="flex w-full items-center py-4">
                         <div class="flex flex-col w-full items-center my-4">
                             <div class="flex-grow"></div>
-                            <div class="border-t border-black w-full mx-2"></div>
+                            <div class="border-t w-full mx-2"></div>
                             <div class="flex-grow"></div>
                         </div>
-                        <div class="border uppercase p-1 border-black rounded-md text-sm">
+                        <div class="border uppercase p-1 border-gray-table rounded-sm text-sm">
                             {{ $t('landing.orvia') }}
                         </div>
                         <div class="flex flex-col w-full items-center my-4">
                             <div class="flex-grow"></div>
-                            <div class="border-t border-black w-full mx-2"></div>
+                            <div class="border-t w-full mx-2"></div>
                             <div class="flex-grow"></div>
                         </div>
                     </div>

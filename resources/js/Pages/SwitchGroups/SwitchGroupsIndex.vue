@@ -18,8 +18,8 @@
             </div>
         </div>
 
-        <div class="my-8 overflow-x-auto mb-10 bg-white shadow-md rounded-md">
-            <table class="table-fixed min-w-full divide-y divide-gray-table rounded-md">
+        <div class="my-8 overflow-x-auto mb-10 bg-white shadow-md rounded-sm">
+            <table class="table-fixed min-w-full divide-y divide-gray-table rounded-sm">
                 <thead>
                     <tr>
                         <th class="w-24 py-4 px-4 text-left whitespace-nowrap"> {{ $t('switch_groups.name') }} </th>
@@ -42,7 +42,7 @@
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-1"
                                     :href="`/admin/switchgroups/${group.id}`">
-                                <div class="w-fit p-1 rounded-md bg-color-slsp-bg"
+                                <div class="w-fit p-1 rounded-sm bg-color-slsp-bg"
                                     v-for="slskeyGroup in group.slskeyGroups" :key="slskeyGroup.id">
                                     {{ slskeyGroup.slskey_code }}
                                 </div>
@@ -51,7 +51,7 @@
                             <td class="align-top">
                                 <Link class="flex flex-row px-6 py-3 whitespace-nowrap gap-x-1"
                                     :href="`/admin/switchgroups/${group.id}`">
-                                <div class="w-fit p-1 rounded-md bg-color-alma" v-for="publisher in group.publishers"
+                                <div class="w-fit p-1 rounded-sm bg-color-alma" v-for="publisher in group.publishers"
                                     :key="publisher.id">
                                     {{ publisher }}
                                 </div>

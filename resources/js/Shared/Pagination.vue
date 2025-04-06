@@ -1,14 +1,14 @@
 <template>
     <div
-        class="bg-white shadow-md sm:rounded-lg px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6">
+        class="bg-white shadow-md sm:rounded-md px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6">
         <div class="grow flex sm:hidden justify-between">
             <a :href="pages.links[0].url"
                 :class="pages.links[0].url ? 'hover:bg-gray-50 text-gray-700' : 'disabled text-gray-500'"
-                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md  bg-white">
+                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-sm  bg-white">
                 {{ $t('pagination.previous') }} </a>
             <a :href="pages.links[pages.links.length - 1].url"
                 :class="pages.links[pages.links.length - 1].url ? 'hover:bg-gray-50 text-gray-700' : 'disabled text-gray-500'"
-                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md bg-white">
+                class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-sm bg-white">
                 {{ $t('pagination.next') }} </a>
         </div>
         <div class="hidden grow sm:flex">
@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="lg:order-2 lg:col-start-2 lg:col-span-1 order-1 col-start-2 col-span-2  place-self-center">
-                    <nav class="flex z-0 -space-x-px rounded-md shadow-sm place-items-center" aria-label="Pagination">
+                    <nav class="flex z-0 -space-x-px rounded-sm shadow-sm place-items-center" aria-label="Pagination">
                         <template v-for="(link, index) in pages.links" :href="link.url"
                             :key="'pagination' + link.url + index">
                             <Link :href="link.url" v-if="index === 0"

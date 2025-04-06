@@ -23,9 +23,11 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->dropColumn('cloud_app_allow');
-            $table->dropColumn('cloud_app_roles');
-            $table->dropColumn('cloud_app_roles_scopes');
+            $table->dropColumn([
+                'cloud_app_allow',
+                'cloud_app_roles',
+                'cloud_app_roles_scopes',
+            ]);
         });
     }
 };

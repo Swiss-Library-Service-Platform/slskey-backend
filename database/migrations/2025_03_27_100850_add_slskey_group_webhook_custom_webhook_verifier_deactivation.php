@@ -22,8 +22,10 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->dropColumn('webhook_custom_verifier_deactivation');
-            $table->dropColumn('webhook_token_reactivation');
+            $table->dropColumn([
+                'webhook_custom_verifier_deactivation',
+                'webhook_token_reactivation',
+            ]);
         });
     }
 };

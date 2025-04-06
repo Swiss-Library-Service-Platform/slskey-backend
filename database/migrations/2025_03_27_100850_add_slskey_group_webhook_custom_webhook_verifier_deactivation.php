@@ -12,7 +12,7 @@ return new class () extends Migration {
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->boolean('webhook_custom_verifier_deactivation')->nullbable()->after('webhook_custom_verifier');
-            $table->boolean('webhook_token_reactivation')->nullbable()->after('webhook_token');
+            $table->boolean('webhook_token_reactivation')->nullbable()->after('webhook_custom_verifier_deactivation');
         });
     }
 

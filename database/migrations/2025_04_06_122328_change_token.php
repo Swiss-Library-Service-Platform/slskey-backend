@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,10 +17,10 @@ return new class extends Migration
 
         // Rename columns
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
-            $table->renameColumn('token_expiration_date', 'expiration_date');    
+            $table->renameColumn('token_expiration_date', 'expiration_date');
         });
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
-            $table->renameColumn('token_used', 'used');     
+            $table->renameColumn('token_used', 'used');
         });
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
             $table->renameColumn('token_used_date', 'used_date');
@@ -39,10 +38,10 @@ return new class extends Migration
         });
         // Rename columns
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
-            $table->renameColumn('expiration_date', 'token_expiration_date');    
+            $table->renameColumn('expiration_date', 'token_expiration_date');
         });
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
-            $table->renameColumn('used', 'token_used');     
+            $table->renameColumn('used', 'token_used');
         });
         Schema::table('slskey_reactivation_tokens', function (Blueprint $table) {
             $table->renameColumn('used_date', 'token_used_date');

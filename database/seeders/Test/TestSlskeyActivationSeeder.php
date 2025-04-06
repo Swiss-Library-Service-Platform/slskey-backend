@@ -42,7 +42,11 @@ class TestSlskeyActivationSeeder extends Seeder
                 $actionDate = now()->subDays(rand(1, 365));
                 // copy value of actiondate without ref
                 $mockSwitchApiService = mockSwitchApiServiceActivation($mockSwitchApiService);
-                $this->activationService->activateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, null);
+                $activationMail = null;
+                if ($slskeyGroup->webhook_mail_activation) {
+                    $activationMail = $user->primary_id;
+                }
+                $this->activationService->activateSlskeyUser($user->primary_id, $slskeyGroup->slskey_code, 'Import Job', null, null, $activationMail, null);
 
                 if ($typeOfActivation < 20) {
                     // do nothing

@@ -135,7 +135,9 @@ class ReactivationTokenController extends Controller
             ->where('slskey_group_id', $slskeyReactivationToken->slskey_group_id)
             ->first();
 
-        if (! $slskeyReactivationToken->recipient_email) {
+        $slskeyGroup = $slskeyReactivationToken->slskeyGroup;
+        if ($slskeyGroup->webhook_mail_activation
+            && ! $slskeyActivation->webhook_activation_mail) {
             return Inertia::render('ReactivationToken/ReactivationError', [
                 'token' => $token,
                 'error' => __('flashMessages.errors.tokens.activation_mail_revoked'),

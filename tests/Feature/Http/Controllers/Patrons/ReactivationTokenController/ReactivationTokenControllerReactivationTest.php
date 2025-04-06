@@ -48,15 +48,21 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
 
     // Get existing acitivation
     $slskeyGroup = SlskeyGroup::where('webhook_mail_activation', true)->first();
-    $slskeyActivation = SlskeyActivation::query()->where('slskey_group_id', $slskeyGroup->id)->first();
+    $slskeyActivation = SlskeyActivation::query()->where('slskey_group_id', $slskeyGroup->id)->where('activated', true)->first();
 
     $lastExpirationDate = $slskeyActivation->expiration_date;
     $lastActivationDate = $slskeyActivation->activation_date;
 
+    echo "slskeyactivation: " . $slskeyActivation->id . "\n";
+    echo "slskeygroup: " . $slskeyGroup->id . "\n";
+    echo "slskeyuser: " . $slskeyActivation->slskey_user_id . "\n";
+    echo "status: " . $slskeyActivation->activated . "\n";
+    echo "activation mail: " . $slskeyActivation->webhook_activation_mail . "\n";
+
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
     $slskeyGroup->webhook_token_reactivation_days_token_validity = 1; // Set validity to 1 days
-    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->activation_mail);
+    $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail);
 
     // sleep 1 second
     sleep(1);

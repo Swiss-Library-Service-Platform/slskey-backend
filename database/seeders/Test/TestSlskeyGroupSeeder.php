@@ -96,6 +96,7 @@ class TestSlskeyGroupSeeder extends Seeder
             'alma_iz' => '41SLSP_3',
             'webhook_secret' => 'mock_secret',
             'webhook_custom_verifier_activation' => true,
+            'webhook_custom_verifier_deactivation' => true,
             'webhook_custom_verifier_class' => 'VerifierABN',
         ]);
         config('roles.models.permission')::create([
@@ -112,6 +113,7 @@ class TestSlskeyGroupSeeder extends Seeder
             'alma_iz' => '41SLSP_4',
             'webhook_secret' => 'mock_secret',
             'webhook_custom_verifier_activation' => true,
+            'webhook_custom_verifier_deactivation' => true,
             'webhook_custom_verifier_class' => 'VerifierA150',
         ]);
         config('roles.models.permission')::create([

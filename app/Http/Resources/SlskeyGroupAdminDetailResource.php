@@ -27,15 +27,17 @@ class SlskeyGroupAdminDetailResource extends JsonResource
             'days_expiration_reminder' => $this->days_expiration_reminder,
             // Webhook
             'alma_iz' => $this->alma_iz,
-            'webhook_custom_verifier' => $this->webhook_custom_verifier,
+            'webhook_custom_verifier_activation' => $this->webhook_custom_verifier_activation,
             'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
+            'webhook_custom_verifier_deactivation' => $this->webhook_custom_verifier_deactivation,
+            'webhook_token_reactivation' => $this->webhook_token_reactivation,
             'webhook_secret' => $this->webhook_secret,
             'webhook_persistent' => $this->webhook_persistent,
             // Webhook Email Activation
             'webhook_mail_activation' => $this->webhook_mail_activation,
             'webhook_mail_activation_domains' => $this->webhook_mail_activation_domains,
-            'webhook_mail_activation_days_send_before_expiry' => $this->webhook_mail_activation_days_send_before_expiry,
-            'webhook_mail_activation_days_token_validity' => $this->webhook_mail_activation_days_token_validity,
+            'webhook_token_reactivation_days_send_before_expiry' => $this->webhook_token_reactivation_days_send_before_expiry,
+            'webhook_token_reactivation_days_token_validity' => $this->webhook_token_reactivation_days_token_validity,
             // Cloud App Permissions
             'cloud_app_allow' => $this->cloud_app_allow,
             'cloud_app_roles' => $this->cloud_app_roles,

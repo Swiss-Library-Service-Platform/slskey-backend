@@ -69,9 +69,6 @@ class Saml2EventProvider extends ServiceProvider
         });
 
         Event::listen(\Slides\Saml2\Events\SignedOut::class, function (\Slides\Saml2\Events\SignedOut $event) {
-            // TODO: Problem with edu-ID
-            // When no other session, the /sls (this event) is triggered
-            // but if other sessions (e.g. directorieS), the /sls is not triggered
             Auth::logout();
             Session::flush();
         });

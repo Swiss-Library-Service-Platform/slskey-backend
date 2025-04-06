@@ -4,7 +4,7 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: $t('slskey_groups.create_new') }
     ]">
-        <div class="w-max my-8 bg-white shadow-md rounded-md">
+        <div class="w-max my-8 bg-white shadow-md rounded-sm">
             <SlskeyGroupForm :isCreating="true" :modelValue="form" :availableSwitchGroups="availableSwitchGroups" @submit="saveSlskeyGroup"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"
@@ -55,16 +55,18 @@ export default {
                 show_member_educational_institution: 0,
                 alma_iz: null,
                 mail_sender_address: null,
-                webhook_custom_verifier: 0,
+                webhook_custom_verifier_activation: 0,
                 webhook_custom_verifier_class: null,
+                webhook_custom_verifier_deactivation: 0,
+                webhook_token_reactivation: 0,
                 webhook_secret: null,
                 webhook_persistent: 0,
                 days_activation_duration: null,
                 days_expiration_reminder: null,
                 webhook_mail_activation: 0,
                 webhook_mail_activation_domains: null,
-                webhook_mail_activation_days_send_before_expiry: null,
-                webhook_mail_activation_days_token_validity: null,
+                webhook_token_reactivation_days_send_before_expiry: null,
+                webhook_token_reactivation_days_token_validity: null,
                 cloud_app_allow: 0,
                 cloud_app_roles: null,
                 cloud_app_roles_scopes: null,

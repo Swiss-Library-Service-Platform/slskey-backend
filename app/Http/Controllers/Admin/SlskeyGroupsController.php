@@ -130,10 +130,10 @@ class SlskeyGroupsController extends Controller
      */
     private function validateInput(): array
     {
+        // General Rules
         $rules = [
             'name' => ['required', 'max:255'],
-            // slskey code no spaces or special chars
-            'slskey_code' => ['required', 'max:255', 'regex:/^[a-zA-Z0-9]+$/'],
+            'slskey_code' => ['required', 'max:255', 'regex:/^[a-zA-Z0-9]+$/'], // slskey code no spaces or special chars
             'workflow' => ['in:Webhook,Manual'],
             'send_activation_mail' => ['numeric'],
             'show_member_educational_institution' => ['numeric'],
@@ -143,11 +143,15 @@ class SlskeyGroupsController extends Controller
             'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
             'cloud_app_roles_scopes' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
         ];
+
+        // Webhook Rules
         if (Request::input('workflow') === 'Webhook') {
+            // General Webhook Rules
             $rules = array_merge($rules, [
                 'webhook_secret' => ['required', 'max:255'],
                 'webhook_persistent' => ['boolean'],
-                'webhook_custom_verifier' => ['nullable', 'max:255'],
+                'webhook_custom_verifier_activation' => ['boolean'],
+                'webhook_custom_verifier_deactivation' => ['boolean'],
                 'webhook_custom_verifier_class' => ['nullable', 'max:255'],
                 'days_expiration_reminder' => ['nullable', 'integer', 'max:0'], // NULL or 0
             ]);
@@ -155,26 +159,45 @@ class SlskeyGroupsController extends Controller
             // Webhook Mail Activation
             $rules['webhook_mail_activation'] = ['boolean'];
             if (Request::input('webhook_mail_activation')) {
-                $rules['days_activation_duration'] = ['nullable', 'integer']; // NULL or integer
                 $rules['webhook_mail_activation_domains'] = ['required', 'max:255'];
-                $rules['webhook_mail_activation_days_send_before_expiry'] = ['required', 'integer'];
-                $rules['webhook_mail_activation_days_token_validity'] = ['required', 'integer'];
-                // webhook_custom_verifier should be 0 if webhook_mail_activation is 1
-                $rules['webhook_custom_verifier'] = ['nullable', 'integer', 'max:0'];
-            } else {
+                $rules['webhook_custom_verifier_activation'] = ['nullable', 'integer', 'max:0']; // webhook_custom_verifier_activation should be 0 if webhook_mail_activation is 1
+            }
+
+            // Token Deactivation
+            if (Request::input('webhook_token_reactivation')) {
+                $rules['webhook_token_reactivation_days_send_before_expiry'] = ['required', 'integer'];
+                $rules['webhook_token_reactivation_days_token_validity'] = ['required', 'integer'];
+            }
+            if (!Request::input('webhook_token_reactivation')) {
+                $rules['webhook_token_reactivation_days_send_before_expiry'] = ['prohibited'];
+                $rules['webhook_token_reactivation_days_token_validity'] = ['prohibited'];
+            }
+
+            // Verifier Activation
+            if (Request::input('webhook_custom_verifier_activation')) {
+                $rules['webhook_custom_verifier_class'] = ['required', 'max:255'];
+                // Either webhook_custom_verifier_deactivation or webhook_token_reactivation must be set
+                $rules['webhook_custom_verifier_deactivation'] = ['nullable', 'integer', 'max:0'];
+                $rules['webhook_token_reactivation'] = ['nullable', 'integer', 'max:0'];
+            }
+
+            // Verifier Deactivation
+            if (Request::input('webhook_custom_verifier_deactivation')) {
                 $rules['days_activation_duration'] = ['prohibited'];
-                $rules['webhook_mail_activation_domains'] = ['prohibited'];
-                $rules['webhook_mail_activation_days_send_before_expiry'] = ['prohibited'];
-                $rules['webhook_mail_activation_days_token_validity'] = ['prohibited'];
             }
         }
         if (Request::input('workflow') === 'Manual') {
             $rules = array_merge($rules, [
                 'webhook_secret' => ['prohibited'],
                 'webhook_persistent' => ['nullable', 'integer', 'max:0'],
-                // webhook_custom_verifier: only int 0 allowed
-                'webhook_custom_verifier' => ['nullable', 'integer', 'max:0'],
+                'webhook_custom_verifier_activation' => ['nullable', 'integer', 'max:0'], // webhook_custom_verifier_activation: only int 0 allowed
                 'webhook_custom_verifier_class' => ['prohibited'],
+                'webhook_mail_activation' => ['nullable', 'integer', 'max:0'],
+                'webhook_mail_activation_domains' => ['prohibited'],
+                'webhook_token_reactivation' => ['nullable', 'integer', 'max:0'],
+                'webhook_token_reactivation_days_send_before_expiry' => ['prohibited'],
+                'webhook_token_reactivation_days_token_validity' => ['prohibited'],
+                'webhook_custom_verifier_deactivation' => ['nullable', 'integer', 'max:0'],
                 'days_expiration_reminder' => ['nullable', 'integer'],
                 'days_activation_duration' => ['nullable', 'integer'],
             ]);

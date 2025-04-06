@@ -16,6 +16,7 @@ class TokenService
     public function createTokenIfNotExisting(
         string $slskeyUserId,
         SlskeyGroup $slskeyGroup,
+        string $recipientEmail
     ): TokenServiceResponse {
         $existingToken = SlskeyReactivationToken::query()
             ->where('slskey_user_id', $slskeyUserId)
@@ -27,7 +28,7 @@ class TokenService
             return new TokenServiceResponse(false, null, null, 'Token already exists.');
         }
 
-        $token = SlskeyReactivationToken::createToken($slskeyUserId, $slskeyGroup);
+        $token = SlskeyReactivationToken::createToken($slskeyUserId, $slskeyGroup, $recipientEmail);
         $reactivationLink = $token->getLinkFromToken();
 
         return new TokenServiceResponse(true, $token->token, $reactivationLink, null);

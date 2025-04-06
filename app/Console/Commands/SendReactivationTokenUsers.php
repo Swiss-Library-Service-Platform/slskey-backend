@@ -10,6 +10,7 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;
 use App\Services\MailService;
 use App\Services\TokenService;
+use App\Interfaces\AlmaAPIInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use App\Models\LogJob;
@@ -34,12 +35,15 @@ class SendReactivationTokenUsers extends Command
 
     protected $mailService;
 
+    protected $almaApiService;
+
     protected $textFileLogger;
 
-    public function __construct(TokenService $tokenService, MailService $mailService)
+    public function __construct(TokenService $tokenService, MailService $mailService, AlmaAPIInterface $almaApiService)
     {
         $this->tokenService = $tokenService;
         $this->mailService = $mailService;
+        $this->almaApiService = $almaApiService;
         $this->textFileLogger = Log::channel('send-reactivation-token');
 
         parent::__construct();
@@ -57,8 +61,8 @@ class SendReactivationTokenUsers extends Command
         // Get all SLSKey Groups with expiring activations
         $slskeyGroups = SlskeyGroup::query()
             ->where('workflow', WorkflowEnums::WEBHOOK)
-            ->where('webhook_mail_activation', 1)
-            ->whereNotNull('webhook_mail_activation_days_send_before_expiry')
+            ->where('webhook_token_reactivation', 1)
+            ->whereNotNull('webhook_token_reactivation_days_send_before_expiry')
             ->get();
 
         $tokensPerGroup = [];
@@ -73,8 +77,8 @@ class SendReactivationTokenUsers extends Command
             $expiringActivations = SlskeyActivation::query()
                 ->where('slskey_group_id', $slskeyGroup->id)
                 ->whereNotNull('expiration_date')
-                ->where('expiration_date', '>=', now()->addDays($slskeyGroup->webhook_mail_activation_days_send_before_expiry)->startOfDay())
-                ->where('expiration_date', '<', now()->addDays($slskeyGroup->webhook_mail_activation_days_send_before_expiry)->endOfDay())
+                ->where('expiration_date', '>=', now()->addDays($slskeyGroup->webhook_token_reactivation_days_send_before_expiry)->startOfDay())
+                ->where('expiration_date', '<', now()->addDays($slskeyGroup->webhook_token_reactivation_days_send_before_expiry)->endOfDay())
                 ->withSlskeyUserAndSlskeyGroup()
                 ->get();
 
@@ -88,14 +92,16 @@ class SendReactivationTokenUsers extends Command
 
             // Send reminder email to all users with expiring activations
             foreach ($expiringActivations as $activation) {
-                if (! $activation->webhook_activation_mail) {
+                $recipientMail = $this->getRecipientMail($slskeyGroup, $activation);
+
+                if (! $recipientMail) {
                     $this->textFileLogger->info("Ignored: No email address found for user $activation->slskey_user_id.");
 
                     continue;
                 }
                 $primaryId = $activation->slskeyUser->primary_id;
 
-                $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup);
+                $response = $this->tokenService->createTokenIfNotExisting($activation->slskeyUser->id, $slskeyGroup, $recipientMail);
 
                 if (! $response->success) {
                     $this->textFileLogger->info("Error: Failed to create token for user $primaryId: $response->message");
@@ -104,7 +110,7 @@ class SendReactivationTokenUsers extends Command
                 }
 
                 // Send e-mail
-                $sent = $this->mailService->sendReactivationTokenUserMail($slskeyGroup, $activation->webhook_activation_mail, $response->reactivationLink);
+                $sent = $this->mailService->sendReactivationTokenUserMail($slskeyGroup, $recipientMail, $response->reactivationLink);
 
                 if (! $sent) {
                     $this->textFileLogger->info("Failed to send token to user $primaryId.");
@@ -152,5 +158,24 @@ class SendReactivationTokenUsers extends Command
             'info' => $databaseInfo, // json_encode($databaseInfo),
             'has_fail' => $hasFail,
         ]);
+    }
+
+    protected function getRecipientMail($slskeyGroup, $activation)
+    {
+        // When slskeygroup activations are based on user email
+        if ($slskeyGroup->webhook_mail_activation) {
+            return $activation->webhook_activation_mail;
+        }
+
+        // Otherwise, get preferred mail from Alma
+        $almaServiceResponse = $this->almaApiService->getUserFromSingleIz($activation->slskeyUser->primary_id, $slskeyGroup->alma_iz);
+        if (! $almaServiceResponse->success) {
+            $this->textFileLogger->info("Failed to get Alma user details for user $primaryId: $almaServiceResponse->errorText");
+
+            return null;
+        }
+        $almaUser = $almaServiceResponse->almaUser;
+
+        return $almaUser->preferred_email;
     }
 }

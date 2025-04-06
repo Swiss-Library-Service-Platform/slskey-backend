@@ -27,16 +27,18 @@ class SlskeyGroup extends Model
         'alma_iz',
         'show_member_educational_institution',
         'mail_sender_address',
-        'webhook_secret',
-        'webhook_persistent',
-        'webhook_custom_verifier',
-        'webhook_custom_verifier_class',
         'days_activation_duration',
         'days_expiration_reminder',
+        'webhook_secret',
+        'webhook_persistent',
+        'webhook_custom_verifier_activation',
+        'webhook_custom_verifier_class',
+        'webhook_custom_verifier_deactivation',
         'webhook_mail_activation',
         'webhook_mail_activation_domains',
-        'webhook_mail_activation_days_send_before_expiry',
-        'webhook_mail_activation_days_token_validity',
+        'webhook_token_reactivation',
+        'webhook_token_reactivation_days_send_before_expiry',
+        'webhook_token_reactivation_days_token_validity',
         'cloud_app_allow',
         'cloud_app_roles',
         'cloud_app_roles_scopes'
@@ -161,11 +163,29 @@ class SlskeyGroup extends Model
      * @param AlmaUser $almaUser
      * @return boolean
      */
-    public function checkCustomVerificationForUser(AlmaUser $almaUser): bool
+    public function checkCustomVerificationForUserActivation(AlmaUser $almaUser): bool
     {
         $verified = true;
 
-        if ($this->webhook_custom_verifier) {
+        if ($this->webhook_custom_verifier_activation) {
+            // Dynamically call the helper
+            $verified = app('App\\Helpers\\CustomWebhookVerifier\\Implementations\\' . $this->webhook_custom_verifier_class)->verify($almaUser);
+        }
+
+        return $verified;
+    }
+
+    /**
+     * Check if a user is needed to deactivate
+     *
+     * @param AlmaUser $almaUser
+     * @return boolean
+     */
+    public function checkCustomVerificationForUserDeactivation(AlmaUser $almaUser): bool
+    {
+        $verified = true;
+
+        if ($this->webhook_custom_verifier_deactivation) {
             // Dynamically call the helper
             $verified = app('App\\Helpers\\CustomWebhookVerifier\\Implementations\\' . $this->webhook_custom_verifier_class)->verify($almaUser);
         }

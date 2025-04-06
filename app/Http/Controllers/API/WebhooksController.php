@@ -168,9 +168,9 @@ class WebhooksController extends Controller
         $primaryId = Request::input('webhook_user.user.primary_id');
         $slskeyUser = SlskeyUser::where('primary_id', $primaryId)->first();
 
-        // Check if user has custom verification
+        // Check if user has custom verification (when checking if activation is needed)
         try {
-            $hasCustomVerification = $slskeyGroup->checkCustomVerificationForUser($almaUser);
+            $hasCustomVerificationActivation = $slskeyGroup->checkCustomVerificationForUserActivation($almaUser);
         } catch (\Exception $e) {
             return response(WebhookResponseEnums::ERROR_VERIFIER.$e->getMessage(), 400);
         }
@@ -178,10 +178,10 @@ class WebhooksController extends Controller
         // Check for Activation
         if (
             ($event === AlmaEnums::EVENT_CREATED) ||
-            ($event === AlmaEnums::EVENT_UPDATED && $status === AlmaEnums::USER_STATUS_ACTIVE && $hasCustomVerification)
+            ($event === AlmaEnums::EVENT_UPDATED && $status === AlmaEnums::USER_STATUS_ACTIVE && $hasCustomVerificationActivation)
         ) {
             // Check if user has custom verification
-            if (! $hasCustomVerification) {
+            if (! $hasCustomVerificationActivation) {
                 return response(WebhookResponseEnums::IGNORED_CREATION);
             }
             // Check if already active
@@ -192,13 +192,20 @@ class WebhooksController extends Controller
             return $this->handleActivation($slskeyGroup, $almaUser);
         }
 
+        // Check if user has custom verification (when checking if deactivation is needed)
+        try {
+            $hasCustomVerificationDeactivation = $slskeyGroup->checkCustomVerificationForUserDeactivation($almaUser);
+        } catch (\Exception $e) {
+            return response(WebhookResponseEnums::ERROR_VERIFIER.$e->getMessage(), 400);
+        }
+
         // Check for Deactivation
         if (
             $event === AlmaEnums::EVENT_DELETED ||
             ($event === AlmaEnums::EVENT_UPDATED && $status === AlmaEnums::USER_STATUS_INACTIVE) ||
-            ($event === AlmaEnums::EVENT_UPDATED && ! $hasCustomVerification)
+            ($event === AlmaEnums::EVENT_UPDATED && ! $hasCustomVerificationDeactivation)
         ) {
-            return $this->handleDeactivation($slskeyGroup, $almaUser, $hasCustomVerification);
+            return $this->handleDeactivation($slskeyGroup, $almaUser, $hasCustomVerificationDeactivation);
         }
 
         // Nothing happened

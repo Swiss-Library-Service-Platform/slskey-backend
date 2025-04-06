@@ -12,7 +12,9 @@ return new class () extends Migration {
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
-            $table->renameColumn('webhook_token_reactivation_days_token_validity', 'webhook_token_reactivation_days_token_validity');
+        });
+        Schema::table('slskey_groups', function (Blueprint $table) {
+            $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
         });
     }
 

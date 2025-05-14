@@ -5,6 +5,7 @@ use App\Models\SlskeyGroup;
 use App\Models\SlskeyUser;
 use App\Services\ActivationService;
 use Inertia\Testing\AssertableInertia;
+use App\Models\SlskeyReactivationToken;
 
 beforeEach(function () {
     $this->seed('Database\Seeders\Test\TestSlskeyGroupSeeder');
@@ -53,16 +54,15 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
     $lastExpirationDate = $slskeyActivation->expiration_date;
     $lastActivationDate = $slskeyActivation->activation_date;
 
-    echo "slskeyactivation: " . $slskeyActivation->id . "\n";
-    echo "slskeygroup: " . $slskeyGroup->id . "\n";
-    echo "slskeyuser: " . $slskeyActivation->slskey_user_id . "\n";
-    echo "status: " . $slskeyActivation->activated . "\n";
-    echo "activation mail: " . $slskeyActivation->webhook_activation_mail . "\n";
-
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
     $slskeyGroup->webhook_token_reactivation_days_token_validity = 1; // Set validity to 1 days
     $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
+    $slskeyReactivationToken = SlskeyReactivationToken::query()->where('token', $responseTokenService->token)->first();
+    expect($slskeyReactivationToken->used)->toBe(0);
+    expect($slskeyReactivationToken->expiration_date->isSameDay(
+        $slskeyReactivationToken->created_at->addDays($slskeyGroup->webhook_token_reactivation_days_token_validity)
+    ))->toBeTrue();
 
     // sleep 1 second
     sleep(1);
@@ -74,6 +74,11 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
         $page->component('ReactivationToken/ReactivationSuccess')
             ->where('expirationDate', $slskeyActivation->expiration_date);
     });
+
+    // Check if expiration date is updated
+    expect($slskeyActivation->expiration_date)->not->toBe($lastExpirationDate);
+    $slskeyReactivationToken = SlskeyReactivationToken::query()->where('token', $responseTokenService->token)->first();
+    expect($slskeyReactivationToken->used)->toBe(1);
 
     // Call token endpoint again
     $response = $this->get($responseTokenService->reactivationLink);

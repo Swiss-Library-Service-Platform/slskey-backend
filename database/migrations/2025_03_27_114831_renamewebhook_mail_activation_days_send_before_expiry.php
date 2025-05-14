@@ -11,10 +11,10 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
+            $table->renameColumn('webhook_mail_activation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
         });
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
+            $table->renameColumn('webhook_mail_activation_days_token_validity', 'webhook_token_reactivation_days_token_validity');
         });
     }
 
@@ -24,8 +24,8 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
-            $table->renameColumn('webhook_token_reactivation_days_token_validity', 'webhook_token_reactivation_days_token_validity');
+            $table->renameColumn('webhook_token_reactivation_days_send_before_expiry', 'webhook_mail_activation_days_send_before_expiry');
+            $table->renameColumn('webhook_token_reactivation_days_token_validity', 'webhook_mail_activation_days_token_validity');
         });
     }
 };

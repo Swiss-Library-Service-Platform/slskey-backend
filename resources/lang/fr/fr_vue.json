@@ -239,7 +239,7 @@
     "webhook_persistent_title": "Webhook Enregistrer utilisateurs",
     "webhook_persistent_help": "Pour certaines institutions (par exemple, RZS), les utilisateurs ne sont pas stockés dans la base de données SLSKey. SLSKey active/désactive les utilisateurs dans Switch sans les stocker. Les utilisateurs n'apparaissent pas dans la gestion des utilisateurs.",
     "webhook_mail_activation": "Activer les utilisateurs basés sur l'e-mail (Communauté MBA)",
-    "webhook_token_reactivation_days_send_before_expiry": "Temps d'envoi du mail de token (jours avant expiration)",
+    "webhook_token_reactivation_days_send_before_expiry": "Heure de l'envoi de l'e-mail (n jours avant l'expiration)",
     "webhook_token_reactivation_days_token_validity": "Validité du token en jours",
     "webhook_mail_activation_domains": "Domaines d'activation des e-mails",
     "webhook_mail_activation_domains_help": "Les listes disponibles dans ce champ sont stockées dans le projet sous /storage/app/email_domain_lists. Vous pouvez y ajouter de nouvelles listes.",
@@ -257,7 +257,8 @@
     "cloud_app_roles_scopes_placeholder": "No limit",
     "activation_details": "Détails d'activation",
     "send_activation_mail_help": "Send an email to the user when the user is activated. The email content must be defined on the SLSKey server in slskey-backend/resources/views/emails/activation/<slskey-code>.",
-    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks."
+    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks.",
+    "webhook_token_reactivation_help": "L'utilisateur recevra un e-mail avant la date d'expiration avec un lien qui peut être utilisé pour étendre son activation SLSKEY.\n\nLe contenu des e-mails doit être défini sur le serveur SLSKEY dans SLSKEY-Backend / Resources / Views / Emails / Activation / <SlSkey-Code>."
   },
   "slskey_user": {
     "primary_id": "ID Principal"

@@ -244,7 +244,7 @@
     "webhook_persistent_title": "Webhook Persist User",
     "webhook_persistent_help": "For certain institutions (e.g. RZS) users are not persisted in the SLSKey database. SLSKey will simply activate/deactivate users via Switch API without persisting them. Users won't appear in the User Management. Custom verifications are not supported in this case currently.",
     "webhook_mail_activation": "Activate Users based on E-Mail (MBA-Community)",
-    "webhook_token_reactivation_days_send_before_expiry": "Token Mail Time (Days before Expiry)",
+    "webhook_token_reactivation_days_send_before_expiry": "Time of sending the email (n Days before Expiry)",
     "webhook_token_reactivation_days_token_validity": "Token Validity in Days",
     "webhook_token_reactivation_details": "Reactivation E-mail",
     "webhook_mail_activation_domains": "Mail Activation Domains",
@@ -257,7 +257,8 @@
     "cloud_app_roles_scopes_placeholder": "No limit",
     "activation_details": "Activation Details",
     "send_activation_mail_help": "Send an email to the user when the user is activated. The email content must be defined on the SLSKey server in slskey-backend/resources/views/emails/activation/<slskey-code>.",
-    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks."
+    "show_member_educational_institution_help": "If enabled, a checkbox will appear on each activation to mark 'Member Educational Institution'. This checkbox is for internal use only, will not be transmitted to Switch and will be used by the ZDHK for licence checks.",
+    "webhook_token_reactivation_help": "The user will receive an email before the expiry date with a link that can be used to extend their SLSKey activation.\nThe email content must be defined on the SLSKey server in slskey-backend/resources/views/emails/activation/<slskey-code>."
   },
   "slskey_user": {
     "primary_id": "Primary ID"

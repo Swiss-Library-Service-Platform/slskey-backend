@@ -51,14 +51,16 @@ const submit = () => {
 
                 <div class="flex flex-col items-center justify-center">
 
-                    <div class="flex w-full flex-col items-center xtext-gray-table">
-                        <span class="text-sm italic text-gray-table">
-                            {{ $t('landing.clicktologin') }}
-                        </span>
-
+                    <div class="flex w-full flex-col items-center xtext-gray-table mb-4">
+                        
                         <SwitchLoginButton href="/login/eduid">
                             {{ $t('landing.eduid') }}
                         </SwitchLoginButton>
+
+                        <span class="text-sm italic text-[#4B5563]">
+                            {{ $t('landing.clicktologin') }}
+                        </span>
+
                         
                     </div>
 

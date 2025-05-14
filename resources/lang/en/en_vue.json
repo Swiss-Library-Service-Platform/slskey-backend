@@ -93,7 +93,7 @@
     "trigger": "Trigger"
   },
   "landing": {
-    "clicktologin": "Click the button to login with edu-ID.",
+    "clicktologin": "Click to login with your edu-ID.",
     "login": "Login",
     "orvia": "or",
     "password": "Password",

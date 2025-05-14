@@ -359,7 +359,6 @@ export default {
         'form.days_activation_duration': function (days_activation_duration) {
             if (days_activation_duration > 0 && this.form.workflow === 'Webhook') {
                 this.form.webhook_custom_verifier_deactivation = 0;
-                this.form.webhook_token_reactivation = 0;
             }
         },
     },

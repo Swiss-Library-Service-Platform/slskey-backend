@@ -302,7 +302,7 @@ export default {
         },
         getVerticalPadding(activationsCount, index) {
             return activationsCount == 1 ? 'py-3' :
-                index == 0 ? 'pt-3 pb-1' : index == activationsCount - 1 ? 'pt-1 pb-3' : 'py-3';
+                index == 0 ? 'pt-3 pb-1' : index == activationsCount - 1 ? 'pt-1 pb-3' : 'py-1';
         }
     },
     computed: {

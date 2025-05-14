@@ -18,7 +18,7 @@
             </td>
             <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
               <td class="px-6 py-4" :class="{ 'w-full': index == slskeyUser.slskey_activations.length - 1 }">
-                <div class="flex flex-row w-48">
+                <div class="flex flex-row" :class="{ 'w-48': slskeyUser.slskey_activations.length > 1 }">
                   <SlskeyGroupNameAndIcon :workflow="activation.slskey_group.workflow"
                     :slskeyGroupName="activation.slskey_group.name" />
                 </div>

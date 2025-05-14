@@ -60,7 +60,7 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
     $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
     $slskeyReactivationToken = SlskeyReactivationToken::query()->where('token', $responseTokenService->token)->first();
     expect($slskeyReactivationToken->used)->toBe(0);
-    expect($slskeyReactivationToken->expiration_date->isSameDay(
+    expect(\Carbon\Carbon::parse($slskeyReactivationToken->expiration_date)->isSameDay(
         $slskeyReactivationToken->created_at->addDays($slskeyGroup->webhook_token_reactivation_days_token_validity)
     ))->toBeTrue();
 

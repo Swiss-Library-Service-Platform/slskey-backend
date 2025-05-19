@@ -15,7 +15,7 @@
                     v-model="form.activation_end" />
             </FilterControl>
             <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
-                class="w-fit py-2 ml-2 mt-4">
+                class="!w-fit py-2 ml-2 mt-4">
                 {{ $t('user_management.export') }}
             </DefaultButton>
         </div>

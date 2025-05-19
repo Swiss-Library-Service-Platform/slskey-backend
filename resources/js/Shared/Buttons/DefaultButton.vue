@@ -44,7 +44,12 @@ defineProps({
             active:bg-opacity-70
             disabled:opacity-25
             w-full
-            ">
+            "
+            :class="{
+                'hover:bg-opacity-70': !loading,
+                'opacity-70': loading,
+            }"
+            >
         <span v-if="icon && !loading" class="mr-1 h-4 w-4">
             <Icon :icon="icon" />
         </span>

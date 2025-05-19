@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white rounded-sm shadow overflow-x-auto">
     <div class="w-full border-b">
-      <DefaultButton class="text-lg w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
+      <DefaultButton class="text-lg !w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
         {{ $t('user_management.new_activation') }}
       </DefaultButton>
     </div>
@@ -43,7 +43,7 @@
                     <Dropdown align="right" width="48">
                       <template #trigger>
                         <span class="inline-flex rounded-sm">
-                          <DefaultIconButton :loading="activation.loading" class="bg-white py-1 text-color-header-bg"
+                          <DefaultIconButton :loading="activation.loading" class="bg-white py-1 !text-color-header-bg"
                             icon="pencil" tooltip="Actions" />
                         </span>
                       </template>

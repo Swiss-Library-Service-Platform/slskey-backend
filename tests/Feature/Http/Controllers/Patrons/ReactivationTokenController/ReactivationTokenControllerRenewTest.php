@@ -28,8 +28,8 @@ it('fails renewing when token is not expired', function () {
 
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
-    $slskeyGroup->webhook_mail_activation_days_token_validity = 1; // Set validity to 0 days
-    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup);
+    $slskeyGroup->webhook_token_reactivation_days_token_validity = 1; // Set validity to 0 days
+    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
 
     // Call token endpoint
     $response = $this->get("/reactivate/{$response->token}/renew");
@@ -43,17 +43,16 @@ it('fails renewing when token activation mail is revoked', function () {
     seedSlskeyActivations();
 
     // Get existing acitivation
-    $slskeyGroup = SlskeyGroup::where('webhook_mail_activation', false)->first();
+    $slskeyGroup = SlskeyGroup::where('webhook_mail_activation', true)->first();
     $slskeyActivation = SlskeyActivation::query()->where('slskey_group_id', $slskeyGroup->id)->where('activated', true)->first();
-
-    // Revoke mail activation
-    $slskeyActivation->removeWebhookActivationMail();
 
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
-    $slskeyGroup->webhook_mail_activation_days_token_validity = 0; // Set validity to 0 days
-    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup);
+    $slskeyGroup->webhook_token_reactivation_days_token_validity = 0; // Set validity to 0 days
+    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
 
+    // Revoke mail activation
+    $slskeyActivation->removeWebhookActivationMail();
     // Call token endpoint
     $response = $this->get("/reactivate/{$response->token}/renew");
     $response->assertInertia(function (AssertableInertia $page) {
@@ -75,8 +74,8 @@ it('successfully renews token', function () {
     $slskeyActivation->setWebhookActivationMail('john.doe@slsp.ch');
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
-    $slskeyGroup->webhook_mail_activation_days_token_validity = 0; // Set validity to 0 days
-    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup);
+    $slskeyGroup->webhook_token_reactivation_days_token_validity = 0; // Set validity to 0 days
+    $response = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
 
     // Call token endpoint
     $response = $this->get("/reactivate/{$response->token}/renew");

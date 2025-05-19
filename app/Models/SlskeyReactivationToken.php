@@ -19,9 +19,11 @@ class SlskeyReactivationToken extends Model
         'slskey_user_id',
         'slskey_group_id',
         'token',
-        'token_expiration_date',
-        'token_used',
-        'token_used_date',
+        'expiration_date',
+        'used',
+        'used_date',
+        'created_from_mail_activation',
+        'recipient_email',
         'created_at',
     ];
 
@@ -50,20 +52,24 @@ class SlskeyReactivationToken extends Model
      *
      * @param integer $slskeyUserId
      * @param SlskeyGroup $slskeyGroup
+     * @param string $recipientEmail
+     * @param boolean $createdFromMailActivation
      * @return SlskeyReactivationToken
      */
-    public static function createToken(int $slskeyUserId, SlskeyGroup $slskeyGroup): SlskeyReactivationToken
+    public static function createToken(int $slskeyUserId, SlskeyGroup $slskeyGroup, string $recipientEmail, bool $createdFromMailActivation = false): SlskeyReactivationToken
     {
         $token = bin2hex(random_bytes(8));
-        $tokenExpirationDate = now()->addDays($slskeyGroup->webhook_mail_activation_days_token_validity);
+        $tokenExpirationDate = now()->addDays($slskeyGroup->webhook_token_reactivation_days_token_validity);
 
         $slskeyReactivationToken = SlskeyReactivationToken::create([
             'slskey_user_id' => $slskeyUserId,
             'slskey_group_id' => $slskeyGroup->id,
+            'recipient_email' => $recipientEmail,
             'token' => $token,
-            'token_expiration_date' => $tokenExpirationDate,
-            'token_used' => false,
-            'token_used_date' => null,
+            'expiration_date' => $tokenExpirationDate,
+            'created_from_mail_activation' => $createdFromMailActivation,
+            'used' => false,
+            'used_date' => null,
         ]);
 
         // Create URL from token, use .env APP_URL as base
@@ -87,8 +93,8 @@ class SlskeyReactivationToken extends Model
      */
     public function setUsed(): SlskeyReactivationToken
     {
-        $this->token_used = true;
-        $this->token_used_date = now();
+        $this->used = true;
+        $this->used_date = now();
         $this->save();
 
         return $this;
@@ -101,6 +107,6 @@ class SlskeyReactivationToken extends Model
      */
     public function isExpired(): bool
     {
-        return now()->gt($this->token_expiration_date);
+        return now()->gt($this->expiration_date);
     }
 }

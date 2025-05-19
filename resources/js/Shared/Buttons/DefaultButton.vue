@@ -33,7 +33,7 @@ defineProps({
             h-fit
             px-4
             py-2
-            rounded-md
+            rounded-sm
             justify-center
             font-bold 
             text-md

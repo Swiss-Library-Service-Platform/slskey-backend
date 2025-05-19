@@ -2,7 +2,7 @@
     <form @submit.prevent="store">
         <div class="flex flex-col">
             <!-- General -->
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('admin_users.general') }}
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('admin_users.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_edu_id" v-model="form.is_edu_id"
@@ -23,7 +23,7 @@
             </div>
             <!-- Permissions SLSKey Groups -->
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{ $t('admin_users.permissions')
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('admin_users.permissions')
             }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_slsp_admin" v-model="form.is_slsp_admin"
@@ -33,7 +33,7 @@
             <div v-if="!form.is_slsp_admin" class="grid grid-cols-1 px-8 pb-8 gap-8">
                 <h1 class="text-lg underline">{{ $t('admin_users.permission_groups') }}</h1>
                 <!-- Slskey Groups -->
-                <table class="table-auto min-w-full rounded-md">
+                <table class="table-auto min-w-full rounded-sm">
                     <tbody class="">
                         <template v-if="form.slskeyGroups.length > 0">
                             <tr v-for="slskeyGroup in form.slskeyGroups" :key="'slskeygroup' + slskeyGroup.id"

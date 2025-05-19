@@ -27,8 +27,10 @@ class SlskeyGroupAdminResource extends JsonResource
             'days_expiration_reminder' => $this->days_expiration_reminder,
             // Webhook
             'alma_iz' => $this->alma_iz,
-            'webhook_custom_verifier' => $this->webhook_custom_verifier,
+            'webhook_custom_verifier_activation' => $this->webhook_custom_verifier_activation,
             'webhook_custom_verifier_class' => $this->webhook_custom_verifier_class,
+            'webhook_custom_verifier_deactivation' => $this->webhook_custom_verifier_deactivation,
+            'webhook_token_reactivation' => $this->webhook_token_reactivation,
             'webhook_secret' => $this->webhook_secret,
             'webhook_persistent' => $this->webhook_persistent,
             'webhook_mail_activation' => $this->webhook_mail_activation,

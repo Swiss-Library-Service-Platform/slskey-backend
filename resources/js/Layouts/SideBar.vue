@@ -128,9 +128,11 @@ export default {
 				</NavLink>
 
 				<!-- edu-ID Status -->
+				 <!--
 				<NavLink icon="information-circle" href="https://status.eduid.ch/" :openInNewTab="true">
 					{{ $t('eduid_status') }}
 				</NavLink>
+				-->
 			</div>
 
 		</div>

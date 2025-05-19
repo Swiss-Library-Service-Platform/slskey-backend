@@ -2,7 +2,7 @@
   <a :disabled="loading" v-if="href" :href="href" class="flex items-center px-3
               py-2
               bg-color-one
-              rounded-md
+              rounded-sm
               font-bold 
               text-sm
               text-white
@@ -17,7 +17,7 @@
   <button :id="id" :disabled="loading" v-else class="flex items-center px-3
               py-2
               bg-color-one
-              rounded-md
+              rounded-sm
               font-bold 
               text-sm
               text-white

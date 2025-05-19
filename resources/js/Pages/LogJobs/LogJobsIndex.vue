@@ -7,8 +7,8 @@
             </FilterControl>
         </div>
 
-        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-md">
-            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-md">
+        <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
+            <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {{ $t('log_jobs.time') }}

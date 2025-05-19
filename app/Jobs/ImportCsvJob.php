@@ -156,7 +156,7 @@ class ImportCsvJob implements ShouldQueue
         $almaUser = $almaServiceResponse->almaUser;
 
         // Check for custom verification
-        $userIsVerified = $slskeyGroup->checkCustomVerificationForUser($almaUser);
+        $userIsVerified = $slskeyGroup->checkCustomVerificationForUserActivation($almaUser);
         if (!$userIsVerified) {
             return [
                 'success' => false,

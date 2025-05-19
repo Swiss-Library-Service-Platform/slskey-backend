@@ -58,7 +58,7 @@ class ReactivationTokenController extends Controller
             ->where('slskey_group_id', $slskeyReactivationToken->slskey_group_id)
             ->first();
 
-        if ($slskeyReactivationToken->token_used) {
+        if ($slskeyReactivationToken->used) {
             // Link clicked twice
             // Or Outlook Safe Link prefetched the link and therefore activation was already done on the prefetch
             if ($slskeyActivation && $slskeyActivation->expiration_date) {
@@ -77,7 +77,7 @@ class ReactivationTokenController extends Controller
         if ($slskeyReactivationToken->isExpired()) {
             return Inertia::render('ReactivationToken/ReactivationExpired', [
                 'renewTokenLink' => route('token.renew', ['token' => $token]),
-                'activationMail' => $slskeyActivation->webhook_activation_mail,
+                'activationMail' => $slskeyReactivationToken->recipient_email
             ]);
         }
 
@@ -88,14 +88,10 @@ class ReactivationTokenController extends Controller
             TriggerEnums::USER_TOKEN_REACTIVATION,
             null, // Author
             null, // almaUser
-            null // webhook activation mail
+            null // webhook activation mail already set
         );
 
-        // TODO: fix problem
-        // last activation call is taking too long
-        // seems like its getting triggered twice, cause we get two history entries
-        // and first one is not finished, when second one is triggered
-        // but when i do setUserActivationDate() before the activation, it takes the old expiration date (which is in a few days)
+        // Set token as used
         $slskeyReactivationToken->setUsed();
 
         // Get new activation status
@@ -139,7 +135,8 @@ class ReactivationTokenController extends Controller
             ->where('slskey_group_id', $slskeyReactivationToken->slskey_group_id)
             ->first();
 
-        if (! $slskeyActivation->webhook_activation_mail) {
+        if ($slskeyReactivationToken->created_from_mail_activation
+            && ! $slskeyActivation->webhook_activation_mail) {
             return Inertia::render('ReactivationToken/ReactivationError', [
                 'token' => $token,
                 'error' => __('flashMessages.errors.tokens.activation_mail_revoked'),
@@ -150,7 +147,7 @@ class ReactivationTokenController extends Controller
         $slskeyReactivationToken->setUsed();
 
         // Create new tokn and send via Mail
-        $response = $this->tokenService->createTokenIfNotExisting($slskeyReactivationToken->slskey_user_id, $slskeyReactivationToken->slskeyGroup);
+        $response = $this->tokenService->createTokenIfNotExisting($slskeyReactivationToken->slskey_user_id, $slskeyReactivationToken->slskeyGroup, $slskeyReactivationToken->recipient_email, $slskeyReactivationToken->created_from_mail_activation);
 
         if (! $response->success) {
             return Inertia::render('ReactivationToken/ReactivationError', [
@@ -160,7 +157,7 @@ class ReactivationTokenController extends Controller
         }
 
         // Send mail
-        $this->mailService->sendReactivationTokenUserMail($slskeyActivation->slskeyGroup, $slskeyActivation->webhook_activation_mail, $response->reactivationLink);
+        $this->mailService->sendReactivationTokenUserMail($slskeyActivation->slskeyGroup, $slskeyReactivationToken->recipient_email, $response->reactivationLink);
 
         return Inertia::render('ReactivationToken/ReactivationRenewed', [
             'slskeyGroup' => SlskeyGroupPublicResource::make($slskeyActivation->slskeyGroup),

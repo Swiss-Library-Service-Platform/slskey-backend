@@ -4,7 +4,7 @@
             name: '',
         },
     ]">
-        <div class="w-full flex flex-row align-center py-8 px-10 mt-5 mb-10 bg-white rounded-md shadow-md">
+        <div class="w-full flex flex-row align-center py-8 px-10 mt-5 mb-10 bg-white rounded-sm shadow-md">
             <JetApplicationLogo class="h-40 w-auto" />
             <div class="ml-20 flex flex-col">
                 <div class="text-3xl">SLSKey for Content Providers</div>
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-md  shadow-md">
+        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-sm  shadow-md">
             <!-- General Information -->
             <div class="flex flex-col">
                 <div class="px-10 text-3xl">Index</div>
@@ -58,7 +58,7 @@
             </Div>
         </div>
 
-        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-md shadow-md">
+        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-sm shadow-md">
             <!-- General Information -->
             <div class="flex flex-col">
                 <div class="px-10 text-3xl ">General Information</div>
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-md shadow-md">
+        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-sm shadow-md">
 
             <!-- Technical Details -->
             <div class="flex flex-col">
@@ -268,7 +268,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-md shadow-md">
+        <div class="w-full align-center py-8 mt-5 mb-10 bg-white rounded-sm shadow-md">
             <div class="flex flex-col">
                 <div class="px-10 text-3xl ">Help</div>
                 <div id="help" class="px-10 py-5 flex flex-col">

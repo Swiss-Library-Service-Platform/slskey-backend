@@ -61,7 +61,7 @@ export default {
         items-center
         w-8
         h-8
-        rounded-lg
+        rounded-md
         justify-center
         font-bold 
         text-md

@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('switch_groups.general') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 gap-8">
                 <!-- Name -->
@@ -11,16 +11,16 @@
                     :label="`${$t('switch_groups.switch_group_id')} *`" />
             </div>
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('switch_groups.slskey_groups') }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
 
                 <!-- SLSKey Groups -->
-                <table class="table-auto min-w-full rounded-md">
+                <table class="table-auto min-w-full rounded-sm">
                     <tbody class="">
                         <template v-if="form.slskeyGroups?.length > 0">
                             <tr v-for="slskeyGroup in form.slskeyGroups" :key="'slskeygroup' + slskeyGroup.id"
-                                class="hover:bg-gray-100 focus-within:bg-gray-100">
+                                class="">
 
                                 <td class="pr-6 py-2 ">
                                     - {{ slskeyGroup.slskey_code }}
@@ -42,16 +42,16 @@
             </div>
             <!-- Publishers -->
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('switch_groups.publishers_title') }}</h3>
-            <div class="grid grid-cols-2 px-8 pb-8 gap-8">
+            <div class="grid grid-cols-1 px-8 pb-8 gap-8">
                 <text-area-input v-model="form.publishers" :error="form.errors.publishers"
                     :label="`${$t('switch_groups.publishers')}`" />
             </div>
             
             <!-- Member Count -->
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-md">{{
+            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
                 $t('switch_groups.members_count_title') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <div>

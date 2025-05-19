@@ -4,7 +4,7 @@
         { name: $t('slskey_groups.title'), link: '/admin/groups' },
         { name: slskeyGroup.data.name }
     ]">
-        <div class="w-max my-8 mb-20 bg-white shadow-md rounded-md">
+        <div class="max-w-3xl my-8 mb-20 bg-white shadow-md rounded-sm">
             <SlskeyGroupForm :isCreating="false" :modelValue="form" :availableSwitchGroups="availableSwitchGroups"
                 :availableWorkflows="availableWorkflows" :availableWebhookCustomVerifiers="availableWebhookCustomVerifiers"
                 :availableWebhookMailActivationDomains="availableWebhookMailActivationDomains"
@@ -56,16 +56,18 @@ export default {
                 show_member_educational_institution: this.slskeyGroup.data.show_member_educational_institution,
                 alma_iz: this.slskeyGroup.data.alma_iz,
                 mail_sender_address: this.slskeyGroup.data.mail_sender_address,
-                webhook_custom_verifier: this.slskeyGroup.data.webhook_custom_verifier,
+                webhook_custom_verifier_activation: this.slskeyGroup.data.webhook_custom_verifier_activation,
                 webhook_custom_verifier_class: this.slskeyGroup.data.webhook_custom_verifier_class,
+                webhook_custom_verifier_deactivation: this.slskeyGroup.data.webhook_custom_verifier_deactivation,
                 webhook_secret: this.slskeyGroup.data.webhook_secret,
                 webhook_persistent: this.slskeyGroup.data.webhook_persistent,
+                webhook_token_reactivation: this.slskeyGroup.data.webhook_token_reactivation,
                 days_activation_duration: this.slskeyGroup.data.days_activation_duration,
                 days_expiration_reminder: this.slskeyGroup.data.days_expiration_reminder,
                 webhook_mail_activation: this.slskeyGroup.data.webhook_mail_activation,
                 webhook_mail_activation_domains: this.slskeyGroup.data.webhook_mail_activation_domains,
-                webhook_mail_activation_days_send_before_expiry: this.slskeyGroup.data.webhook_mail_activation_days_send_before_expiry,
-                webhook_mail_activation_days_token_validity: this.slskeyGroup.data.webhook_mail_activation_days_token_validity,
+                webhook_token_reactivation_days_send_before_expiry: this.slskeyGroup.data.webhook_token_reactivation_days_send_before_expiry,
+                webhook_token_reactivation_days_token_validity: this.slskeyGroup.data.webhook_token_reactivation_days_token_validity,
                 cloud_app_allow: this.slskeyGroup.data.cloud_app_allow,
                 cloud_app_roles: this.slskeyGroup.data.cloud_app_roles,
                 cloud_app_roles_scopes: this.slskeyGroup.data.cloud_app_roles_scopes,

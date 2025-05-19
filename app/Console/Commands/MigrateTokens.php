@@ -126,9 +126,9 @@ class MigrateTokens extends Command
                         'slskey_group_id' => $slskeyGroupMBA->id,
                         'token' => $token,
                         'created_at' => $dateTokenCreated,
-                        'token_expiration_date' => $tokenExpirationDate,
-                        'token_used' => false,
-                        'token_used_date' => null,
+                        'expiration_date' => $tokenExpirationDate,
+                        'used' => false,
+                        'used_date' => null,
                     ]);
 
                     // Create a history that user was reminded

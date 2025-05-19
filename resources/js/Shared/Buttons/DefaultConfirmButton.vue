@@ -58,7 +58,7 @@ export default {
         items-center
         h-fit
         px-4
-        rounded-md
+        rounded-sm
         justify-center
         font-bold 
         text-md

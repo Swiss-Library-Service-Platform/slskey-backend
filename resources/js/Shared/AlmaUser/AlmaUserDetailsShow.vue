@@ -1,5 +1,5 @@
 <template>
-  <div class="w-fit bg-color-alma rounded-md p-8 flex flex-col">
+  <div class="w-fit bg-color-alma rounded-sm p-8 flex flex-col">
     <div class="flex flex-row">
       <div class="flex flex-col text-left mr-8 whitespace-nowrap">
         <img class="h-16 w-16 mb-4" src="/images/alma_logo.png" />

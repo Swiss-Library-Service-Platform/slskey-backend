@@ -44,7 +44,7 @@
                     <ComboboxOption v-for="item in results" as="template" :key="item.id + item.entity + keyAppend"
                         :value="item" v-slot="{ selected, active }">
                         <li class="relative sm:px-2">
-                            <div class="flex justify-between sm:rounded-md px-2 py-1 cursor-pointer select-none" :class="{
+                            <div class="flex justify-between sm:rounded-sm px-2 py-1 cursor-pointer select-none" :class="{
                                 'ring-2 ring-color-one-1 bg-color-one-2': active
                             }">
                                 <span class="truncate"

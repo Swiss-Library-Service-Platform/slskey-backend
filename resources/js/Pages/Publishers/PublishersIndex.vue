@@ -5,8 +5,8 @@
         <DefaultButton @click="createPublisher" icon="plus" class="w-fit bg-color-slsp text-white py-2 my-8">
             {{ $t('publishers.create_new') }}
         </DefaultButton>
-        <div class="overflow-x-auto bg-white shadow-md rounded-md">
-            <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+        <div class="overflow-x-auto bg-white shadow-md rounded-sm">
+            <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('publishers.name') }} </th>

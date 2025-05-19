@@ -11,9 +11,8 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->boolean('cloud_app_allow')->default(false)->after('webhook_token_reactivation_days_token_validity');
-            $table->string('cloud_app_roles')->nullable()->after('cloud_app_allow');
-            $table->string('cloud_app_roles_scopes')->nullable()->after('cloud_app_roles');
+            $table->boolean('webhook_custom_verifier_deactivation')->default(false)->after('webhook_custom_verifier');
+            $table->boolean('webhook_token_reactivation')->default(false)->after('webhook_custom_verifier_deactivation');
         });
     }
 
@@ -24,9 +23,8 @@ return new class () extends Migration {
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->dropColumn([
-                'cloud_app_allow',
-                'cloud_app_roles',
-                'cloud_app_roles_scopes',
+                'webhook_custom_verifier_deactivation',
+                'webhook_token_reactivation',
             ]);
         });
     }

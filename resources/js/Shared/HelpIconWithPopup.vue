@@ -7,7 +7,7 @@
             <QuestionMarkCircleIcon class="h-5 w-5 text-gray-400" />
         </button>
         <div ref="tooltipRef" v-bind:class="{ 'hidden': !tooltipShow, 'block': tooltipShow }"
-            class="bg-white border border-gray-200 p-2 rounded-md shadow-md ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg">
+            class="bg-white border border-gray-200 p-2 rounded-sm shadow-md ml-3 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-md">
             <div class="text-black p-3 whitespace-pre-line">
                 <slot></slot>
                 <br>

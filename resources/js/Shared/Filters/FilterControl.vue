@@ -2,10 +2,10 @@
     <div class="flex flex-wrap gap-2 items-end">
         <slot />
         <!--
-        <button class="ml-2 self-end text-gray-500 focus:text-indigo-500 text-sm p-3 rounded-lg hover:bg-gray-300 hover:text-color-one" type="button"
+        <button class="ml-2 self-end text-gray-500 focus:text-indigo-500 text-sm p-3 rounded-md hover:bg-gray-300 hover:text-color-one" type="button"
             @click="$emit('reset')"></button>
         -->
-        <button  @click.prevent="$emit('reset')" class="w-fit h-10 bg-color-header-bg text-white ml-1 items-center justify-center px-3 rounded-md">
+        <button  @click.prevent="$emit('reset')" class="w-fit h-10 bg-color-header-bg text-white ml-1 items-center justify-center px-3 rounded-sm">
             <MaterialIcon icon="filter_remove" :size="18" />
         </button>
     </div>

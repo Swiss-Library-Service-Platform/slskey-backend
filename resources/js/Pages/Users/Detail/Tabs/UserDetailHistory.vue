@@ -1,6 +1,6 @@
 <template>
-    <div class="rounded-md rounded-lg overflow-x-auto">
-        <table class="table-auto min-w-full divide-y divide-gray-table rounded-md">
+    <div class="rounded-sm rounded-md overflow-x-auto">
+        <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
             <thead class="">
                <SlskeyHistoryHeader :showRelativeDate="true" />
             </thead>

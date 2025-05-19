@@ -65,8 +65,8 @@ class TestSlskeyGroupSeeder extends Seeder
             'webhook_mail_activation_domains' => 'example.txt',
 
             'days_activation_duration' => 365,
-            'webhook_mail_activation_days_send_before_expiry' => 14,
-            'webhook_mail_activation_days_token_validity' => 60,
+            'webhook_token_reactivation_days_send_before_expiry' => 14,
+            'webhook_token_reactivation_days_token_validity' => 60,
         ]);
         config('roles.models.permission')::create([
             'name' => 'slskey group webhook1',
@@ -95,7 +95,8 @@ class TestSlskeyGroupSeeder extends Seeder
             'workflow' => WorkflowEnums::WEBHOOK,
             'alma_iz' => '41SLSP_3',
             'webhook_secret' => 'mock_secret',
-            'webhook_custom_verifier' => true,
+            'webhook_custom_verifier_activation' => true,
+            'webhook_custom_verifier_deactivation' => true,
             'webhook_custom_verifier_class' => 'VerifierABN',
         ]);
         config('roles.models.permission')::create([
@@ -111,7 +112,8 @@ class TestSlskeyGroupSeeder extends Seeder
             'workflow' => WorkflowEnums::WEBHOOK,
             'alma_iz' => '41SLSP_4',
             'webhook_secret' => 'mock_secret',
-            'webhook_custom_verifier' => true,
+            'webhook_custom_verifier_activation' => true,
+            'webhook_custom_verifier_deactivation' => true,
             'webhook_custom_verifier_class' => 'VerifierA150',
         ]);
         config('roles.models.permission')::create([

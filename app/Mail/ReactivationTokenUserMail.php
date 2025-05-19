@@ -3,13 +3,11 @@
 namespace App\Mail;
 
 use App\Models\SlskeyGroup;
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class ReactivationTokenUserMail extends Mailable
 {
-    use Queueable;
     use SerializesModels;
 
     public $slskeyGroup;

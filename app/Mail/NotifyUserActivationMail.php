@@ -4,13 +4,11 @@ namespace App\Mail;
 
 use App\Models\AlmaUser;
 use App\Models\SlskeyGroup;
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class NotifyUserActivationMail extends Mailable
 {
-    use Queueable;
     use SerializesModels;
 
     public $slskeyGroup;

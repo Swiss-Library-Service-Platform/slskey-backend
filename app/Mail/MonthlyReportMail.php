@@ -4,13 +4,11 @@ namespace App\Mail;
 
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyReportCounts;
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class MonthlyReportMail extends Mailable
 {
-    use Queueable;
     use SerializesModels;
 
     public $slskeyGroup;

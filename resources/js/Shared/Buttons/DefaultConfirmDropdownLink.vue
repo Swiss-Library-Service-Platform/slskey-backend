@@ -3,12 +3,12 @@
 <script>
 import { v4 as uuid } from 'uuid';
 import ConfirmDialog from '../ConfirmDialog.vue';
-import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
+import DropdownLink from '@/Shared/DropdownLink.vue';
 
 export default {
     components: {
         ConfirmDialog,
-        JetDropdownLink
+        DropdownLink
     },
     data() {
         return {

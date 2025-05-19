@@ -15,7 +15,6 @@
         "inertiajs/inertia-laravel": "^0.6.11",
         "jeremykenedy/laravel-roles": "^10.0",
         "laravel/framework": "^10",
-        "laravel/jetstream": "^4.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.9.0",
         "maatwebsite/excel": "^3.1",

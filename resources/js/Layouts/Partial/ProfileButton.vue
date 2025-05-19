@@ -33,12 +33,12 @@
                 <div class="px-1 py-1 ">
                     <MenuItem class=" hover:bg-color-one-1 hover:text-color-one" v-slot="{ active }">
                         <form method="POST" @submit.prevent="logout">
-							<JetDropdownLink href="/logout/eduid">
+							<DropdownLink href="/logout/eduid">
 								<LogoutIcon class="h-4 w-4 mr-2" />
 								<div class="py-2">
 									{{ $t('app_header.logout') }}
 								</div>
-							</JetDropdownLink>
+							</DropdownLink>
 						</form>
 
                     </MenuItem>
@@ -53,10 +53,10 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import Icon from '../../Shared/Icon.vue';
 import axios from 'axios'
 import { LogoutIcon } from '@heroicons/vue/solid';
-import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
+import DropdownLink from '@/Shared/DropdownLink.vue';
 
 export default {
-    components: { Menu, MenuButton, MenuItems, MenuItem, Icon, LogoutIcon, JetDropdownLink },
+    components: { Menu, MenuButton, MenuItems, MenuItem, Icon, LogoutIcon, DropdownLink },
     data() {
         return {
             isShowing: false,

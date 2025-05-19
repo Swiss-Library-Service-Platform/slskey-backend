@@ -40,7 +40,7 @@
                     <!-- Status Chip-->
                     <UserStatusChip :activation="activation" />
                     <!-- Edit Button -->
-                    <JetDropdown align="right" width="48">
+                    <Dropdown align="right" width="48">
                       <template #trigger>
                         <span class="inline-flex rounded-sm">
                           <DefaultIconButton :loading="activation.loading" class="bg-white py-1 text-color-header-bg"
@@ -95,7 +95,7 @@
                           {{ $t('user_management.unblock') }}
                         </DefaultConfirmDropdownLink>
                       </template>
-                    </JetDropdown>
+                    </Dropdown>
                   </div>
                   <!-- Action Date -->
                   <div class="text-xs italic">
@@ -266,8 +266,7 @@ import UserStatusChip from "@/Shared/UserStatusChip.vue";
 import { Inertia } from "@inertiajs/inertia";
 import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
-import JetDropdown from '@/Jetstream/Dropdown.vue';
-import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
+import Dropdown from '@/Shared/Dropdown.vue';
 import DefaultConfirmButton from "@/Shared/Buttons/DefaultConfirmButton.vue";
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
 import Icon from "@/Shared/Icon.vue";
@@ -286,8 +285,7 @@ export default {
     DefaultIconButton,
     ConfirmDialog,
     DefaultConfirmButton,
-    JetDropdown,
-    JetDropdownLink,
+    Dropdown,
     DefaultConfirmDropdownLink,
     Icon,
     LetterIcon,

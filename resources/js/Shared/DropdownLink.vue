@@ -17,12 +17,6 @@ defineProps({
         <a v-if="href" :href="href" class="flex flex-row items-center text-md px-4 py-2 leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
             <slot />
         </a>
-<!--
-        <Link v-else :href="href" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
-            <slot />
-        </Link>
-
--->
 
     </div>
 </template>

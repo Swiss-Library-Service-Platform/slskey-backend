@@ -31,7 +31,7 @@
     </DialogModal>
 </template>
 <script>
-import DialogModal from '../Jetstream/DialogModal.vue';
+import DialogModal from './DialogModal.vue';
 import Icon from '@/Shared/Icon.vue';
 import TextAreaInput from "@/Shared/Forms/TextAreaInput.vue";
 import DefaultButton from './Buttons/DefaultButton.vue';

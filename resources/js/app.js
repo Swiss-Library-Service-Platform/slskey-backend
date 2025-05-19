@@ -2,8 +2,7 @@ require('./bootstrap');
 
 import { createApp, h } from 'vue';
 import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3';
-import { InertiaProgress } from '@inertiajs/progress';
-import { createI18n } from 'vue-i18n/index';
+import { createI18n } from 'vue-i18n';
 import { defaultLocale, languages } from '../lang';
 import VueNumberInput from '@chenfengyuan/vue-number-input';
 import moment from 'moment'; // Import Moment.js
@@ -43,5 +42,3 @@ createInertiaApp({
             .mount(el);
     },
 });
-
-InertiaProgress.init({ color: '#4B5563' });

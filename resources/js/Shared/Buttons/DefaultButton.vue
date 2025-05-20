@@ -1,7 +1,7 @@
 <script setup>
 import Icon from '../Icon.vue';
 import { v4 as uuid } from 'uuid'
-defineProps({
+const props = defineProps({
     id: {
         type: String,
         default() {
@@ -35,7 +35,7 @@ defineProps({
             'opacity-70': loading,
         },
         // Class from parent component
-        this.class
+        props.class
     ]">
         <span v-if="icon && !loading" class="mr-1 h-4 w-4">
             <Icon :icon="icon" />

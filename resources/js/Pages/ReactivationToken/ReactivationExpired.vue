@@ -23,7 +23,6 @@
 
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Inertia } from "@inertiajs/inertia";
 
 // register globally
 export default {

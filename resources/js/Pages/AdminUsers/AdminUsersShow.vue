@@ -14,11 +14,9 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
-import { Inertia } from '@inertiajs/inertia';
 import TextInput from '@/Shared/Forms/TextInput.vue';
 import SelectInput from '@/Shared/Forms/SelectInput.vue';
 import CheckboxInput from '@/Shared/Forms/CheckboxInput.vue';
-import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
 import DefaultIconButton from '@/Shared/Buttons/DefaultIconButton.vue';
 import NumberInput from '@/Shared/Forms/NumberInput.vue';
 import SlskeyGroupForm from '@/Pages/SlskeyGroups/Partial/SlskeyGroupForm.vue';
@@ -29,8 +27,6 @@ export default {
         AppLayout,
         SelectFilter,
         DefaultIconButton,
-        Inertia,
-        DefaultButton,
         TextInput,
         SelectInput,
         NumberInput,

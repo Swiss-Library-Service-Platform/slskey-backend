@@ -10,17 +10,19 @@
         <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="">
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {{ $t('log_jobs.time') }}
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {{ $t('log_jobs.job') }}
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        {{ $t('log_jobs.info') }}
-                    </th>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ $t('log_jobs.time') }}
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ $t('log_jobs.job') }}
+                        </th>
+                        <th class="px-6 py-3 te</tr>xt-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ $t('log_jobs.info') }}
+                        </th>
+                    </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-table">
                     <template v-if="logs.data.length > 0">

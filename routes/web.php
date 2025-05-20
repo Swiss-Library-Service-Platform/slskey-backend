@@ -60,7 +60,7 @@ Route::get('/publishers', [AuthController::class, 'participate'])
 
 // Authenticated Routes
 Route::middleware([
-    config('jetstream.auth_session'),
+    //config('jetstream.auth_session'),
     'auth.check',
 ])->group(function () {
     // Logout

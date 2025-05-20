@@ -3,12 +3,12 @@
 <script>
 import { v4 as uuid } from 'uuid';
 import ConfirmDialog from '../ConfirmDialog.vue';
-import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
+import DropdownLink from '@/Shared/DropdownLink.vue';
 
 export default {
     components: {
         ConfirmDialog,
-        JetDropdownLink
+        DropdownLink
     },
     data() {
         return {
@@ -61,7 +61,7 @@ export default {
         :inputRemark="this.activation?.remark" @confirmed="this.confirm" @canceled="this.cancel"
         :show="this.showModal"></ConfirmDialog>
 
-    <JetDropdownLink as="button" @click.prevent="showConfirmModal" :disabled="disabled">
+    <DropdownLink as="button" @click.prevent="showConfirmModal" :disabled="disabled">
         <slot />
-    </JetDropdownLink>
+    </DropdownLink>
 </template>

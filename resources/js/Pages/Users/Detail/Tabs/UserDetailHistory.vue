@@ -24,7 +24,6 @@
 <script>
 
 import UserStatusChip from '@/Shared/UserStatusChip.vue'
-import { Inertia } from '@inertiajs/inertia';
 import UserActionChip from '@/Shared/UserActionChip.vue'
 import Icon from '@/Shared/Icon.vue'
 import SlskeyHistoryRow from '../../../../Shared/SlskeyHistoryRow.vue';
@@ -32,7 +31,6 @@ import SlskeyHistoryHeader from '../../../../Shared/SlskeyHistoryHeader.vue';
 export default {
     components: {
         Icon,
-        Inertia,
         UserStatusChip,
         UserActionChip,
         SlskeyHistoryRow,

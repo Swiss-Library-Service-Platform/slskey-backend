@@ -65,7 +65,9 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import TextInput from "../../Shared/Forms/TextInput.vue";
 import DefaultButton from "../../Shared/Buttons/DefaultButton.vue";
 import Listbox from "../../Shared/Listbox.vue";
-import { Inertia } from "@inertiajs/inertia";
+import {  } from "@inertiajs/inertia";
+import { Inertia } from '@inertiajs/inertia';
+
 import SelectActivationInput from "@/Shared/Forms/SelectActivationInput.vue";
 import AlmaUserDetailsShow from "@/Shared/AlmaUser/AlmaUserDetailsShow.vue";
 import TextAreaInput from "@/Shared/Forms/TextAreaInput.vue";

@@ -5,7 +5,7 @@
         },
     ]">
         <div class="w-full flex flex-row align-center py-8 px-10 mt-5 mb-10 bg-white rounded-sm shadow-md">
-            <JetApplicationLogo class="h-40 w-auto" />
+            <img class="h-40 w-auto" src="/images/slskey_logo_full_black.png"/>
             <div class="ml-20 flex flex-col">
                 <div class="text-3xl">SLSKey for Content Providers</div>
                 <div class="mt-5 flex flex-col">
@@ -285,15 +285,12 @@
 
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Inertia } from "@inertiajs/inertia";
 import Icon from '@/Shared/Icon.vue';
-import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue';
 
 // register globally
 export default {
     components: {
         AppLayout,
-        JetApplicationLogo,
         Icon
     },
     props: {

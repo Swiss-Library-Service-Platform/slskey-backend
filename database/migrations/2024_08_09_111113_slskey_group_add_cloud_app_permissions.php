@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
-            $table->boolean('cloud_app_allow')->default(false)->after('webhook_token_reactivation_days_token_validity');
+            $table->boolean('cloud_app_allow')->default(false)->after('webhook_mail_activation_days_token_validity');
             $table->string('cloud_app_roles')->nullable()->after('cloud_app_allow');
             $table->string('cloud_app_roles_scopes')->nullable()->after('cloud_app_roles');
         });

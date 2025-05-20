@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.2.0",
         "24slides/laravel-saml2": "^2.4.2",
         "biiiiiigmonster/hasin": "^3.1",
         "doctrine/dbal": "^3.9.4",

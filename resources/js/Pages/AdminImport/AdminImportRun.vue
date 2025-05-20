@@ -136,7 +136,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import DefaultButton from '@/Shared/Buttons/DefaultButton.vue';
-import { Inertia } from '@inertiajs/inertia';
 import TextInput from '../../Shared/Forms/TextInput.vue';
 import Echo from 'laravel-echo';
 import Icon from '@/Shared/Icon.vue';
@@ -147,7 +146,6 @@ export default {
         AppLayout,
         DefaultButton,
         SelectFilter,
-        Inertia,
         TextInput,
         Echo,
         Icon,

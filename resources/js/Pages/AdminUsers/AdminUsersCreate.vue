@@ -17,7 +17,6 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
-import { Inertia } from '@inertiajs/inertia';
 import TextInput from '../../Shared/Forms/TextInput.vue';
 import AdminUserForm from './Partial/AdminUserForm.vue';
 
@@ -25,7 +24,6 @@ export default {
     components: {
         AppLayout,
         SelectFilter,
-        Inertia,
         TextInput,
         AdminUserForm
     },

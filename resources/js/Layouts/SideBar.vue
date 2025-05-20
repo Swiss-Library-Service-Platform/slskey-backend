@@ -5,7 +5,6 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import NavLink from '../Shared/Buttons/NavLink.vue';
 import NavButton from '../Shared/Buttons/NavButton.vue';
 import Icon from '../Shared/Icon.vue';
-import { Inertia } from '@inertiajs/inertia';
 import axios from 'axios';
 
 export default {

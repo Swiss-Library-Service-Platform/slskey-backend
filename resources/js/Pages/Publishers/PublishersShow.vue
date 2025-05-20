@@ -14,7 +14,6 @@
 
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Inertia } from '@inertiajs/inertia';
 import PublisherForm from './Partial/PublisherForm.vue';
 export default {
     components: {

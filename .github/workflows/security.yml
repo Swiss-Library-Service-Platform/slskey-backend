@@ -9,5 +9,5 @@ jobs:
         run: npm install && composer install
       - name: Run security audits
         run: |
-          npm audit --production
+          npm audit --omit=dev
           composer audit

@@ -14,7 +14,6 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
-import { Inertia } from '@inertiajs/inertia';
 import TextInput from '@/Shared/Forms/TextInput.vue';
 import SelectInput from '@/Shared/Forms/SelectInput.vue';
 import CheckboxInput from '@/Shared/Forms/CheckboxInput.vue';
@@ -28,7 +27,6 @@ export default {
         AppLayout,
         SelectFilter,
         DefaultIconButton,
-        Inertia,
         TextInput,
         SelectInput,
         NumberInput,

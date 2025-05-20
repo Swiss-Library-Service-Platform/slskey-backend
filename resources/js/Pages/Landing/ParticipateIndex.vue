@@ -285,7 +285,6 @@
 
 <script>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Inertia } from "@inertiajs/inertia";
 import Icon from '@/Shared/Icon.vue';
 
 // register globally

@@ -59,6 +59,7 @@ class HandleInertiaRequests extends Middleware
                 ->get()->first()?->uuid;
 
         return array_merge(parent::share($request), [
+            'auth.user' => $user,
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

@@ -29,7 +29,7 @@
         "@heroicons/vue": "^1.0.6",
         "@kyvg/vue3-notification": "^3.4.1",
         "@popperjs/core": "^2.11.8",
-        "@vuepic/vue-datepicker": "^3.6.8",
+        "@vuepic/vue-datepicker": "^11.0.2",
         "chart.js": "^4.4.9",
         "laravel-echo": "^1.19.0",
         "moment": "^2.30.1",

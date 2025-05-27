@@ -1,13 +1,14 @@
-name: Last Security Check
-on: [pull_request]
-jobs:
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm install && composer install
-      - name: Run security audits
-        run: |
-          npm audit --production
-          composer audit
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"  # Laravel backend
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "npm"
+    directory: "/"  # Vue.js frontend
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+

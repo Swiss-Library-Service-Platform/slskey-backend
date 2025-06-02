@@ -78,7 +78,7 @@
         </div>
 
         <!-- Alma Users -->
-        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-sm">
+        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-sm text-color-deactivated">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
                 <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr class="text-left whitespace-nowrap">

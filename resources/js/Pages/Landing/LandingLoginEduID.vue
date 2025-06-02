@@ -98,11 +98,9 @@ const submit = () => {
                                 required autocomplete="current-password" />
                         </div>
 
-                        <div class="w-full">
-                            <DefaultButton @click="submit" class="mt-4 text-lg leading-6">
-                                {{ $t('landing.login') }}
-                            </DefaultButton>
-                        </div>
+                        <DefaultButton @click="submit" class="w-full mt-4 text-lg leading-6">
+                            {{ $t('landing.login') }}
+                        </DefaultButton>
                     </form>
                 </div>
             </div>

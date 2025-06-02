@@ -34,6 +34,13 @@ class SlskeyActivation extends Model
     ];
 
     /**
+     * The relationships that should be touched on save.
+     *
+     * @var array
+     */
+    protected $touches = ['slskeyUser'];
+
+    /**
      * Get Slskey User
      *
      * @return BelongsTo

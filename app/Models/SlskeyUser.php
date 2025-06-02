@@ -21,6 +21,8 @@ class SlskeyUser extends Model
         'primary_id',
         'first_name',
         'last_name',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -189,7 +191,7 @@ class SlskeyUser extends Model
 
         $query->when($filters['sortBy'] ?? function ($query) {
             // When no order is set
-            return $query->orderBy('created_at', 'asc');
+            return $query->orderBy('updated_at', 'desc');
         }, function ($query, $sort_by) use ($filters) {
             // Sort by activation date
             if ($sort_by == 'activation_date') {

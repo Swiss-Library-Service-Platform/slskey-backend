@@ -80,8 +80,9 @@ class ActivationController extends Controller
         // SLSKey User (stored in SLSKey database)
         $primaryId = $almaServiceResponse->almaUsers[0]->primary_id;
         $slskeyUser = SlskeyUser::query()
+            ->filter([])
             ->where('primary_id', $primaryId)
-            ->filterWithPermittedActivations()
+            ->withPermittedActivations()
             ->firstOr(function () {
                 return null;
             });

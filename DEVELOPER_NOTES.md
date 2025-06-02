@@ -183,6 +183,8 @@ For improved performance, you can optionally use PHP-FPM instead of the Apache P
 
 ## Local Development
 
+It's recommended to use Docker for local development to ensure consistency across environments.
+
 ### Docker Setup
 
 1. Configure environment:
@@ -229,19 +231,19 @@ Note: Unit tests are not included as individual functions are not complex enough
 ### Running Tests
 
 ```bash
-# Run tests without coverage
-vendor/bin/pest --no-coverage
+# Run tests using docker
+./vendor/bin/sail artisan test
 
 # If tests fail, try clearing config:
-php artisan config:clear
+./vendor/bin/sail artisan config:clear
 ```
 
 ### Test Coverage
 
 ```bash
 # Generate coverage report (requires XDebug)
-./vendor/bin/pest --coverage
-```
+./vendor/bin/sail artisan test --coverage
+
 
 ## Authentication
 

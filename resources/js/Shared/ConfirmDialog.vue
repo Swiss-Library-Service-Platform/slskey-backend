@@ -16,12 +16,12 @@
         </template>
         <template #footer>
             <div class="flex justify-between w-full">
-                <div class="w-32 flex items-center">
+                <div class="w-36 flex items-center">
                     <DefaultButton @click="confirm" icon="check" class="w-full text-md">
                         {{ $t('confirm_dialog.confirm') }}
                     </DefaultButton>
                 </div>
-                <div class="w-32 flex items-center">
+                <div class="w-36 flex items-center">
                     <DefaultButton @click="cancel" icon="x" class="w-full !bg-white font-normal shadow-none text-black">
                         {{ $t('confirm_dialog.cancel') }}
                     </DefaultButton>

@@ -54,8 +54,8 @@ class UsersController extends Controller
 
         // Query for SlskeyUsers with specified permissions, ordering, and filtering
         $slskeyUsersWithPermissions = SlskeyUser::query()
-            ->filterWithPermittedActivations($slskeyCode)
             ->filter(Request::all())
+            ->withPermittedActivations($slskeyCode)
             ->paginate($perPage)
             ->withQueryString();
 
@@ -66,8 +66,8 @@ class UsersController extends Controller
             if ($almaUser) {
                 $slskeyUsersWithPermissions = SlskeyUser::query()
                     ->where('primary_id', $almaUser->primary_id)
-                    ->filterWithPermittedActivations($slskeyCode)
                     ->filter(Request::except('search'))
+                    ->withPermittedActivations($slskeyCode)
                     ->paginate($perPage)
                     ->withQueryString();
             }
@@ -92,14 +92,10 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $user = SlskeyUser::query()
             ->where('primary_id', $identifier)
-            ->filterWithPermittedActivations()
+            ->filter([])
+            ->withPermittedActivations()
             ->withPermittedHistories()
-            ->first();
-
-        // Abort with 404 if the user is not found
-        if (! $user) {
-            abort(404);
-        }
+            ->firstOrFail();
 
         // Check if there is a slskeyGroup in users slskeyActviation which has 'webhook_mail_activation' set
         $webhookMailActivation = $user->slskeyActivations->first(function ($activation) {
@@ -120,8 +116,9 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified user.
+     * Get and update Alma user information based on the identifier.
      *
+     * @param string $identifier
      * @return JsonResponse
      */
     public function getAndUpdateAlmaUserInfos(string $identifier): JsonResponse
@@ -129,6 +126,7 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $identifier)
+            ->filter([])
             ->whereHasPermittedActivations()
             ->firstOrFail();
 
@@ -173,7 +171,8 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
-            ->whereHasPermittedActivations()
+            ->filter([])
+            ->whereHasPermittedActivations($slskeyCode)
             ->first();
 
         // Abort with 404 if the user is not found

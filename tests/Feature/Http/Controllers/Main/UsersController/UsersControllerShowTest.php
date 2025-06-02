@@ -30,7 +30,7 @@ it('succeeds to show user - 1 group - 1 user', function () {
     $this->actingAs($user);
 
     $slskeyUser = SlskeyUser::query()
-        ->filterWithPermittedActivations()
+        ->withPermittedActivations()
         ->withPermittedHistories()
         ->first();
     $response = $this->get("/users/{$slskeyUser->primary_id}");

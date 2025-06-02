@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-            <FilterControl @reset="reset">
+            <FilterControl @reset="reset" :onDownload="downloadUsers">
                 <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                     :placeholder="$t('user_management.search_placeholder')" />
                 <SelectFilter v-if="$page.props.numberOfPermittedSlskeyGroups > 1" v-model="form.slskeyCode"
@@ -14,17 +14,13 @@
                 <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_end')"
                     v-model="form.activation_end" />
             </FilterControl>
-            <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
-                class="!w-fit py-2 ml-2 mt-4">
-                {{ $t('user_management.export') }}
-            </DefaultButton>
         </div>
 
-        <div class="mt-8 overflow-x-auto bg-white shadow-md rounded-sm">
+        <div class="mt-8 overflow-x-auto bg-white shadow-md rounded-sm ">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="">
-                    <tr>
-                        <th @click="sort('full_name')" class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
+                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <tr class="whitespace-nowrap">
+                        <th @click="sort('full_name')" class="py-4 px-6 text-left cursor-pointer">
                             <div class="flex flex-row items-center gap-x-2">
                                 <MaterialIcon v-if="form.sortBy === 'full_name' && !form.sortAsc"
                                     icon="sort_ascending" />
@@ -35,14 +31,14 @@
                             </div>
                         </th>
                         <!-- SLSKey Group Description -->
-                        <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left whitespace-nowrap"> {{
+                        <th v-if="slskeyGroups.data.length > 1" class="py-4 px-6 text-left"> {{
                             $t('slskey_groups.slskey_code_description') }}
                         </th>
 
                         <!-- Activation Date -->
 
                         <th @click="sort('activation_date')"
-                            class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
+                            class="py-4 px-6 text-left cursor-pointer">
                             <div class="flex flex-row items-center gap-x-2">
                                 <MaterialIcon v-if="form.sortBy === 'activation_date' && !form.sortAsc"
                                     icon="sort_ascending" />
@@ -55,7 +51,7 @@
 
                         <!-- Expiration Date -->
                         <th @click="sort('expiration_date')"
-                            class="py-4 px-6 text-left whitespace-nowrap cursor-pointer">
+                            class="py-4 px-6 text-left cursor-pointer">
                             <div class="flex flex-row items-center gap-x-2">
                                 <MaterialIcon v-if="form.sortBy === 'expiration_date' && !form.sortAsc"
                                     icon="sort_ascending" />
@@ -66,14 +62,16 @@
                             </div>
                         </th>
                         <!-- Status -->
-                        <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('user_management.status') }} </th>
+                        <th class="py-4 px-6 text-left"> {{ $t('user_management.status') }} </th>
+                        <!-- White Space -->
+                        <th class="w-full"></th>
                     </tr>
                 </thead>
                 <tbody class="">
                     <template v-if="slskeyUsers.data.length > 0">
                         <template v-for="user, userIndex in slskeyUsers.data" :key="'user' + user.id">
 
-                            <tr @click="navigateTo(user.primary_id)" class="focus-within:bg-gray-100 cursor-pointer"
+                            <tr @click="navigateTo(user.primary_id)" class="focus-within:bg-gray-100 cursor-pointer whitespace-nowrap"
                                 v-for="activation, index in user.slskey_activations" :key="activation.id" :class="{
                                     'border-b border-b-gray-table': index === user.slskey_activations.length - 1,
                                     'bg-gray-100': isHighlighted(userIndex)
@@ -87,7 +85,7 @@
                                 -->
 
                                 <!-- Full Name -->
-                                <td v-if="index == 0" class="px-6"
+                                <td v-if="index == 0" class="px-6 "
                                     :class="getVerticalPadding(user.slskey_activations.length, index)">
                                     {{ user.full_name }}
                                 </td>
@@ -96,7 +94,7 @@
                                 <!-- SLSKey Group Description -->
                                 <td v-if="slskeyGroups.data.length > 1" class="px-6"
                                     :class="getVerticalPadding(user.slskey_activations.length, index)">
-                                    <div class="flex flex-row">
+                                    <div class="flex flex-row ">
                                         <SlskeyGroupNameAndIcon :workflow="activation.slskey_group.workflow"
                                             :slskeyGroupName="activation.slskey_group.name" />
                                     </div>
@@ -134,22 +132,9 @@
                                     <UserStatusChip :activation="activation" />
                                 </td>
 
-                                <!--
-                                    <td class="align-top">
-                                        <Link class="flex flex-col px-6 py-3 whitespace-nowrap" :href="`/users/${user.primary_id}`">
-                                            <div v-for="activation in user.activations" :key="activation.id">
-                                            {{ activation.expiration_date }}
-                                        </div>
-                                        </Link>
-                                    </td>
-                                    <td class="align-top">
-                                        <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-2" :href="`/users/${user.primary_id}`">
-                                        <template v-for="activation in user.activations" :key="activation.id">
-                                            <UserStatusChip :activation="activation"/>
-                                        </template>
-</Link>
-</td>
--->
+                                <!-- White Space -->
+                                <td class="px-6 py-3 whitespace-nowrap" :class="getVerticalPadding(user.slskey_activations.length, index)">
+                                </td>
                             </tr>
                         </template>
                     </template>
@@ -220,7 +205,6 @@ export default {
     data() {
         return {
             hoveredRow: null,
-            export_loading: false,
             form: {
                 perPage: this.perPage,
                 search: this.filters.search,
@@ -268,9 +252,9 @@ export default {
             // Trigger the watch function to make the API call with sorting options
             this.$nextTick(() => this.$forceUpdate());
         },
-        async export() {
-            this.export_loading = true;
-            axios({
+        async downloadUsers() {
+            console.log('export');
+            await axios({
                 url: 'users/export',
                 method: 'GET',
                 responseType: 'blob', // important
@@ -291,10 +275,8 @@ export default {
                 link.setAttribute('download', 'slskey_users.xlsx');
                 document.body.appendChild(link);
                 link.click();
-                this.export_loading = false;
             }).catch((error) => {
                 console.log(error);
-                this.export_loading = false;
             });
         },
         formatDate(date) {

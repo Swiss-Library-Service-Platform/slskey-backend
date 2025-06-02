@@ -45,7 +45,7 @@ defineProps({
         <span v-if="icon && !loading" class="Xtext-white h-4 w-4">
         <Icon :icon="icon" />
     </span>
-    <div v-if="loading" class="btn-spinner-black mr-2" />
+    <div v-if="loading" class="btn-spinner-black h-4 w-4" />
     <slot />
 </button>
 </template>

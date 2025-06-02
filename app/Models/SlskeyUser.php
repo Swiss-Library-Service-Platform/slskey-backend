@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SlskeyUser extends Model
 {
@@ -167,202 +168,227 @@ class SlskeyUser extends Model
      */
     public function scopeFilter(Builder $query, array $filters): Builder
     {
-        $searchableColumns = static::$searchable;
+        $filteredSlskeyCode = $filters['slskeyCode'] ?? null;
 
-        /*
-        ------    Search Filter -------
-        */
-        $query->when($filters['search'] ?? null, function ($query, $search) use ($searchableColumns) {
-            $searchTerms = explode(' ', $search);
-            $query->where(function ($query) use ($searchTerms, $searchableColumns) {
-                foreach ($searchTerms as $term) {
-                    $query->where(function ($query) use ($term, $searchableColumns) {
-                        foreach ($searchableColumns as $column) {
-                            $query->orWhere($column, 'LIKE', '%'.$term.'%');
-                        }
-                    });
-                }
-            });
-        });
-
-        /*
-            Sort by filters
-        */
-
-        $query->when($filters['sortBy'] ?? function ($query) {
-            // When no order is set
-            return $query->orderBy('updated_at', 'desc');
-        }, function ($query, $sort_by) use ($filters) {
-            // Sort by activation date
-            if ($sort_by == 'activation_date') {
-                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
-                if ($filters['sortAsc'] == 'false') {
-                    // this is slow, but it works
-                    $query->orderByRaw('(
-                        SELECT max(activation_date)
-                        FROM slskey_activations
-                        WHERE slskey_user_id = slskey_users.id
-                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
-                        group by slskey_user_id
-                        ORDER BY activation_date DESC
-                        LIMIT 1
-                    ) DESC');
-                } else {
-                    // this is slow, but it works
-                    $query->orderByRaw('(
-                        SELECT max(COALESCE(activation_date, \'9999-12-31\'))
-                        FROM slskey_activations
-                        WHERE slskey_user_id = slskey_users.id
-                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
-                        group by slskey_user_id
-                        ORDER BY activation_date DESC
-                        LIMIT 1
-                    ) ASC');
-                }
-            }
-            // Sort by expiration date
-            if ($sort_by == 'expiration_date') {
-                $permittedActivations = $query->get()->pluck('slskeyActivations')->flatten(); // we got these earlier when calling withPermittedActivations()
-                if ($filters['sortAsc'] == 'false') {
-                    // this is slow, but it works
-                    $query->orderByRaw('(
-                        SELECT max(expiration_date)
-                        FROM slskey_activations
-                        WHERE slskey_user_id = slskey_users.id
-                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
-                        group by slskey_user_id
-                        ORDER BY expiration_date DESC
-                        LIMIT 1
-                    ) DESC');
-                } else {
-                    // this is slow, but it works
-                    $query->orderByRaw('(
-                        SELECT max(COALESCE(expiration_date, \'9999-12-31\'))
-                        FROM slskey_activations
-                        WHERE slskey_user_id = slskey_users.id
-                        AND slskey_group_id IN (' . $permittedActivations->pluck('slskey_group_id')->implode(',') . ')
-                        group by slskey_user_id
-                        ORDER BY expiration_date DESC
-                        LIMIT 1
-                    ) ASC');
-                }
-            }
-
-            if ($sort_by == 'full_name') {
-                $query->orderBy('first_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc')
-                    ->orderBy('last_name', $filters['sortAsc'] == 'true' ? 'asc' : 'desc');
-            }
-        });
-
-        if (
-            array_key_exists('slskeyCode', $filters)
-            || array_key_exists('status', $filters)
-            || array_key_exists('activation_start', $filters)
-            || array_key_exists('activation_end', $filters)
-        ) {
-            $slskeyCode = $filters['slskeyCode'] ?? null;
-            $status = $filters['status'] ?? null;
-            $activationStart = $filters['activation_start'] ?? null;
-            $activationEnd = $filters['activation_end'] ?? null;
-
-            $query->whereHas('slskeyActivations', function ($query) use ($status, $slskeyCode, $activationStart, $activationEnd) {
-                // Check for permissions again here, otherwise it looks up all users/activations for given filters
-
-                /** @var \App\Models\User */
-                $user = Auth::user();
-                $permissions = $user->getSlskeyGroupsPermissionsIds();
-                $query = $query->whereHas('slskeyGroup', function ($query) use ($permissions) {
-                    $query->whereIn('id', $permissions);
-                });
-                /*
-                ------    SLSKey Code Filter -------
-                */
-                if ($slskeyCode) {
-                    $query->whereHas('slskeyGroup', function ($query) use ($slskeyCode) {
-                        $query->where('slskey_code', $slskeyCode);
-                    });
-                }
-
-                /*
-                ------    Status Filter -------
-                */
-                if ($status) {
-                    if ($status === 'ACTIVE') {
-                        $query->where('activated', 1);
-                    } elseif ($status === 'DEACTIVATED') {
-                        $query->where('activated', 0)->where('blocked', 0);
-                    } elseif ($status === 'BLOCKED') {
-                        $query->where('blocked', 1);
-                    }
-                }
-
-                /*
-                ------    Activation Date Filter -------
-                */
-                if ($activationStart) {
-                    $query->whereDate('activation_date', '>=', $activationStart);
-                }
-                if ($activationEnd) {
-                    $query->whereDate('activation_date', '<=', $activationEnd);
-                }
-            });
-        }
-
-        return $query;
+        return $query
+            ->slskeyCodeAndPermissionFilter($filteredSlskeyCode)
+            ->searchFilter($filters['search'] ?? null)
+            ->statusFilter($filters, $filteredSlskeyCode)
+            ->activationDateFilter($filters['activation_start'] ?? null, $filters['activation_end'] ?? null, $filteredSlskeyCode)
+            ->applySorting($filters['sortBy'] ?? null, $filters['sortAsc'] ?? 'false', $filteredSlskeyCode);
     }
 
     /**
-     * Filter Users with Activations
+     * Apply permission + slskeyCode filters to a relation query
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $permittedIds
+     * @param string|null $slskeyCode
+     * @return void
+     */
+    private static function applyPermissionAndCodeFilter($query, array $permittedIds, ?string $slskeyCode): void
+    {
+        $query->whereIn('slskey_group_id', $permittedIds);
+
+        if ($slskeyCode) {
+            $query->whereHas('slskeyGroup', function ($q) use ($slskeyCode) {
+                $q->where('slskey_code', $slskeyCode);
+            });
+        }
+    }
+
+    /**
+     * Search Filter 
+     *
+     * @param string|null $sortBy
+     * @param string $sortAsc
+     * @
+     * @return Builder
+     */
+    public function scopeSearchFilter(Builder $query, ?string $search): Builder
+    {
+        if (!$search) return $query;
+
+        $searchableColumns = static::$searchable;
+        $searchTerms = explode(' ', $search);
+
+        return $query->where(function ($query) use ($searchTerms, $searchableColumns) {
+            foreach ($searchTerms as $term) {
+                $query->where(function ($query) use ($term, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Status Filter
+     *
+     * @param Builder $query
+     * @param string|null $filteredStatus
+     * @param string|null $filteredSlskeyCode
+     * @return Builder
+     */
+    public function scopeStatusFilter(Builder $query, array $filters, ?string $filteredSlskeyCode = null): Builder
+    {
+        if (!isset($filters['status'])) return $query;
+
+        $status = $filters['status'];
+        $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
+
+        return $query->whereHas('slskeyActivations', function ($q) use ($status, $permittedIds, $filteredSlskeyCode) {
+
+            self::applyPermissionAndCodeFilter($q, $permittedIds, $filteredSlskeyCode);
+            
+            if ($status === 'ACTIVE') {
+                $q->where('activated', 1);
+            } elseif ($status === 'DEACTIVATED') {
+                $q->where('activated', 0)->where('blocked', 0);
+            } elseif ($status === 'BLOCKED') {
+                $q->where('blocked', 1);
+            }
+        });
+    }
+
+    /**
+     * SLSKey Code Filter
      *
      * @param Builder $query
      * @param string|null $slskeyCode
      * @return Builder
      */
-    public function scopeFilterWithPermittedActivations(Builder $query, ?string $slskeyCode = null): Builder
+    public function scopeSlskeyCodeAndPermissionFilter(Builder $query, ?string $slskeyCode): Builder
     {
-        // Get current user and their permissions
-        /** @var \App\Models\User */
-        $user = Auth::user();
-        $slspEmployee = $user->isSLSPAdmin();
-        $permissions = $user->getSlskeyGroupsPermissionsIds();
+        $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
 
-        // Use 'whereHasIn' from third-party package, as it improves performance
-        $query->whereHasIn('slskeyActivations', function ($subQuery) use ($slskeyCode, $permissions) {
-            // Filter by permissions
-            $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
-                $groupQuery->whereIn('id', $permissions);
-            });
+        return $query->whereHas('slskeyActivations', function ($q) use ($slskeyCode, $permittedIds) {
+            self::applyPermissionAndCodeFilter($q, $permittedIds, $slskeyCode);
+        });
+    }
 
-            // Filter by SLSKey code
-            if ($slskeyCode) {
-                $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($slskeyCode) {
-                    $groupQuery->where('slskey_code', $slskeyCode);
-                });
+    /**
+     * Activation Date Filter
+     *
+     * @param Builder $query
+     * @param string|null $activationStart
+     * @param string|null $activationEnd
+     * @param string|null $filteredSlskeyCode
+     * @return Builder
+     */
+    public function scopeActivationDateFilter(Builder $query, ?string $start, ?string $end, ?string $filteredSlskeyCode = null): Builder
+    {
+        if (!$start && !$end) return $query;
+
+        $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
+
+        return $query->whereHas('slskeyActivations', function ($q) use ($start, $end, $permittedIds) {
+            
+            self::applyPermissionAndCodeFilter($q, $permittedIds, $filteredSlskeyCode);
+
+            if ($start) {
+                $q->whereDate('activation_date', '>=', $start);
+            }
+
+            if ($end) {
+                $q->whereDate('activation_date', '<=', $end);
             }
         });
+    }
 
-        // Eager load activations and related data
-        $query->with([
-            'slskeyActivations' => function ($subQuery) use ($slskeyCode, $permissions) {
-                // Filter by permissions
-                $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($permissions) {
-                    $groupQuery->whereIn('id', $permissions);
-                });
+    /**
+     * Apply Sorting
+     *
+     * @param Builder $query
+     * @param string|null $sortBy
+     * @param string $sortAsc
+     * @param string|null $filteredSlskeyCode
+     * @return Builder
+     */
+    public function scopeApplySorting(Builder $query, ?string $sortBy, string $sortAsc, ?string $slskeyCode = null): Builder
+    {
+        $asc = $sortAsc === 'true';
+        $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
 
-                // Filter by SLSKey code
-                if ($slskeyCode) {
-                    $subQuery->whereHas('slskeyGroup', function ($groupQuery) use ($slskeyCode) {
-                        $groupQuery->where('slskey_code', $slskeyCode);
+        if ($sortBy === 'activation_date' || $sortBy === 'expiration_date') {
+            $column = $sortBy === 'activation_date' ? 'activation_date' : 'expiration_date';
+            $alias = $sortBy === 'activation_date' ? 'a' : 'e';
+            $dateAlias = "latest_{$column}";
+
+            $subquery = DB::table('slskey_activations')
+                ->select('slskey_user_id', DB::raw("MAX({$column}) as {$dateAlias}"))
+                ->whereIn('slskey_group_id', $permittedIds)
+                ->when($slskeyCode, function ($q) use ($slskeyCode) {
+                    $q->whereIn('slskey_group_id', function ($sub) use ($slskeyCode) {
+                        $sub->select('id')
+                            ->from('slskey_groups')
+                            ->where('slskey_code', $slskeyCode);
                     });
-                }
+                })
+                ->groupBy('slskey_user_id');
 
-                // Eager load SLSKey Group details
-                $subQuery->with('slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution');
+            $query->leftJoinSub($subquery, $alias, function ($join) use ($alias) {
+                $join->on('slskey_users.id', '=', "{$alias}.slskey_user_id");
+            });
+
+            $orderClause = $asc
+                ? "{$alias}.{$dateAlias} IS NULL ASC, {$alias}.{$dateAlias} ASC"
+                : "{$alias}.{$dateAlias} IS NULL ASC, {$alias}.{$dateAlias} DESC";
+
+            return $query->orderByRaw($orderClause);
+        }
+
+        if ($sortBy === 'full_name') {
+            return $query->orderBy('first_name', $asc ? 'asc' : 'desc')
+                        ->orderBy('last_name', $asc ? 'asc' : 'desc');
+        }
+
+        return $query->orderBy('updated_at', 'desc');
+    }
+
+
+    /**
+     * Get permitted Activations for Users
+     *
+     * @param Builder $query
+     * @param string|null $slskeyCode
+     * @return Builder
+     */
+    public function scopeWithPermittedActivations(Builder $query, ?string $slskeyCode = null): Builder
+    {
+        $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
+
+        return $query->with([
+            'slskeyActivations' => function ($q) use ($permittedIds, $slskeyCode) {
+                self::applyPermissionAndCodeFilter($q, $permittedIds, $slskeyCode);
+                $q->with([
+                    'slskeyGroup:id,name,slskey_code,days_activation_duration,workflow,webhook_mail_activation,show_member_educational_institution'
+                ]);
             }
         ]);
-
-        return $query;
     }
+
+    /**
+     * Get Users With their permitted Histories
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithPermittedHistories(Builder $query): Builder
+    {
+        // Filter by permissions
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $permissions = $user->getSlskeyGroupsPermissionsIds();
+
+        return $query->with([
+            'slskeyHistories' => function ($query) use ($permissions) {
+                $query->whereIn('slskey_group_id', $permissions)->with(['slskeyGroup:id,name,slskey_code']);
+            },
+        ]);
+    }
+
 
     /**
      * Get Users that have permitted Activations
@@ -392,25 +418,5 @@ class SlskeyUser extends Model
         });
 
         return $query;
-    }
-
-    /**
-     * Get Users With their permitted Histories
-     *
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeWithPermittedHistories(Builder $query): Builder
-    {
-        // Filter by permissions
-        /** @var \App\Models\User */
-        $user = Auth::user();
-        $permissions = $user->getSlskeyGroupsPermissionsIds();
-
-        return $query->with([
-            'slskeyHistories' => function ($query) use ($permissions) {
-                $query->whereIn('slskey_group_id', $permissions)->with(['slskeyGroup:id,name,slskey_code']);
-            },
-        ]);
     }
 }

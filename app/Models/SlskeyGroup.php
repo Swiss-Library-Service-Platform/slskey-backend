@@ -204,7 +204,7 @@ class SlskeyGroup extends Model
     {
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
-            ->filterWithPermittedActivations()
+            ->withPermittedActivations()
             ->firstOr(function () {
                 return null;
             });

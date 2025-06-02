@@ -14,7 +14,7 @@
 
         <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="">
+                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <SlskeyHistoryHeader :showPrimaryId="true" :showAuthor="false" />
                 </thead>
                 <tbody class="divide-y divide-gray-table">

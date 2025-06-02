@@ -1,7 +1,7 @@
 <template>
     <div class="rounded-sm rounded-md overflow-x-auto">
         <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-            <thead class="">
+            <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                <SlskeyHistoryHeader :showRelativeDate="true" />
             </thead>
             <tbody class="divide-y divide-gray-table">

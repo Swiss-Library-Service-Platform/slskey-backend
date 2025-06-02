@@ -25,7 +25,7 @@
 
             <div v-show="displayTab == 0" class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
                 <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                    <thead class="">
+                    <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th
                                 class="py-4 px-10 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
@@ -46,7 +46,7 @@
                                 {{ $t('reporting.total_activations') }}
                             </th>
                         </tr>
-                        <tr>
+                        <tr class="normal-case">
                             <th
                                 class="pt-2 pb-4 px-6 text-center whitespace-nowrap cursor-pointer border-r border-gray-table">
                             </th>

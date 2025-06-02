@@ -48,7 +48,7 @@
                         <AlmaUserDetailsShow :almaUser="null" />
                     </template>
                 </div>
-                <div class="bg-white rounded shadow pt-4" v-show="activeTab === 2">
+                <div class="bg-white rounded shadow" v-show="activeTab === 2">
                     <UserDetailHistory :slskeyHistories="slskeyUser.data.slskey_histories" />
                 </div>
             </div>

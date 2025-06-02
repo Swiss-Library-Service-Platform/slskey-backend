@@ -27,19 +27,18 @@
                             <Link :href="link.url" v-if="index === 0"
                                 class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 "
                                 :class="link.url ? 'hover:bg-gray-50' : 'disabled text-gray-200'">
-                            <span class="sr-only">{{ $t('pagination.previous') }}</span>
-                            <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
+                                <span class="sr-only">{{ $t('pagination.previous') }}</span>
+                                <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
                             </Link>
                             <Link :href="link.url" v-else-if="index === pages.links.length - 1"
                                 class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
                                 :class="link.url ? 'hover:bg-gray-50' : 'disabled text-gray-200'">
-                            <span class="sr-only">{{ $t('next') }}</span>
-                            <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
+                                <span class="sr-only">{{ $t('next') }}</span>
+                                <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                             </Link>
                             <Link v-else :href="link.url" aria-current="page" v-html="link.label"
-                                class="flex justify-center text-center w-8 px-3 py-2 border text-sm font-medium" :class="{
-                                    'z-10 bg-indigo-50 border-color-one text-color-one': link.url && link.active,
-                                    'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': link,
+                                class="flex justify-center text-center w-8 px-3 py-2 border text-sm border-gray-300 text-gray-500 hover:bg-gray-50" :class="{
+                                    'bg-gray-100 font-bold': link.url && link.active,
                                 }" />
                         </template>
                     </nav>

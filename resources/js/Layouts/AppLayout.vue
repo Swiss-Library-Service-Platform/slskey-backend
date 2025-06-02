@@ -33,14 +33,14 @@ export default {
     <!-- Flash Notifications-->
     <Notifications />
 
-    <div class="flex flex-1" :class="{ 'bg-white': !modePublic, 'max-w-screen-xl m-auto': modePublic }">
+    <div class="flex flex-1" :class="{ '': !modePublic, 'max-w-screen-xl m-auto': modePublic }">
         <!-- Sidebar -->
         <SideBar class="flex" v-if="!modePublic" :route="route" />
 
         <!-- Page Contents -->
         <!-- <main class="flex-1 Xoverflow-x-clip overflow-x-auto bg-gray-background pl-8 pr-8"> -->
         <!-- <main class="flex-1 overflow-hidden pl-8 pr-8 bg-gray-background"> -->
-        <main class="flex-1 overflow-x-hidden pl-8 pr-8 bg-gray-background">
+        <main class="flex-1 overflow-x-hidden pl-8 pr-8 bg-gray-background max-w-screen-3xl">
             <slot />
         </main>
     </div>

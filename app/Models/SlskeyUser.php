@@ -198,7 +198,7 @@ class SlskeyUser extends Model
     }
 
     /**
-     * Search Filter 
+     * Search Filter
      *
      * @param string|null $sortBy
      * @param string $sortAsc
@@ -207,7 +207,9 @@ class SlskeyUser extends Model
      */
     public function scopeSearchFilter(Builder $query, ?string $search): Builder
     {
-        if (!$search) return $query;
+        if (!$search) {
+            return $query;
+        }
 
         $searchableColumns = static::$searchable;
         $searchTerms = explode(' ', $search);
@@ -233,15 +235,16 @@ class SlskeyUser extends Model
      */
     public function scopeStatusFilter(Builder $query, array $filters, ?string $filteredSlskeyCode = null): Builder
     {
-        if (!isset($filters['status'])) return $query;
+        if (!isset($filters['status'])) {
+            return $query;
+        }
 
         $status = $filters['status'];
         $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
 
         return $query->whereHas('slskeyActivations', function ($q) use ($status, $permittedIds, $filteredSlskeyCode) {
-
             self::applyPermissionAndCodeFilter($q, $permittedIds, $filteredSlskeyCode);
-            
+
             if ($status === 'ACTIVE') {
                 $q->where('activated', 1);
             } elseif ($status === 'DEACTIVATED') {
@@ -279,12 +282,13 @@ class SlskeyUser extends Model
      */
     public function scopeActivationDateFilter(Builder $query, ?string $start, ?string $end, ?string $filteredSlskeyCode = null): Builder
     {
-        if (!$start && !$end) return $query;
+        if (!$start && !$end) {
+            return $query;
+        }
 
         $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
 
         return $query->whereHas('slskeyActivations', function ($q) use ($start, $end, $permittedIds) {
-            
             self::applyPermissionAndCodeFilter($q, $permittedIds, $filteredSlskeyCode);
 
             if ($start) {
@@ -347,7 +351,6 @@ class SlskeyUser extends Model
         return $query->orderBy('updated_at', 'desc');
     }
 
-
     /**
      * Get permitted Activations for Users
      *
@@ -388,7 +391,6 @@ class SlskeyUser extends Model
             },
         ]);
     }
-
 
     /**
      * Get Users that have permitted Activations

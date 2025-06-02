@@ -126,6 +126,7 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $identifier)
+            ->filter([])
             ->whereHasPermittedActivations()
             ->firstOrFail();
 
@@ -170,6 +171,7 @@ class UsersController extends Controller
         // Query for SLSKey user by primary ID
         $slskeyUser = SlskeyUser::query()
             ->where('primary_id', $primaryId)
+            ->filter([])
             ->whereHasPermittedActivations($slskeyCode)
             ->first();
 

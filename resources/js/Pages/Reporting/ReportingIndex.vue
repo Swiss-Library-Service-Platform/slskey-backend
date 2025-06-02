@@ -76,7 +76,7 @@
                                 {{ $t('reporting.total_active_users') }}
                             </th>
                             <th v-if="isAnyEducationalUsers"
-                                class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap  border-r border-gray-table">
+                                class="pt-2 pb-4 px-6 text-center font-normal italic whitespace-nowrap ">
                                 {{ $t('reporting.total_active_educational_users') }}
                             </th>
                         </tr>

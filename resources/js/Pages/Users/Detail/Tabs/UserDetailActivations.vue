@@ -10,7 +10,7 @@
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14 w-24">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 w-24 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="users" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("slskey_groups.slskey_code_description") }}:
@@ -27,7 +27,7 @@
           </tr>
           <!-- Status -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="information-circle" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.status") }}:
@@ -112,7 +112,7 @@
           </tr>
           <!-- Activation Mail -->
           <tr v-if="isAnyWebhookMailActivation" class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.webhook_activation_mail") }}:
@@ -150,7 +150,7 @@
            -->
           <!-- Expiration Date -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.expiration_date") }}:
@@ -174,7 +174,7 @@
           </tr>
           <!-- Remark -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="annotation" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.remark") }}:
@@ -193,7 +193,7 @@
           </tr>
           <!-- Member educational institution -->
           <tr v-if="isAnyShowMemberEducationalInstitution" class="h-20">
-            <td class="py-4 px-8 text-left  font-bold pr-14">
+            <td class="py-4 px-8 text-leftpr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
                 <span class="flex flex-row items-end whitespace-pre-line">
@@ -228,7 +228,7 @@
           </tr>
           <!-- Switch Status -->
           <tr class="h-20" v-if="$page.props.isSlskeyAdmin">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold">
+            <td class="py-4 px-8 text-left whitespace-nowrap text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="link" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.switch_status") }}:

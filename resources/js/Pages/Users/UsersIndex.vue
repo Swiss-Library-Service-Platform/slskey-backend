@@ -1,7 +1,7 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('user_management.title') }]">
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-            <FilterControl @reset="reset">
+            <FilterControl @reset="reset" :onDownload="downloadUsers">
                 <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                     :placeholder="$t('user_management.search_placeholder')" />
                 <SelectFilter v-if="$page.props.numberOfPermittedSlskeyGroups > 1" v-model="form.slskeyCode"
@@ -14,10 +14,6 @@
                 <DatePickerFilter :label="$t('user_management.activation') + ' ' + $t('user_management.activation_end')"
                     v-model="form.activation_end" />
             </FilterControl>
-            <DefaultButton icon="documentDownload" :loading="export_loading" @click.prevent="this.export"
-                class="!w-fit py-2 ml-2 mt-4">
-                {{ $t('user_management.export') }}
-            </DefaultButton>
         </div>
 
         <div class="mt-8 overflow-x-auto bg-white shadow-md rounded-sm ">
@@ -209,7 +205,6 @@ export default {
     data() {
         return {
             hoveredRow: null,
-            export_loading: false,
             form: {
                 perPage: this.perPage,
                 search: this.filters.search,
@@ -257,9 +252,9 @@ export default {
             // Trigger the watch function to make the API call with sorting options
             this.$nextTick(() => this.$forceUpdate());
         },
-        async export() {
-            this.export_loading = true;
-            axios({
+        async downloadUsers() {
+            console.log('export');
+            await axios({
                 url: 'users/export',
                 method: 'GET',
                 responseType: 'blob', // important
@@ -280,10 +275,8 @@ export default {
                 link.setAttribute('download', 'slskey_users.xlsx');
                 document.body.appendChild(link);
                 link.click();
-                this.export_loading = false;
             }).catch((error) => {
                 console.log(error);
-                this.export_loading = false;
             });
         },
         formatDate(date) {

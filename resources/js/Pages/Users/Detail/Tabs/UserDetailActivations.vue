@@ -112,7 +112,7 @@
           </tr>
           <!-- Activation Mail -->
           <tr v-if="isAnyWebhookMailActivation" class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.webhook_activation_mail") }}:
@@ -131,23 +131,6 @@
               </td>
             </template>
           </tr>
-          <!-- 
-          <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap font-bold pr-14">
-              <div class="flex flex-row items-center">
-                <Icon icon="key" class="h-4 w-4 mr-2"></Icon>
-                {{ $t("user_management.activation_date") }}:
-              </div>
-            </td>
-            <template v-for="(activation, index) in slskeyUser.slskey_activations" :key="'user' + activation.id">
-              <td class="px-6 py-4">
-                <div v-if="activation.activation_date">
-                  {{ formatDate(activation.activation_date) }}
-                </div>
-              </td>
-            </template>
-          </tr>
-           -->
           <!-- Expiration Date -->
           <tr class="h-20">
             <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">

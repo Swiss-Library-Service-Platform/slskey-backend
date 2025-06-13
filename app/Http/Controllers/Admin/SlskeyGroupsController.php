@@ -142,6 +142,7 @@ class SlskeyGroupsController extends Controller
             'cloud_app_allow' => ['numeric'],
             'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
             'cloud_app_roles_scopes' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
+            'mail_token_reactivation' => ['boolean'],
         ];
 
         // Token Deactivation

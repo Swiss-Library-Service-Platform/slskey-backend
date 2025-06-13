@@ -65,8 +65,8 @@ class TestSlskeyGroupSeeder extends Seeder
             'webhook_mail_activation_domains' => 'example.txt',
 
             'days_activation_duration' => 365,
-            'webhook_token_reactivation_days_send_before_expiry' => 14,
-            'webhook_token_reactivation_days_token_validity' => 60,
+            'mail_token_reactivation_days_send_before_expiry' => 14,
+            'mail_token_reactivation_days_token_validity' => 60,
         ]);
         config('roles.models.permission')::create([
             'name' => 'slskey group webhook1',

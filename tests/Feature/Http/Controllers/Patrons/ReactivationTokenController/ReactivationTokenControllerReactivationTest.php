@@ -32,7 +32,7 @@ it('fails because token expired', function () {
     $slskeyActivation->setWebhookActivationMail($activationMail);
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
-    $slskeyGroup->webhook_token_reactivation_days_token_validity = 0; // Set validity to 0 days
+    $slskeyGroup->mail_token_reactivation_days_token_validity = 0; // Set validity to 0 days
     $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $activationMail, true);
 
     // Call token endpoint
@@ -56,12 +56,12 @@ it('succeeds to reactivate user & show already used when activation revoked', fu
 
     // Create Token
     $tokenService = app(\App\Services\TokenService::class);
-    $slskeyGroup->webhook_token_reactivation_days_token_validity = 1; // Set validity to 1 days
+    $slskeyGroup->mail_token_reactivation_days_token_validity = 1; // Set validity to 1 days
     $responseTokenService = $tokenService->createTokenIfNotExisting($slskeyActivation->slskey_user_id, $slskeyGroup, $slskeyActivation->webhook_activation_mail, true);
     $slskeyReactivationToken = SlskeyReactivationToken::query()->where('token', $responseTokenService->token)->first();
     expect($slskeyReactivationToken->used)->toBe(0);
     expect(\Carbon\Carbon::parse($slskeyReactivationToken->expiration_date)->isSameDay(
-        $slskeyReactivationToken->created_at->addDays($slskeyGroup->webhook_token_reactivation_days_token_validity)
+        $slskeyReactivationToken->created_at->addDays($slskeyGroup->mail_token_reactivation_days_token_validity)
     ))->toBeTrue();
 
     // sleep 1 second

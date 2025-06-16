@@ -36,9 +36,9 @@ class SlskeyGroup extends Model
         'webhook_custom_verifier_deactivation',
         'webhook_mail_activation',
         'webhook_mail_activation_domains',
-        'webhook_token_reactivation',
-        'webhook_token_reactivation_days_send_before_expiry',
-        'webhook_token_reactivation_days_token_validity',
+        'mail_token_reactivation',
+        'mail_token_reactivation_days_send_before_expiry',
+        'mail_token_reactivation_days_token_validity',
         'cloud_app_allow',
         'cloud_app_roles',
         'cloud_app_roles_scopes'

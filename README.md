@@ -47,6 +47,10 @@ For detailed requirements, see the [Developer Notes](DEVELOPER_NOTES.md#prerequi
 - [Service Documentation](https://slsp.atlassian.net/wiki/spaces/slsporgserv/pages/1042415617) - Detailed system documentation on SLSPhere (Confluence)
 - [Developer Notes](DEVELOPER_NOTES.md) - Comprehensive development documentation
 
+## Alma Cloud App
+
+For the SLSKey Alma Cloud App repository, see [here](https://github.com/Swiss-Library-Service-Platform/slskey-cloud-app).
+
 ## License
 
 Copyright © Swiss Library Service Platform (SLSP)

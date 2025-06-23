@@ -35,6 +35,7 @@
     "alma_app": "Alma Cloudapp",
     "cancel": "Annulla",
     "create_new": "Crea nuovo utente",
+    "created_at": "Creato il",
     "delete": "Elimina utente amministratore",
     "delete_confirm": "Sei sicuro di voler eliminare questo utente?",
     "delete_slskey_group": "Rimuovi gruppo SLSKey",
@@ -93,12 +94,16 @@
     "trigger": "Trigger"
   },
   "landing": {
+    "welcome_to": "Benvenuto nel",
+    "admin_portal": "Portale Admin SLSKey",
     "login": "Login",
     "orvia": "o",
     "password": "Password",
     "service": "un servizio fornito da ",
     "username": "Nome utente",
-    "clicktologin": "Fai clic sul pulsante per accedere con EDU-ID."
+    "clicktologin": "Fai clic sul pulsante per accedere con EDU-ID.",
+    "more_info": "Maggiori informazioni possono essere trovate in",
+    "slsphere": "SLSPhere"
   },
   "languages": {
     "english": "Inglese",

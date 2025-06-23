@@ -19,12 +19,6 @@ class AuthCheck
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            // Check if the user has a password change date set
-
-            if ((! Auth::user()->is_edu_id && Auth::user()->password_change_at == null)) {
-                return redirect(route('login_changepassword'));
-            }
-
             // Check if permissions
             if (! Auth::user()->getSlskeyGroupsPermissionsIds()) {
                 return redirect(route('noroles'));

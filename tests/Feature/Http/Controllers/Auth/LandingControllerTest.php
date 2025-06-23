@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia;
 
 test('it renders the landing index', function () {
@@ -15,49 +14,6 @@ test('it renders the landing index', function () {
 test('it redirects to error page when no edu-ID configured', function () {
     $response = $this->get('/login/eduid');
     $response->assertStatus(404);
-});
-
-test('it require to change the password', function () {
-    $user = User::factory()->non_edu_id_password_unchanged()->create();
-    $this->actingAs($user);
-    $response = $this->get('/');
-    $response->assertStatus(302);
-    $response->assertLocation('/login/changepassword');
-});
-
-test('it renders the change password page', function () {
-    $user = User::factory()->non_edu_id_password_unchanged()->create();
-    $this->actingAs($user);
-    $response = $this->get('/login/changepassword');
-    $response->assertInertia(function (AssertableInertia $page) {
-        $page->component('Auth/ChangeInitialPassword');
-    });
-});
-
-test('it requires the password and password_confirmation to match', function () {
-    $user = User::factory()->non_edu_id_password_unchanged()->create();
-    $this->actingAs($user);
-    $response = $this->post('/login/changepassword', [
-        'password' => 'newpassword',
-        'password_confirmation' => 'newpassword2',
-    ]);
-    $response->assertStatus(302);
-    $response->assertSessionHasErrors('password');
-    $this->assertAuthenticated();
-});
-
-test('it changes the password', function () {
-    $user = User::factory()->non_edu_id_password_unchanged()->create();
-    $this->actingAs($user);
-    $response = $this->post('/login/changepassword', [
-        'password' => 'newpassword',
-        'password_confirmation' => 'newpassword',
-    ]);
-    $response->assertStatus(302);
-    $response->assertRedirect('/');
-    $this->assertAuthenticated();
-    $this->assertAuthenticatedAs($user);
-    $this->assertTrue(Hash::check('newpassword', $user->password));
 });
 
 test('it logs out a user and redirects to landing page', function () {

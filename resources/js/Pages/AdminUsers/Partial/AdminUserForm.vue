@@ -73,11 +73,6 @@
                             :tooltip="$t('admin_users.cancel')">
                             {{ $t('admin_users.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating && !form.is_edu_id
-                        " @click="resetPassword()" class="text-color-one w-fit"
-                            icon="key" :tooltip="$t('admin_users.reset_password')">
-                            {{ $t('admin_users.reset_password') }}
-                        </DefaultButton>
                         <DefaultButton v-if="!isCreating" @click="deleteUser()" class="text-color-blocked w-fit"
                             icon="trash" :tooltip="$t('admin_users.delete')">
                             {{ $t('admin_users.delete') }}
@@ -157,9 +152,6 @@ export default {
         },
         deleteUser() {
             this.$emit('delete');
-        },
-        resetPassword() {
-            this.$emit('resetPassword');
         },
         removeGroup(id) {
             this.form.slskeyGroups = this.form.slskeyGroups.filter(group => group.id !== id);

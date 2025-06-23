@@ -26,6 +26,7 @@
                         <th class="py-4 px-4 "> {{ $t('admin_users.user_identifier') }} </th>
                         <th class="py-4 px-4 "> {{ $t('admin_users.display_name') }} </th>
                         <th class="py-4 px-4 "> {{ $t('admin_users.permissions') }} </th>
+                        <th class ="py-4 px-4 text-left"> {{ $t('admin_users.created_at') }} </th>
                         <th class="py-4 px-4 "> {{ $t('admin_users.last_login') }} </th>
                         <th class="py-4 px-4 w-full"></th>
                     </tr>
@@ -57,6 +58,11 @@
                                 </div>
                             </td>
                             <td class="align-top">
+                                <div class="flex px-6 py-3 ">
+                                    {{ user.created_at ? this.$moment(user.created_at).format('ll') : '-' }}
+                                </div>
+                            </td>
+                            <td class="align-top">
                                 <div class="flex px-6 py-3 "
                                                                 :class="{ 'text-color-blocked': user.last_login && this.$moment(user.last_login).isBefore(this.$moment().subtract(6, 'months')) }">
 
@@ -84,6 +90,7 @@
                     <tr class="text-left whitespace-nowrap">
                         <th class="py-4 px-4"> {{ $t('admin_users.user_identifier') }} </th>
                         <th class="py-4 px-4 text-left"> {{ $t('admin_users.permissions') }} </th>
+                        <th class ="py-4 px-4 text-left"> {{ $t('admin_users.created_at') }} </th>
                         <th class="py-4 px-4 text-left"> {{ $t('admin_users.last_login') }} </th>
                         <th class="py-4 px-4 w-full"></th>
                     </tr>
@@ -105,6 +112,11 @@
                                     <div v-for="slskeyGroup in user.slskeyGroups" :key="slskeyGroup.id">
                                         {{ slskeyGroup.name }}
                                     </div>
+                                </div>
+                            </td>
+                            <td class="align-top">
+                                <div class="flex px-6 py-3 ">
+                                    {{ user.created_at ? this.$moment(user.created_at).format('ll') : '-' }}
                                 </div>
                             </td>
                             <td class="align-top">

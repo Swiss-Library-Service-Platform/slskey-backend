@@ -197,7 +197,7 @@ it('succeeds to preview - existing user for unauthorized group - 2 groups', func
     expect($response)->toHaveSessionHasSuccessStartingWith('flashMessages.user_activated');
 
     // logout current sessions
-    $this->post(route('logout'));
+    $this->post(route('logout.user'));
 
     // login as user with different slskeycode
     $slskeyCode = 'man2';

@@ -21,7 +21,7 @@
         "predis/predis": "^2.4",
         "psr/simple-cache": "^1.0.1",
         "pusher/pusher-php-server": "^7.2.7",
-        "tightenco/ziggy": "^1.8.2"
+        "tightenco/ziggy": "^2.5.3"
     },
     "require-dev": {
         "laravel/dusk": "^7.13",

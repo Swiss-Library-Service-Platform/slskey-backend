@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia;
 
 test('it renders the landing index', function () {

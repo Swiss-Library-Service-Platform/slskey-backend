@@ -9,13 +9,13 @@ import Notifications from '@/Shared/Notifications.vue';
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
         <Notifications />
 
-        <div class="flex flex-row items-stretch bg-white shadow-xlrounded-xl rounded-md shadow-lg">
-            <div class="w-80 p-8 flex flex-col justify-between items-start bg-color-slsp-bg">
+        <div class="flex flex-row items-stretch  bg-color-slsp-bg shadow-xlrounded-xl rounded-md shadow-lg">
+            <div class="w-80 p-8 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
                 <img class="h-auto pb-16" src="/images/slskey_logo_full_black.png" />
             </div>
 
-            <div class="w-100 p-8 flex flex-col h-full items-center justify-between border-l">
+            <div class="w-100 p-8 flex flex-col h-full items-center justify-between border-l bg-white">
 
                 <div class="flex w-full flex-col items-center xtext-gray-table mb-4">
                     <span class="text-xl text-gray-500">
@@ -39,7 +39,7 @@ import Notifications from '@/Shared/Notifications.vue';
                 <div class="flex flex-col w-full items-center gap-y-4 mt-8">
                     <span class="text-sm text-gray-500">
                         {{ $t('landing.more_info') }}
-                        <a class="text-blue-800" href="https://slsp.ch/slskey" target="_blank">{{ $t('landing.slsphere') }}</a>.
+                        <a class="text-blue-800" href="https://slsp.atlassian.net/wiki/spaces/slsporgserv/pages/1042415617" target="_blank">{{ $t('landing.slsphere') }}</a>.
                     </span>
                 </div>
 

@@ -243,7 +243,7 @@ Note: Unit tests are not included as individual functions are not complex enough
 ```bash
 # Generate coverage report (requires XDebug)
 ./vendor/bin/sail artisan test --coverage
-
+```
 
 ## Authentication
 

@@ -35,6 +35,7 @@
     "alma_app": "Alma Cloudapp",
     "cancel": "Cancel",
     "create_new": "Create New User",
+    "created_at": "Created at",
     "delete": "Delete Admin User",
     "delete_confirm": "Are you sure that you want to delete this user?",
     "delete_slskey_group": "Remove SLSKey Group",

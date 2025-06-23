@@ -23,6 +23,7 @@ class AdminUserResource extends JsonResource
             'is_slsp_admin' => $this->isSLSPAdmin() ? 1 : 0,
             'last_login' => $this->last_login,
             'slskeyGroups' => SlskeyGroupSelectResource::collection($this->getSlskeyGroupsPermissions()),
+            'created_at' => $this->created_at,
             // for dropdown:
             'name' => $this->user_identifier,
             'value' => $this->user_identifier,

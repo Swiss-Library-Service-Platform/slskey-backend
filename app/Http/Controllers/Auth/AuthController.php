@@ -65,36 +65,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Change initial password
-     *
-     * @return Response
-     */
-    public function changePassword(): Response
-    {
-        return Inertia::render('Auth/ChangeInitialPassword', []);
-    }
-
-    /**
-     * Set new password
-     *
-     * @return RedirectResponse
-     */
-    public function setPassword(): RedirectResponse
-    {
-        /** @var \App\Models\User */
-        $user = Auth::user();
-
-        // Validate password and check if password and password_confirmation match
-        $password = request()->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        $user->setPassword($password['password']);
-
-        return Redirect::route('activation.start');
-    }
-
-    /**
      * No roles route
      *
      * @return Response

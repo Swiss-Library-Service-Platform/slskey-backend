@@ -93,12 +93,16 @@
     "trigger": "Trigger"
   },
   "landing": {
-    "clicktologin": "Click to login with your edu-ID.",
-    "login": "Login",
+    "welcome_to": "Welcome to the",
+    "admin_portal": "SLSKey Admin Portal",
+    "clicktologin": "Use your Switch edu-ID to securely log in.",
+    "login": "Login to SLSKey",
     "orvia": "or",
     "password": "Password",
     "service": "a service provided by ",
-    "username": "Username"
+    "username": "Username",
+    "more_info": "More information can be found in",
+    "slsphere": "SLSPhere"
   },
   "languages": {
     "english": "English",

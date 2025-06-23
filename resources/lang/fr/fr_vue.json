@@ -93,12 +93,16 @@
     "trigger": "Déclencheur"
   },
   "landing": {
+    "welcome_to": "Bienvenue dans le",
+    "admin_portal": "Portail Admin SLSKey",
     "login": "Connexion",
     "orvia": "ou",
     "password": "Mot de passe",
     "service": "un service fourni par ",
     "username": "Nom d'utilisateur",
-    "clicktologin": "Cliquez sur le bouton pour vous connecter avec Edu-ID."
+    "clicktologin": "Cliquez sur le bouton pour vous connecter avec Edu-ID.",
+    "more_info": "Plus d'informations peuvent être trouvées dans",
+    "slsphere": "SLSPhere"
   },
   "languages": {
     "english": "Anglais",

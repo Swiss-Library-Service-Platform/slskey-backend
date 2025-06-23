@@ -93,12 +93,16 @@
     "trigger": "Auslöser"
   },
   "landing": {
+    "welcome_to": "Willkommen im",
+    "admin_portal": "SLSKey Admin Portal",
     "login": "Anmelden",
     "orvia": "oder",
     "password": "Passwort",
     "service": "ein Service bereitgestellt von ",
     "username": "Benutzername",
-    "clicktologin": "Klicken für edu-ID Login."
+    "clicktologin": "Klicken für edu-ID Login.",
+    "more_info": "Weitere Informationen finden Sie in",
+    "slsphere": "SLSPhere"
   },
   "languages": {
     "english": "Englisch",

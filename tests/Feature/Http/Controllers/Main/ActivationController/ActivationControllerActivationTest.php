@@ -58,7 +58,7 @@ it('fails activation because no permissions', function () {
     $response->assertLocation(route('noroles'));
 
     // logout current sessions
-    $this->post(route('logout'));
+    $this->post(route('logout.user'));
 
     $user = User::factory()->non_edu_id_password_changed()->withPermissions('man2')->create();
     $this->actingAs($user);

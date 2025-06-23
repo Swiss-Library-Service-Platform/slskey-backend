@@ -201,26 +201,6 @@ class AdminUsersController extends Controller
     }
 
     /**
-     * Reset Password for Admin Users
-     *
-     * @param string $userIdentifier
-     * @return RedirectResponse
-     */
-    public function resetPassword(string $userIdentifier): RedirectResponse
-    {
-        $adminUser = User::query()
-            ->where('user_identifier', $userIdentifier)
-            ->firstOrFail();
-
-        $newPassword = Request::input('password');
-
-        $adminUser->resetPassword($newPassword);
-
-        return Redirect::route('admin.users.index')
-            ->with('success', __('flashMessages.admin_user_password_reset'));
-    }
-
-    /**
      * Find edu-ID Primary Identifier from email using Alma API
      *
      * @param string $email

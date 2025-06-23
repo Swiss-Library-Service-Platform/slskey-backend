@@ -6,7 +6,7 @@
     ]">
         <div class="w-max my-8 bg-white shadow-md rounded-sm">
             <AdminUserForm :availableSlskeyGroups="availableSlskeyGroups" :modelValue="form" @submit="saveAdminUser"
-                :isCreating="false" @cancel="cancel" @delete="deleteAdminUser" @resetPassword="resetPassword"/>
+                :isCreating="false" @cancel="cancel" @delete="deleteAdminUser"/>
         </div>
     </AppLayout>
 </template>
@@ -63,14 +63,6 @@ export default {
                 this.form.delete(`/admin/users/${this.adminUser.data.user_identifier}`);
             }
         },
-        resetPassword() {
-            let newPassword = prompt('Type new password here:');
-            if (newPassword) {
-                this.$inertia.put(`/admin/users/${this.adminUser.data.user_identifier}/resetpassword`, {
-                    password: newPassword
-                });
-            }
-        }
     }
 
 

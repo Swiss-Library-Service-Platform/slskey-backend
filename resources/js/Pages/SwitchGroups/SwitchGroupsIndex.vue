@@ -14,7 +14,6 @@
                 </DefaultButton>
             </div>
             <div class="flex gap-x-4">
-
                 <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4">
                     {{ $t('switch_groups.create_new') }}
                 </DefaultButton>

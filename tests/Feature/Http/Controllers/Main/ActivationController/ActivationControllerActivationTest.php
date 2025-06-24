@@ -43,7 +43,7 @@ it('fails activation because no edu id', function () {
     $response = activateUser($identifier, $this->slskeyCode, AlmaUser::factory()->make());
 
     $response->assertStatus(302);
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_edu_id'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_edu_id') . '.');
     $response->assertLocation(route('activation.preview', ['identifier' => $identifier]));
 });
 
@@ -75,27 +75,27 @@ it('fails deactivate/block/unblock/enableexp/disapleexp - user not found', funct
     $response = deactivateUser($identifier, $this->slskeyCode);
 
     $response->assertLocation(route('users.show', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user') . '.');
 
     $response = blockUser($identifier, $this->slskeyCode);
 
     $response->assertLocation(route('users.show', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user') . '.');
 
     $response = unblockUser($identifier, $this->slskeyCode);
 
     $response->assertLocation(route('users.show', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user') . '.');
 
     $response = disableExpiration($identifier, $this->slskeyCode);
 
     $response->assertLocation(route('users.show', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user') . '.');
 
     $response = enableExpiration($identifier, $this->slskeyCode);
 
     $response->assertLocation(route('users.show', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.no_user') . '.');
 });
 
 it('succeeds to activate & extend', function () {
@@ -154,7 +154,7 @@ it('succeeds to activate - block - activate(error) - unblock - activate', functi
     $response = activateUser($identifier, $this->slskeyCode, AlmaUser::factory()->make());
 
     $response->assertLocation(route('activation.preview', ['identifier' => $identifier]));
-    $response->assertSessionHas('error', __('flashMessages.errors.activations.user_blocked'));
+    $response->assertSessionHas('error', __('flashMessages.errors.activations.user_blocked') . '.');
     assertUserActivationBlocked($identifier, $this->slskeyCode, ActivationActionEnums::BLOCKED_ACTIVE);
 
     $response = unblockUser($identifier, $this->slskeyCode);

@@ -25,6 +25,8 @@ return new class () extends Migration {
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->renameColumn('mail_token_reactivation_days_send_before_expiry', 'webhook_mail_activation_days_send_before_expiry');
+        });
+        Schema::table('slskey_groups', function (Blueprint $table) {
             $table->renameColumn('mail_token_reactivation_days_token_validity', 'webhook_mail_activation_days_token_validity');
         });
     }

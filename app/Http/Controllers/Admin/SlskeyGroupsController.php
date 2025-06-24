@@ -174,7 +174,7 @@ class SlskeyGroupsController extends Controller
                 $rules['webhook_mail_activation_domains'] = ['required', 'max:255'];
                 $rules['webhook_custom_verifier_activation'] = ['nullable', 'integer', 'max:0']; // webhook_custom_verifier_activation should be 0 if webhook_mail_activation is 1
             }
-            
+
             // Verifier Activation
             if (Request::input('webhook_custom_verifier_activation')) {
                 $rules['webhook_custom_verifier_class'] = ['required', 'max:255'];

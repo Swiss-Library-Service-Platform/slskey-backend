@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,7 +18,7 @@ return new class extends Migration
         });
         Schema::table('slskey_groups', callback: function (Blueprint $table): void {
             $table->renameColumn('webhook_token_reactivation_days_token_validity', 'mail_token_reactivation_days_token_validity');
-        });    
+        });
     }
 
     /**
@@ -29,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->renameColumn('mail_token_reactivation', 'webhook_token_reactivation');
-         });
+        });
         Schema::table('slskey_groups', function (Blueprint $table) {
             $table->renameColumn('mail_token_reactivation_days_send_before_expiry', 'webhook_token_reactivation_days_send_before_expiry');
         });

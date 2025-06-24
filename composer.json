@@ -14,7 +14,6 @@
         "guzzlehttp/guzzle": "^7.9.3",
         "inertiajs/inertia-laravel": "^0.6.11",
         "jeremykenedy/laravel-roles": "^10.0",
-        "laravel/fortify": "^1.25.4",
         "laravel/framework": "^10.48.29",
         "laravel/sanctum": "^3.3.3",
         "laravel/tinker": "^2.10.1",

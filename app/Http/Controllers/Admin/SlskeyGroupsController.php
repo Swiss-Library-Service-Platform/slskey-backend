@@ -142,7 +142,8 @@ class SlskeyGroupsController extends Controller
             'cloud_app_allow' => ['numeric'],
             'cloud_app_roles' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
             'cloud_app_roles_scopes' => ['nullable', 'max:255', 'regex:/^([a-zA-Z0-9_]+;?)+$/'],
-            'mail_token_reactivation' => ['boolean'],
+            'mail_token_reactivation' => ['numeric'],
+            'days_activation_duration' => ['nullable', 'integer'],
         ];
 
         // Token Deactivation
@@ -177,9 +178,6 @@ class SlskeyGroupsController extends Controller
             // Verifier Activation
             if (Request::input('webhook_custom_verifier_activation')) {
                 $rules['webhook_custom_verifier_class'] = ['required', 'max:255'];
-                // Either webhook_custom_verifier_deactivation or mail_token_reactivation must be set
-                $rules['webhook_custom_verifier_deactivation'] = ['nullable', 'integer', 'max:0'];
-                $rules['mail_token_reactivation'] = ['nullable', 'integer', 'max:0'];
             }
 
             // Verifier Deactivation
@@ -200,7 +198,6 @@ class SlskeyGroupsController extends Controller
                 // 'mail_token_reactivation_days_token_validity' => ['prohibited'],
                 'webhook_custom_verifier_deactivation' => ['nullable', 'integer', 'max:0'],
                 'days_expiration_reminder' => ['nullable', 'integer'],
-                'days_activation_duration' => ['nullable', 'integer'],
             ]);
         }
 

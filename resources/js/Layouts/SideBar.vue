@@ -23,7 +23,7 @@ export default {
 		async onLogout() {
             // Call local logout route in background
             try {
-                await axios.get(route('logout_username_password'));
+                await axios.get(route('logout.user'));
             } catch (error) {
                 console.error('Error during local logout:', error);
             }
@@ -65,10 +65,6 @@ export default {
 				<!-- Help -->
 				<NavLink icon="question-mark" :href="$page.props.helpUrl" :openInNewTab="true">
 					{{ $t('app_header.help') }}
-				</NavLink>
-				<!-- Logout -->
-				<NavLink v-if="!$page.props.auth.user.is_edu_id" icon="logout" :href="route('logout_username_password')">
-					{{ $t('app_header.logout') }}
 				</NavLink>
 				<!-- Logout edu-ID -->
 				<NavButton v-if="$page.props.auth.user.is_edu_id" icon="logout" :onClick="onLogout">

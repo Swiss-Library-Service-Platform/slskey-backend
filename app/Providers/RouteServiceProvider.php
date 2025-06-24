@@ -50,7 +50,18 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(300) // 5 requests per second on average
                 ->by($request->ip())
                 ->response(function () {
-                    return response('Too many webhook requests. Please wait before retrying.', 429);
+                    // Usually 429 would be returned
+                    // But we return 529, as Alma performs a retry for 5xx errors
+                    return response('Too many webhook requests. Please wait before retrying.', 529);
+                });
+        });
+
+        // Configure cloud app-specific rate limiting
+        RateLimiter::for('cloudapp', function (Request $request) {
+            return Limit::perMinute(60) // 1 request per second on average
+                ->by($request->ip())
+                ->response(function () {
+                    return response('Too many cloud app requests. Please wait before retrying.', 429);
                 });
         });
     }

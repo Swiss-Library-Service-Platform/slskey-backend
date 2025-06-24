@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -62,36 +61,6 @@ class AuthController extends Controller
         Auth::logout();
 
         return Redirect::route('login');
-    }
-
-    /**
-     * Change initial password
-     *
-     * @return Response
-     */
-    public function changePassword(): Response
-    {
-        return Inertia::render('Auth/ChangeInitialPassword', []);
-    }
-
-    /**
-     * Set new password
-     *
-     * @return RedirectResponse
-     */
-    public function setPassword(): RedirectResponse
-    {
-        /** @var \App\Models\User */
-        $user = Auth::user();
-
-        // Validate password and check if password and password_confirmation match
-        $password = request()->validate([
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        $user->setPassword($password['password']);
-
-        return Redirect::route('activation.start');
     }
 
     /**

@@ -35,6 +35,7 @@
     "alma_app": "Alma Cloudapp",
     "cancel": "Cancel",
     "create_new": "Create New User",
+    "created_at": "Created at",
     "delete": "Delete Admin User",
     "delete_confirm": "Are you sure that you want to delete this user?",
     "delete_slskey_group": "Remove SLSKey Group",
@@ -93,12 +94,16 @@
     "trigger": "Trigger"
   },
   "landing": {
-    "clicktologin": "Click to login with your edu-ID.",
-    "login": "Login",
+    "welcome_to": "Welcome to the",
+    "admin_portal": "SLSKey Admin Portal",
+    "clicktologin": "Use your Switch edu-ID to securely log in.",
+    "login": "Login to SLSKey",
     "orvia": "or",
     "password": "Password",
     "service": "a service provided by ",
-    "username": "Username"
+    "username": "Username",
+    "more_info": "More information can be found in",
+    "slsphere": "SLSPhere"
   },
   "languages": {
     "english": "English",

@@ -33,10 +33,6 @@ Route::get('/login', [AuthController::class, 'index'])
     ->name('login');
 Route::get('/login/eduid', [AuthController::class, 'loginEduID'])
     ->name('login_eduid');
-Route::get('/login/changepassword', [AuthController::class, 'changePassword'])
-    ->name('login_changepassword');
-Route::post('/login/changepassword', [AuthController::class, 'setPassword'])
-    ->name('login_setpassword');
 
 // Forward from old PURA backend to new SLSKey when logged in in old PURA
 Route::get('/migration', [AuthController::class, 'migration'])
@@ -65,7 +61,7 @@ Route::middleware([
 ])->group(function () {
     // Logout
     Route::get('logout/user', [AuthController::class, 'logoutUsernamePassword'])
-        ->name('logout_username_password');
+        ->name('logout.user');
 
     // Start / Preview
     Route::get('/', [ActivationController::class, 'start'])
@@ -185,8 +181,6 @@ Route::middleware([
             ->name('admin.users.update');
         Route::delete('/admin/users/{user_identifier}', [AdminUsersController::class, 'destroy'])
             ->name('admin.users.destroy');
-        Route::put('/admin/users/{user_identifier}/resetpassword', [AdminUsersController::class, 'resetPassword'])
-            ->name('admin.users.resetpassword');
         Route::get('/admin/users/findeduid/{user_identifier}', [AdminUsersController::class, 'findEduIdPrimaryIdentifier'])
             ->name('admin.users.findeduid');
 

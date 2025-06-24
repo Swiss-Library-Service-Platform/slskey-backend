@@ -18,7 +18,7 @@
                     :label="$t('slskey_groups.mail_sender_address')"
                     :helpText="$t('slskey_groups.mail_sender_address_help')" />
 
-                
+
             </div>
 
             <!-- Workflow -->
@@ -39,7 +39,7 @@
             <div class="grid grid-cols-2 px-8 pb-4  gap-4">
                 <!-- Switch for Manual Activation -->
                 <checkbox-input v-model="form.send_activation_mail" :error="form.errors.send_activation_mail"
-                :helpText="$t('slskey_groups.send_activation_mail_help')"
+                    :helpText="$t('slskey_groups.send_activation_mail_help')"
                     :label="$t('slskey_groups.send_activation_mail')" />
                 <div />
                 <!-- Switch for Show Member Educational Institution -->
@@ -150,33 +150,31 @@
                         {{ $t('slskey_groups.webhook_deactivation_info') }}
                     </div>
                 </div>
-
-                <!-- Token Reactivation Details -->
-                <template v-if="form.webhook_mail_activation || form.days_activation_duration">
-                    <div class="border-t border-b border-default-gray"></div>
-                    <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
-                        {{ $t('slskey_groups.webhook_token_reactivation_details') }}</h3>
-                    <div class="grid grid-cols-2 px-8 pb-4  gap-4">
-
-                        <!-- Token Reactivation -->
-                        <checkbox-input v-model="form.webhook_token_reactivation"
-                            :error="form.errors.webhook_token_reactivation"
-                            :helpText="$t('slskey_groups.webhook_token_reactivation_help')"
-                            :label="$t('slskey_groups.webhook_token_reactivation')" />
-                        <div />
-                        <template v-if="form.webhook_token_reactivation">
-                            <number-input v-model="form.webhook_token_reactivation_days_send_before_expiry"
-                                :error="form.errors.webhook_token_reactivation_days_send_before_expiry"
-                                :label="$t('slskey_groups.webhook_token_reactivation_days_send_before_expiry')" />
-                            <number-input v-model="form.webhook_token_reactivation_days_token_validity"
-                                :error="form.errors.webhook_token_reactivation_days_token_validity"
-                                :label="$t('slskey_groups.webhook_token_reactivation_days_token_validity')" />
-                        </template>
-
-                    </div>
-                </template>
             </template>
 
+            <!-- Token Reactivation Details -->
+            <template v-if="form.webhook_mail_activation || form.days_activation_duration">
+                <div class="border-t border-b border-default-gray"></div>
+                <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                    {{ $t('slskey_groups.webhook_token_reactivation_details') }}</h3>
+                <div class="grid grid-cols-2 px-8 pb-4  gap-4">
+
+                    <!-- Token Reactivation -->
+                    <checkbox-input v-model="form.mail_token_reactivation" :error="form.errors.mail_token_reactivation"
+                        :helpText="$t('slskey_groups.webhook_token_reactivation_help')"
+                        :label="$t('slskey_groups.mail_token_reactivation')" />
+                    <div />
+                    <template v-if="form.mail_token_reactivation">
+                        <number-input v-model="form.mail_token_reactivation_days_send_before_expiry"
+                            :error="form.errors.mail_token_reactivation_days_send_before_expiry"
+                            :label="$t('slskey_groups.mail_token_reactivation_days_send_before_expiry')" />
+                        <number-input v-model="form.mail_token_reactivation_days_token_validity"
+                            :error="form.errors.mail_token_reactivation_days_token_validity"
+                            :label="$t('slskey_groups.mail_token_reactivation_days_token_validity')" />
+                    </template>
+                </div>
+            </template>
+            
             <!-- Cloud App Permissions -->
             <div class="border-t border-b border-default-gray"></div>
             <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
@@ -225,7 +223,7 @@
                             <tr>
                                 <td class="pl-6 py-2 whitespace-nowrap italic">{{
                                     $t('slskey_groups.no_switch_groups')
-                                }}.</td>
+                                    }}.</td>
                             </tr>
                         </template>
 
@@ -321,7 +319,7 @@ export default {
                 this.form.webhook_custom_verifier_deactivation = 0;
                 this.form.webhook_custom_verifier_class = null;
                 this.form.webhook_persistent = 0;
-                this.form.webhook_token_reactivation = 0;
+                this.form.mail_token_reactivation = 0;
             } else {
                 this.form.days_activation_duration = null;
                 this.form.days_expiration_reminder = null;
@@ -341,18 +339,18 @@ export default {
                 this.form.webhook_mail_activation_domains = null;
             }
         },
-        'form.webhook_token_reactivation': function (webhook_token_reactivation) {
-            if (webhook_token_reactivation) {
+        'form.mail_token_reactivation': function (mail_token_reactivation) {
+            if (mail_token_reactivation) {
                 this.form.webhook_custom_verifier_deactivation = 0;
             }
-            if (!webhook_token_reactivation) {
-                this.form.webhook_token_reactivation_days_send_before_expiry = null;
-                this.form.webhook_token_reactivation_days_token_validity = null;
+            if (!mail_token_reactivation) {
+                this.form.mail_token_reactivation_days_send_before_expiry = null;
+                this.form.mail_token_reactivation_days_token_validity = null;
             }
         },
         'form.webhook_custom_verifier_deactivation': function (webhook_custom_verifier_deactivation) {
             if (webhook_custom_verifier_deactivation) {
-                this.form.webhook_token_reactivation = 0;
+                this.form.mail_token_reactivation = 0;
                 this.form.days_activation_duration = null;
             }
         },

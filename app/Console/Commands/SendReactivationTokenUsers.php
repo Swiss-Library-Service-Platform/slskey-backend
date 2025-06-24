@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Enums\ActivationActionEnums;
 use App\Enums\TriggerEnums;
-use App\Enums\WorkflowEnums;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyHistory;
@@ -60,9 +59,8 @@ class SendReactivationTokenUsers extends Command
 
         // Get all SLSKey Groups with expiring activations
         $slskeyGroups = SlskeyGroup::query()
-            ->where('workflow', WorkflowEnums::WEBHOOK)
-            ->where('webhook_token_reactivation', 1)
-            ->whereNotNull('webhook_token_reactivation_days_send_before_expiry')
+            ->where('mail_token_reactivation', 1)
+            ->whereNotNull('mail_token_reactivation_days_send_before_expiry')
             ->get();
 
         $tokensPerGroup = [];
@@ -77,8 +75,8 @@ class SendReactivationTokenUsers extends Command
             $expiringActivations = SlskeyActivation::query()
                 ->where('slskey_group_id', $slskeyGroup->id)
                 ->whereNotNull('expiration_date')
-                ->where('expiration_date', '>=', now()->addDays($slskeyGroup->webhook_token_reactivation_days_send_before_expiry)->startOfDay())
-                ->where('expiration_date', '<', now()->addDays($slskeyGroup->webhook_token_reactivation_days_send_before_expiry)->endOfDay())
+                ->where('expiration_date', '>=', now()->addDays($slskeyGroup->mail_token_reactivation_days_send_before_expiry)->startOfDay())
+                ->where('expiration_date', '<', now()->addDays($slskeyGroup->mail_token_reactivation_days_send_before_expiry)->endOfDay())
                 ->withSlskeyUserAndSlskeyGroup()
                 ->get();
 

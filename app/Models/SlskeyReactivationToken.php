@@ -59,7 +59,7 @@ class SlskeyReactivationToken extends Model
     public static function createToken(int $slskeyUserId, SlskeyGroup $slskeyGroup, string $recipientEmail, bool $createdFromMailActivation = false): SlskeyReactivationToken
     {
         $token = bin2hex(random_bytes(8));
-        $tokenExpirationDate = now()->addDays($slskeyGroup->webhook_token_reactivation_days_token_validity);
+        $tokenExpirationDate = now()->addDays($slskeyGroup->mail_token_reactivation_days_token_validity);
 
         $slskeyReactivationToken = SlskeyReactivationToken::create([
             'slskey_user_id' => $slskeyUserId,

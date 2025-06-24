@@ -9,13 +9,13 @@
                     <SearchFilter v-model="form.publisher" :label="$t('switch_groups.publishers_title')"
                         :placeholder="$t('switch_groups.publishers_title')" />
                 </FilterControl>
-                <DefaultButton icon="documentDownload" @click.prevent="this.export" class="w-fit py-2 mt-4">
+                <DefaultButton icon="documentDownload" @click.prevent="this.export" class="w-fit py-2 mt-4 whitespace-nowrap">
                     {{ $t('switch_groups.export') }}
                 </DefaultButton>
             </div>
             <div class="flex gap-x-4">
 
-                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4 whitespace-nowrap">
+                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4">
                     {{ $t('switch_groups.create_new') }}
                 </DefaultButton>
             </div>

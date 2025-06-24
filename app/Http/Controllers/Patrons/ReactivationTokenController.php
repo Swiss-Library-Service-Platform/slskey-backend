@@ -91,6 +91,13 @@ class ReactivationTokenController extends Controller
             null // webhook activation mail already set
         );
 
+        if (! $response->success) {
+            return Inertia::render('ReactivationToken/ReactivationError', [
+                'error' => $response->message,
+                'token' => $token,
+            ]);
+        }
+
         // Set token as used
         $slskeyReactivationToken->setUsed();
 

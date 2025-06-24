@@ -2,17 +2,20 @@
     <AppLayout :title="$t('switch_groups.title')" :breadCrumbs="[{ name: $t('switch_groups.title') }]">
 
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-            <FilterControl @reset="reset">
-                <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
-                    :options="slskeyGroups.data" />
-                <SearchFilter v-model="form.publisher" :label="$t('switch_groups.publishers_title')"
-                    :placeholder="$t('switch_groups.publishers_title')" />
-            </FilterControl>
-            <div class="flex gap-x-4">
+            <div class="flex flex-row gap-x-16 w-full justify-between">
+                <FilterControl @reset="reset">
+                    <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
+                        :options="slskeyGroups.data" />
+                    <SearchFilter v-model="form.publisher" :label="$t('switch_groups.publishers_title')"
+                        :placeholder="$t('switch_groups.publishers_title')" />
+                </FilterControl>
                 <DefaultButton icon="documentDownload" @click.prevent="this.export" class="w-fit py-2 mt-4">
                     {{ $t('switch_groups.export') }}
                 </DefaultButton>
-                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4">
+            </div>
+            <div class="flex gap-x-4">
+
+                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4 whitespace-nowrap">
                     {{ $t('switch_groups.create_new') }}
                 </DefaultButton>
             </div>

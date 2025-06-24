@@ -1,21 +1,22 @@
 <template>
     <AppLayout title="Users" :breadCrumbs="[{ name: $t('admin_users.title') }]">
         <div class="flex bg-white p-4 rounded-b shadow items-end justify-between flex-wrap">
-            <div class="flex flex-row gap-x-16">
-                <TabFilter :tab1="$t('admin_users.admin_portal')" :tab2="$t('admin_users.alma_app')" icon1="user"
-                    icon2="cloud" :label="$t('admin_users.user_type')" v-model="displayTab" />
+            <div class="flex flex-row gap-x-16 w-full justify-between">
                 <FilterControl @reset="reset">
                     <SearchFilter v-model="form.search" :label="$t('user_management.search')"
                         :placeholder="$t('user_management.search_placeholder')" />
                     <SelectFilter v-model="form.slskeyCode" :label="$t('slskey_groups.slskey_code_description')"
                         :options="slskeyGroups.data" />
                 </FilterControl>
+                <TabFilter :tab1="$t('admin_users.admin_portal')" :tab2="$t('admin_users.alma_app')" icon1="user"
+                    icon2="cloud" :label="$t('admin_users.user_type')" v-model="displayTab" />
             </div>
-
-            <DefaultButton v-show="displayTab == 0" icon="plus" @click="createUser"
-                class="w-fit py-2 ">
-                {{ $t('admin_users.create_new') }}
-            </DefaultButton>
+            <div class="flex gap-x-4">
+                <DefaultButton v-show="displayTab == 0" icon="plus" @click="createUser"
+                    class="w-fit py-2 mt-4">
+                    {{ $t('admin_users.create_new') }}
+                </DefaultButton>
+            </div>
         </div>
 
         <!-- Admin Portal Users -->

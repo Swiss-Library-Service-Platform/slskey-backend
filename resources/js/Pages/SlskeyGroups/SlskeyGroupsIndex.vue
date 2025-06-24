@@ -5,14 +5,17 @@
             <FilterControl @reset="reset">
                 <SearchFilter v-model="form.search" :label="$t('slskey_groups.title')" />
             </FilterControl>
-            <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2">
-                {{ $t('slskey_groups.create_new') }}
-            </DefaultButton>
+            <div class="flex gap-x-4">
+                <DefaultButton @click="createGroup" icon="plus" class="w-fit py-2 mt-4">
+                    {{ $t('slskey_groups.create_new') }}
+                </DefaultButton>
+            </div>
         </div>
 
         <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead
+                    class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('slskey_groups.name') }} </th>
@@ -65,33 +68,30 @@
                                 <template v-if="group.webhook_persistent">
                                     Yes
                                 </template>
-                                <template v-else>
+<template v-else>
                                     No
                                 </template>
-                                </Link>
-                            </td>
+</Link>
+</td>
 
-                            <td class="align-top">
-                                <Link v-if="group.send_activation_mail"
-                                    class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
-                                    :href="`/admin/groups/${group.slskey_code}`">
-                                Yes
-                                </Link>
-                            </td>
+<td class="align-top">
+    <Link v-if="group.send_activation_mail" class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+        :href="`/admin/groups/${group.slskey_code}`">
+    Yes
+    </Link>
+</td>
 
-                            <td class="align-top">
-                                <Link v-if="group.webhook_custom_verifier_class"
-                                    class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
-                                    :href="`/admin/groups/${group.slskey_code}`">
-                                {{ group.webhook_custom_verifier_class }}
-                                </Link>
-                                <Link v-if="group.webhook_mail_activation"
-                                    class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
-                                    :href="`/admin/groups/${group.slskey_code}`">
-                                {{ $t('slskey_groups.webhook_mail_activation_title') }}
-                                </Link>
-                            </td>
-                            -->
+<td class="align-top">
+    <Link v-if="group.webhook_custom_verifier_class" class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+        :href="`/admin/groups/${group.slskey_code}`">
+    {{ group.webhook_custom_verifier_class }}
+    </Link>
+    <Link v-if="group.webhook_mail_activation" class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
+        :href="`/admin/groups/${group.slskey_code}`">
+    {{ $t('slskey_groups.webhook_mail_activation_title') }}
+    </Link>
+</td>
+-->
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-4"
                                     :href="`/admin/groups/${group.slskey_code}`">

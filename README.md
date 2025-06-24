@@ -30,18 +30,6 @@ SLSKey is an authentication service originally designed to enable private users 
 
 This identity-based approach means users can access resources from anywhere, without needing VPN access. Institutions maintain full control over user access through a web-based management interface, while benefiting from Switch edu-ID's robust authentication infrastructure.
 
-## Requirements
-
-- PHP >= 8.2.20
-- MySQL Database
-- Redis Server
-- Node.js & NPM
-- Apache/Nginx
-- Composer
-- SSL Certificate
-
-For detailed requirements, see the [Developer Notes](DEVELOPER_NOTES.md#prerequisites).
-
 ## Documentation
 
 - [Service Documentation](https://slsp.atlassian.net/wiki/spaces/slsporgserv/pages/1042415617) - Detailed system documentation on SLSPhere (Confluence)

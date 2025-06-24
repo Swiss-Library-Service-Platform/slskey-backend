@@ -21,12 +21,12 @@ export default {
 	},
 	methods: {
 		async onLogout() {
-            // Call local logout route in background
-            try {
-                await axios.get(route('logout.user'));
-            } catch (error) {
-                console.error('Error during local logout:', error);
-            }
+			// Call local logout route in background
+			try {
+				await axios.get(route('logout.user'));
+			} catch (error) {
+				console.error('Error during local logout:', error);
+			}
 			// Logout using SAML Logout route, global IdP Logout
 			window.location.href = this.$page.props.logoutUrl;
 		}
@@ -85,18 +85,6 @@ export default {
 					{{ $t('history.title') }}
 				</NavLink>
 
-				<!-- Log Jobs -->
-				<NavLink icon="clock" :href="route('admin.logjob.index')"
-					:active="route().current('admin.logjob.index')">
-					{{ $t('log_jobs.title') }}
-				</NavLink>
-
-				<!-- Admin Users -->
-				<NavLink icon="user-circle" :href="route('admin.users.index')"
-					:active="route().current('admin.users.index') || route().current('admin.users.show') || route().current('admin.users.create')">
-					{{ $t('admin_users.title') }}
-				</NavLink>
-
 				<!-- SLSKey Groups -->
 				<NavLink icon="key" :href="route('admin.groups.index')"
 					:active="route().current('admin.groups.index') || route().current('admin.groups.show') || route().current('admin.groups.create')">
@@ -109,12 +97,25 @@ export default {
 					{{ $t('switch_groups.title') }}
 				</NavLink>
 
+				<!-- Admin Users -->
+				<NavLink icon="user-circle" :href="route('admin.users.index')"
+					:active="route().current('admin.users.index') || route().current('admin.users.show') || route().current('admin.users.create')">
+					{{ $t('admin_users.title') }}
+				</NavLink>
+
+				<!-- Log Jobs -->
+				<NavLink icon="clock" :href="route('admin.logjob.index')"
+					:active="route().current('admin.logjob.index')">
+					{{ $t('log_jobs.title') }}
+				</NavLink>
+
+
 				<!-- Publishers
-						<NavLink icon="globe-alt" :href="route('admin.publishers.index')"
-							:active="route().current('admin.publishers.index') || route().current('admin.publishers.show') || route().current('admin.publishers.create')">
-							{{ $t('publishers.title') }}
-						</NavLink>
-						-->
+				<NavLink icon="globe-alt" :href="route('admin.publishers.index')"
+					:active="route().current('admin.publishers.index') || route().current('admin.publishers.show') || route().current('admin.publishers.create')">
+					{{ $t('publishers.title') }}
+				</NavLink>
+				-->
 
 				<!-- Mass Import -->
 				<NavLink icon="upload" :href="route('admin.import.index')"
@@ -123,7 +124,7 @@ export default {
 				</NavLink>
 
 				<!-- edu-ID Status -->
-				 <!--
+				<!--
 				<NavLink icon="information-circle" href="https://status.eduid.ch/" :openInNewTab="true">
 					{{ $t('eduid_status') }}
 				</NavLink>

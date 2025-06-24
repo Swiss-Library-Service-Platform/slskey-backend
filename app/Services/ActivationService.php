@@ -691,6 +691,8 @@ class ActivationService
         if ($errorAdditionalMessage) {
             $flashMessage .= ': ' . $errorAdditionalMessage;
             $logMessage .= ': ' . $errorAdditionalMessage;
+        } else {
+            $flashMessage .= '.';
         }
         LogActivationFails::create([
             'primary_id' => $primaryId,

@@ -18,14 +18,14 @@ return [
     'errors' => [
         // Errors: Activations
         'activations' => [
-            'no_activation' => 'No activation found.',
-            'no_edu_id' => 'Given primary-ID is not an edu-ID.',
-            "no_notify_mail_content" => "User Notify Mail is not defined correctly.",
-            'no_switch_group' => 'No Switch Group found.',
-            'no_user' => 'No SLSKey User found.',
-            'user_blocked' => 'User is blocked.',
-            'user_not_found' => 'No User found in Alma.',
-            'switch_api_error' => 'Error while calling Switch API.',
+            'no_activation' => 'No activation found',
+            'no_edu_id' => 'Given primary-ID is not an edu-ID',
+            "no_notify_mail_content" => "User Notify Mail is not defined correctly",
+            'no_switch_group' => 'No Switch Group found',
+            'no_user' => 'No SLSKey User found',
+            'user_blocked' => 'User is blocked',
+            'user_not_found' => 'No User found in Alma',
+            'switch_api_error' => 'Error while calling Switch API',
         ],
 
         // Errors: Permissions

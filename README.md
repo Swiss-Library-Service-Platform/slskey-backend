@@ -20,9 +20,8 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Requirements](#requirements)
-3. [Documentation](#documentation)
-4. [License](#license)
+2. [Documentation](#documentation)
+3. [License](#license)
 
 ## Overview
 

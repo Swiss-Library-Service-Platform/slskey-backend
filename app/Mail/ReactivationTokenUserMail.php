@@ -14,7 +14,7 @@ class ReactivationTokenUserMail extends Mailable
 
     public $reactivationLink;
 
-    public const EMAIL_SUBJECTS = 'Ihr SLSKey Account läuft ab';
+    public const EMAIL_SUBJECTS = 'Ihre SLSKey Freischaltung läuft ab – :group';
 
     /**
      * Create a new message instance.
@@ -37,11 +37,13 @@ class ReactivationTokenUserMail extends Mailable
     {
         // Get subject
         $slskeyCode = $this->slskeyGroup->slskey_code;
-        $subject = self::EMAIL_SUBJECTS;
+        $groupName = $this->slskeyGroup->name ?: '';
+        $template = self::EMAIL_SUBJECTS;
+        $subject = str_replace(':group', $groupName, $template);
 
         // From Sender
         $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
-        $fromName = 'SLSKey - ' . $this->slskeyGroup->name ?? config('mail.from.name');
+        $fromName = 'SLSKey - ' . $groupName ?? config('mail.from.name');
 
         // Return mail object
         return $this->subject($subject)

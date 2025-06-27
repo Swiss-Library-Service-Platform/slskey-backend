@@ -18,17 +18,17 @@ class NotifyUserActivationMail extends Mailable
      * Email subjects for different languages.
      */
     public const EMAIL_SUBJECTS = [
-        'de' => 'Ihre SLSKey Freischaltung',
-        'en' => 'Your SLSKey activation',
-        'fr' => 'Votre accès SLSKey',
-        'it' => 'Il suo accesso SLSKey',
+        'de' => 'Ihre SLSKey Freischaltung – :group',
+        'en' => 'Your SLSKey activation – :group',
+        'fr' => 'Votre activation SLSKey – :group',
+        'it' => 'La sua attivazione SLSKey – :group',
     ];
 
     /**
      * Create a new message instance.
      *
      * @param SlskeyGroup $slskeyGroup
-     * @param string $preferredLanguage
+     * @param AlmaUser $almaUser
      */
     public function __construct(SlskeyGroup $slskeyGroup, AlmaUser $almaUser)
     {
@@ -43,17 +43,18 @@ class NotifyUserActivationMail extends Mailable
      */
     public function build(): NotifyUserActivationMail
     {
-        // Get subject
-        $slskeyCode = $this->slskeyGroup->slskey_code;
-        $subject = self::EMAIL_SUBJECTS[$this->almaUser->preferred_language];
-        $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
-        $fromName = 'SLSKey - ' . $this->slskeyGroup->name;
+        $language = $this->almaUser->preferred_language;
+        $groupName = $this->slskeyGroup->name;
+        $template = self::EMAIL_SUBJECTS[$language];
+        $subject = str_replace(':group', $groupName, $template);
 
-        // Return mail object
+        $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
+        $fromName = 'SLSKey - ' . $groupName;
+
         return $this->subject($subject)
             ->from($fromAddress, $fromName)
-            ->view('emails.activation.'.$slskeyCode.'.'.$this->almaUser->preferred_language.'.email', [
-                'almaUser' => $this->almaUser
-        ]);
+            ->view('emails.activation.' . $this->slskeyGroup->slskey_code . '.' . $language . '.email', [
+                'almaUser' => $this->almaUser,
+            ]);
     }
 }

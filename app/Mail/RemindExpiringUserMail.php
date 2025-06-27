@@ -16,11 +16,10 @@ class RemindExpiringUserMail extends Mailable
     public $almaUser;
 
     public const EMAIL_SUBJECTS = [
-        // Zentralbibliothek Zürich
-        'de' => 'Ihr SLSKey Account läuft ab',
-        'en' => 'Your SLSKey account is expiring',
-        'fr' => 'Votre accès SLSKey expire',
-        'it' => 'Il suo accesso SLSKey sta per scadere',
+        'de' => 'Ihre SLSKey Freischaltung läuft ab – :group',
+        'en' => 'Your SLSKey activation is expiring – :group',
+        'fr' => 'Votre activation SLSKey expire – :group',
+        'it' => 'La sua attivazione SLSKey sta per scadere – :group',
     ];
 
     /**
@@ -45,19 +44,22 @@ class RemindExpiringUserMail extends Mailable
         // Find preferred language
         $language = $this->almaUser->preferred_language;
 
+        // Get group name
+        $groupName = $this->slskeyGroup->name ?: '';
+
         // Get subject
-        $slskeyCode = $this->slskeyGroup->slskey_code;
-        $subject = self::EMAIL_SUBJECTS[$language];
+        $template = self::EMAIL_SUBJECTS[$language];
+        $subject = str_replace(':group', $groupName, $template);
 
         // From Sender
         $fromAddress = $this->slskeyGroup->mail_sender_address ?? config('mail.from.address');
-        $fromName = 'SLSKey - ' . $this->slskeyGroup->name ?? config('mail.from.name');
+        $fromName = 'SLSKey - ' . ($groupName ?? config('mail.from.name'));
 
-        // Return mail object
+        // Mail erzeugen
         return $this->subject($subject)
             ->from($fromAddress, $fromName)
-            ->view('emails.remind.'.$slskeyCode.'.'.$language.'.email', [
+            ->view('emails.remind.' . $this->slskeyGroup->slskey_code . '.' . $language . '.email', [
                 'slskeyUser' => $this->almaUser,
-        ]);
+            ]);
     }
 }

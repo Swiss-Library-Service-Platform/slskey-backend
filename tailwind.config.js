@@ -49,6 +49,7 @@ module.exports = {
                 'color-slsp': '#4e4a99',
                 'color-slsp-bg': '#4e4a9914',
                 'color-slsp-bg-lighter': '#4e4a990a',
+                'color-slsp-bg-logo': '#2418fd0f',
                 'color-alma': '#e2f5ff', // '#e7f4ff', // '#f0f8ff', // '#daefe9', //'#dcf1ec',
                 // App layout
                 'color-header-bg': '#343a40', // Test: '#700d0ecf',

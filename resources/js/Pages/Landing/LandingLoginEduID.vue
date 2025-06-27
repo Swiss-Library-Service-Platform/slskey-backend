@@ -9,10 +9,10 @@ import Notifications from '@/Shared/Notifications.vue';
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
         <Notifications />
 
-        <div class="flex flex-row items-stretch  bg-color-slsp-bg-lighter shadow-xlrounded-xl rounded-md shadow-lg">
+        <div class="flex flex-row items-stretch  bg-color-slsp-bg-logo shadow-xlrounded-xl rounded-md shadow-lg">
             <div class="w-80 p-8 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
-                <img class="h-auto pb-16" src="/images/slskey_logo_full_black.png" />
+                <img class="h-auto pb-16 invert-20" src="/images/slskey_logo_full_black.png" />
             </div>
 
             <div class="w-100 p-8 flex flex-col h-full items-center justify-between border-l bg-white">

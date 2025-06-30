@@ -18,7 +18,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:4200', 'https://apps01.ext.exlibrisgroup.com'],
 
     'allowed_origins_patterns' => [],
 

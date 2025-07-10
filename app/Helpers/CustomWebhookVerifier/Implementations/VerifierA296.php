@@ -15,7 +15,7 @@ class VerifierA296 implements CustomWebhookVerifierInterface
     /**
      * The prefix used for A296 library cards.
      */
-    protected const CARD_PREFIX = 'A296';
+    protected const CARD_PREFIX = 'a296';
 
     /**
      * Handles the verification process for A296 library.

@@ -70,7 +70,8 @@
     "no_address": "Pas d'adresse à Alma",
     "not_found": "Aucun utilisateur trouvé dans Alma",
     "preferred_language": "Langue",
-    "user_group": "Groupe d'utilisateurs"
+    "user_group": "Groupe d'utilisateurs",
+    "barcodes": "Barcodes"
   },
   "app_header": {
     "help": "Aide",

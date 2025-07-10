@@ -62,6 +62,7 @@
   "alma_user": {
     "addresses": "Addresses",
     "alma_details": "Alma details",
+    "barcodes": "Barcodes",
     "blocked": "Account is blocked in Alma.",
     "email": "E-mail",
     "first_name": "First name",

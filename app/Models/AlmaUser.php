@@ -25,6 +25,7 @@ class AlmaUser extends Model
         'preferred_language',
         'preferred_email',
         'addresses',
+        'barcodes',
         'blocks',
 
         // for webhook checks
@@ -72,6 +73,16 @@ class AlmaUser extends Model
             }
         }
 
+        // Get Barcodes
+        $barcodes = [];
+        if (isset($apiData->user_identifier)) {
+            foreach ($apiData->user_identifier as $identifier) {
+                if ($identifier->id_type->value == '02') {
+                    $barcodes[] = $identifier->value;
+                }
+            }
+        }
+
         return new self([
             'primary_id' => $apiData->primary_id,
             'first_name' => $apiData->first_name ?? null,
@@ -80,6 +91,7 @@ class AlmaUser extends Model
             'preferred_email' => $preferredEmail,
             'preferred_language' => $language,
             'addresses' => $apiData->contact_info->address ?? '',
+            'barcodes' => $barcodes,
             'blocks' => $apiData->user_block ?? '',
 
             // for webhook checks

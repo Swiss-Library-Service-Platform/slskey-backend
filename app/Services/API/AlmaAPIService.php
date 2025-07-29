@@ -274,68 +274,6 @@ class AlmaAPIService implements AlmaAPIInterface
     }
 
     /**
-     * Makes an HTTP request to the API with the given parameters.
-     *
-     * @param  string  $action  API action.
-     * @param  string  $actionType  HTTP request type (GET by default).
-     * @param  string[]  $queryParams  Query parameters.
-     * @param  string  $bodyData  Request body data.
-     * @return array [HTTP status code, API response].
-    */
-    /*
-    private function makeRequest(
-       string $action,
-       string $actionType = 'GET',
-       array $queryParams = [],
-       string $bodyData = ''
-    ): array {
-       // Add the API key to the query parameters
-       $queryParams['apikey'] = $this->apiKey;
-
-       $url = $this->baseUrl . $action;
-
-       $client = new Client([
-           'headers' => [
-               'Accept' => 'application/json',
-               'Content-Type' => 'application/json',
-           ],
-       ]);
-
-       $options = [
-           'query' => $queryParams,
-       ];
-
-       if (!empty($bodyData)) {
-           $options['body'] = $bodyData;
-       }
-
-       try {
-           $response = $client->request($actionType, $url, $options);
-
-           $statusCode = $response->getStatusCode();
-           $body = $response->getBody()->getContents();
-
-           $responseBody = $this->decodeResponse($body);
-
-           return [$statusCode, $responseBody];
-       } catch (RequestException $e) {
-           // If the request has an exception, get the response from it
-           if ($e->hasResponse()) {
-               $response = $e->getResponse();
-               $statusCode = $response->getStatusCode();
-               $body = $response->getBody()->getContents();
-
-               $errorData = $this->decodeResponse($body);
-
-               return [$statusCode, $errorData];
-           }
-
-           // If there is no response, rethrow the exception
-           throw $e;
-       }
-    }
-   */
-    /**
      * Decodes given response depending on the current format mode of the API.
      *
      * @param  string  $response  API response.

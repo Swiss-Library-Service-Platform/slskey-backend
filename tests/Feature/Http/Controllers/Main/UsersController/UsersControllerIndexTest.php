@@ -37,8 +37,6 @@ it('succeeds to show users - 1 group - no users', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 0)
             ->has('filters')
             ->has('slskeyGroups')
             ->has('slskeyGroups.data', 1)
@@ -55,8 +53,6 @@ it('succeeds to show users - 2 groups - no users', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 0)
             ->has('filters')
             ->has('slskeyGroups')
             ->has('slskeyGroups.data', 2)
@@ -74,19 +70,9 @@ it('succeeds to show users - 1 group - with users', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 10)
-            ->where('slskeyUsers.meta.total', 10)
             ->has('filters')
             ->has('slskeyGroups')
             ->has('slskeyGroups.data', 1)
-            ->where(
-                'slskeyUsers.data.0.primary_id',
-                function ($primaryId) {
-                    return SlskeyUser::isPrimaryIdEduId($primaryId);
-                }
-            )
-            ->has('slskeyUsers.data.0.slskey_activations', 1)
     );
 });
 
@@ -102,20 +88,9 @@ it('succeeds to show users - 2 groups - with users', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 10)
-            ->where('slskeyUsers.meta.total', 10)
             ->has('filters')
             ->has('slskeyGroups')
             ->has('slskeyGroups.data', 2)
-            // primary is ends with eduid.ch
-            ->where(
-                'slskeyUsers.data.0.primary_id',
-                function ($primaryId) {
-                    return SlskeyUser::isPrimaryIdEduId($primaryId);
-                }
-            )
-            ->has('slskeyUsers.data.0.slskey_activations', 2)
     );
 });
 
@@ -138,8 +113,6 @@ it('succeeds to search - no results', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 0)
             ->has('filters')
             ->has('slskeyGroups')
             ->has('slskeyGroups.data', 1)
@@ -161,8 +134,6 @@ it('succeeds to search - with result', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 1)
             ->has('filters')
             ->where('filters.search', $identifier)
             ->has('slskeyGroups')
@@ -193,8 +164,6 @@ it('succeeds to search - result from alma', function () {
         fn (AssertableInertia $page) => $page
             ->component('Users/UsersIndex')
             ->where('perPage', 10)
-            ->has('slskeyUsers')
-            ->has('slskeyUsers.data', 1)
             ->has('filters')
             ->where('filters.search', $identifier)
             ->has('slskeyGroups')

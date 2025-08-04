@@ -68,7 +68,17 @@
                     </tr>
                 </thead>
                 <tbody class="">
-                    <template v-if="slskeyUsers.data.length > 0">
+                    <template v-if="loading">
+                        <tr>
+                            <td :colspan="slskeyGroups.data.length > 1 ? 6 : 5" class="px-6 py-8 text-center">
+                                <div class="flex items-center justify-center">
+                                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                    <span class="ml-3 text-gray-600">{{ $t('user_management.loading') || 'Loading users...' }}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else-if="slskeyUsers.data.length > 0">
                         <template v-for="user, userIndex in slskeyUsers.data" :key="'user' + user.id">
 
                             <tr @click="navigateTo(user.primary_id)" class="focus-within:bg-gray-100 cursor-pointer whitespace-nowrap"
@@ -198,13 +208,14 @@ export default {
     },
     props: {
         perPage: Number,
-        slskeyUsers: Object,
         filters: Object,
         slskeyGroups: Object
     },
     data() {
         return {
             hoveredRow: null,
+            loading: true,
+            slskeyUsers: { data: [], meta: {} },
             form: {
                 perPage: this.perPage,
                 search: this.filters.search,
@@ -218,6 +229,19 @@ export default {
         }
     },
     methods: {
+        async loadUserData() {
+            this.loading = true;
+            try {
+                const response = await axios.get('/users/data', {
+                    params: omitBy(this.form, _.overSome([_.isNil, _.isNaN]))
+                });
+                this.slskeyUsers = response.data.slskeyUsers;
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
         reset() {
             this.form = {
                 perPage: this.perPage,
@@ -310,14 +334,23 @@ export default {
         form: {
             deep: true,
             handler: debounce(function (new_value, old_value) {
+                // Update URL for browser navigation
                 Inertia.get('/users', omitBy(this.form, _.overSome([_.isNil, _.isNaN])),
                     {
                         preserveState: true,
-                        replace: true
+                        replace: true,
+                        onFinish: () => {
+                            // Load data asynchronously after URL update
+                            this.loadUserData();
+                        }
                     }
                 )
             }, 300)
         }
+    },
+    mounted() {
+        // Load initial data
+        this.loadUserData();
     }
 }
 </script>

@@ -45,6 +45,6 @@
  line-height: 2;
 }
 .vue-select-container .vs__dropdown-option--highlight {
- @apply bg-color-one-1;
- @apply text-color-slsp;
+ /* @apply bg-color-one-1; */
+ /* @apply text-color-slsp; */
 }

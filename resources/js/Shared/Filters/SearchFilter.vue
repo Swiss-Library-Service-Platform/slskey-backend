@@ -4,7 +4,8 @@
       <span>{{ label }}</span>
     </label>
     <input :id="id" class="
-            h-10 border-gray-300 rounded
+            px-3 py-2
+            h-10 border border-gray-300 rounded
             transition delay-75 
             hover:border-gray-400 focus:border-gray-500
             focus:shadow-outline focus:ring-0 focus:border-1" :class="$attrs.inputclass" autocomplete="off" type="text"

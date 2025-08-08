@@ -288,7 +288,7 @@ class SlskeyUser extends Model
 
         $permittedIds = Auth::user()->getSlskeyGroupsPermissionsIds();
 
-        return $query->whereHas('slskeyActivations', function ($q) use ($start, $end, $permittedIds) {
+        return $query->whereHas('slskeyActivations', function ($q) use ($start, $end, $permittedIds, $filteredSlskeyCode) {
             self::applyPermissionAndCodeFilter($q, $permittedIds, $filteredSlskeyCode);
 
             if ($start) {

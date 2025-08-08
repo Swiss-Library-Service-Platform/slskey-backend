@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-	<header class="z-10 bg-color-header-bg shadow shadow-color-header-bg py-2">
+	<header class="z-10 bg-header-bg shadow shadow-color-header-bg py-2">
 		<div class="mx-auto pr-8 flex flex-row gap-y-2 h-20 justify-between content-center"
 			:class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
 

@@ -96,6 +96,8 @@ Route::middleware([
     // User Management
     Route::get('/users', [UsersController::class, 'index'])
         ->name('users.index');
+    Route::get('/users/data', [UsersController::class, 'getData'])
+        ->name('users.data');
     Route::get('/users/export', [UsersController::class, 'exportList'])
         ->name('users.export');
     Route::get('/users/{identifier}', [UsersController::class, 'show'])
@@ -109,6 +111,8 @@ Route::middleware([
     // Reporting
     Route::get('/reporting', [ReportingController::class, 'index'])
         ->name('reporting.index');
+    Route::get('/reporting/data', [ReportingController::class, 'getData'])
+        ->name('reporting.data');
     Route::get('/reporting/export', [ReportingController::class, 'export'])
         ->name('reporting.export');
     Route::get('reporting/{identifier}', [ReportingController::class, 'showReportSettings'])

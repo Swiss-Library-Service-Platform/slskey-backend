@@ -250,7 +250,6 @@ import { Inertia } from "@inertiajs/inertia";
 import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
 import Dropdown from '@/Shared/Dropdown.vue';
-import DefaultConfirmButton from "@/Shared/Buttons/DefaultConfirmButton.vue";
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
 import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
@@ -267,7 +266,6 @@ export default {
     UserStatusChip,
     DefaultIconButton,
     ConfirmDialog,
-    DefaultConfirmButton,
     Dropdown,
     DefaultConfirmDropdownLink,
     Icon,

@@ -14,7 +14,7 @@
             leave-active-class="transition duration-200 ease-in" leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0">
             <MenuItems static
-                class="absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                class="absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-sm bg-white shadow-lg border-gray-table ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1">
                     <MenuItem class=" hover:bg-one-1 hover:text-one" v-slot="{ active }"
                         v-for="(lang, i) in languages" :key="`Lang${i}`">

@@ -5,9 +5,9 @@
         <AccountSupervisorCircleOutline v-if="icon == 'cursor_default_click'"/>
         <FilterRemove :size="size" v-if="icon == 'filter_remove'"/>
         <Help :size="size" v-if="icon == 'help'"/>
-        <Sort size="18" v-if="icon == 'sort'"/>
-        <SortAscending size="18" v-if="icon == 'sort_ascending'"/>
-        <SortDescending size="18" v-if="icon == 'sort_descending'"/>
+        <Sort size=18 v-if="icon == 'sort'"/>
+        <SortAscending size=18 v-if="icon == 'sort_ascending'"/>
+        <SortDescending size=18 v-if="icon == 'sort_descending'"/>
     </div>
 </template>
 

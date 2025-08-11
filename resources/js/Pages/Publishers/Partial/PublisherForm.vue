@@ -20,7 +20,7 @@
                     :label="`${$t('publishers.internal_note')}`" />
 
             </div>
-            <div class="border-t border-b border-default-gray"></div>
+            <div class="border-t border-b border-gray-table"></div>
             <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{ $t('publishers.switch_groups')
             }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
@@ -62,7 +62,7 @@
                     </SelectInput>
                 </div>
             </div>
-            <div class="border-t border-b border-default-gray"></div>
+            <div class="border-t border-b border-gray-table"></div>
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">

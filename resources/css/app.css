@@ -6,27 +6,12 @@
 @import 'form';
 
 /* Plugins */
-@plugin "@tailwindcss/forms";
 @import 'vue-select/dist/vue-select.css';
 
-html,
-body {
-  height: 100%;
-  width: 100%;
-}
+/* Tailwind CSS Forms Plugin */
+@plugin "@tailwindcss/forms";
 
-body {
-  background: #e9e9e9;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
-
-/* Define your theme tokens here */
+/* Theme */
 @theme {
   /* Colors */
   --color-gray-background: #e9e9e9;
@@ -71,4 +56,22 @@ body {
 
   /* Screens */
   --screen-3xl: 1800px;
+}
+
+/* Global Styles */
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #e9e9e9;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }

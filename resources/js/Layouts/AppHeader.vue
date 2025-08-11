@@ -24,16 +24,16 @@ export default {
 </script>
 
 <template>
-	<header class="z-10 bg-header-bg shadow shadow-color-header-bg py-2">
+	<header class="z-10 bg-header-bg shadow shadow-header-bg py-2">
 		<div class="mx-auto pr-8 flex flex-row gap-y-2 h-20 justify-between content-center"
 			:class="{ 'Xmax-w-screen-3xl': !modePublic, 'max-w-screen-xl': modePublic }">
 
 			<div class="flex items-center gap-x-8">
 				<!-- Logo -->
-				<div class="w-76 g-color-header-bg flex items-center justify-start">
+				<div class="w-76 flex items-center justify-start">
 					<Link class="pl-8 h-20 flex items-center" :href="modePublic ? route.path : route('activation.start')">
 					<img src="/images/slskey_logo_small_white.png" class="h-9 w-auto mr-4" />
-					<h2 class="text-3xl text-color-header-text font-extrabold">
+					<h2 class="text-3xl text-header-text font-extrabold">
 						SLSKey
 						<span v-if="$page.props.appEnv != 'production'" class="text-xs text-red-500 uppercase">Test</span>
 					</h2>

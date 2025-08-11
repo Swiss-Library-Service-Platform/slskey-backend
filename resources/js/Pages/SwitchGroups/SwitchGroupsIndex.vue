@@ -44,7 +44,7 @@
                             <td class="align-top">
                                 <Link class="flex flex-col px-6 py-3 whitespace-nowrap gap-y-1"
                                     :href="`/admin/switchgroups/${group.id}`">
-                                <div class="w-fit p-1 rounded-sm bg-color-slsp-bg"
+                                <div class="w-fit p-1 rounded-sm bg-slsp-bg"
                                     v-for="slskeyGroup in group.slskeyGroups" :key="slskeyGroup.id">
                                     {{ slskeyGroup.slskey_code }}
                                 </div>
@@ -53,7 +53,7 @@
                             <td class="align-top">
                                 <Link class="flex flex-row px-6 py-3 whitespace-nowrap gap-x-1"
                                     :href="`/admin/switchgroups/${group.id}`">
-                                <div class="w-fit p-1 rounded-sm bg-color-alma" v-for="publisher in group.publishers"
+                                <div class="w-fit p-1 rounded-sm bg-alma" v-for="publisher in group.publishers"
                                     :key="publisher.id">
                                     {{ publisher }}
                                 </div>

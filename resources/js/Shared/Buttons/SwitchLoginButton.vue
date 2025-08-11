@@ -21,7 +21,7 @@ defineProps({
 </script>
 
 <template>
-    <Link :id=id :type="type" :as="type" :href="href" class="w-full px-4 bg-color-slsp-bg rounded-lg">
+    <Link :id=id :type="type" :as="type" :href="href" class="px-4 bg-slsp-bg rounded-lg cursor-pointer">
       <img src="/images/eduidbutton.svg" alt="switch" class="hover:scale-105 transition-all duration-300 ease-in-out" />
     </Link>
   

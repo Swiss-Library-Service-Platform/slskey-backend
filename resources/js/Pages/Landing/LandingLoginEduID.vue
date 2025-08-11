@@ -9,13 +9,13 @@ import Notifications from '@/Shared/Notifications.vue';
     <div class="min-h-screen flex flex-col justify-center items-center gap-y-4">
         <Notifications />
 
-        <div class="flex flex-row items-stretch  bg-color-slsp-bg-logo shadow-xlrounded-xl rounded-md shadow-lg">
+        <div class="flex flex-row items-stretch bg-slsp-bg-logo rounded-md border shadow-xl border-gray-table">
             <div class="w-80 p-8 flex flex-col justify-between items-start">
                 <!--<div class=""></div> -->
                 <img class="h-auto pb-16 invert-20" src="/images/slskey_logo_full_black.png" />
             </div>
 
-            <div class="w-100 p-8 flex flex-col h-full items-center justify-between border-l bg-white">
+            <div class="w-100 p-8 flex flex-col h-full items-center rounded-r-md justify-between border-l border-gray-table bg-white">
 
                 <div class="flex w-full flex-col items-center xtext-gray-table mb-4">
                     <span class="text-xl text-gray-500">
@@ -27,7 +27,7 @@ import Notifications from '@/Shared/Notifications.vue';
                 </div>
 
                 <div class="flex flex-col w-full items-center">
-                    <SwitchLoginButton href="/login/eduid" class="w-[270px] mb-1">
+                    <SwitchLoginButton href="/login/eduid" class="w-[280px] mb-1">
                         {{ $t('landing.eduid') }}
                     </SwitchLoginButton>
 

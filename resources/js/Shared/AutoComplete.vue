@@ -2,16 +2,16 @@
     <Combobox v-model="selected">
         <div class="relative sm:w-9/12 md:w-96 w-full">
             <div
-                class="flex items-center relative w-full cursor-default p-2 overflow-hidden sm:rounded-full ring-2 ring-gray-400 focus-within:ring-color-one-1 bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
-                <SearchIcon class="h-6 w-6 ml-2 fill-color-one-1" />
+                class="flex items-center relative w-full cursor-default p-2 overflow-hidden sm:rounded-full ring-2 ring-gray-400 focus-within:ring-one-1 bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300">
+                <SearchIcon class="h-6 w-6 ml-2 fill-one-1" />
                 <ComboboxInput :placeholder="$t('search_placeholder')" class="
                     w-full
                     border-none 
                     leading-5 
                     font-bold
-                    focus:text-color-one-1 focus:ring-0
+                    focus:text-one-1 focus:ring-0
                     text-gray-400 
-                    placeholder:text-color-one-1 placeholder:font-semibold" :displayValue="(item) => item.name"
+                    placeholder:text-one-1 placeholder:font-semibold" :displayValue="(item) => item.name"
                     @change="form.search = $event.target.value" />
             </div>
             <TransitionRoot enter="transition ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100"
@@ -45,7 +45,7 @@
                         :value="item" v-slot="{ selected, active }">
                         <li class="relative sm:px-2">
                             <div class="flex justify-between sm:rounded-sm px-2 py-1 cursor-pointer select-none" :class="{
-                                'ring-2 ring-color-one-1 bg-color-one-2': active
+                                'ring-2 ring-one-1 bg-one-2': active
                             }">
                                 <span class="truncate"
                                     :class="{ 'font-medium': selected, 'font-normal': !selected, 'text-gray-900': !active }">

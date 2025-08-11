@@ -2,7 +2,7 @@
     <div :class="$attrs.class">
         <label v-if="label" class="form-label accent-gray-500" :for="id">
             <input :id="id" ref="input" v-bind="{ ...$attrs, class: null }" class="form-checkbox rounded shadow-sm border-gray-300 
-                focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50 text-color-one"
+                focus:border-one-1 focus:ring focus:ring-one-1 focus:ring-opacity-50 text-one"
                 :class="{ error: error }" :type="type" v-model="selected"
                 @change="$emit('update:modelValue', this.selected ? 'true' : 'false')" />
             <span class="ml-2">{{ label }}</span>

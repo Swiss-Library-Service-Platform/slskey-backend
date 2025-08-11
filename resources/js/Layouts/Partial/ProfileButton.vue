@@ -31,7 +31,7 @@
             <MenuItems static
                 class="w-36 absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1 ">
-                    <MenuItem class=" hover:bg-color-one-1 hover:text-color-one" v-slot="{ active }">
+                    <MenuItem class=" hover:bg-one-1 hover:text-one" v-slot="{ active }">
                         <form method="POST" @submit.prevent="logout">
 							<DropdownLink href="/logout/eduid">
 								<LogoutIcon class="h-4 w-4 mr-2" />

@@ -5,10 +5,15 @@
 .form-input,
 .form-textarea,
 .form-select {
-  @apply p-2 leading-normal block w-full border text-gray-700 bg-white font-sans rounded text-left appearance-none relative focus:border-indigo-400 focus:ring;
+  @apply p-2 leading-normal block w-full border border-gray-300 text-gray-700 bg-white font-sans rounded text-left appearance-none relative focus:border-black;
 
   &::placeholder {
     @apply text-gray-500 opacity-100;
+  }
+
+  &:focus {
+    @apply ring-0 ring-red-500 focus:outline-none;
+    @apply border-one;
   }
 }
 
@@ -41,10 +46,13 @@
 .vue-select-container .vs__dropdown-toggle {
   height: 2.7rem;
 }
+
 .vue-select-container .vs__selected {
- line-height: 2;
+  line-height: 2;
 }
+
+
 .vue-select-container .vs__dropdown-option--highlight {
- /* @apply bg-color-one-1; */
- /* @apply text-color-slsp; */
+  /* @apply bg-color-one-1; */
+  /* @apply text-color-slsp; */
 }

@@ -43,10 +43,10 @@ export default {
 		},
 		getClasses: function () {
 			return this.activation?.blocked ?
-				'text-color-blocked border border-color-blocked bg-color-blocked-bg' :
+				'text-blocked border border-blocked bg-blocked-bg' :
 				(this.activation?.activated ?
-				'text-color-active border border-color-active bg-color-active-bg ' :
-				'text-color-deactivated border border-color-deactivated bg-color-deactivated-bg');
+				'text-active border border-active bg-active-bg ' :
+				'text-deactivated border border-deactivated bg-deactivated-bg');
 		}
 	}
 

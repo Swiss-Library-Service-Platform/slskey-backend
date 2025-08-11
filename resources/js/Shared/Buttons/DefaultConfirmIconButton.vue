@@ -66,10 +66,11 @@ export default {
         font-bold 
         text-md
         bg-white
+        cursor-pointer
         hover:bg-opacity-80
         focus:outline-none
         focus:ring 
-        focus:ring-color-slsp
+        focus:ring-slsp
         active:bg-opacity-70
         disabled:opacity-25
         " :title="tooltip">

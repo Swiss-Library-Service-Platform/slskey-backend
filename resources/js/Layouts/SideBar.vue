@@ -73,9 +73,9 @@ export default {
 			</div>
 
 
-			<div v-if="$page.props.isSlskeyAdmin" class="flex flex-col py-4 border-t">
+			<div v-if="$page.props.isSlskeyAdmin" class="flex flex-col py-4 border-t border-gray-table">
 
-				<div class="ml-8 mb-4 text-color-one italic">
+				<div class="ml-8 mb-4 text-one italic">
 					<Icon icon="lock-closed" class="w-3 h-3 inline-block mr-2" />
 					SLSP area
 				</div>

@@ -5,9 +5,9 @@
         </label>
         <div class="flex h-10 place-items-center justify-center">
             <div class="p-0.5 flex shrink-0 rounded-full bg-white border-1 border-transparent" :class="{
-                'bg-color-one ': selected,
+                'bg-one ': selected,
                 'bg-gray-100': selected === null,
-                'bg-color-one-1': selected === false
+                'bg-one-1': selected === false
             }">
                 <div class="pointer-events-none select-none absolute rounded-full bg-white shadow-lg w-6 h-6 
                     transform transition duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"

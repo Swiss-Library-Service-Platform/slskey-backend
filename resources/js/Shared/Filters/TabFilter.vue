@@ -4,14 +4,14 @@
             <span>{{ label }}</span>
         </label>
         <div
-            class="h-10 cursor-pointer bg-white flex flex-row rounded shadow-sm border border-gray-300 focus:border-color-one-1 focus:ring focus:ring-color-one-1 focus:ring-opacity-50 text-color-one whitespace-nowrap">
+            class="h-10 cursor-pointer bg-white flex flex-row rounded shadow-sm border border-gray-300 focus:border-one-1 focus:ring focus:ring-one-1 focus:ring-opacity-50 text-one whitespace-nowrap">
             <div class="flex items-center p-2 px-4 rounded" @click="selectTab(0)"
-                :class="modelValue == 0 ? 'bg-color-header-bg text-white' : ''">
+                :class="modelValue == 0 ? 'bg-header-bg text-white' : ''">
                 <Icon :icon="icon1" class="h-4 w-4 mr-2" />
                 {{ tab1 }}
             </div>
             <div class="flex items-center border-l p-2 px-4 rounded" @click="selectTab(1)"
-                :class="modelValue == 1 ? 'bg-color-header-bg text-white' : ''">
+                :class="modelValue == 1 ? 'bg-header-bg text-white' : ''">
                 <Icon :icon="icon2" class="h-4 w-4 mr-2" />
                 {{ tab2 }}
             </div>

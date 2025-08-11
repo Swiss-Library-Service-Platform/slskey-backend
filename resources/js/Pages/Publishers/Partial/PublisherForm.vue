@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('publishers.general') }}
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{ $t('publishers.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 gap-8">
                 <!-- Name -->
@@ -21,7 +21,7 @@
 
             </div>
             <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('publishers.switch_groups')
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{ $t('publishers.switch_groups')
             }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
 
@@ -41,7 +41,7 @@
                                 </td>
 
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('publishers.delete_switch_group')"
+                                    <DefaultIconButton class="bg-blocked py-1" icon="x" :tooltip="$t('publishers.delete_switch_group')"
                                         @click="removeGroup(switchGroup.id)" />
                                 </td>
                             </tr>
@@ -66,11 +66,11 @@
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">
-                        <DefaultButton @click="cancel()" class="bg-color-one py-1 text-white w-fit"
+                        <DefaultButton @click="cancel()" class="bg-one py-1 text-white w-fit"
                             :tooltip="$t('publishers.cancel')">
                             {{ $t('publishers.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="deletePublisher()" class="py-1 text-color-blocked w-fit"
+                        <DefaultButton v-if="!isCreating" @click="deletePublisher()" class="py-1 text-blocked w-fit"
                             icon="trash" :tooltip="$t('publishers.delete')">
                             {{ $t('publishers.delete') }}
                         </DefaultButton>

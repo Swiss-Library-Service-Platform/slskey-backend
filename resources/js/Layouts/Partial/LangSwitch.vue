@@ -16,13 +16,13 @@
             <MenuItems static
                 class="absolute right-0 mt-1 origin-top-right divide-y divide-gray-100  rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1">
-                    <MenuItem class=" hover:bg-color-one-1 hover:text-color-one" v-slot="{ active }"
+                    <MenuItem class=" hover:bg-one-1 hover:text-one" v-slot="{ active }"
                         v-for="(lang, i) in languages" :key="`Lang${i}`">
 
                     <button @click="selectLang(lang.short)" class="flex items-center gap-2" :class="[
                         active ? 'bg-violet-500 text-white' : 'text-gray-900',
                         'group flex w-full items-center px-2 py-2 text-sm',]">
-                        <div v-if="lang.short === this.$i18n.locale" class="bg-color-one rounded-full h-3 w-3" />
+                        <div v-if="lang.short === this.$i18n.locale" class="bg-one rounded-full h-3 w-3" />
                         <div v-else class="bg-white rounded-full h-3 w-3" />
                         {{ $t(lang.long) }}
                     </button>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-fit bg-color-alma rounded-sm p-8 flex flex-col ">
+  <div class="w-fit bg-alma rounded-sm p-8 flex flex-col ">
 
     <table class="min-w-full text-left border-separate whitespace-nowrap border-spacing-0">
       <tbody>
@@ -38,7 +38,7 @@
             <div v-if="almaUser?.barcodes && almaUser.barcodes.length">
               <span v-for="barcode in almaUser.barcodes" :key="barcode">{{ barcode }}<br /></span>
             </div>
-            <div v-else class="italic text-color-blocked">-</div>
+            <div v-else class="italic text-blocked">-</div>
           </td>
         </tr>
         <tr >
@@ -58,17 +58,17 @@
                   address.country?.desc }}</span>
               </div>
             </div>
-            <div v-else class="italic text-color-blocked">{{ $t("alma_user.no_address") }}</div>
+            <div v-else class="italic text-blocked">{{ $t("alma_user.no_address") }}</div>
           </td>
         </tr>
       </tbody>
     </table>
     <!-- show block flag if user is blocked -->
     <div v-if="almaUser?.blocks && almaUser.blocks.length"
-      class="mt-5 flex flex-col rounded text-center border border-color-blocked bg-color-blocked-bg font-semibold text-color-blocked">
+      class="mt-5 flex flex-col rounded text-center border border-blocked bg-blocked-bg font-semibold text-blocked">
       {{ $t("alma_user.blocked") }}
     </div>
-    <div v-if="!almaUser" class="text-color-blocked italic font-italic my-8">
+    <div v-if="!almaUser" class="text-blocked italic font-italic my-8">
       {{ $t("alma_user.not_found") }}
     </div>
   </div>

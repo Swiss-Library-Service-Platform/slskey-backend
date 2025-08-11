@@ -30,8 +30,8 @@ const close = () => {
 
 <template>
     <Modal :show="show" :max-width="maxWidth" :closeable="closeable" @close="close">
-        <div class="flex flex-row justify-between p-4 bg-color-slsp-bg shadow">
-            <div class=" text-color-slsp font-semibold text-lg flex flex-row items-center">
+        <div class="flex flex-row justify-between p-4 bg-slsp-bg shadow">
+            <div class=" text-slsp font-semibold text-lg flex flex-row items-center">
                 <Icon :inline="true" icon="exclamation-circle" class="mr-2 h-5 min-w-5" />
                 <slot name="title" />
             </div>

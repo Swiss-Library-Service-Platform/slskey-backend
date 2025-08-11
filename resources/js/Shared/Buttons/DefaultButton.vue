@@ -28,7 +28,7 @@ const props = defineProps({
 
     <button :disabled="loading" :id=id :type="type" :as="type" :href="href" :class="[
     // Internal static classes
-        'inline-flex items-center shadow text-color-slsp bg-color-slsp-bg border-color-slsp border h-fit px-4 py-2 rounded-sm justify-center font-bold text-md focus:outline-none focus:ring focus:ring-color-slsp-bg active:bg-opacity-70 disabled:opacity-25',
+        'inline-flex items-center shadow text-slsp bg-slsp-bg border-slsp border h-fit px-4 py-2 rounded-sm justify-center font-bold text-md focus:outline-none focus:ring focus:ring-slsp-bg active:bg-opacity-70 disabled:opacity-25',
         // Internal dynamic classes
         {
             'hover:bg-opacity-70': !loading,

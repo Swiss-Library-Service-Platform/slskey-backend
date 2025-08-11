@@ -16,13 +16,13 @@
         <!-- <label v-if="this.values.length > 0" class="mt-4 form-label">{{ $t('maintainers_current')}}</label> -->
 
         <div class="mt-2" v-for="(value, index) in this.values">
-            <div class="bg-color-one-2 w-auto rounded-sm p-2 transition duration-200 ease-out flex justify-start">
+            <div class="bg-one-2 w-auto rounded-sm p-2 transition duration-200 ease-out flex justify-start">
                 <p class="flex gap-2 overflow-visible text-m w-full whitespace-nowrap place-items-center justify-between">
                     
                     <span class="truncate">
                         {{ value }}
                     </span>
-                    <span class="bg-red-700 rounded-full ring-1 ring-color-one-2 ">
+                    <span class="bg-red-700 rounded-full ring-1 ring-one-2 ">
                         <a class="w-6 h-6 text-white bg-red-300" @click="removeValue(value)">
                             <MinusIcon class="h-5 w-5" />
                         </a>

@@ -23,7 +23,7 @@
                         Start Import
                     </DefaultButton>
                     <DefaultButton v-if="importStarted" @click="stopImport"
-                        class="text-color-blocked w-fit">
+                        class="text-blocked w-fit">
                         Stop Import
                     </DefaultButton>
                 </div>
@@ -75,7 +75,7 @@
 
                 <!-- Result Table -->
                 <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                    <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         <tr>
                             <th class="py-4 pr-6 text-left whitespace-nowrap"> {{ $t('slskey_groups.slskey_code') }}
                             </th>
@@ -99,17 +99,17 @@
                                     </td>
                                     <td class="px-6 py-4 align-top">
                                         <Icon class="h-6 w-6"
-                                            :class="doneRow.isActive == null ? 'text-color-deactivated' : (doneRow.isActive ? 'text-color-active' : 'text-color-blocked')"
+                                            :class="doneRow.isActive == null ? 'text-deactivated' : (doneRow.isActive ? 'text-active' : 'text-blocked')"
                                             :icon="doneRow.isActive == null ? 'question-mark' : (doneRow.isActive ? 'check-circle' : 'x')" />
                                     </td>
                                     <td class="px-6 py-4 align-top">
                                         <Icon class="h-6 w-6"
-                                            :class="doneRow.isVerified == null ? 'text-color-deactivated' : (doneRow.isVerified ? 'text-color-active' : 'text-color-blocked')"
+                                            :class="doneRow.isVerified == null ? 'text-deactivated' : (doneRow.isVerified ? 'text-active' : 'text-blocked')"
                                             :icon="doneRow.isVerified == null ? 'question-mark' : (doneRow.isVerified ? 'check-circle' : 'x')" />
                                     </td>
                                     <td class="px-6 py-4 align-top">
                                         <Icon class="h-6 w-6"
-                                            :class="doneRow.success ? 'text-color-active' : 'text-color-blocked'"
+                                            :class="doneRow.success ? 'text-active' : 'text-blocked'"
                                             :icon="doneRow.success ? 'check-circle' : 'x'" />
                                     </td>
                                     <td class="pl-6 py-4 align-top">

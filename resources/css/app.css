@@ -6,6 +6,7 @@
 @import 'form';
 
 /* Plugins */
+@plugin "@tailwindcss/forms";
 @import 'vue-select/dist/vue-select.css';
 
 html,
@@ -28,9 +29,9 @@ body {
 /* Define your theme tokens here */
 @theme {
   /* Colors */
-  --gray-background: #e9e9e9;
-  --gray-table: #c9c9c9;
-  --gray-disabled: #d1d5db;
+  --color-gray-background: #e9e9e9;
+  --color-gray-table: #c9c9c9;
+  --color-gray-disabled: #d1d5db;
 
   --color-one: #222b55;
   --color-one-1: #edf1f5;

@@ -66,7 +66,7 @@ export default {
         hover:bg-opacity-80
         focus:outline-none
         focus:ring 
-        focus:ring-color-slsp
+        focus:ring-slsp
         active:bg-opacity-70
         disabled:opacity-25
         w-full

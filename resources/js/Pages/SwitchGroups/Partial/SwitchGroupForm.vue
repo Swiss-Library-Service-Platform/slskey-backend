@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('switch_groups.general') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 gap-8">
                 <!-- Name -->
@@ -10,8 +10,8 @@
                 <text-input v-model="form.switch_group_id" :error="form.errors.switch_group_id"
                     :label="`${$t('switch_groups.switch_group_id')} *`" />
             </div>
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('switch_groups.slskey_groups') }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
 
@@ -41,8 +41,8 @@
                 </table>
             </div>
             <!-- Publishers -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('switch_groups.publishers_title') }}</h3>
             <div class="grid grid-cols-1 px-8 pb-8 gap-8">
                 <text-area-input v-model="form.publishers" :error="form.errors.publishers"
@@ -50,8 +50,8 @@
             </div>
             
             <!-- Member Count -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('switch_groups.members_count_title') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <div>
@@ -59,10 +59,10 @@
                 </div>
             </div>
 
-            <div class="border-t border-b border-default-gray"></div>
+            <div class="border-t border-b border-gray-table"></div>
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
-                    <DefaultButton @click="cancel()" class="text-color-blocked w-fit"
+                    <DefaultButton @click="cancel()" class="text-blocked w-fit"
                         :tooltip="$t('switch_groups.cancel')">
                         {{ $t('switch_groups.cancel') }}
                     </DefaultButton>

@@ -22,7 +22,7 @@
         <!-- Admin Portal Users -->
         <div v-show="displayTab == 0" class="overflow-x-auto my-8 bg-white shadow-md rounded-sm">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr class="text-left whitespace-nowrap">
                         <th class="py-4 px-4 "> {{ $t('admin_users.user_identifier') }} </th>
                         <th class="py-4 px-4 "> {{ $t('admin_users.display_name') }} </th>
@@ -49,7 +49,7 @@
                             </td>
                             <td class="align-top">
                                 <div v-if="user.is_slsp_admin"
-                                    class="text-color-slsp font-bold flex px-6 py-3 ">
+                                    class="text-slsp font-bold flex px-6 py-3 ">
                                     {{ $t('admin_users.slsp_admin') }}
                                 </div>
                                 <div v-else class="flex flex-col px-6 py-3 gap-2">
@@ -65,7 +65,7 @@
                             </td>
                             <td class="align-top">
                                 <div class="flex px-6 py-3 "
-                                                                :class="{ 'text-color-blocked': user.last_login && this.$moment(user.last_login).isBefore(this.$moment().subtract(6, 'months')) }">
+                                                                :class="{ 'text-blocked': user.last_login && this.$moment(user.last_login).isBefore(this.$moment().subtract(6, 'months')) }">
 
                                     {{ formatDate(user.last_login) }}
                                 </div>
@@ -85,9 +85,9 @@
         </div>
 
         <!-- Alma Users -->
-        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-color-alma shadow-md rounded-sm text-color-deactivated">
+        <div v-show="displayTab == 1" class="overflow-x-auto my-8 bg-alma shadow-md rounded-sm text-deactivated">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr class="text-left whitespace-nowrap">
                         <th class="py-4 px-4"> {{ $t('admin_users.user_identifier') }} </th>
                         <th class="py-4 px-4 text-left"> {{ $t('admin_users.permissions') }} </th>
@@ -106,7 +106,7 @@
                             </td>
                             <td class="align-top">
                                 <div v-if="user.is_slsp_admin"
-                                    class="text-color-slsp font-bold flex px-6 py-3 ">
+                                    class="text-slsp font-bold flex px-6 py-3 ">
                                     {{ $t('admin_users.slsp_admin') }}
                                 </div>
                                 <div v-else class="flex flex-col px-6 py-3 gap-2">

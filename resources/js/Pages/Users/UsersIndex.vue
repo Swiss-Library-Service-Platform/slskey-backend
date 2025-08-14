@@ -18,7 +18,7 @@
 
         <div class="mt-8 overflow-x-auto bg-white shadow-md rounded-sm ">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr class="whitespace-nowrap">
                         <th @click="sort('full_name')" class="py-4 px-6 text-left cursor-pointer">
                             <div class="flex flex-row items-center gap-x-2">
@@ -161,7 +161,6 @@ import throttle from "lodash/throttle";
 import debounce from "lodash/debounce";
 import omitBy from 'lodash/omitBy'
 import axios from 'axios';
-import Datepicker from '@vuepic/vue-datepicker';
 import SearchFilter from '@/Shared/Filters/SearchFilter.vue';
 import SelectFilter from '@/Shared/Filters/SelectFilter.vue';
 import DatePickerFilter from '@/Shared/Filters/DatePickerFilter.vue';
@@ -181,7 +180,6 @@ export default {
     components: {
         AppLayout,
         Pagination,
-        Datepicker,
         SearchFilter,
         DatePickerFilter,
         BreadCrumb,

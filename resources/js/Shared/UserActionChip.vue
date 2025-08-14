@@ -88,15 +88,15 @@ export default {
 			switch (this.action) {
 				case 'BLOCKED_ACTIVE':
 				case 'BLOCKED_INACTIVE':
-					return 'text-color-blocked';
+					return 'text-blocked';
 				case 'ACTIVATED':
 				case 'REACTIVATED':
 				case 'EXTENDED':
-					return 'text-color-active';
+					return 'text-active';
 				case 'DEACTIVATED':
-					return 'text-color-deactivated';
+					return 'text-deactivated';
 				default:
-					return 'text-color-deactivated';
+					return 'text-deactivated';
 			}
 		}
 	}

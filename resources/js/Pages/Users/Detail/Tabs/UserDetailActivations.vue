@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-sm shadow overflow-x-auto">
-    <div class="w-full border-b">
+    <div class="w-full border-b border-gray-table">
       <DefaultButton class="text-lg !w-fit m-4 px-8 " @click.prevent="activate()" icon="key" :loading="loading">
         {{ $t('user_management.new_activation') }}
       </DefaultButton>
@@ -10,7 +10,7 @@
         <template v-if="slskeyUser.slskey_activations.length > 0">
           <!-- SLSKey Group Name -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 w-24 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 w-24 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="users" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("slskey_groups.slskey_code_description") }}:
@@ -27,7 +27,7 @@
           </tr>
           <!-- Status -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="information-circle" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.status") }}:
@@ -43,7 +43,7 @@
                     <Dropdown align="right" width="48">
                       <template #trigger>
                         <span class="inline-flex rounded-sm">
-                          <DefaultIconButton :loading="activation.loading" class="bg-white py-1 !text-color-header-bg"
+                          <DefaultIconButton :loading="activation.loading" class="bg-white py-1 !text-header-bg"
                             icon="pencil" tooltip="Actions" />
                         </span>
                       </template>
@@ -51,7 +51,7 @@
                       <template #content>
 
                         <!-- Disable Expiration -->
-                        <DefaultConfirmDropdownLink class="bg-color-deactivated py-1"
+                        <DefaultConfirmDropdownLink class="bg-deactivated py-1"
                           v-if="activation.activated && !activation.expiration_disabled && activation.slskey_group.days_activation_duration"
                           :activation="activation" :enterRemark="false"
                           :confirmText="$t('user_management.confirm_disable_expiration')" @confirmed="disableExpiration"
@@ -61,7 +61,7 @@
                         </DefaultConfirmDropdownLink>
 
                         <!-- Enable Expiration -->
-                        <DefaultConfirmDropdownLink class="bg-color-deactivated py-1"
+                        <DefaultConfirmDropdownLink class="bg-deactivated py-1"
                           v-if="activation.activated && !!activation.expiration_disabled && activation.slskey_group.days_activation_duration"
                           :activation="activation" :enterRemark="false"
                           :confirmText="$t('user_management.confirm_enable_expiration')"
@@ -72,7 +72,7 @@
                         </DefaultConfirmDropdownLink>
 
                         <!-- Deactivate User -->
-                        <DefaultConfirmDropdownLink v-if="activation.activated" class="bg-color-deactivated py-1"
+                        <DefaultConfirmDropdownLink v-if="activation.activated" class="bg-deactivated py-1"
                           :activation="activation" :confirmText="$t('user_management.confirm_deactivate_user')"
                           @confirmed="deactivate" :disabled="activation.slskey_group.workflow === 'Webhook'">
                           <Icon icon="x" class="h-4 w-4"></Icon>
@@ -80,7 +80,7 @@
                         </DefaultConfirmDropdownLink>
 
                         <!-- Block User -->
-                        <DefaultConfirmDropdownLink v-if="!activation.blocked" class="bg-color-blocked py-1"
+                        <DefaultConfirmDropdownLink v-if="!activation.blocked" class="bg-blocked py-1"
                           :activation="activation" :confirmText="$t('user_management.confirm_block_user')"
                           @confirmed="block" :confirmText2="$t('user_management.confirm_block_user_2')">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
@@ -88,7 +88,7 @@
                         </DefaultConfirmDropdownLink>
 
                         <!-- Unblock User -->
-                        <DefaultConfirmDropdownLink v-if="!!activation.blocked" class="bg-color-blocked py-1"
+                        <DefaultConfirmDropdownLink v-if="!!activation.blocked" class="bg-blocked py-1"
                           :activation="activation" :confirmText="$t('user_management.confirm_unblock_user')"
                           @confirmed="unblock">
                           <Icon icon="ban" class="h-4 w-4"></Icon>
@@ -112,7 +112,7 @@
           </tr>
           <!-- Activation Mail -->
           <tr v-if="isAnyWebhookMailActivation" class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="mail" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.webhook_activation_mail") }}:
@@ -133,7 +133,7 @@
           </tr>
           <!-- Expiration Date -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="clock" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.expiration_date") }}:
@@ -157,7 +157,7 @@
           </tr>
           <!-- Remark -->
           <tr class="h-20">
-            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap pr-14 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="annotation" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.remark") }}:
@@ -176,7 +176,7 @@
           </tr>
           <!-- Member educational institution -->
           <tr v-if="isAnyShowMemberEducationalInstitution" class="h-20">
-            <td class="py-4 px-8 text-leftpr-14 text-color-one">
+            <td class="py-4 px-8 text-leftpr-14 text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="academic-cap" class="h-4 w-4 mr-2"></Icon>
                 <span class="flex flex-row items-end whitespace-pre-line">
@@ -211,7 +211,7 @@
           </tr>
           <!-- Switch Status -->
           <tr class="h-20" v-if="$page.props.isSlskeyAdmin">
-            <td class="py-4 px-8 text-left whitespace-nowrap text-color-one">
+            <td class="py-4 px-8 text-left whitespace-nowrap text-one">
               <div class="flex flex-row items-center">
                 <Icon icon="link" class="h-4 w-4 mr-2"></Icon>
                 {{ $t("user_management.switch_status") }}:
@@ -223,11 +223,11 @@
                   <div v-if="activation.switchLoading" class="btn-spinner-black h-4 w-4 mt-1" />
                   <button @click="goToSwitchAdminGui()" v-else>
                     <div v-if="!activation.switchStatus" class="flex flex-row items-center gap-4">
-                      <div class="bg-color-deactivated-bg rounded-full h-4 w-4" />
+                      <div class="bg-deactivated-bg rounded-full h-4 w-4" />
                       {{ $t("user_management.switch_status_inactive") }}
                     </div>
-                    <div v-else class="text-color-active flex flex-row items-center gap-4">
-                      <div class="bg-color-active rounded-full h-4 w-4" />
+                    <div v-else class="text-active flex flex-row items-center gap-4">
+                      <div class="bg-active rounded-full h-4 w-4" />
                       {{ $t("user_management.switch_status_active") }}
                     </div>
                   </button>
@@ -250,7 +250,6 @@ import { Inertia } from "@inertiajs/inertia";
 import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
 import Dropdown from '@/Shared/Dropdown.vue';
-import DefaultConfirmButton from "@/Shared/Buttons/DefaultConfirmButton.vue";
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
 import Icon from "@/Shared/Icon.vue";
 import axios from 'axios';
@@ -267,7 +266,6 @@ export default {
     UserStatusChip,
     DefaultIconButton,
     ConfirmDialog,
-    DefaultConfirmButton,
     Dropdown,
     DefaultConfirmDropdownLink,
     Icon,

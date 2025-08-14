@@ -15,7 +15,7 @@
             </div>
 
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr>
                         <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('reporting.email') }} </th>
                         <th class="py-4 px-6 text-left whitespace-nowrap"> {{ $t('reporting.date') }} </th>
@@ -35,7 +35,7 @@
                                 {{ formatDate(email.created_at) }}
                             </td>
                             <td class="px-6 py-4 align-center">
-                                <DefaultConfirmIconButton class="bg-color-blocked text-white py-1" icon="trash"
+                                <DefaultConfirmIconButton class="bg-blocked text-white py-1" icon="trash"
                                     :tooltip="$t('reporting.settings.delete_recipient')" :confirmText="$t('reporting.settings.delete_recipient')"
                                     @confirmed="removeEmail(email.id)" />
                             </td>
@@ -55,7 +55,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap"></td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <DefaultIconButton @click.prevent="addEmail" class="bg-color-active py-1 text-white" icon="plus"
+                            <DefaultIconButton @click.prevent="addEmail" class="bg-active py-1 text-white" icon="plus"
                                 :tooltip="$t('reporting.settings.add')" />
                         </td>
                     </tr>

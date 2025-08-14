@@ -1,18 +1,64 @@
-/* Reset */
-@import 'tailwindcss/base';
+/* Tailwind */
+@import 'tailwindcss';
 
 /* Components */
-@import 'tailwindcss/components';
 @import 'buttons';
 @import 'form';
 
-/* Utilities */
-@import 'tailwindcss/utilities';
-
+/* Plugins */
 @import 'vue-select/dist/vue-select.css';
-@import '@vuepic/vue-datepicker/dist/main.css';
 
+/* Tailwind CSS Forms Plugin */
+@plugin "@tailwindcss/forms";
 
+/* Theme */
+@theme {
+  /* Colors */
+  --color-gray-background: #e9e9e9;
+  --color-gray-table: #c9c9c9;
+  --color-gray-disabled: #d1d5db;
+
+  --color-one: #222b55;
+  --color-one-1: #edf1f5;
+
+  --color-slsp: #4e4a99;
+  --color-slsp-bg: #4e4a9914;
+  --color-slsp-bg-lighter: #4e4a990a;
+  --color-slsp-bg-logo: #857eff0f;
+  --color-alma: #e2f5ff;
+
+  --color-header-bg: #343a40;
+  --color-header-text: #ffffff;
+
+  --color-active: #047d04;
+  --color-deactivated: #424141;
+  --color-blocked: #9c3a3a;
+
+  --color-active-bg: #eefbee;
+  --color-deactivated-bg: #ececec;
+  --color-blocked-bg: #fbeef0;
+
+  /* Font */
+  --font-sans: "Source Sans Pro", system-ui, sans-serif;
+
+  /* Spacing/Sizing */
+  --margin-3px: 3px;
+  --height-18px: 18px;
+  --width-18px: 18px;
+  --width-32rem: 32rem;
+  --width-36rem: 36rem;
+  --width-76: 19rem;
+  --min-width-0: 0;
+  --min-width-1-4: 25%;
+  --min-width-1-2: 50%;
+  --min-width-3-4: 75%;
+  --min-width-full: 100%;
+
+  /* Screens */
+  --screen-3xl: 1800px;
+}
+
+/* Global Styles */
 html,
 body {
   height: 100%;

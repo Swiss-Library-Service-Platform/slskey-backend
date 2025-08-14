@@ -9,7 +9,7 @@
 
         <div class="my-8 overflow-x-auto bg-white shadow-md rounded-sm">
             <table class="table-auto  min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr class="text-left whitespace-nowrap">
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ $t('log_jobs.time') }}
@@ -33,10 +33,10 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <template v-if="log.has_fail">
-                                    <Icon icon="x-circle" class="w-5 h-5 text-color-blocked" />
+                                    <Icon icon="x-circle" class="w-5 h-5 text-blocked" />
                                 </template>
                                 <template v-else>
-                                    <Icon icon="check-circle" class="w-5 h-5 text-color-active" />
+                                    <Icon icon="check-circle" class="w-5 h-5 text-active" />
                                 </template>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">

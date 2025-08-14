@@ -2,12 +2,12 @@
 <template>
     <AppLayout :title="$t('publishers.title')" :breadCrumbs="[{ name: $t('publishers.title') }]">
 
-        <DefaultButton @click="createPublisher" icon="plus" class="w-fit bg-color-slsp text-white py-2 my-8">
+        <DefaultButton @click="createPublisher" icon="plus" class="w-fit bg-slsp text-white py-2 my-8">
             {{ $t('publishers.create_new') }}
         </DefaultButton>
         <div class="overflow-x-auto bg-white shadow-md rounded-sm">
             <table class="table-auto min-w-full divide-y divide-gray-table rounded-sm">
-                <thead class="bg-color-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <thead class="bg-slsp-bg-lighter px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <tr>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('publishers.name') }} </th>
                         <th class="py-4 px-4 text-left whitespace-nowrap"> {{ $t('publishers.entity_id') }} </th>

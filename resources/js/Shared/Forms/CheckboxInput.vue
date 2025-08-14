@@ -10,8 +10,8 @@
         </div>
         <Switch v-model="selected" name :id="id" v-bind="{ ...$attrs, class: null }" :class="{
           error: error,
-          'bg-color-one-1': !selected,
-          'bg-color-one': selected
+          'bg-one-1': !selected,
+          'bg-one': selected
         }"
           class="inline-flex h-[30px] w-[62px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <span class="sr-only">Use setting</span>

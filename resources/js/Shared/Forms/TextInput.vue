@@ -8,7 +8,7 @@
     </div>
 
     <input :id="id" ref="input" v-bind="{ ...$attrs, class: null }" :disabled="disabled" :placeholder="placeholder"
-      class="form-input w-full  focus:ring-0 shadow-sm border-gray-300 focus:border-gray-500 " :class="{ error: error }"
+      class="form-input w-full" :class="{ error: error }"
       :type="type" :value="modelValue" autocomplete="off" @keypress.enter="$emit('enter');"
       @input="$emit('update:modelValue', $event.target.value)" />
     <div v-if="error" class="form-error">{{ error }}</div>

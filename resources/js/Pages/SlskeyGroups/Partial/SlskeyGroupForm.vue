@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="store">
         <div class="flex flex-col">
-            <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('slskey_groups.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-4  gap-4">
@@ -22,8 +22,8 @@
             </div>
 
             <!-- Workflow -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('slskey_groups.workflow') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-4  gap-4">
                 <!-- Workflow -->
@@ -33,8 +33,8 @@
             </div>
 
             <!-- Manual Activation Details -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">
                 {{ $t('slskey_groups.activation_details') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-4  gap-4">
                 <!-- Switch for Manual Activation -->
@@ -52,8 +52,8 @@
 
             <!-- Webhook -->
             <template v-if="form.workflow">
-                <div class="border-t border-b border-default-gray"></div>
-                <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                <div class="border-t border-b border-gray-table"></div>
+                <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">
                     {{ form.workflow === 'Webhook' ? $t('slskey_groups.webhook_details') :
                         $t('slskey_groups.expiration_details') }}</h3>
                 <div class="grid grid-cols-2 px-8 pb-4  gap-4">
@@ -90,9 +90,9 @@
             </template>
             <!-- Webhook Custom Verification -->
             <template v-if="form.workflow == 'Webhook' && form.webhook_persistent"
-                class="border-t border-b border-default-gray">
-                <div class="border-t border-b border-default-gray"></div>
-                <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                class="border-t border-b border-gray-table">
+                <div class="border-t border-b border-gray-table"></div>
+                <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">
                     {{ $t('slskey_groups.webhook_activation_details') }}</h3>
                 <div class="grid grid-cols-2 px-8 pb-4  gap-4">
 
@@ -123,8 +123,8 @@
                 </div>
 
                 <!-- Expiration: Webhook -->
-                <div class="border-t border-b border-default-gray"></div>
-                <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                <div class="border-t border-b border-gray-table"></div>
+                <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">
                     {{ $t('slskey_groups.webhook_deactivation_details') }}</h3>
                 <div class="grid grid-cols-2 px-8 pb-4  gap-4">
 
@@ -154,8 +154,8 @@
 
             <!-- Token Reactivation Details -->
             <template v-if="form.webhook_mail_activation || form.days_activation_duration">
-                <div class="border-t border-b border-default-gray"></div>
-                <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">
+                <div class="border-t border-b border-gray-table"></div>
+                <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">
                     {{ $t('slskey_groups.webhook_token_reactivation_details') }}</h3>
                 <div class="grid grid-cols-2 px-8 pb-4  gap-4">
 
@@ -176,8 +176,8 @@
             </template>
             
             <!-- Cloud App Permissions -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('slskey_groups.cloud_app_permissions') }}</h3>
             <div class="grid grid-cols-2 px-8 pb-4  gap-4">
 
@@ -194,8 +194,8 @@
             </div>
 
             <!-- Switch Groups -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-lg px-4 py-2 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-lg px-4 py-2 m-4 text-slsp bg-slsp-bg rounded-sm">{{
                 $t('slskey_groups.switch_groups') }}</h3>
             <div class="grid grid-cols-1 px-8 pb-4  gap-4">
                 <table class="table-auto min-w-full rounded-sm">
@@ -213,7 +213,7 @@
                                 </td>
 
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x"
+                                    <DefaultIconButton class="bg-blocked py-1" icon="x"
                                         :tooltip="$t('slskey_groups.delete_switch_group')"
                                         @click="removeGroup(switchGroup.id)" />
                                 </td>
@@ -235,7 +235,7 @@
                     </SelectInput>
                 </div>
             </div>
-            <div class="border-t border-b border-default-gray"></div>
+            <div class="border-t border-b border-gray-table"></div>
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-2">
                     <div class="flex flex-row gap-4">
@@ -243,7 +243,7 @@
                             :tooltip="$t('slskey_groups.cancel')">
                             {{ $t('slskey_groups.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="deleteGroup()" class="py-1 text-color-blocked w-fit"
+                        <DefaultButton v-if="!isCreating" @click="deleteGroup()" class="py-1 text-blocked w-fit"
                             icon="trash" :tooltip="$t('slskey_groups.delete')">
                             {{ $t('slskey_groups.delete') }}
                         </DefaultButton>

@@ -6,8 +6,8 @@
         </LetterIcon>
     -->
         <MaterialIcon class="mr-2" :icon="workflow == 'Webhook' ? 'auto_mode' : 'cursor_default_click'" :class="{
-            'text-color-slsp': workflow !== 'Webhook',
-            'text-color-deactivated': workflow == 'Webhook',
+            'text-slsp': workflow !== 'Webhook',
+            'text-deactivated': workflow == 'Webhook',
         }">
         </MaterialIcon>
 

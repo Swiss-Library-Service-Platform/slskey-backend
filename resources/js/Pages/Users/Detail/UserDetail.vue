@@ -8,14 +8,14 @@
                 <ul class="flex flex-row w-fit h-16 ">
                     <template v-for="(tab, index) in tabs" :key="index">
                         <li class="relative flex items-center cursor-pointer py-3 px-6 transition list-none" :class="{
-                            'tabitem text-color-slsp font-bold bg-color-slsp-bg': activeTab === index,
+                            'tabitem text-slsp font-bold bg-slsp-bg': activeTab === index,
                             'rounded-tr-md': index === tabs.length - 1
                         }" @click="setActiveTab(index)">
                             <div v-if="index == 0" class="flex items">
                                 <Icon icon="key" class="w-6 h-6 mr-2" />
                             </div>
                             <div v-if="index == 1 && showUserExlamation" class="flex items">
-                                <Icon icon="exclamation" class="w-6 h-6 mr-2 text-color-blocked" />
+                                <Icon icon="exclamation" class="w-6 h-6 mr-2 text-blocked" />
                             </div>
                             <div v-if="index == 1 && !showUserExlamation" class="flex items">
                                 <Icon icon="user" class="w-6 h-6 mr-2" />
@@ -41,7 +41,7 @@
                         <AlmaUserDetailsLoad />
                     </template>
                     <template v-if="!almaLoading && almaUsers">
-                        <AlmaUserDetailsShow class="border" v-for="almaUser in almaUsers" :key="almaUser.primary_id"
+                        <AlmaUserDetailsShow class="border border-gray-table" v-for="almaUser in almaUsers" :key="almaUser.primary_id"
                             :almaUser="almaUser" />
                     </template>
                     <template v-if="!almaLoading && !almaUsers">

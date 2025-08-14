@@ -5,9 +5,10 @@ import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3';
 import { createI18n } from 'vue-i18n';
 import { defaultLocale, languages } from '../lang';
 import VueNumberInput from '@chenfengyuan/vue-number-input';
+import VueDatePicker from '@vuepic/vue-datepicker';
 import moment from 'moment'; // Import Moment.js
 import Notifications from '@kyvg/vue3-notification';
-
+import '@vuepic/vue-datepicker/dist/main.css';
 const appName = 'SLSKey';
 
 const i18n = createI18n({
@@ -38,6 +39,7 @@ createInertiaApp({
             .component("Link", Link)
             .component("Head", Head)
             .component(VueNumberInput.name, VueNumberInput)
+            .component(VueDatePicker.name, VueDatePicker)
             .mixin({ methods: { route } })
             .mount(el);
     },

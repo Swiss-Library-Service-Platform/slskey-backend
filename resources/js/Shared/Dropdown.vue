@@ -47,8 +47,8 @@ const alignmentClasses = computed(() => {
 </script>
 
 <style>
-.ringClass > div:not(:last-child){
-    border-bottom: solid 1px #e9e9e9;
+.dropdown > div:not(:last-child){
+    border-bottom: solid 1px var(--color-gray-table);
 }
 
 </style>
@@ -77,7 +77,7 @@ const alignmentClasses = computed(() => {
                 style="display: none;"
                 @click="open = false"
             >
-                <div class="ringClass ring-1 ring-black ring-opacity-5 rounded-sm overflow-hidden" :class="contentClasses">
+                <div class="dropdown border-gray-table rounded-sm overflow-hidden" :class="contentClasses">
                     <slot name="content" />
                 </div>
             </div>

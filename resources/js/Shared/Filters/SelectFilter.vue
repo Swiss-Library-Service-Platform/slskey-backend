@@ -4,6 +4,7 @@
             <span>{{ label }}</span>
         </label>
         <select class="
+                px-3 py-2 border
                 h-10 border-gray-300 rounded
                 transition delay-75 
                 hover:border-gray-400 focus:border-gray-400 

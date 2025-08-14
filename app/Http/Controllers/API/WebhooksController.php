@@ -172,7 +172,7 @@ class WebhooksController extends Controller
         try {
             $hasCustomVerificationActivation = $slskeyGroup->checkCustomVerificationForUserActivation($almaUser);
         } catch (\Exception $e) {
-            return response(WebhookResponseEnums::ERROR_VERIFIER.$e->getMessage(), 400);
+            return response(WebhookResponseEnums::ERROR_VERIFIER.$e->getMessage());
         }
 
         // Check for Activation

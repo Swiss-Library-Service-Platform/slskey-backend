@@ -2,7 +2,7 @@
     <form @submit.prevent="store">
         <div class="flex flex-col">
             <!-- General -->
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('admin_users.general') }}
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{ $t('admin_users.general') }}
             </h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_edu_id" v-model="form.is_edu_id"
@@ -22,8 +22,8 @@
                     v-model="form.password" :error="form.errors.password" />
             </div>
             <!-- Permissions SLSKey Groups -->
-            <div class="border-t border-b border-default-gray"></div>
-            <h3 class="text-2xl px-4 py-4 m-4 text-color-slsp bg-color-slsp-bg rounded-sm">{{ $t('admin_users.permissions')
+            <div class="border-t border-b border-gray-table"></div>
+            <h3 class="text-2xl px-4 py-4 m-4 text-slsp bg-slsp-bg rounded-sm">{{ $t('admin_users.permissions')
             }}</h3>
             <div class="grid grid-cols-2 px-8 pb-8 pt-4 gap-8">
                 <checkbox-input class="w-full" :error="form.errors.is_slsp_admin" v-model="form.is_slsp_admin"
@@ -42,7 +42,7 @@
                                     {{ slskeyGroup.name }}
                                 </td>
                                 <td class="pl-6 py-2 text-right">
-                                    <DefaultIconButton class="bg-color-blocked py-1" icon="x" :tooltip="$t('admin_users.delete_slskey_group')"
+                                    <DefaultIconButton class="bg-blocked py-1" icon="x" :tooltip="$t('admin_users.delete_slskey_group')"
                                         @click="removeGroup(slskeyGroup.id)" />
                                 </td>
                             </tr>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <!-- Bottom Buttons-->
-            <div class="border-t border-b border-default-gray"></div>
+            <div class="border-t border-b border-gray-table"></div>
             <div class="flex">
                 <div class="flex w-full flex-row justify-between gap-4 px-4 py-4">
                     <div class="flex flex-row gap-4">
@@ -73,7 +73,7 @@
                             :tooltip="$t('admin_users.cancel')">
                             {{ $t('admin_users.cancel') }}
                         </DefaultButton>
-                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="text-color-blocked w-fit"
+                        <DefaultButton v-if="!isCreating" @click="deleteUser()" class="text-blocked w-fit"
                             icon="trash" :tooltip="$t('admin_users.delete')">
                             {{ $t('admin_users.delete') }}
                         </DefaultButton>

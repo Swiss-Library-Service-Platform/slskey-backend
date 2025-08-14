@@ -13,7 +13,7 @@
         "firebase/php-jwt": "^6.11.1",
         "guzzlehttp/guzzle": "^7.9.3",
         "inertiajs/inertia-laravel": "^2.0.5",
-        "jeremykenedy/laravel-roles": "^10.0",
+        "jeremykenedy/laravel-roles": "^11.5.0",
         "laravel/framework": "^10.48.29",
         "laravel/sanctum": "^3.3.3",
         "laravel/tinker": "^2.10.1",
@@ -21,7 +21,7 @@
         "predis/predis": "^3.2.0",
         "psr/simple-cache": "^3.0.0",
         "pusher/pusher-php-server": "^7.2.7",
-        "tightenco/ziggy": "^1.8.2"
+        "tightenco/ziggy": "^2.5.3"
     },
     "require-dev": {
         "laravel/dusk": "^7.13",

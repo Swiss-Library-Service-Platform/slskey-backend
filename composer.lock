@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "158b0ef2011a771d1b7e436e55d243c5",
+    "content-hash": "3b540278650248ca1f0a0b8008df1f2e",
     "packages": [
         {
             "name": "24slides/laravel-saml2",
@@ -1059,20 +1059,20 @@
         },
         {
             "name": "eklundkristoffer/seedster",
-            "version": "7.0",
+            "version": "9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eklundkristoffer/seedster.git",
-                "reference": "8975edb07731e7f17f458eb4693fe85a9f78c870"
+                "reference": "b4e70e469c9b8824c8f2677de2c6e00dff6d740a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eklundkristoffer/seedster/zipball/8975edb07731e7f17f458eb4693fe85a9f78c870",
-                "reference": "8975edb07731e7f17f458eb4693fe85a9f78c870",
+                "url": "https://api.github.com/repos/eklundkristoffer/seedster/zipball/b4e70e469c9b8824c8f2677de2c6e00dff6d740a",
+                "reference": "b4e70e469c9b8824c8f2677de2c6e00dff6d740a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|6.*|^7.0|^8.0|^9.0|^10.0"
+                "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|6.*|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0"
             },
             "type": "library",
             "extra": {
@@ -1099,9 +1099,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eklundkristoffer/seedster/issues",
-                "source": "https://github.com/eklundkristoffer/seedster/tree/7.0"
+                "source": "https://github.com/eklundkristoffer/seedster/tree/9.0"
             },
-            "time": "2023-02-09T19:32:18+00:00"
+            "time": "2025-02-25T16:38:52+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1906,29 +1906,29 @@
         },
         {
             "name": "jeremykenedy/laravel-roles",
-            "version": "v10.0.0",
+            "version": "v11.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeremykenedy/laravel-roles.git",
-                "reference": "47ca50c690e175e1b3688c4ab0733da0706ecad8"
+                "reference": "96ef5d63b12c0d4dfd39254ec61d0d0006072212"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremykenedy/laravel-roles/zipball/47ca50c690e175e1b3688c4ab0733da0706ecad8",
-                "reference": "47ca50c690e175e1b3688c4ab0733da0706ecad8",
+                "url": "https://api.github.com/repos/jeremykenedy/laravel-roles/zipball/96ef5d63b12c0d4dfd39254ec61d0d0006072212",
+                "reference": "96ef5d63b12c0d4dfd39254ec61d0d0006072212",
                 "shasum": ""
             },
             "require": {
-                "eklundkristoffer/seedster": "^7.0",
-                "laravel/framework": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|^9.0|^10.0",
-                "laravel/helpers": "^1.5",
-                "php": "^7.2|^8.0.2|^8.1"
+                "eklundkristoffer/seedster": "^8.0|^9.0",
+                "laravel/framework": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|^9.0|^10.0|^11.0|^12.0",
+                "laravel/helpers": "^1.7",
+                "php": "^7.2|^8.0|^8.1|^8.2|^8.3"
             },
             "require-dev": {
-                "illuminate/support": "^8.5|^9.0|^10.0",
-                "laravel/laravel": "^8.0|^9.0|^10.0",
-                "laravel/tinker": "^2.7",
-                "orchestra/testbench": "^6.0|^7.0|^8.0"
+                "illuminate/support": "^8.5|^9.0|^10.0|^11.0|^12.0",
+                "laravel/laravel": "^8.0|^9.0|^10.0|^11.0",
+                "laravel/tinker": "^2.9",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0"
             },
             "type": "package",
             "extra": {
@@ -1957,7 +1957,7 @@
                     "email": "jeremykenedy@gmail.com"
                 }
             ],
-            "description": "A Powerful package for handling roles and permissions in Laravel. Supports Laravel 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0, 7.0, 8.0 and 9.0.",
+            "description": "A Powerful package for handling roles and permissions in Laravel. Supports Laravel 5.3 up to 12.",
             "keywords": [
                 "acl",
                 "laravel",
@@ -1970,7 +1970,7 @@
             ],
             "support": {
                 "issues": "https://github.com/jeremykenedy/laravel-roles/issues",
-                "source": "https://github.com/jeremykenedy/laravel-roles/tree/v10.0.0"
+                "source": "https://github.com/jeremykenedy/laravel-roles/tree/v11.5.0"
             },
             "funding": [
                 {
@@ -1982,7 +1982,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2023-02-26T23:51:08+00:00"
+            "time": "2025-04-03T16:45:58+00:00"
         },
         {
             "name": "laravel/framework",
@@ -7098,37 +7098,40 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v1.8.2",
+            "version": "v2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "939576ad0f3d3e633a9401c8c377bc7bc873ff35"
+                "reference": "0b3b521d2c55fbdb04b6721532f7f5f49d32f52b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/939576ad0f3d3e633a9401c8c377bc7bc873ff35",
-                "reference": "939576ad0f3d3e633a9401c8c377bc7bc873ff35",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/0b3b521d2c55fbdb04b6721532f7f5f49d32f52b",
+                "reference": "0b3b521d2c55fbdb04b6721532f7f5f49d32f52b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "laravel/framework": ">=5.4@dev"
+                "laravel/framework": ">=9.0",
+                "php": ">=8.1"
             },
             "require-dev": {
-                "orchestra/testbench": "^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
-                "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0"
+                "laravel/folio": "^1.1",
+                "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+                "pestphp/pest": "^2.26|^3.0",
+                "pestphp/pest-plugin-laravel": "^2.4|^3.0"
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Tightenco\\Ziggy\\ZiggyServiceProvider"
+                        "Tighten\\Ziggy\\ZiggyServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Tightenco\\Ziggy\\": "src/"
+                    "Tighten\\Ziggy\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -7149,7 +7152,7 @@
                     "email": "jacob@tighten.co"
                 }
             ],
-            "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
+            "description": "Use your Laravel named routes in JavaScript.",
             "homepage": "https://github.com/tighten/ziggy",
             "keywords": [
                 "Ziggy",
@@ -7159,9 +7162,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tighten/ziggy/issues",
-                "source": "https://github.com/tighten/ziggy/tree/v1.8.2"
+                "source": "https://github.com/tighten/ziggy/tree/v2.5.3"
             },
-            "time": "2024-02-20T19:56:04+00:00"
+            "time": "2025-05-17T18:15:19+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

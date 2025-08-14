@@ -26,7 +26,15 @@ function getAlmaUserData(string $primaryId, ?string $status = null)
             ],
         ],
         'user_identifier' => [
-            ['wrong format of identifier'],
+            [
+                'id_type' => [
+                    'value' => '01',
+                    'desc' => 'Identifier Type 01'
+                ],
+                'value' => 'a123',
+                'note' => 'wrong format of identifier',
+                'status' => 'ACTIVE'
+            ],
         ],
         'record_type' => ['value' => 'STAFF'],
         'user_role' => [

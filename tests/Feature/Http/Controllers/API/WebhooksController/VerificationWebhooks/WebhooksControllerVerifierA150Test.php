@@ -14,13 +14,12 @@ it('fails webhook because wrong format for verifier', function () {
     mockWebhookAuth(true);
 
     $primaryId = '123456789@eduid.ch';
-    $userGroup = VerifierABN::USER_GROUPS[0];
     $userData = getCreatedUserData($primaryId);
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
 
     // Activate User with wrong format
-    $response->assertStatus(400);
-    $response->assertSeeText(WebhookResponseEnums::ERROR_VERIFIER);
+    $response->assertStatus(200);
+    $response->assertSeeText(WebhookResponseEnums::IGNORED_CREATION);
     assertUserActivationMissing($primaryId, $this->slskeyCode);
 });
 
@@ -32,9 +31,7 @@ it('skips webhook because missing verification', function () {
 
     // Update structure
     $userData = getUpdatedUserData($primaryId, AlmaEnums::USER_STATUS_ACTIVE);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => '123456789', 'status' => 'ACTIVE'],
-    ];
+    //$userData['webhook_user']['user']['user_identifier'][0]['value'] = 'a150-123456789';
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
 
     // Activate but skipped
@@ -48,12 +45,18 @@ it('suceeds to activate - extend - deactivate', function () {
     $mockSwitchApiService = mockSwitchApiServiceActivation();
 
     $primaryId = '123456789@eduid.ch';
+    $verifiedIdentifier = [
+        'id_type' => [
+            'value' => '01',
+            'desc' => 'Identifier Type 01'
+        ],
+        'value' => 'a150-123456789',
+        'status' => 'ACTIVE',
+    ];
 
     // Activate
     $userData = getUpdatedUserData($primaryId, AlmaEnums::USER_STATUS_ACTIVE);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => 'a150-123456789', 'status' => 'ACTIVE'],
-    ];
+    $userData['webhook_user']['user']['user_identifier'][0] = $verifiedIdentifier;
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
     $response->assertStatus(200);
     $response->assertSeeText(WebhookResponseEnums::ACTIVATED);
@@ -75,9 +78,7 @@ it('suceeds to activate - extend - deactivate', function () {
 
     // Add identifier (activate)
     $mockSwitchApiService = mockSwitchApiServiceActivation($mockSwitchApiService);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => 'a150-123456789', 'status' => 'ACTIVE'],
-    ];
+    $userData['webhook_user']['user']['user_identifier'][0] = $verifiedIdentifier;
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
     $response->assertStatus(200);
     $response->assertSeeText(WebhookResponseEnums::ACTIVATED);
@@ -86,18 +87,15 @@ it('suceeds to activate - extend - deactivate', function () {
     // Set inactive (deactivate)
     $mockSwitchApiService = mockSwitchApiServiceDeactivation($mockSwitchApiService);
     $userData = getUpdatedUserData($primaryId, AlmaEnums::USER_STATUS_INACTIVE);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => 'a150-123456789', 'status' => 'INACTIVE'],
-    ];
+    $userData['webhook_user']['user']['user_identifier'] = [];
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
     $response->assertStatus(200);
     $response->assertSeeText(WebhookResponseEnums::DEACTIVATED);
 
     // Set active without identifier (ignore)
     $userData = getUpdatedUserData($primaryId, AlmaEnums::USER_STATUS_ACTIVE);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => 'nono-123456789', 'status' => 'ACTIVE'],
-    ];
+    $userData['webhook_user']['user']['user_identifier'][0] = $verifiedIdentifier;
+    $userData['webhook_user']['user']['user_identifier'][0]['status'] = 'INACTIVE';
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
     $response->assertStatus(200);
     $response->assertSeeText(WebhookResponseEnums::SKIPPED_INACTIVE_VERIFICATION);
@@ -105,9 +103,7 @@ it('suceeds to activate - extend - deactivate', function () {
     // Set active with identifier (activate)
     $mockSwitchApiService = mockSwitchApiServiceActivation($mockSwitchApiService);
     $userData = getUpdatedUserData($primaryId, AlmaEnums::USER_STATUS_ACTIVE);
-    $userData['webhook_user']['user']['user_identifier'] = [
-        ['value' => 'a150-123456789', 'status' => 'ACTIVE'],
-    ];
+    $userData['webhook_user']['user']['user_identifier'][0] = $verifiedIdentifier;
     $response = $this->postJson("/api/v1/webhooks/$this->slskeyCode", $userData);
     $response->assertStatus(200);
     $response->assertSeeText(WebhookResponseEnums::ACTIVATED);

@@ -57,27 +57,25 @@ class SendMonthlyReports extends Command
             // Get all Report Emails for this SLSKey Group
             $reportEmailAddresses = $slskeyGroup->reportEmailAddresses->pluck('email_address')->toArray();
 
+            // Get last month
+            $currentMonth = date('m', strtotime('-1 month'));
+            $currentYear = date('Y', strtotime('-1 month'));
+
+            // Get Month History
+            $slskeyReportCount = SlskeyReportCounts::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
+
+            // Total count
+            $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
+            $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
+
+            // Save report counts for every group
+            $this->saveReportCounts($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
+
             if (count($reportEmailAddresses) == 0) {
                 $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: No report email addresses found");
-
                 continue;
             } else {
                 $countRecipients = count($reportEmailAddresses);
-
-                // Get last month
-                $currentMonth = date('m', strtotime('-1 month'));
-                $currentYear = date('Y', strtotime('-1 month'));
-
-                // Get Month History
-                $slskeyReportCount = SlskeyReportCounts::getHistoryCountsForMonthAndYear([$slskeyGroup->id], $currentMonth, $currentYear);
-
-                // Total count
-                $totalCurrentCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->count();
-                $totalCurrentMemberEducationalInstitutionCount = SlskeyActivation::where('slskey_group_id', $slskeyGroup->id)->where('activated', 1)->where('member_educational_institution', 1)->count();
-
-                // Save report counts
-                $this->saveReportCounts($slskeyGroup, $slskeyReportCount, $totalCurrentCount, $totalCurrentMemberEducationalInstitutionCount);
-
                 // Send report
                 $sent = $this->mailService->sendMonthlyReportMail(
                     $slskeyGroup,
@@ -93,13 +91,12 @@ class SendMonthlyReports extends Command
                 } else {
                     $this->textFileLogger->info("$slskeyGroup->slskey_code: Error: Failed to send report to " . implode(', ', $reportEmailAddresses));
                 }
+                $sentReports[] = [
+                    'slskey_group' => $slskeyGroup->slskey_code,
+                    'success' => $isSuccess,
+                    'recipients' => $countRecipients,
+                ];
             }
-
-            $sentReports[] = [
-                'slskey_group' => $slskeyGroup->slskey_code,
-                'success' => $isSuccess,
-                'recipients' => $countRecipients,
-            ];
         }
 
         $this->logJobResultToDatabase($sentReports);

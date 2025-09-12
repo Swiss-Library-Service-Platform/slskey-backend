@@ -46,7 +46,7 @@ const close = () => {
             <slot name="content" />
         </div>
         
-        <div class="p-4 flex flex-row border-t">
+        <div class="p-4 flex flex-row border-t border-gray-table">
             <slot name="footer" />
         </div>
                 

@@ -15,7 +15,7 @@
                 :label="$t('user_management.remark')" />
         </template>
         <template #footer>
-            <div class="flex justify-between w-full">
+            <div class="flex justify-between w-full gap-4">
                 <div class="w-36 flex items-center">
                     <DefaultButton @click="confirm" icon="check" class="w-full text-md">
                         {{ $t('confirm_dialog.confirm') }}

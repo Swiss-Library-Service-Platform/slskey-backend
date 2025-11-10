@@ -35,7 +35,7 @@
                                 {{ formatDate(email.created_at) }}
                             </td>
                             <td class="px-6 py-4 align-center">
-                                <DefaultConfirmIconButton class="bg-blocked text-white py-1" icon="trash"
+                                <DefaultConfirmIconButton class="bg-blocked text-deactivated py-1" icon="trash"
                                     :tooltip="$t('reporting.settings.delete_recipient')" :confirmText="$t('reporting.settings.delete_recipient')"
                                     @confirmed="removeEmail(email.id)" />
                             </td>

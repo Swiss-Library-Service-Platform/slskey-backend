@@ -45,12 +45,30 @@ class UsersController extends Controller
     {
         // Set the number of items to display per page
         $perPage = intval(Request::input('perPage', 10));
-        $slskeyCode = Request::input('slskeyCode');
 
         // Query for SlskeyGroups with specified permissions
         $slskeyGroups = SlskeyGroup::query()
             ->wherePermissions()
             ->get();
+
+        // Render the UsersIndex Inertia view with minimal data for immediate loading
+        return Inertia::render('Users/UsersIndex', [
+            'perPage' => $perPage,
+            'filters' => Request::all(),
+            'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
+        ]);
+    }
+
+    /**
+     * Get user data asynchronously for the users table.
+     *
+     * @return JsonResponse
+     */
+    public function getData(): JsonResponse
+    {
+        // Set the number of items to display per page
+        $perPage = intval(Request::input('perPage', 10));
+        $slskeyCode = Request::input('slskeyCode');
 
         // Query for SlskeyUsers with specified permissions, ordering, and filtering
         $slskeyUsersWithPermissions = SlskeyUser::query()
@@ -73,12 +91,9 @@ class UsersController extends Controller
             }
         }
 
-        // Render the UsersIndex Inertia view with the necessary data
-        return Inertia::render('Users/UsersIndex', [
-            'perPage' => $perPage,
-            'filters' => Request::all(),
+        // Return the user data as JSON
+        return new JsonResponse([
             'slskeyUsers' => SlskeyUserResource::collection($slskeyUsersWithPermissions),
-            'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
         ]);
     }
 

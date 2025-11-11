@@ -10,6 +10,7 @@ use App\Models\ReportEmailAddress;
 use App\Models\SlskeyActivation;
 use App\Models\SlskeyGroup;
 use App\Models\SlskeyReportCounts;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -27,12 +28,31 @@ class ReportingController extends Controller
      */
     public function index(): Response
     {
-        $data = $this->getReportData();
+        // Get permitted SlskeyGroups for User
+        $slskeyGroups = SlskeyGroup::query()
+            ->wherePermissions()
+            ->get();
+
+        // Get selected SLSKeyCode
+        $selectedSlskeyCode = Request::input('slskeyCode');
 
         return Inertia::render('Reporting/ReportingIndex', [
+            'slskeyGroups' => SlskeyGroupSelectResource::collection($slskeyGroups),
+            'selectedSlskeyCode' => $selectedSlskeyCode,
+        ]);
+    }
+
+    /**
+     * Get report data asynchronously for the reporting table.
+     *
+     * @return JsonResponse
+     */
+    public function getData(): JsonResponse
+    {
+        $data = $this->getReportData();
+
+        return new JsonResponse([
             'reportCounts' => $data['reportCounts'],
-            'slskeyGroups' => SlskeyGroupSelectResource::collection($data['slskeyGroups']),
-            'selectedSlskeyCode' => $data['selectedSlskeyCode'],
             'isAnyEducationalUsers' => $data['isAnyEducationalUsers'],
         ]);
     }

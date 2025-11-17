@@ -247,7 +247,6 @@
 <script>
 import UserStatusChip from "@/Shared/UserStatusChip.vue";
 import { Inertia } from "@inertiajs/inertia";
-import ConfirmDialog from "@/Shared/ConfirmDialog.vue";
 import DefaultIconButton from "@/Shared/Buttons/DefaultIconButton.vue";
 import Dropdown from '@/Shared/Dropdown.vue';
 import DefaultConfirmDropdownLink from "@/Shared/Buttons/DefaultConfirmDropdownLink.vue";
@@ -265,7 +264,6 @@ export default {
     Inertia,
     UserStatusChip,
     DefaultIconButton,
-    ConfirmDialog,
     Dropdown,
     DefaultConfirmDropdownLink,
     Icon,

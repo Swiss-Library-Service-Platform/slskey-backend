@@ -36,10 +36,12 @@
                                 <span class="sr-only">{{ $t('next') }}</span>
                                 <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
                             </Link>
-                            <Link v-else :href="link.url" aria-current="page" v-html="link.label"
+                            <Link v-else :href="link.url" aria-current="page"
                                 class="flex justify-center text-center w-8 px-3 py-2 border text-sm border-gray-300 text-gray-500 hover:bg-gray-50" :class="{
                                     'bg-gray-100 font-bold': link.url && link.active,
-                                }" />
+                                }">
+                                {{ link.label }}
+                            </Link>
                         </template>
                     </nav>
                 </div>

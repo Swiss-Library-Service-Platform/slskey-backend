@@ -35,6 +35,12 @@ class AuthWebhooks
             return response(WebhookResponseEnums::ERROR_NO_SLSKEY_GROUP, 422);
         }
 
+        // Validate timestamp to prevent replay attacks (10 minute window)
+        $timestamp = $request->header('X-Exl-Timestamp');
+        if ($timestamp && abs(time() - $timestamp) > 600) {
+            return response(WebhookResponseEnums::ERROR_INVALID_SECRET . ' (Request expired)', 422);
+        }
+
         // Validate signature of request
         $secret = $slskeyGroup->webhook_secret ?? '';
         $signature = $request->header('HTTP_X_EXL_SIGNATURE') ?? $request->header('X-Exl-Signature');

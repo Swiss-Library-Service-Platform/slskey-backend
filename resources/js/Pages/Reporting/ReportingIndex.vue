@@ -82,7 +82,17 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-table">
-                        <template v-if="reportCounts.length > 0">
+                        <template v-if="loading">
+                            <tr>
+                                <td :colspan="isAnyEducationalUsers ? 9 : 8" class="px-6 py-8 text-center">
+                                    <div class="flex items-center justify-center">
+                                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                        <span class="ml-3 text-gray-600">{{ $t('reporting.loading') || 'Loading report data...' }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <template v-else-if="reportCounts.length > 0">
                             <tr v-for="(reportCount, index) in reportCounts" :key="'user' + reportCount.id"
                                 class=" focus-within:bg-gray-100" :class="{ 'bg-color-lightgreen': index == 0 }">
 
@@ -177,16 +187,17 @@ export default {
         colors
     },
     props: {
-        reportCounts: Object,
         slskeyGroups: Object,
         selectedSlskeyCode: String,
-        isAnyEducationalUsers: Boolean,
     },
     data() {
         return {
             chart: null,
             displayTab: 0,
             export_loading: false,
+            loading: true,
+            reportCounts: [],
+            isAnyEducationalUsers: false,
             form: {
                 slskeyCode: this.slskeyGroups.data.length === 1 ? this.slskeyGroups.data[0].value :
                     this.selectedSlskeyCode,
@@ -194,6 +205,23 @@ export default {
         }
     },
     methods: {
+        async loadReportData() {
+            this.loading = true;
+            try {
+                const response = await axios.get('/reporting/data', {
+                    params: omitBy(this.form, _.overSome([_.isNil, _.isNaN]))
+                });
+                this.reportCounts = response.data.reportCounts;
+                this.isAnyEducationalUsers = response.data.isAnyEducationalUsers;
+                this.$nextTick(() => {
+                    this.initGraph();
+                });
+            } catch (error) {
+                console.error('Error loading report data:', error);
+            } finally {
+                this.loading = false;
+            }
+        },
         formatMonth(month, year) {
             var inputDate = this.$moment(month + '-' + year, 'MM-YYYY');
             var formattedDate = inputDate.format('MMMM YYYY');
@@ -270,7 +298,7 @@ export default {
                         preserveState: true,
                         replace: true,
                         onFinish: () => {
-                            this.initGraph();
+                            this.loadReportData();
                         }
                     }
                 );
@@ -279,7 +307,7 @@ export default {
         }
     },
     mounted() {
-        this.initGraph();
+        this.loadReportData();
     }
 
 

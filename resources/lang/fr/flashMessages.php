@@ -26,7 +26,6 @@ return [
             'user_blocked' => 'Utilisateur bloqué.',
             'user_not_found' => "Aucun utilisateur trouvé dans Alma.",
             'switch_api_error' => "Erreur lors de l'appel de l'API Switch.",
-            'user_lookup_failed' => "Impossible de récupérer les informations de l'utilisateur. Veuillez réessayer ou contacter le support.",
         ],
 
         // Errors: Permissions

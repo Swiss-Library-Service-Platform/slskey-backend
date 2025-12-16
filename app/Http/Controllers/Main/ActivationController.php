@@ -69,11 +69,13 @@ class ActivationController extends Controller
         $slskeyGroups = SlskeyGroup::wherePermissions()->get()->pluck('alma_iz')->unique()->toArray();
         $almaServiceResponse = $this->almaApiService->getUserFromMultipleIzs($identifier, $slskeyGroups);
         if (!$almaServiceResponse->success) {
+            // Return generic error message to user
+            $errorMessage = __('flashMessages.errors.activations.user_lookup_failed');
             if ($origin != 'ACTIVATION_START') {
-                return Redirect::route('users.show', $identifier)->with('error', $almaServiceResponse->errorText);
+                return Redirect::route('users.show', $identifier)->with('error', $errorMessage);
             }
 
-            return Redirect::route('activation.start')->with('error', $almaServiceResponse->errorText);
+            return Redirect::route('activation.start')->with('error', $errorMessage);
         }
         $almaUsers = $almaServiceResponse->almaUsers;
 

@@ -104,19 +104,18 @@ class AlmaAPIService implements AlmaAPIInterface
     public function getUserFromMultipleIzs(string $identifier, array $izCodes): AlmaServiceMultiResponse
     {
         $almaUsers = [];
-        $error = '';
         foreach ($izCodes as $izCode) {
             $result = $this->fetchUserByIdentifierAndIzCode($identifier, $izCode);
             if (!$result['success']) {
-                $error = $error . $result['message'] . '. ';
-
+                // Continue trying other IZ codes (errors already logged)
                 continue;
             }
             $almaUsers[] = $result['data'];
         }
 
         if (empty($almaUsers)) {
-            return new AlmaServiceMultiResponse(false, null, $error);
+            // Return user-friendly message (detailed errors already logged)
+            return new AlmaServiceMultiResponse(false, null, 'Unable to retrieve user information. Please try again or contact support.');
         }
 
         return new AlmaServiceMultiResponse(true, $almaUsers, null);
@@ -133,7 +132,10 @@ class AlmaAPIService implements AlmaAPIInterface
     {
         $token = config("services.alma.api_keys.{$izCode}");
         if (!$token) {
-            return ['success' => false, 'message' => "{$izCode}: Missing API Key in configuration."];
+            \Log::error('Alma API: Missing API Key', [
+                'iz_code' => $izCode,
+            ]);
+            return ['success' => false, 'message' => 'System configuration error. Please contact support.'];
         }
 
         try {
@@ -142,7 +144,15 @@ class AlmaAPIService implements AlmaAPIInterface
 
             return ['success' => true, 'data' => $almaUser];
         } catch (\Exception $e) {
-            return ['success' => false, 'message' => "{$e->getMessage()}"];
+            // Log detailed error for debugging (never exposed to user)
+            \Log::warning('Alma API: User lookup failed', [
+                'identifier' => $identifier,
+                'iz_code' => $izCode,
+                'is_staff_user' => $isStaffUser,
+                'exception' => $e->getMessage(),
+            ]);
+            // Return user-friendly error message (safe to display)
+            return ['success' => false, 'message' => 'Unable to find user. Please check the identifier and try again.'];
         }
     }
 
@@ -162,18 +172,18 @@ class AlmaAPIService implements AlmaAPIInterface
         if ($isStaffUser) {
             $foundUser = $this->findStaffUser($identifier);
             if (!$foundUser) {
-                throw new \Exception("Staff User $identifier not found in $this->izCode");
+                throw new \Exception('User not found.');
             }
             if ($foundUser && !in_array($foundUser->record_type->value, $this->STAFF_RECORD_TYPES)) {
-                throw new \Exception('User is not a staff user.');
+                throw new \Exception('Invalid user type.');
             }
         } else {
             $foundUsers = $this->findUsersQueryParallel($identifier);
             if (!$foundUsers) {
-                throw new \Exception("User $identifier not found in Alma IZ $this->izCode");
+                throw new \Exception('User not found.');
             }
             if (count($foundUsers) > 1) {
-                throw new \Exception('Multiple users found. Please provide a more specific identifier.');
+                throw new \Exception('Multiple users found.');
             }
             $foundUser = $foundUsers[0];
         }

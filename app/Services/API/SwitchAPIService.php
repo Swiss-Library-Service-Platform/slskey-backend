@@ -65,29 +65,23 @@ class SwitchAPIService implements SwitchAPIInterface
         if (isset($api_user)) {
             $this->configSwitchApi['auth_user'] = $api_user;
         } else {
-            throw new \Exception(
-                'Was not possible to find the SWITCH API '.
-                'auth_user.'
-            );
+            \Log::critical('SWITCH API: Missing auth_user configuration');
+            throw new \Exception('External API service configuration error.');
         }
 
         if (isset($api_password)) {
             $this->configSwitchApi['auth_password'] = $api_password;
         } else {
-            throw new \Exception(
-                'Was not possible to find the SWITCH API '.
-                'auth_password.'
-            );
+            \Log::critical('SWITCH API: Missing auth_password configuration');
+            throw new \Exception('External API service configuration error.');
         }
 
         if (isset($base_url)) {
             $this->configSwitchApi['base_endpoint_url']
                 = $base_url;
         } else {
-            throw new \Exception(
-                'Was not possible to find the SWITCH API '.
-                'base_endpoint_url.'
-            );
+            \Log::critical('SWITCH API: Missing base_endpoint_url configuration');
+            throw new \Exception('External API service configuration error.');
         }
 
         //national_licence_programme_group_id is not mandatory
@@ -170,7 +164,11 @@ class SwitchAPIService implements SwitchAPIInterface
         $requestBody = ['externalID' => $externalId];
         [$statusCode, $responseBody] = $this->makeRequest('POST', 'Users', $requestBody);
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $statusCode");
+            \Log::error('SWITCH API: Failed to create user', [
+                'external_id' => $externalId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to create user in external system.');
         }
 
         return $responseBody->id;
@@ -237,8 +235,13 @@ class SwitchAPIService implements SwitchAPIInterface
                 return [$statusCode, $responseBody];
             }
 
-            // If there is no response, rethrow the exception
-            throw $e;
+            // If there is no response, log and throw sanitized exception
+            \Log::error('SWITCH API: Network error', [
+                'exception' => $e->getMessage(),
+                'method' => $method,
+                'path' => $relPath,
+            ]);
+            throw new \Exception('External API communication failed.');
         }
     }
 
@@ -293,7 +296,12 @@ class SwitchAPIService implements SwitchAPIInterface
 
         [$statusCode, $responseBody] = $this->makeRequest('PATCH', 'Groups/'.$groupId, $requestBody);
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $statusCode");
+            \Log::error('SWITCH API: Failed to add user to group', [
+                'user_internal_id' => $userInternalId,
+                'group_id' => $groupId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to add user to group.');
         }
     }
 
@@ -328,13 +336,22 @@ class SwitchAPIService implements SwitchAPIInterface
         try {
             $internalId = $this->getSwitchUserInfoFromExternalId($userExternalId)->id;
         } catch (\Exception $e) {
-            throw new \Exception("Switch Error: User " . $userExternalId . " not found");
+            \Log::warning('SWITCH API: User not found in external system', [
+                'external_id' => $userExternalId,
+                'exception' => $e->getMessage(),
+            ]);
+            throw new \Exception('User not found in external system.');
         }
 
         try {
             $switchUser = $this->getSwitchUserInfo($internalId);
         } catch (\Exception $e) {
-            throw new \Exception("Switch Error: Switch Info for user " . $userExternalId . " not found");
+            \Log::warning('SWITCH API: User info unavailable', [
+                'external_id' => $userExternalId,
+                'internal_id' => $internalId,
+                'exception' => $e->getMessage(),
+            ]);
+            throw new \Exception('User information unavailable.');
         }
 
         // check if switchUser has all groups that are passed in
@@ -383,7 +400,11 @@ class SwitchAPIService implements SwitchAPIInterface
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Users/'.$internalId);
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $statusCode");
+            \Log::error('SWITCH API: Failed to get user info', [
+                'internal_id' => $internalId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to retrieve user information.');
         }
 
         return $responseBody;
@@ -473,7 +494,12 @@ class SwitchAPIService implements SwitchAPIInterface
         ];
         [$statusCode, $responseBody] = $this->makeRequest('PATCH', 'Groups/'.$groupId, $params);
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $statusCode");
+            \Log::error('SWITCH API: Failed to remove user from group', [
+                'user_internal_id' => $userInternalId,
+                'group_id' => $groupId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to remove user from group.');
         }
     }
 
@@ -487,7 +513,11 @@ class SwitchAPIService implements SwitchAPIInterface
     {
         [$statusCode, $responseBody] = $this->makeRequest('GET', 'Groups/'.$groupId);
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $groupId $statusCode");
+            \Log::error('SWITCH API: Failed to get group members', [
+                'group_id' => $groupId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to retrieve group members.');
         }
 
         return $responseBody->members;
@@ -523,7 +553,11 @@ class SwitchAPIService implements SwitchAPIInterface
             throw new NotFoundHttpException("User not found");
         }
         if ($statusCode != 200) {
-            throw new \Exception("Status code: $statusCode");
+            \Log::error('SWITCH API: Failed to get user by external ID', [
+                'external_id' => $externalId,
+                'status_code' => $statusCode,
+            ]);
+            throw new \Exception('Failed to retrieve user information.');
         }
 
         return $responseBody;
